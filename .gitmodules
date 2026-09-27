@@ -1,0 +1,3 @@
+[submodule "synoikia"]
+	path = synoikia
+	url = ../home-server-mcps.git
