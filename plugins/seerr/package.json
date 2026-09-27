@@ -1,0 +1,19 @@
+{
+  "name": "@synoikia/plugin-seerr",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/index.js --log-level=warning --banner:js=\"import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && vitest run"
+  },
+  "dependencies": {
+    "@synoikia/plugin-sdk": "^0.1.0",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@synoikia/core": "^0.1.0"
+  }
+}

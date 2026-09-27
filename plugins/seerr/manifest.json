@@ -1,0 +1,170 @@
+{
+  "id": "seerr",
+  "name": "Seerr",
+  "version": "0.1.0",
+  "sdk": "^0.1.0",
+  "description": "Search/execute over the Seerr REST API, catalog from the seerr-api.yml OpenAPI spec.",
+  "entry": "dist/index.js",
+  "binding": {
+    "namespace": "seerr",
+    "functions": ["request"]
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "authMethod"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "authMethod": {
+          "type": "string",
+          "title": "Sign in as",
+          "enum": ["local", "apiKey"],
+          "default": "local"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "title": "Local user email"
+        },
+        "password": {
+          "type": "string",
+          "title": "Local user password",
+          "writeOnly": true
+        },
+        "apiKey": {
+          "type": "string",
+          "title": "API key",
+          "writeOnly": true
+        },
+        "actAsUserId": {
+          "type": "integer",
+          "minimum": 1,
+          "title": "Act as user ID (X-API-User)"
+        },
+        "specBaseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "API spec source (advanced)"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "authMethod": {
+                "const": "local"
+              }
+            }
+          },
+          "then": {
+            "required": ["email", "password"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "authMethod": {
+                "const": "apiKey"
+              }
+            }
+          },
+          "then": {
+            "required": ["apiKey"]
+          }
+        }
+      ]
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "https://seerr.internal.lan"
+      },
+      "authMethod": {
+        "widget": "select",
+        "help": "Local user (recommended): the server signs in with its own Seerr account via /auth/local. API key: Seerr's single global key."
+      },
+      "email": {
+        "widget": "text",
+        "placeholder": "mcp@seerr.local",
+        "showWhen": {
+          "field": "authMethod",
+          "in": ["local"]
+        }
+      },
+      "password": {
+        "widget": "secret",
+        "showWhen": {
+          "field": "authMethod",
+          "in": ["local"]
+        }
+      },
+      "apiKey": {
+        "widget": "secret",
+        "help": "Settings \u2192 General \u2192 API Key. Acts as the original admin (user 1) unless 'Act as user ID' is set. Stops working if the key is regenerated in Seerr.",
+        "showWhen": {
+          "field": "authMethod",
+          "in": ["apiKey"]
+        }
+      },
+      "actAsUserId": {
+        "widget": "number",
+        "help": "Optional. Sends X-API-User so calls run with that user's permissions. Anyone holding the key can still act as any user.",
+        "showWhen": {
+          "field": "authMethod",
+          "in": ["apiKey"]
+        }
+      },
+      "specBaseUrl": {
+        "widget": "url",
+        "placeholder": "https://raw.githubusercontent.com/seerr-team/seerr",
+        "help": "Leave empty to fetch seerr-api.yml from GitHub. Set a mirror whose layout is <url>/<git ref>/seerr-api.yml if this server can't reach GitHub."
+      }
+    },
+    "help": "**Recommended: a dedicated local Seerr user.** Seerr has no service accounts or per-user API keys, so the server signs in as its own local user. This works alongside Plex sign-in.\n\n1. In Seerr, check that **Settings \u2192 Users \u2192 Enable Local Sign-In** is on (the default).\n2. **Users \u2192 Create Local User**: enter an email (it doesn't have to be a real mailbox) and set the password yourself. Leaving it blank only works if Seerr email notifications are configured.\n3. Edit the new user's **permissions**. New users get the default permissions; grant only what this server needs (e.g. Request + Manage Requests; Admin only if it should manage settings and users).\n4. Enter that email and password here. The server re-signs in when its Seerr session expires.\n\nPlex-imported users can't be used: they have no local password."
+  },
+  "sensitiveKeys": [
+    "apiKey",
+    "connect.sid",
+    "plexToken",
+    "jellyfinAuthToken",
+    "password",
+    "authPass",
+    "webhookUrl",
+    "botAPI",
+    "authHeader",
+    "pgpKey",
+    "pushoverUserKey",
+    "p256dh",
+    "auth"
+  ],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}", "https://raw.githubusercontent.com", "{{connection.specBaseUrl}}"]
+  },
+  "matchProfiles": {
+    "media-request": [
+      {
+        "field": "/body/is4k",
+        "label": "4K request",
+        "op": "bool",
+        "widget": "bool"
+      },
+      {
+        "field": "/body/mediaType",
+        "label": "Media type",
+        "op": "in",
+        "widget": "multiselect",
+        "options": {
+          "choices": ["movie", "tv"]
+        }
+      }
+    ]
+  }
+}
