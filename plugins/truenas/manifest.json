@@ -2,7 +2,7 @@
   "id": "truenas",
   "name": "TrueNAS",
   "version": "0.1.0",
-  "sdk": "^0.1.0",
+  "sdk": "^0.2.0",
   "description": "Search/execute over the TrueNAS JSON-RPC API, catalog from core.get_methods.",
   "entry": "dist/index.js",
   "binding": {
@@ -42,13 +42,13 @@
       },
       "apiKey": {
         "widget": "secret",
-        "help": "Credentials \u2192 API Keys. FULL_ADMIN is the accepted operating assumption."
+        "help": "Credentials → API Keys. FULL_ADMIN is the accepted operating assumption."
       },
       "verifyTls": {
         "widget": "bool"
       }
     },
-    "help": "Needs **TrueNAS 25.04 or newer** (JSON-RPC API at `/api/current`).\n\n1. In TrueNAS: *Credentials \u2192 API Keys \u2192 Add*. FULL_ADMIN is assumed; a narrower role works for what it allows.\n2. Enter the base URL (`https://truenas.internal.lan`) and the key, then **Test connection**.\n3. Keep *Verify TLS* on unless TrueNAS still uses its self-signed certificate on a trusted network.\n\nAfter the first sync every group is at **Read**; raise groups on the Access page as needed."
+    "help": "Needs **TrueNAS 25.04 or newer** (JSON-RPC API at `/api/current`).\n\n1. In TrueNAS: *Credentials → API Keys → Add*. FULL_ADMIN is assumed; a narrower role works for what it allows.\n2. Enter the base URL (`https://truenas.internal.lan`) and the key, then **Test connection**.\n3. Keep *Verify TLS* on unless TrueNAS still uses its self-signed certificate on a trusted network.\n\nAfter the first sync every group is at **Read**; raise groups on the Access page as needed."
   },
   "sensitiveKeys": [
     "apiKey",
