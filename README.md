@@ -76,7 +76,7 @@ To release a plugin, bump `version` in both its `manifest.json` and `package.jso
 2. packs each plugin whose version isn't in the published index yet, as a deterministic flat tarball;
 3. signs each tarball with the `MINISIGN_SECRET_KEY` secret and checks it against `minisign.pub`;
 4. merges the new versions into the index;
-5. installs each new version with Synoikia's own repository service (`verifyPluginRepository` from `@synoikia/core/testing`), with `minisign.pub` pinned, and requires it to load;
+5. installs each new version with Synoikia's own repository service (`verifyPluginRepository` from `@synoikia/core/testing`), with `minisign.pub` pinned, then starts it as a permission-confined child, as Synoikia runs it, and requires it to answer;
 6. only then creates the `<id>-v<version>` releases and replaces `index.json` on the `index` release.
 
 A version that is already released is skipped, so re-running the workflow is safe. To ship a fix, bump the version again. A plugin can require a minimum Synoikia version with `"synoikia": { "minCoreVersion": "0.3.0" }` in its `package.json`; otherwise its manifest's `sdk` range decides which Synoikia versions can install it.
