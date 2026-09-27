@@ -2,7 +2,7 @@
   "id": "seerr",
   "name": "Seerr",
   "version": "0.1.0",
-  "sdk": "^0.1.0",
+  "sdk": "^0.2.0",
   "description": "Search/execute over the Seerr REST API, catalog from the seerr-api.yml OpenAPI spec.",
   "entry": "dist/index.js",
   "binding": {
@@ -108,7 +108,7 @@
       },
       "apiKey": {
         "widget": "secret",
-        "help": "Settings \u2192 General \u2192 API Key. Acts as the original admin (user 1) unless 'Act as user ID' is set. Stops working if the key is regenerated in Seerr.",
+        "help": "Settings → General → API Key. Acts as the original admin (user 1) unless 'Act as user ID' is set. Stops working if the key is regenerated in Seerr.",
         "showWhen": {
           "field": "authMethod",
           "in": ["apiKey"]
@@ -128,7 +128,7 @@
         "help": "Leave empty to fetch seerr-api.yml from GitHub. Set a mirror whose layout is <url>/<git ref>/seerr-api.yml if this server can't reach GitHub."
       }
     },
-    "help": "**Recommended: a dedicated local Seerr user.** Seerr has no service accounts or per-user API keys, so the server signs in as its own local user. This works alongside Plex sign-in.\n\n1. In Seerr, check that **Settings \u2192 Users \u2192 Enable Local Sign-In** is on (the default).\n2. **Users \u2192 Create Local User**: enter an email (it doesn't have to be a real mailbox) and set the password yourself. Leaving it blank only works if Seerr email notifications are configured.\n3. Edit the new user's **permissions**. New users get the default permissions; grant only what this server needs (e.g. Request + Manage Requests; Admin only if it should manage settings and users).\n4. Enter that email and password here. The server re-signs in when its Seerr session expires.\n\nPlex-imported users can't be used: they have no local password."
+    "help": "**Recommended: a dedicated local Seerr user.** Seerr has no service accounts or per-user API keys, so the server signs in as its own local user. This works alongside Plex sign-in.\n\n1. In Seerr, check that **Settings → Users → Enable Local Sign-In** is on (the default).\n2. **Users → Create Local User**: enter an email (it doesn't have to be a real mailbox) and set the password yourself. Leaving it blank only works if Seerr email notifications are configured.\n3. Edit the new user's **permissions**. New users get the default permissions; grant only what this server needs (e.g. Request + Manage Requests; Admin only if it should manage settings and users).\n4. Enter that email and password here. The server re-signs in when its Seerr session expires.\n\nPlex-imported users can't be used: they have no local password."
   },
   "sensitiveKeys": [
     "apiKey",
