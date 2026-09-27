@@ -1,0 +1,11 @@
+packages:
+  - plugins/*
+
+onlyBuiltDependencies:
+  - esbuild
+  # @synoikia/core (the plugin harness) runs isolated-vm; node-gyp-build picks the shipped prebuild.
+  - isolated-vm
+
+# better-sqlite3 ships prebuilt N-API binaries for all supported platforms; skip its node-gyp fallback.
+ignoredBuiltDependencies:
+  - better-sqlite3
