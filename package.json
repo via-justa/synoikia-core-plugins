@@ -7,10 +7,9 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "build:sdk": "pnpm --filter ./synoikia/packages/plugin-sdk build",
-    "build": "pnpm build:sdk && pnpm -r --filter './plugins/*' build",
+    "build": "pnpm -r --filter './plugins/*' build",
     "typecheck": "pnpm -r --filter './plugins/*' typecheck",
-    "test": "pnpm build:sdk && pnpm -r --filter './plugins/*' test",
+    "test": "pnpm -r --filter './plugins/*' test",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

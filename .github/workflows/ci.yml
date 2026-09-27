@@ -13,10 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
-          # The synoikia submodule (home-server-mcps) is private; GITHUB_TOKEN can't read it.
-          token: ${{ secrets.SYNOIKIA_READ_TOKEN }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -26,6 +22,6 @@ jobs:
       - run: pnpm lint
       - run: pnpm format:check
       - run: pnpm typecheck
-      # Plugin test scripts build their bundle first; the e2e tests run it on core's harness under the
+      # Each plugin's test script builds its bundle first; the e2e tests run it on core's harness under the
       # permission model.
       - run: pnpm test

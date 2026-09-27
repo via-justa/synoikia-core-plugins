@@ -1,13 +1,9 @@
 packages:
   - plugins/*
-  # The SDK and core come from the pinned Synoikia submodule, so plugins build against them and run
-  # their end-to-end tests on core's plugin harness. Admin UI isn't needed here.
-  - synoikia/packages/plugin-sdk
-  - synoikia/packages/core
 
 onlyBuiltDependencies:
   - esbuild
-  # node-gyp-build picks the shipped prebuild; it only compiles if none matches.
+  # @synoikia/core (the plugin harness) runs isolated-vm; node-gyp-build picks the shipped prebuild.
   - isolated-vm
 
 # better-sqlite3 ships prebuilt N-API binaries for all supported platforms; skip its node-gyp fallback.
