@@ -1,0 +1,20 @@
+{
+  "name": "@synoikia/plugin-homeassistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/index.js --log-level=warning --banner:js=\"import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && vitest run"
+  },
+  "dependencies": {
+    "@synoikia/plugin-sdk": "^0.2.0",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@synoikia/core": "^0.2.0",
+    "@types/ws": "^8.18.1"
+  }
+}

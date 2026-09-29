@@ -33,6 +33,22 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2(@types/node@22.20.4)(vite@8.3.1(@types/node@22.20.4)(esbuild@0.28.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  plugins/homeassistant:
+    dependencies:
+      '@synoikia/plugin-sdk':
+        specifier: ^0.2.0
+        version: 0.2.0
+      ws:
+        specifier: ^8.22.0
+        version: 8.22.0
+    devDependencies:
+      '@synoikia/core':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
+
   plugins/seerr:
     dependencies:
       '@synoikia/plugin-sdk':
