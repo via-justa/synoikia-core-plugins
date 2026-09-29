@@ -1,0 +1,134 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { startPluginHarness } from '@synoikia/core/testing';
+import type { PluginHarness } from '@synoikia/core/testing';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { FAKE_API_KEY, startFakeTrueNas } from './fake-truenas.js';
+import type { FakeTrueNas } from './fake-truenas.js';
+
+/**
+ * The real core running this plugin's built bundle (a permission-confined child) against a fake
+ * TrueNAS over WebSocket, through core's plugin harness (design §13 phase 17).
+ */
+
+const PLUGIN_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+let h: PluginHarness;
+let fake: FakeTrueNas;
+
+beforeAll(async () => {
+  fake = await startFakeTrueNas();
+  h = await startPluginHarness({
+    pluginDir: PLUGIN_DIR,
+    slug: 'nas',
+    connection: { baseUrl: fake.url, apiKey: FAKE_API_KEY },
+  });
+}, 30_000);
+
+afterAll(async () => {
+  await h?.stop();
+  await fake?.close();
+});
+
+describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
+  it('syncs core.get_methods into groups that start at Read', () => {
+    const rows = h.operations();
+    expect(rows.length).toBeGreaterThan(30);
+    expect(h.operation('pool.dataset.delete')).toMatchObject({ locked: true, typedConfirmation: true });
+    expect(h.operation('filesystem.setacl#pool-root')).toMatchObject({ locked: true });
+    expect(h.instance()).toMatchObject({ upstreamVersion: 'TrueNAS-25.04.2', lastSyncStatus: 'ok' });
+  });
+
+  it('runs reads at Read, redacts secrets in results, and hides writes', async () => {
+    await expect(h.execute(`return (await truenas.call('pool.query', [])).map((p) => p.name);`)).resolves.toMatchObject(
+      { ok: true, value: ['tank'] },
+    );
+    const shares = await h.execute(`return await truenas.call('sharing.smb.query');`);
+    expect(JSON.stringify(shares)).not.toContain('share-secret-123');
+    expect(shares).toMatchObject({ ok: true, value: [{ name: 'media', password: '[REDACTED]' }] });
+    const secrets = await h.execute(
+      `return await Promise.all(['ups.config', 'snmp.config', 'ssh.config', 'kerberos.keytab.query'].map((m) => truenas.call(m)));`,
+    );
+    for (const s of ['ups-secret-456', 'snmp-secret-789', 'ssh-secret-key', 'keytab-secret-b64'])
+      expect(JSON.stringify(secrets)).not.toContain(s);
+    expect(secrets).toMatchObject({
+      ok: true,
+      value: [
+        { monuser: 'upsmon', monpwd: '[REDACTED]' },
+        { community: '[REDACTED]' },
+        { tcpport: 22, host_ed25519_key: '[REDACTED]' },
+        [{ file: '[REDACTED]' }],
+      ],
+    });
+    await expect(
+      h.execute(`return await truenas.call('pool.dataset.create', { name: 'tank/x' });`),
+    ).resolves.toMatchObject({ ok: false, error: { code: 'OPERATION_DISABLED' } });
+  });
+
+  it('asks for a write at Ask and runs it once a human approves', async () => {
+    h.setGroupLevel('pool.dataset', 'ask');
+    const shown: string[] = [];
+    const r = await h.execute(`return (await truenas.call('pool.dataset.create', { name: 'tank/apps' })).name;`, {
+      onApproval: (a) => {
+        shown.push(a.message);
+        a.approve();
+      },
+    });
+    expect(r).toMatchObject({ ok: true, value: 'tank/apps' });
+    expect(shown[0]).toContain('TrueNAS pool.dataset.create({"name":"tank/apps"})');
+    expect(fake.datasets.has('tank/apps')).toBe(true);
+  });
+
+  it('auto-approves a call a strict rule covers on its positional params', async () => {
+    h.addRule({
+      operation: 'pool.dataset.create',
+      match: [{ field: '/0/name', op: 'prefix', value: 'tank/media' }],
+      reason: 'media datasets',
+    });
+    const covered = await h.execute(
+      `return (await truenas.call('pool.dataset.create', { name: 'tank/media/music' })).name;`,
+    );
+    expect(covered).toMatchObject({ ok: true, value: 'tank/media/music' });
+    // An extra option isn't covered by the strict rule, so a human is asked (and here, nobody can be).
+    const extra = await h.execute(
+      `return await truenas.call('pool.dataset.create', { name: 'tank/media/tv', quota: 1 });`,
+    );
+    expect(extra).toMatchObject({ ok: false, error: { code: 'PERMISSION_DENIED' } });
+    expect(h.audit({ operationKey: 'pool.dataset.create' }).map((a) => a.decision)).toEqual(
+      expect.arrayContaining([expect.stringMatching(/^auto-approved:rule:/), 'human-approved', 'denied']),
+    );
+  });
+
+  it('needs the typed dataset name to delete a dataset (locked)', async () => {
+    h.setOperationLevel('pool.dataset.delete', 'ask');
+    const attempts: string[] = [];
+    const r = await h.execute(`return await truenas.call('pool.dataset.delete', 'tank/apps', { recursive: true });`, {
+      onApproval: (a) => {
+        try {
+          a.approve('tank');
+        } catch (err) {
+          attempts.push((err as Error).message);
+          a.approve('tank/apps');
+        }
+      },
+    });
+    expect(attempts[0]).toMatch(/Type "tank\/apps" exactly/);
+    expect(r).toMatchObject({ ok: true, value: true });
+    expect(fake.datasets.has('tank/apps')).toBe(false);
+  });
+
+  it('reports a TrueNAS permission denial as UPSTREAM_DENIED', async () => {
+    fake.denied.add('user.query');
+    await expect(h.execute(`return await truenas.call('user.query');`)).resolves.toMatchObject({
+      ok: false,
+      error: { code: 'UPSTREAM_DENIED' },
+    });
+    fake.denied.delete('user.query');
+  });
+
+  it('loads under the permission model and reports an unreachable TrueNAS cleanly', async () => {
+    await expect(h.testConnection({ baseUrl: 'http://127.0.0.1:1', apiKey: 'k' })).resolves.toMatchObject({
+      ok: false,
+    });
+  });
+});
