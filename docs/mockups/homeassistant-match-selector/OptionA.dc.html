@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Option A — Structured Pickers</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  body { margin: 0; font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+  input, select, textarea { font-family: inherit; }
+</style>
+</helmet>
+
+<div style="width: 1280px; height: 800px; box-sizing: border-box; display: flex; background: #f7f7f5; color: #1c1e21;">
+
+  <div style="width: 220px; flex-shrink: 0; background: #1c1e21; display: flex; flex-direction: column; padding: 22px 0;">
+    <div style="padding: 0 20px 22px 20px; display: flex; align-items: center; gap: 8px;">
+      <div style="width: 22px; height: 22px; border-radius: 6px; background: #2563eb; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700;">M</div>
+      <div style="font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 0.01em;">MCP Admin</div>
+    </div>
+    <nav style="display: flex; flex-direction: column; gap: 1px; margin-top: 6px;">
+      <div style="padding: 10px 20px 10px 17px; border-left: 3px solid transparent; color: #b7b5ac; font-size: 14px;">Connection</div>
+      <div style="padding: 10px 20px 10px 17px; border-left: 3px solid transparent; color: #b7b5ac; font-size: 14px;">Operations</div>
+      <div style="padding: 10px 20px 10px 17px; border-left: 3px solid #60a5fa; background: #2a2d31; color: #fff; font-size: 14px; font-weight: 600;">Pre-Approval Rules</div>
+      <div style="padding: 10px 20px 10px 17px; border-left: 3px solid transparent; color: #b7b5ac; font-size: 14px;">Pending Approvals</div>
+      <div style="padding: 10px 20px 10px 17px; border-left: 3px solid transparent; color: #b7b5ac; font-size: 14px;">Audit Log</div>
+    </nav>
+    <div style="margin-top: auto; padding: 16px 20px 0 20px; border-top: 1px solid #33353a;">
+      <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8a8880;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0;"></span>
+        Home Assistant · Connected
+      </div>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0;">
+
+    <div style="padding: 16px 32px; border-bottom: 1px solid #e5e3de; flex-shrink: 0;">
+      <div style="display: inline-flex; align-items: center; gap: 6px; background: #eef2ff; color: #3730a3; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px;">Option A · Structured Pickers</div>
+      <h1 style="margin: 8px 0 0 0; font-size: 19px; font-weight: 600;">Editing rule — light.turn_on / light.turn_off</h1>
+      <div style="margin-top: 3px; font-size: 13px; color: #6b6963;">A dedicated control per selector kind, backed by the entity/area/device registry mirror</div>
+    </div>
+
+    <div style="flex-grow: 1; padding: 22px 32px; overflow: auto; max-width: 900px;">
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+
+        <div>
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #6b6963; margin-bottom: 5px;">Operation</label>
+          <div style="padding: 9px 11px; border: 1px solid #d8d6cf; border-radius: 7px; font-size: 13px; font-family: ui-monospace, monospace; background: #f2f1ec; color: #6b6963;">light.turn_on, light.turn_off</div>
+          <div style="margin-top: 4px; font-size: 11px; color: #8a8880;">Picked from the synced operations list — no free text.</div>
+        </div>
+
+        <div style="padding: 16px; background: #fff; border: 1px solid #e5e3de; border-radius: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <div style="font-size: 13px; font-weight: 700;">Match by</div>
+            <div style="display: flex; gap: 6px;">
+              <div style="padding: 5px 12px; border-radius: 999px; background: #2563eb; color: #fff; font-size: 12px; font-weight: 600;">Area</div>
+              <div style="padding: 5px 12px; border-radius: 999px; background: #f2f1ec; color: #44423c; font-size: 12px; font-weight: 600;">Entity</div>
+              <div style="padding: 5px 12px; border-radius: 999px; background: #f2f1ec; color: #44423c; font-size: 12px; font-weight: 600;">Domain</div>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; color: #8a8880; margin-bottom: 8px;">Rule matches only if EVERY resolved target entity is in a checked area (3.5)</div>
+
+          <div style="display: flex; flex-direction: column; gap: 2px; max-height: 168px; overflow: auto; border: 1px solid #ece9e2; border-radius: 8px; padding: 4px;">
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; background: #eff6ff;">
+              <div style="width: 16px; height: 16px; border-radius: 4px; background: #2563eb; display: flex; align-items: center; justify-content: center;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+              </div>
+              <div style="flex-grow: 1; font-size: 13px; font-weight: 600;">Living Room</div>
+              <div style="font-size: 11px; color: #8a8880;">6 entities</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; background: #eff6ff;">
+              <div style="width: 16px; height: 16px; border-radius: 4px; background: #2563eb; display: flex; align-items: center; justify-content: center;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+              </div>
+              <div style="flex-grow: 1; font-size: 13px; font-weight: 600;">Kitchen</div>
+              <div style="font-size: 11px; color: #8a8880;">4 entities</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px;">
+              <div style="width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #d8d6cf;"></div>
+              <div style="flex-grow: 1; font-size: 13px;">Bedroom</div>
+              <div style="font-size: 11px; color: #8a8880;">3 entities</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px;">
+              <div style="width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #d8d6cf;"></div>
+              <div style="flex-grow: 1; font-size: 13px;">Bathroom</div>
+              <div style="font-size: 11px; color: #8a8880;">2 entities</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px;">
+              <div style="width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #d8d6cf;"></div>
+              <div style="flex-grow: 1; font-size: 13px;">Exterior / Porch</div>
+              <div style="font-size: 11px; color: #8a8880;">5 entities</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #ece9e2;">
+            <div style="font-size: 11px; color: #8a8880; margin-bottom: 6px;">Also match by entity (optional, narrows further)</div>
+            <div style="position: relative;">
+              <input value="Search entities…" style="width: 100%; box-sizing: border-box; padding: 9px 11px 9px 34px; border: 1px solid #d8d6cf; border-radius: 7px; font-size: 13px; background: #fff; color: #8a8880;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8880" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 11px; top: 50%; transform: translateY(-50%);"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+              <div style="display: flex; align-items: center; gap: 6px; background: #f2f1ec; padding: 4px 6px 4px 10px; border-radius: 999px; font-size: 12px;">
+                Floor Lamp
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8a8880" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #6b6963; margin-bottom: 5px;">Domain (optional)</label>
+          <select style="width: 260px; box-sizing: border-box; padding: 9px 11px; border: 1px solid #d8d6cf; border-radius: 7px; font-size: 13px; background: #fff; color: #6b6963;">
+            <option>Any (light.* implied by operation)</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <div style="flex-grow: 1;">
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #6b6963; margin-bottom: 5px;">Rate limit</label>
+            <div style="display: flex; gap: 8px;">
+              <input value="60" style="width: 70px; box-sizing: border-box; padding: 9px 11px; border: 1px solid #d8d6cf; border-radius: 7px; font-size: 13px; background: #fff;">
+              <select style="flex-grow: 1; padding: 9px 11px; border: 1px solid #d8d6cf; border-radius: 7px; font-size: 13px; background: #fff;">
+                <option>per hour</option>
+              </select>
+            </div>
+          </div>
+          <div style="flex-grow: 1;">
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #6b6963; margin-bottom: 5px;">Expires</label>
+            <input value="No expiry" style="width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #d8d6cf; border-radius: 7px; font-size: 13px; background: #fff; color: #6b6963;">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; padding-top: 6px;">
+          <button style="padding: 9px 16px; border-radius: 7px; border: none; background: #2563eb; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer;">Save rule</button>
+          <button style="padding: 9px 16px; border-radius: 7px; border: 1px solid #fecaca; background: #fff; color: #b91c1c; font-size: 13px; font-weight: 600; cursor: pointer;">Delete</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

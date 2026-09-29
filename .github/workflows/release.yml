@@ -1,0 +1,81 @@
+name: Release
+
+# Publishes the signed plugin repository Synoikia installs from (README "Plugin repository"). A plugin
+# version is released when its manifest version isn't in the published index yet: each gets a
+# `<id>-v<version>` release with its tarball and minisign signature, and index.json on the `index`
+# release is replaced. Released versions are never rebuilt or removed.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+      - name: Download the published index
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view index >/dev/null 2>&1; then
+            gh release download index --pattern index.json --dir .repo-current
+          else
+            echo "No index release yet: starting a new index."
+          fi
+
+      - name: Pack new plugin versions
+        id: pack
+        run: |
+          node scripts/build-repo.mjs pack
+          echo "count=$(node -p "require('./.repo/releases.json').length")" >> "$GITHUB_OUTPUT"
+
+      - name: Sign
+        if: steps.pack.outputs.count != '0'
+        env:
+          MINISIGN_SECRET_KEY: ${{ secrets.MINISIGN_SECRET_KEY }}
+        run: |
+          if [ -z "$MINISIGN_SECRET_KEY" ]; then
+            echo "::error::The MINISIGN_SECRET_KEY secret is not set."
+            exit 1
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq minisign
+          key="$RUNNER_TEMP/minisign.key"
+          (umask 077; printf '%s\n' "$MINISIGN_SECRET_KEY" > "$key")
+          trap 'rm -f "$key"' EXIT
+          for f in .repo/*.tgz; do
+            minisign -S -s "$key" -m "$f" -t "$(basename "$f")"
+            minisign -V -p minisign.pub -m "$f"
+          done
+
+      - name: Build the index
+        if: steps.pack.outputs.count != '0'
+        run: node scripts/build-repo.mjs index
+
+      # Core's own repository service installs every new version with minisign.pub pinned, before
+      # anything is uploaded.
+      - name: Verify with Synoikia
+        if: steps.pack.outputs.count != '0'
+        run: node scripts/build-repo.mjs verify
+
+      - name: Publish
+        if: steps.pack.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/build-repo.mjs publish

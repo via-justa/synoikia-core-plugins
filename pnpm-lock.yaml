@@ -11,6 +11,9 @@ importers:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.11.0)
+      '@synoikia/core':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@types/node':
         specifier: ^22.19.0
         version: 22.20.4
@@ -530,6 +533,9 @@ packages:
 
   '@synoikia/core@0.2.0':
     resolution: {integrity: sha512-P0UhDSKn8nTlpD/CVHgTV6YPfX15zEy68rYbDaLtfREi28p3lnvH4vfpAm8jJ87mGK4+MpeocNUh5uKH98/rhQ==}
+
+  '@synoikia/core@0.3.0':
+    resolution: {integrity: sha512-XWVCiBlfh4XDFttG8WY6YTDVRKHQgRBh7KkBfMee4VZCBCTjwZL7T7rgeTwWbR0sfpYgGxTzkPnG9ONQbf5X7g==}
 
   '@synoikia/plugin-sdk@0.2.0':
     resolution: {integrity: sha512-p7BSqllVojIRJ2WA40v0qcqKOYuDEmBpacaruCUCUllMkyJSFcgkTqBcjaqkW24nFwFqmyennSewZK5gJZabsw==}
@@ -1910,6 +1916,56 @@ snapshots:
   '@rolldown/pluginutils@1.0.1': {}
 
   '@synoikia/core@0.2.0':
+    dependencies:
+      '@hono/node-server': 2.1.1(hono@4.13.9)
+      '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
+      '@node-rs/argon2': 2.2.1
+      '@synoikia/plugin-sdk': 0.2.0
+      ajv: 8.20.0
+      ajv-formats: 3.0.1(ajv@8.20.0)
+      better-sqlite3: 13.0.3
+      drizzle-orm: 0.45.3(better-sqlite3@13.0.3)
+      hono: 4.13.9
+      isolated-vm: 6.2.0
+      jose: 6.2.12
+      openid-client: 6.8.8
+      semver: 7.8.5
+      tar: 7.5.22
+      zod: 4.6.5
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cfworker/json-schema'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@netlify/db'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - bun-types
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - mysql2
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
+  '@synoikia/core@0.3.0':
     dependencies:
       '@hono/node-server': 2.1.1(hono@4.13.9)
       '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
