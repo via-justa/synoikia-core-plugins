@@ -1,0 +1,126 @@
+{
+  "id": "homeassistant",
+  "name": "Home Assistant",
+  "version": "0.1.0",
+  "sdk": "^0.2.0",
+  "description": "Search/execute over Home Assistant services and config-entry-flow commands.",
+  "entry": "dist/index.js",
+  "binding": {
+    "namespace": "ha",
+    "functions": ["call"],
+    "searchApis": ["registry", "guides"]
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "capabilities": {
+    "registry": true,
+    "targets": true,
+    "attestation": true,
+    "configTransform": true
+  },
+  "targets": {
+    "label": "Entity",
+    "registryKind": "entity",
+    "scopes": [
+      {
+        "key": "area",
+        "label": "Area",
+        "registryKind": "area"
+      },
+      {
+        "key": "domain",
+        "label": "Domain"
+      }
+    ]
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "token"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "token": {
+          "type": "string",
+          "title": "Long-lived access token",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "http://homeassistant.local:8123"
+      },
+      "token": {
+        "widget": "secret",
+        "help": "Profile → Security → Long-lived access tokens, on an owner-level account. Stored encrypted; never shown again."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      }
+    },
+    "help": "Connects to Home Assistant's WebSocket API with a **long-lived access token**.\n\n1. Sign in to Home Assistant as an **administrator** (the owner, or a dedicated admin user for this server).\n2. *Profile → Security → Long-lived access tokens → Create token*, name it (e.g. `mcp`), and copy it.\n3. Enter the base URL (`http://homeassistant.local:8123`) and the token, then **Test connection**.\n4. Keep *Verify TLS* on unless Home Assistant uses a self-signed certificate on a trusted network.\n\nAfter the first sync every domain is at **Read**: states, history and config can be read, but **no service can be called** until you raise its domain on the Access page. Unlocking, disarming, opening a garage door, restarting and deleting config always need a human who types the name of what's affected."
+  },
+  "sensitiveKeys": [
+    "access_token",
+    "token",
+    "webhook_id",
+    "entity_picture",
+    "password",
+    "api_key",
+    "stream_source",
+    "still_image_url",
+    "code",
+    "pin"
+  ],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}"]
+  },
+  "matchProfiles": {
+    "targets": [
+      {
+        "field": "$targets",
+        "label": "Targets",
+        "widget": "registry-picker",
+        "options": {
+          "scopes": ["area", "domain"]
+        },
+        "covers": ["/target"]
+      }
+    ],
+    "climate.set_temperature": [
+      {
+        "field": "$targets",
+        "label": "Targets",
+        "widget": "registry-picker",
+        "options": {
+          "scopes": [],
+          "filter": {
+            "domain": "climate"
+          }
+        },
+        "covers": ["/target"]
+      },
+      {
+        "field": "/temperature",
+        "label": "Temperature",
+        "op": "range",
+        "widget": "range",
+        "options": {
+          "unit": "°F"
+        }
+      }
+    ]
+  }
+}
