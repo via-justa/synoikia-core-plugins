@@ -3,9 +3,10 @@ import { parse } from 'yaml';
 
 /**
  * Turns Seerr's `seerr-api.yml` (OpenAPI 3.0) into the catalog (SR §2.2–§2.3). Classification is
- * layered: a hardcoded locked list always wins, then the HTTP verb decides (GET reads, everything else
- * writes). A GET that reads like an action ("reset", "sync", …) stays a read but is flagged for review
- * unless it has been reviewed here; one that really changes something belongs in `LOCKED`.
+ * layered and fails closed: a hardcoded locked list always wins, then the HTTP verb (GET reads,
+ * everything else writes). A GET whose summary, description or query parameters read like an action
+ * ("reset", "sync", …) is a write flagged for review unless it has been reviewed here; one that really
+ * changes something belongs in `LOCKED` or gets a locked split key (`SPLITS`).
  */
 
 export const VERBS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;
@@ -35,6 +36,9 @@ export const SPLITS: Record<string, string> = {
   'POST /settings/plex/sync': '#start',
   'POST /settings/jellyfin/sync': '#start',
   'POST /settings/jobs/{jobId}/run': '#start',
+  // `sync` re-reads and saves the library list; `enable` sets it ("any libraries not passed will be disabled!").
+  'GET /settings/plex/library': '#apply',
+  'GET /settings/jellyfin/library': '#apply',
 };
 
 /**
@@ -58,10 +62,13 @@ const ACTION_WORDS = /\b(reset\w*|regenerat\w*|sync\w*|flush\w*|run|runs|cancel\
 
 /**
  * GETs the heuristic flags that were reviewed and are plain reads. A newly flagged GET that is in
- * neither this list nor `LOCKED` is shown as needing review until someone does.
+ * neither this list nor `LOCKED` is classified write until someone reviews it.
  */
 export const REVIEWED_READS = new Set([
   'GET /settings/jellyfin/sync', // "Get status of full Jellyfin library sync"
+  // Plain reads without a query; with `sync` or `enable` they take the locked `#apply` key.
+  'GET /settings/plex/library',
+  'GET /settings/jellyfin/library',
 ]);
 
 /** The raw heuristic, before the locked and reviewed lists apply (for the regression test). */
@@ -74,7 +81,7 @@ export const MIN_OPERATIONS = 50;
 
 export class SpecError extends Error {}
 
-interface OpenApiOperation {
+export interface OpenApiOperation {
   summary?: string;
   description?: string;
   tags?: string[];
@@ -106,12 +113,9 @@ export function classify(
     return { classification: 'write', reason: 'locked:destructive', locked: true, needsReview: flagged };
   }
   if (method === 'GET') {
-    return {
-      classification: 'read',
-      reason: 'verb:GET',
-      locked: false,
-      needsReview: flagged && !REVIEWED_READS.has(key),
-    };
+    if (flagged && !REVIEWED_READS.has(key))
+      return { classification: 'write', reason: 'heuristic:get-as-action', locked: false, needsReview: true };
+    return { classification: 'read', reason: 'verb:GET', locked: false, needsReview: false };
   }
   return { classification: 'write', reason: `verb:${method}`, locked: false, needsReview: false };
 }
@@ -208,7 +212,17 @@ const SPLIT_DESCRIPTIONS: Record<string, string> = {
     'Running a full library scan or another heavy or unknown scheduled job: locked. Cheap jobs (recently added scans, Radarr/Sonarr scans, download sync, …) use the ordinary key.',
   '#on-behalf': 'Approving or declining a request filed by another Seerr user: locked.',
   '#start': 'Starting a full library scan: locked.',
+  '#apply': 'Syncing or changing which libraries are enabled (the `sync` or `enable` query parameter): locked.',
 };
+
+/** The text the GET-as-action heuristic reads: summary, description and query parameter descriptions. */
+export function actionText(spec: Record<string, unknown>, pathParams: unknown[], op: OpenApiOperation): string {
+  const params = [...pathParams, ...(op.parameters ?? [])]
+    .map((raw) => resolveRefs(spec, raw) as { in?: unknown; description?: unknown })
+    .filter((p) => p.in === 'query' && typeof p.description === 'string')
+    .map((p) => p.description as string);
+  return [op.summary ?? '', op.description ?? '', ...params].join(' ');
+}
 
 export function buildCatalog(specText: string): Catalog {
   const spec = parseSpec(specText);
@@ -226,7 +240,7 @@ export function buildCatalog(specText: string): Catalog {
       if (!VERBS.includes(method) || !rawOp || typeof rawOp !== 'object') continue;
       const op = rawOp as OpenApiOperation;
       const key = `${method} ${template}`;
-      const text = `${op.summary ?? ''} ${op.description ?? ''}`;
+      const text = actionText(spec, pathLevel, op);
       const schema = paramsSchema(spec, pathLevel, op);
       const describe = (k: string): OperationDescriptor => {
         const { classification, reason, locked, needsReview } = classify(k, text);

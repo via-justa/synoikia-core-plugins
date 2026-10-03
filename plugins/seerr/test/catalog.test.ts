@@ -1,6 +1,7 @@
 import { OperationDescriptorSchema } from '@synoikia/plugin-sdk';
 import { describe, expect, it } from 'vitest';
 import {
+  actionText,
   buildCatalog,
   classify,
   fillTemplate,
@@ -12,6 +13,7 @@ import {
   REVIEWED_READS,
   SpecError,
 } from '../src/catalog.js';
+import type { OpenApiOperation } from '../src/catalog.js';
 import { SPEC_TEXT } from './fake-seerr.js';
 
 const catalog = buildCatalog(SPEC_TEXT);
@@ -38,10 +40,10 @@ describe('classify (SR §2.3, §7 phase 1)', () => {
     expect(classify('POST /request/{requestId}/{status}#on-behalf').locked).toBe(true);
   });
 
-  it('lets the verb decide, flagging an unreviewed action-shaped GET for review', () => {
+  it('treats an unreviewed action-shaped GET as a write needing review (fail closed)', () => {
     expect(classify('GET /settings/cache/flush', 'Flush a cache')).toEqual({
-      classification: 'read',
-      reason: 'verb:GET',
+      classification: 'write',
+      reason: 'heuristic:get-as-action',
       locked: false,
       needsReview: true,
     });
@@ -55,11 +57,12 @@ describe('classify (SR §2.3, §7 phase 1)', () => {
 
 describe('GET-as-action regression (SR §9)', () => {
   const spec = parseSpec(SPEC_TEXT) as {
-    paths: Record<string, Record<string, { summary?: string; description?: string }>>;
+    paths: Record<string, Record<string, OpenApiOperation> & { parameters?: unknown[] }>;
   };
+  // Summary, description and query parameter descriptions, as the catalog reads them.
   const flagged = Object.entries(spec.paths)
     .flatMap(([path, item]) =>
-      item.get ? [[`GET ${path}`, `${item.get.summary ?? ''} ${item.get.description ?? ''}`] as const] : [],
+      item.get ? [[`GET ${path}`, actionText(spec, item.parameters ?? [], item.get)] as const] : [],
     )
     .filter(([key, text]) => looksLikeAction(key, text))
     .map(([key]) => key)
@@ -67,7 +70,12 @@ describe('GET-as-action regression (SR §9)', () => {
 
   it('flags exactly the reviewed list in the pinned spec', () => {
     // A new entry here means Seerr shipped an action-shaped GET: review it, then add it to LOCKED or REVIEWED_READS.
-    expect(flagged).toEqual(['GET /settings/discover/reset', 'GET /settings/jellyfin/sync']);
+    expect(flagged).toEqual([
+      'GET /settings/discover/reset',
+      'GET /settings/jellyfin/library',
+      'GET /settings/jellyfin/sync',
+      'GET /settings/plex/library',
+    ]);
   });
 
   it('has a locked or reviewed decision for every flagged GET', () => {
@@ -77,7 +85,7 @@ describe('GET-as-action regression (SR §9)', () => {
 
 describe('buildCatalog', () => {
   it('produces a valid descriptor for every operation in the real spec', () => {
-    expect(catalog.operations.length).toBe(216); // 212 operations + 4 split keys
+    expect(catalog.operations.length).toBe(218); // 212 operations + 6 split keys
     for (const d of catalog.operations) expect(() => OperationDescriptorSchema.parse(d), d.key).not.toThrow();
   });
 

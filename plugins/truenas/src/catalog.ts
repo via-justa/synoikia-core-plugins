@@ -11,7 +11,7 @@ export interface MethodInfo {
   accepts?: unknown[] | null;
   job?: boolean;
   /** Roles that may call the method (TrueNAS 24.04+), e.g. `POOL_READ`, `POOL_WRITE`, `READONLY_ADMIN`. */
-  roles?: string[] | null;
+  roles?: unknown;
 }
 
 /** Destructive or irreversible: always a human with a typed confirmation, never pre-approved (TN §3.4). */
@@ -90,33 +90,44 @@ const WRITE_VERBS = new Set([
 /** A role that only grants reading: `READONLY_ADMIN` or any `*_READ` role. */
 const isReadRole = (role: string) => role === 'READONLY_ADMIN' || role.endsWith('_READ');
 
+/** What the method's name says: a definite read or write, or nothing when the name is unclear. */
+function byName(method: string): { classification: 'read' | 'write'; reason: string } | null {
+  const last = method.split('.').at(-1) ?? method;
+  const verb = last.split('_')[0] ?? last;
+  if (WRITE_LAST.has(last)) return { classification: 'write', reason: `naming:write(.${last})` };
+  if (WRITE_VERBS.has(verb)) return { classification: 'write', reason: `naming:write(${verb})` };
+  if (READ_LAST.has(last) || last.endsWith('_choices'))
+    return { classification: 'read', reason: `naming:read(.${last})` };
+  if (READ_VERBS.has(verb)) return { classification: 'read', reason: `naming:read(${verb})` };
+  return null;
+}
+
 /**
- * Read or write, from what TrueNAS itself says (design: the API decides, not an admin). A method a
- * read-only role may call is a read; one that declares roles but no read role is a write. Methods
- * that declare no roles fall back to naming conventions, and anything ambiguous is a write.
+ * Read or write. The locked list always wins. The roles TrueNAS declares (`core.get_methods`) are
+ * upstream data, so they may only make a method stricter or settle an unclear name, never turn a
+ * write-named method into a read: declared roles with no read role make it a write; a read role
+ * (`READONLY_ADMIN`, `*_READ`) makes it a read unless its name says write. Without roles, the name
+ * decides, and anything unclear is a write (fail closed).
  */
 export function classify(
   method: string,
-  roles?: readonly string[] | null,
+  roles?: unknown,
 ): { classification: 'read' | 'write'; reason: string; locked: boolean } {
   if (isLocked(method)) {
     return { classification: 'write', reason: 'locked:destructive', locked: true };
   }
-  const declared = (roles ?? []).filter((r) => typeof r === 'string' && r);
+  const named = byName(method);
+  const declared = (Array.isArray(roles) ? roles : []).filter((r): r is string => typeof r === 'string' && r !== '');
   if (declared.length > 0) {
     const read = declared.find(isReadRole);
-    if (read) return { classification: 'read', reason: `roles:read(${read})`, locked: false };
-    const write = declared.find((r) => r !== 'FULL_ADMIN') ?? declared[0]!;
-    return { classification: 'write', reason: `roles:write(${write})`, locked: false };
+    if (!read) {
+      const write = declared.find((r) => r !== 'FULL_ADMIN') ?? declared[0]!;
+      return { classification: 'write', reason: `roles:write(${write})`, locked: false };
+    }
+    if (named?.classification !== 'write')
+      return { classification: 'read', reason: `roles:read(${read})`, locked: false };
   }
-  const last = method.split('.').at(-1) ?? method;
-  const verb = last.split('_')[0] ?? last;
-  if (WRITE_LAST.has(last)) return { classification: 'write', reason: `naming:write(.${last})`, locked: false };
-  if (WRITE_VERBS.has(verb)) return { classification: 'write', reason: `naming:write(${verb})`, locked: false };
-  if (READ_LAST.has(last) || last.endsWith('_choices'))
-    return { classification: 'read', reason: `naming:read(.${last})`, locked: false };
-  if (READ_VERBS.has(verb)) return { classification: 'read', reason: `naming:read(${verb})`, locked: false };
-  return { classification: 'write', reason: 'default:ambiguous', locked: false };
+  return { ...(named ?? { classification: 'write', reason: 'default:ambiguous' }), locked: false };
 }
 
 /** Access group: the method's namespace (`pool.dataset.create` → `pool.dataset`). */

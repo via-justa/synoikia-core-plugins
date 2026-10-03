@@ -97,7 +97,9 @@ describe('TrueNAS plugin', () => {
     expect(await literal('disk.wipe', 'sda', 'QUICK')).toBe('sda');
     expect(await literal('system.reboot')).toBe('nas01');
     expect(await literal('app.delete', 'plex', { remove_images: true })).toBe('plex');
-    expect(await literal('api_key.create', { name: 'ci' })).toBe('ci');
+    // The user the key acts as, not its model-chosen name; without one, the hostname.
+    expect(await literal('api_key.create', { name: 'read-only-viewer', username: 'root' })).toBe('root');
+    expect(await literal('api_key.create', { name: 'ci' })).toBe('nas01');
     expect(await literal('api_key.delete', 3)).toBe('backup-bot');
     expect(await literal('api_key.query')).toBe('nas01');
     expect(await literal('auth.generate_token')).toBe('nas01');
@@ -119,6 +121,25 @@ describe('TrueNAS plugin', () => {
     // The #pool-root key calls the real method.
     await invoke(plugin, 'filesystem.setacl#pool-root', [{ path: '/mnt/tank' }]);
     expect(fake.calls.at(-1)).toEqual({ method: 'filesystem.setacl', params: [{ path: '/mnt/tank' }] });
+  });
+
+  it('masks new API keys and tokens, and keeps positional passwords out of summaries', async () => {
+    const { plugin } = await setup();
+    await plugin.syncCatalog();
+    expect(await invoke(plugin, 'api_key.create', [{ name: 'ci', username: 'root' }])).toEqual({
+      id: 4,
+      name: 'ci',
+      key: '[REDACTED]',
+    });
+    expect(await invoke(plugin, 'auth.generate_token', [])).toBe('[REDACTED]');
+    const summary = await plugin.summarize({
+      key: 'user.setup_local_administrator',
+      params: ['truenas_admin', 'hunter2-secret'],
+      targets: [],
+    });
+    expect(summary.text).not.toContain('hunter2-secret');
+    expect(summary.text).toContain('"truenas_admin","[REDACTED]"');
+    expect(summary.confirmLiteral).toBe('truenas_admin');
   });
 
   it('masks the keytab contents, which core cannot recognize by key name', async () => {

@@ -63,7 +63,8 @@ export function createTrueNasPlugin(): PluginHandlers {
       case 'user.set_password':
         return stringOr(field(first(params), 'username'));
       case 'api_key.create':
-        return stringOr(field(first(params), 'name')) ?? hostname(key);
+        // What the key can do comes from the user it acts as, not from its (model-chosen) name.
+        return stringOr(field(first(params), 'username')) ?? hostname(key);
       case 'api_key.update':
       case 'api_key.delete':
         return lookup('api_key.get_instance', first(params), 'name');
@@ -131,7 +132,11 @@ export function createTrueNasPlugin(): PluginHandlers {
 
     async summarize({ key, params }) {
       const method = baseMethod(key);
-      const args = JSON.stringify(Array.isArray(params) ? params : [params]).slice(1, -1);
+      const list = Array.isArray(params) ? [...params] : [params];
+      // Positional secrets have no key name for core to redact by (until the descriptor can declare
+      // them as `sensitiveParams`): keep them out of the summary text.
+      for (const i of POSITIONAL_SECRETS[method] ?? []) if (list[i] !== undefined) list[i] = '[REDACTED]';
+      const args = JSON.stringify(list).slice(1, -1);
       const text = `TrueNAS ${method}(${args.length > MAX_SUMMARY_PARAMS ? `${args.slice(0, MAX_SUMMARY_PARAMS)}…` : args})${
         key.endsWith(POOL_ROOT_SUFFIX) ? ' at the root of a pool' : ''
       }`;
@@ -147,7 +152,7 @@ export function createTrueNasPlugin(): PluginHandlers {
       const result = known.jobs.has(method)
         ? await connected().callJob(method, args, timeout)
         : await connected().call(method, args, timeout);
-      return method.startsWith('kerberos.keytab.') ? maskKeytabs(result) : result;
+      return maskSecrets(method, result);
     },
 
     async optionsFor({ source, query }) {
@@ -168,14 +173,25 @@ export function createTrueNasPlugin(): PluginHandlers {
   };
 }
 
+/** Positional params that hold a secret, by method (core can't see a key name for them). */
+const POSITIONAL_SECRETS: Record<string, number[]> = {
+  'user.setup_local_administrator': [1],
+};
+
 /**
- * Keytab rows carry the keytab itself under `file`. Core redacts by key name, and `file` is too
- * common to add to `sensitiveKeys` (it would hide ordinary paths), so it is masked here.
+ * Secrets in results that core can't recognize by key name, because the key is too common to add to
+ * `sensitiveKeys` (it would hide ordinary values) or there is no key at all:
+ * - keytab rows carry the keytab under `file`;
+ * - `api_key.*` returns a new or reset key under `key`;
+ * - `auth.generate_token` returns the token as a bare string.
  */
-function maskKeytabs(result: unknown): unknown {
+function maskSecrets(method: string, result: unknown): unknown {
+  if (method === 'auth.generate_token') return typeof result === 'string' && result ? '[REDACTED]' : result;
+  const field = method.startsWith('kerberos.keytab.') ? 'file' : method.startsWith('api_key.') ? 'key' : null;
+  if (!field) return result;
   const mask = (row: unknown) =>
-    row && typeof row === 'object' && !Array.isArray(row) && (row as Record<string, unknown>).file
-      ? { ...row, file: '[REDACTED]' }
+    row && typeof row === 'object' && !Array.isArray(row) && (row as Record<string, unknown>)[field]
+      ? { ...row, [field]: '[REDACTED]' }
       : row;
   return Array.isArray(result) ? result.map(mask) : mask(result);
 }

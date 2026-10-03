@@ -122,7 +122,7 @@ export function createSeerrPlugin(): PluginHandlers {
         return named('/settings/discover', path.sliderId);
       default:
         if (key === 'POST /settings/jobs/{jobId}/run#start') return path.jobId;
-        return LOCKED.has(key) || key.endsWith('#start') ? appTitle() : undefined;
+        return LOCKED.has(key) || key.endsWith('#start') || key.endsWith('#apply') ? appTitle() : undefined;
     }
   };
 
@@ -208,6 +208,8 @@ export function createSeerrPlugin(): PluginHandlers {
       if (split === '#start' && key === 'POST /settings/jobs/{jobId}/run') {
         if (!CHEAP_JOBS.has(match.pathParams.jobId!)) key += split;
       } else if (split === '#start' && startsScan(req.body)) key += split;
+      // Listing libraries is a read; `sync` or `enable` (any value, even false) saves the library list.
+      if (split === '#apply' && params.query && ('sync' in params.query || 'enable' in params.query)) key += split;
       return { key, params };
     },
 
@@ -223,7 +225,9 @@ export function createSeerrPlugin(): PluginHandlers {
       const body = p.body === undefined ? '' : JSON.stringify(p.body);
       const text = `Seerr ${method} ${path}${queryString(p.query)}${
         body ? ` ${body.length > MAX_SUMMARY_BODY ? `${body.slice(0, MAX_SUMMARY_BODY)}…` : body}` : ''
-      }${key.endsWith('#on-behalf') ? " (another user's request)" : ''}${key.endsWith('#start') ? ' (starts a full library scan or another heavy job)' : ''}`;
+      }${key.endsWith('#on-behalf') ? " (another user's request)" : ''}${key.endsWith('#start') ? ' (starts a full library scan or another heavy job)' : ''}${
+        key.endsWith('#apply') ? ' (syncs or changes which libraries are enabled; libraries left out are disabled)' : ''
+      }`;
       const literal = await confirmLiteral(key, p);
       return literal ? { text, confirmLiteral: literal } : { text };
     },

@@ -102,7 +102,7 @@ describe('Seerr plugin', () => {
     const { plugin, fake } = await setup();
     const result = await plugin.syncCatalog();
     expect(result).toMatchObject({ upstreamVersion: '3.4.1', sourceRef: 'v3.4.1' });
-    expect(result.operations.length).toBe(216);
+    expect(result.operations.length).toBe(218);
     fake.version = '3.5.0-develop';
     expect((await plugin.syncCatalog()).sourceRef).toBe('develop');
   });
@@ -189,6 +189,26 @@ describe('Seerr plugin', () => {
       expect(await key(body), JSON.stringify(body)).toBe('POST /settings/jellyfin/sync#start');
     for (const body of [undefined, { cancel: true }, { start: false }, {}])
       expect(await key(body), JSON.stringify(body)).toBe('POST /settings/jellyfin/sync');
+  });
+
+  it('locks syncing or changing the enabled libraries, and keeps listing them a read', async () => {
+    const { plugin } = await setup();
+    for (const server of ['plex', 'jellyfin']) {
+      const key = async (query?: Record<string, unknown>) =>
+        (await resolve(plugin, { method: 'GET', path: `/settings/${server}/library`, ...(query ? { query } : {}) }))
+          .key;
+      const base = `GET /settings/${server}/library`;
+      expect(await key()).toBe(base);
+      for (const query of [{ enable: '' }, { enable: '1,2' }, { sync: 'true' }, { sync: false }])
+        expect(await key(query), JSON.stringify(query)).toBe(`${base}#apply`);
+    }
+    const summary = await plugin.summarize({
+      key: 'GET /settings/plex/library#apply',
+      params: { query: { enable: '' } },
+      targets: [],
+    });
+    expect(summary.text).toContain('libraries left out are disabled');
+    expect(summary.confirmLiteral).toBeTruthy();
   });
 
   it('locks running a full scan, or any heavy or unknown job, through the jobs endpoint', async () => {

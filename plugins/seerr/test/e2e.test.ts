@@ -37,7 +37,7 @@ afterAll(async () => {
 
 describe('Seerr plugin end to end (fake Seerr)', () => {
   it('syncs the spec for the instance version into groups that start at Read', () => {
-    expect(h.operations()).toHaveLength(216);
+    expect(h.operations()).toHaveLength(218);
     expect(h.operation('GET /settings/discover/reset')).toMatchObject({ locked: true });
     expect(h.operation('POST /request/{requestId}/{status}#on-behalf')).toMatchObject({
       locked: true,

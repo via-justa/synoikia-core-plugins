@@ -74,10 +74,17 @@ export const METHODS: Record<string, MethodInfo> = {
   'api_key.get_instance': { description: 'Get one API key.', accepts: [{ type: 'integer', title: 'id' }] },
   'api_key.create': {
     description: 'Create an API key.',
-    accepts: [obj('api_key_create', { name: { type: 'string' } })],
+    accepts: [obj('api_key_create', { name: { type: 'string' }, username: { type: 'string' } })],
   },
   'api_key.delete': { description: 'Delete an API key.', accepts: [{ type: 'integer', title: 'id' }] },
   'auth.generate_token': { description: 'Generate a token.' },
+  'user.setup_local_administrator': {
+    description: 'Set up the local administrator.',
+    accepts: [
+      { type: 'string', title: 'username' },
+      { type: 'string', title: 'password' },
+    ],
+  },
   'disk.query': { description: 'Query disks.' },
   'disk.wipe': {
     description: 'Wipe a disk.',
@@ -216,6 +223,8 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     ],
     'user.get_instance': ([id]) => ({ id, username: id === 70 ? 'alice' : 'root' }),
     'api_key.get_instance': ([id]) => ({ id, name: 'backup-bot' }),
+    'api_key.create': ([opts]) => ({ id: 4, name: (opts as { name?: string })?.name, key: '4-fresh-api-key-secret' }),
+    'auth.generate_token': () => 'fresh-session-token-secret',
     'sharing.smb.query': () => [
       { id: 1, name: 'media', path: '/mnt/tank/media', auxsmbconf: '', password: 'share-secret-123' },
     ],

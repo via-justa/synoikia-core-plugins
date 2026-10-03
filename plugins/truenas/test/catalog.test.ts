@@ -68,6 +68,27 @@ describe('classify (TN §2.3, §9)', () => {
     expect(classify('pool.dataset.delete', ['DATASET_READ'])).toMatchObject({ locked: true, classification: 'write' });
   });
 
+  it('never lets roles turn a write-named method into a read', () => {
+    for (const m of ['pool.dataset.create', 'x.run_foo', 'x.set_foo', 'vm.update', 'service.restart'])
+      expect(classify(m, ['DATASET_READ', 'READONLY_ADMIN']).classification).toBe('write');
+    // An unclear name is settled by a read role; a read-named method stays a read.
+    expect(classify('pool.dataset.details', ['DATASET_READ']).classification).toBe('read');
+    expect(classify('pool.query', ['POOL_READ'])).toMatchObject({
+      classification: 'read',
+      reason: 'roles:read(POOL_READ)',
+    });
+  });
+
+  it('ignores a roles value that is not a list', () => {
+    expect(() => classify('pool.query', 'POOL_READ')).not.toThrow();
+    expect(classify('pool.query', 'POOL_READ')).toMatchObject({
+      classification: 'read',
+      reason: 'naming:read(.query)',
+    });
+    expect(classify('pool.dataset.details', { POOL_READ: true }).classification).toBe('write');
+    expect(classify('pool.query', [42, null, 'POOL_READ'])).toMatchObject({ reason: 'roles:read(POOL_READ)' });
+  });
+
   it('locks every api_key.* method, including ones a future TrueNAS adds', () => {
     for (const m of ['api_key.query', 'api_key.create', 'api_key.delete', 'api_key.some_future_method'])
       expect(classify(m)).toMatchObject({ classification: 'write', locked: true });
