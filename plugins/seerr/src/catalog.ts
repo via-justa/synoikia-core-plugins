@@ -3,9 +3,10 @@ import { parse } from 'yaml';
 
 /**
  * Turns Seerr's `seerr-api.yml` (OpenAPI 3.0) into the catalog (SR §2.2–§2.3). Classification is
- * layered and fails closed: a hardcoded locked list always wins, then the HTTP verb, and a GET that
- * reads like an action ("reset", "sync", …) is a write flagged for review unless it has been reviewed
- * here. Core applies admin overrides on top.
+ * layered and fails closed: a hardcoded locked list always wins, then the HTTP verb (GET reads,
+ * everything else writes). A GET whose summary, description or query parameters read like an action
+ * ("reset", "sync", …) is a write flagged for review unless it has been reviewed here; one that really
+ * changes something belongs in `LOCKED`, or gets a locked split key (`SPLITS`) when only some calls do.
  */
 
 export const VERBS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;
@@ -21,6 +22,10 @@ export const LOCKED = new Set([
   'POST /settings/main/regenerate',
   'DELETE /settings/discover/{sliderId}',
   'GET /settings/discover/reset',
+  // Seerr 3.0–3.4.1 re-saves the enabled-library list on every call: without `enable`, every library is
+  // disabled. From 3.5.0 these are plain reads; locking them there only over-locks (fail closed).
+  'GET /settings/plex/library',
+  'GET /settings/jellyfin/library',
 ]);
 
 /**
@@ -74,7 +79,7 @@ export const MIN_OPERATIONS = 50;
 
 export class SpecError extends Error {}
 
-interface OpenApiOperation {
+export interface OpenApiOperation {
   summary?: string;
   description?: string;
   tags?: string[];
@@ -205,7 +210,20 @@ const SPLIT_DESCRIPTIONS: Record<string, string> = {
     'Running a full library scan or another heavy or unknown scheduled job: locked. Cheap jobs (recently added scans, Radarr/Sonarr scans, download sync, …) use the ordinary key.',
   '#on-behalf': 'Approving or declining a request filed by another Seerr user: locked.',
   '#start': 'Starting a full library scan: locked.',
+  'GET /settings/plex/library':
+    'Seerr 3.0–3.4.1 saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
+  'GET /settings/jellyfin/library':
+    'Seerr 3.0–3.4.1 saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
 };
+
+/** The text the GET-as-action heuristic reads: summary, description and query parameter descriptions. */
+export function actionText(spec: Record<string, unknown>, pathParams: unknown[], op: OpenApiOperation): string {
+  const params = [...pathParams, ...(op.parameters ?? [])]
+    .map((raw) => resolveRefs(spec, raw) as { in?: unknown; description?: unknown })
+    .filter((p) => p.in === 'query' && typeof p.description === 'string')
+    .map((p) => p.description as string);
+  return [op.summary ?? '', op.description ?? '', ...params].join(' ');
+}
 
 export function buildCatalog(specText: string): Catalog {
   const spec = parseSpec(specText);
@@ -223,7 +241,7 @@ export function buildCatalog(specText: string): Catalog {
       if (!VERBS.includes(method) || !rawOp || typeof rawOp !== 'object') continue;
       const op = rawOp as OpenApiOperation;
       const key = `${method} ${template}`;
-      const text = `${op.summary ?? ''} ${op.description ?? ''}`;
+      const text = actionText(spec, pathLevel, op);
       const schema = paramsSchema(spec, pathLevel, op);
       const describe = (k: string): OperationDescriptor => {
         const { classification, reason, locked, needsReview } = classify(k, text);

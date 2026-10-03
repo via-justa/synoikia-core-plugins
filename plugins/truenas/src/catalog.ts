@@ -10,6 +10,8 @@ export interface MethodInfo {
   description?: string | null;
   accepts?: unknown[] | null;
   job?: boolean;
+  /** Roles that may call the method (TrueNAS 24.04+), e.g. `POOL_READ`, `POOL_WRITE`, `READONLY_ADMIN`. */
+  roles?: unknown;
 }
 
 /** Destructive or irreversible: always a human with a typed confirmation, never pre-approved (TN §3.4). */
@@ -23,7 +25,23 @@ export const LOCKED = new Set([
   'user.delete',
   'pool.dataset.change_key',
   'pool.dataset.delete',
+  'app.delete',
+  'audit.config',
+  'auth.generate_token',
+  'auth.generate_onetime_password',
+  'docker.delete_backup',
+  'interface.network_config_to_be_removed',
+  'user.has_local_administrator_set_up',
+  'user.renew_2fa_secret',
+  'user.setup_local_administrator',
+  'pool.dataset.export_key',
 ]);
+
+/** Whole namespaces that are locked, including methods a future TrueNAS adds to them. */
+export const LOCKED_PREFIXES = ['api_key.'] as const;
+
+export const isLocked = (method: string) =>
+  LOCKED.has(method) || LOCKED_PREFIXES.some((p) => method.startsWith(p)) || method.endsWith(POOL_ROOT_SUFFIX);
 
 /**
  * Methods whose risk depends on their params get a second catalog key (design §3.4): an ACL or owner
@@ -69,20 +87,89 @@ const WRITE_VERBS = new Set([
   'remove',
   'replace',
   'set',
+  // Write-shaped verbs a read role must not settle as a read.
+  'lock',
+  'unlock',
+  'import',
+  'sync',
+  'scrub',
+  'dismiss',
+  'restore',
+  'rollback',
+  'clone',
+  'promote',
+  'reload',
+  'abort',
+  'generate',
+  'renew',
+  'reset',
+  'mount',
+  'umount',
+  'upload',
+  'put',
+  'pull',
+  'prune',
+  'redeploy',
+  'expand',
+  'online',
+  'offline',
+  'activate',
+  'download',
+  'leave',
+  'join',
+  'terminate',
+  'send',
+  'test',
+  'commit',
+  'checkin',
+  'enable',
+  'disable',
+  'unset',
+  'cancel',
+  'kill',
 ]);
 
-export function classify(method: string): { classification: 'read' | 'write'; reason: string; locked: boolean } {
-  if (LOCKED.has(method) || method.endsWith(POOL_ROOT_SUFFIX)) {
-    return { classification: 'write', reason: 'locked:destructive', locked: true };
-  }
+/** A role that only grants reading: `READONLY_ADMIN` or any `*_READ` role. */
+const isReadRole = (role: string) => role === 'READONLY_ADMIN' || role.endsWith('_READ');
+
+/** What the method's name says: a definite read or write, or nothing when the name is unclear. */
+function byName(method: string): { classification: 'read' | 'write'; reason: string } | null {
   const last = method.split('.').at(-1) ?? method;
   const verb = last.split('_')[0] ?? last;
-  if (WRITE_LAST.has(last)) return { classification: 'write', reason: `naming:write(.${last})`, locked: false };
-  if (WRITE_VERBS.has(verb)) return { classification: 'write', reason: `naming:write(${verb})`, locked: false };
+  if (WRITE_LAST.has(last)) return { classification: 'write', reason: `naming:write(.${last})` };
+  if (WRITE_VERBS.has(verb)) return { classification: 'write', reason: `naming:write(${verb})` };
   if (READ_LAST.has(last) || last.endsWith('_choices'))
-    return { classification: 'read', reason: `naming:read(.${last})`, locked: false };
-  if (READ_VERBS.has(verb)) return { classification: 'read', reason: `naming:read(${verb})`, locked: false };
-  return { classification: 'write', reason: 'default:ambiguous', locked: false };
+    return { classification: 'read', reason: `naming:read(.${last})` };
+  if (READ_VERBS.has(verb)) return { classification: 'read', reason: `naming:read(${verb})` };
+  return null;
+}
+
+/**
+ * Read or write. The locked list always wins. The roles TrueNAS declares (`core.get_methods`) are
+ * upstream data, so they may only make a method stricter or settle an unclear name, never turn a
+ * write-named method into a read: declared roles with no read role make it a write; a read role
+ * (`READONLY_ADMIN`, `*_READ`) makes it a read unless its name says write. Without roles, the name
+ * decides, and anything unclear is a write (fail closed).
+ */
+export function classify(
+  method: string,
+  roles?: unknown,
+): { classification: 'read' | 'write'; reason: string; locked: boolean } {
+  if (isLocked(method)) {
+    return { classification: 'write', reason: 'locked:destructive', locked: true };
+  }
+  const named = byName(method);
+  const declared = (Array.isArray(roles) ? roles : []).filter((r): r is string => typeof r === 'string' && r !== '');
+  if (declared.length > 0) {
+    const read = declared.find(isReadRole);
+    if (!read) {
+      const write = declared.find((r) => r !== 'FULL_ADMIN') ?? declared[0]!;
+      return { classification: 'write', reason: `roles:write(${write})`, locked: false };
+    }
+    if (named?.classification !== 'write')
+      return { classification: 'read', reason: `roles:read(${read})`, locked: false };
+  }
+  return { ...(named ?? { classification: 'write', reason: 'default:ambiguous' }), locked: false };
 }
 
 /** Access group: the method's namespace (`pool.dataset.create` → `pool.dataset`). */
@@ -91,6 +178,31 @@ export function groupOf(method: string): string {
   const group = (parts.length > 1 ? parts.slice(0, -1) : parts).join('.').toLowerCase();
   return group.replace(/[^a-z0-9._-]/g, '_').replace(/^[^a-z0-9]+/, '') || 'misc';
 }
+
+/**
+ * Params that hold a secret core can't recognize by key name (a positional password, an encryption
+ * key under the common name `key`). Core redacts these JSON-pointer paths in summaries, approvals,
+ * notifications and the audit log; `invoke` still gets the real values. A pointer can't say "every
+ * item", so `pool.dataset.unlock` lists the first datasets; the plugin also masks summaries and job
+ * records itself.
+ */
+// The SDK allows 32 paths per operation, so a single unlock of more than 32 keyed datasets shows the
+// rest to core (an accepted limit; the plugin's own summary masks them all).
+const DATASET_KEYS = Array.from({ length: 32 }, (_, i) => `/1/datasets/${i}/key`);
+export const SENSITIVE_PARAMS: Record<string, string[]> = {
+  'user.setup_local_administrator': ['/1'],
+  'pool.create': ['/0/encryption_options/key'],
+  'pool.dataset.create': ['/0/encryption_options/key'],
+  'pool.dataset.change_key': ['/1/key'],
+  'pool.dataset.unlock': DATASET_KEYS,
+  'pool.dataset.encryption_summary': DATASET_KEYS,
+  'kerberos.keytab.create': ['/0/file'],
+  'kerberos.keytab.update': ['/1/file'],
+  // B2, Azure Blob and Swift credentials keep their secret under `provider.key`.
+  'cloudsync.credentials.create': ['/0/provider/key'],
+  'cloudsync.credentials.update': ['/1/provider/key'],
+  'cloudsync.credentials.verify': ['/0/key'],
+};
 
 const MATCH_PROFILES: Record<string, string> = {
   'pool.dataset.create': 'dataset-name-prefix',
@@ -121,7 +233,7 @@ export interface Catalog {
 }
 
 function describe(key: string, method: string, info: MethodInfo): OperationDescriptor {
-  const { classification, reason, locked } = classify(key);
+  const { classification, reason, locked } = classify(key, info.roles);
   const accepts = Array.isArray(info.accepts) ? info.accepts : undefined;
   const summary = info.description?.trim().slice(0, 500);
   const guidance = GUIDANCE[method];
@@ -134,6 +246,7 @@ function describe(key: string, method: string, info: MethodInfo): OperationDescr
     locked,
     typedConfirmation: locked,
     ...(MATCH_PROFILES[key] ? { matchProfile: MATCH_PROFILES[key] } : {}),
+    ...(SENSITIVE_PARAMS[method] ? { sensitiveParams: SENSITIVE_PARAMS[method] } : {}),
     // TrueNAS params are positional: `truenas.call('pool.dataset.create', { name })` → `[{ name }]`.
     ...(accepts ? { paramsSchema: { type: 'array', prefixItems: accepts } } : {}),
     ...(summary || guidance

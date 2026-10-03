@@ -1,6 +1,6 @@
 {
   "name": "@synoikia/plugin-truenas",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -10,11 +10,11 @@
     "test": "pnpm run build && vitest run"
   },
   "dependencies": {
-    "@synoikia/plugin-sdk": "^0.2.0",
+    "@synoikia/plugin-sdk": "^0.2.1",
     "ws": "^8.22.0"
   },
   "devDependencies": {
-    "@synoikia/core": "^0.2.0",
+    "@synoikia/core": "^0.4.0",
     "@types/ws": "^8.18.1"
   }
 }

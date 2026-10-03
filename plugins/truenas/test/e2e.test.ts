@@ -60,6 +60,11 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
         [{ file: '[REDACTED]' }],
       ],
     });
+    // Password hashes in user rows (TrueNAS marks them Secret).
+    const users = await h.execute(`return await truenas.call('user.query');`);
+    expect(JSON.stringify(users)).not.toMatch(/alice-unix-hash|ALICE-NT-HASH/);
+    // At Read a group's writes are off (new groups start at Ask in newer core).
+    h.setGroupLevel('pool.dataset', 'read');
     await expect(
       h.execute(`return await truenas.call('pool.dataset.create', { name: 'tank/x' });`),
     ).resolves.toMatchObject({ ok: false, error: { code: 'OPERATION_DISABLED' } });
@@ -115,6 +120,83 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
     expect(attempts[0]).toMatch(/Type "tank\/apps" exactly/);
     expect(r).toMatchObject({ ok: true, value: true });
     expect(fake.datasets.has('tank/apps')).toBe(false);
+  });
+
+  it('never hands the model a new API key, token or dataset encryption key', async () => {
+    h.setOperationLevel('api_key.create', 'ask');
+    h.setOperationLevel('auth.generate_token', 'ask');
+    h.setOperationLevel('auth.generate_onetime_password', 'ask');
+    h.setOperationLevel('pool.dataset.export_key', 'ask');
+    const approveAll = {
+      onApproval: (a: { approve: (typed?: string) => void; message: string }) => {
+        // Locked calls need their literal: the key's user, or the system's hostname.
+        if (a.message.includes('api_key.create')) a.approve('root');
+        else if (a.message.includes('auth.generate_')) a.approve('nas01');
+        else if (a.message.includes('pool.dataset.export_key')) a.approve('tank/secure');
+        else a.approve();
+      },
+    };
+    const results = [
+      await h.execute(`return await truenas.call('api_key.create', { name: 'ci', username: 'root' });`, approveAll),
+      await h.execute(`return await truenas.call('auth.generate_token');`, approveAll),
+      await h.execute(`return await truenas.call('auth.generate_onetime_password');`, approveAll),
+      await h.execute(`return await truenas.call('pool.dataset.export_key', 'tank/secure');`, approveAll),
+    ];
+    expect(results).toMatchObject([
+      { ok: true, value: { name: 'ci', key: '[REDACTED]' } },
+      { ok: true, value: '[REDACTED]' },
+      { ok: true, value: '[REDACTED]' },
+      { ok: true, value: '[REDACTED]' },
+    ]);
+    // Job records don't hand the key back either.
+    h.setGroupLevel('core', 'read');
+    const jobs = await h.execute(
+      `return await truenas.call('core.get_jobs', [['method', '=', 'pool.dataset.export_key']]);`,
+    );
+    expect(jobs).toMatchObject({ ok: true, value: [{ method: 'pool.dataset.export_key', result: '[REDACTED]' }] });
+    const all = JSON.stringify([results, jobs, h.audit({})]);
+    for (const secret of ['4-fresh-api-key-secret', 'fresh-session-token-secret', 'dataset-key-secret'])
+      expect(all).not.toContain(secret);
+  });
+
+  it('keeps a positional password out of the approval and the audit log, via core', async () => {
+    h.setOperationLevel('user.setup_local_administrator', 'ask');
+    const shown: string[] = [];
+    const r = await h.execute(
+      `return await truenas.call('user.setup_local_administrator', 'truenas_admin', 'hunter2-local-secret');`,
+      {
+        onApproval: (a) => {
+          shown.push(a.message);
+          a.approve('truenas_admin');
+        },
+      },
+    );
+    expect(r).toMatchObject({ ok: true, value: { username: 'truenas_admin', configured: true } });
+    // The upstream got the real password; nobody else saw it.
+    expect(fake.calls.at(-1)).toEqual({
+      method: 'user.setup_local_administrator',
+      params: ['truenas_admin', 'hunter2-local-secret'],
+    });
+    const audit = h.audit({ operationKey: 'user.setup_local_administrator' }).filter((a) => a.kind === 'call');
+    expect(audit[0]?.params).toEqual(['truenas_admin', '[REDACTED]']);
+    expect(JSON.stringify([shown, audit])).not.toContain('hunter2-local-secret');
+  });
+
+  it('keeps a cloud credential key out of results and the audit log', async () => {
+    h.setOperationLevel('cloudsync.credentials.query', 'read');
+    const q = await h.execute(`return await truenas.call('cloudsync.credentials.query');`);
+    expect(JSON.stringify(q)).not.toContain('b2-application-key-secret');
+    h.setOperationLevel('cloudsync.credentials.create', 'write');
+    const r = await h.execute(
+      `return await truenas.call('cloudsync.credentials.create', { name: 'b2', provider: { type: 'B2', account: 'a', key: 'b2-new-key-secret' } });`,
+    );
+    expect(r).toMatchObject({ ok: true });
+    expect(JSON.stringify(r)).not.toContain('b2-new-key-secret');
+    expect(fake.calls.at(-1)?.params).toEqual([
+      { name: 'b2', provider: { type: 'B2', account: 'a', key: 'b2-new-key-secret' } },
+    ]);
+    const audit = h.audit({ operationKey: 'cloudsync.credentials.create' }).filter((a) => a.kind === 'call');
+    expect(JSON.stringify(audit)).not.toContain('b2-new-key-secret');
   });
 
   it('reports a TrueNAS permission denial as UPSTREAM_DENIED', async () => {

@@ -191,6 +191,22 @@ describe('Seerr plugin', () => {
       expect(await key(body), JSON.stringify(body)).toBe('POST /settings/jellyfin/sync');
   });
 
+  it('keeps the library GETs on their locked key whatever the query, and says what they do', async () => {
+    const { plugin } = await setup();
+    for (const server of ['plex', 'jellyfin']) {
+      const base = `GET /settings/${server}/library`;
+      for (const query of [undefined, { enable: '1,2' }, { Enable: '1' }, { 'enable[]': '1' }, { sync: 'true' }])
+        expect(
+          (await resolve(plugin, { method: 'GET', path: `/settings/${server}/library`, ...(query ? { query } : {}) }))
+            .key,
+          JSON.stringify(query),
+        ).toBe(base);
+    }
+    const summary = await plugin.summarize({ key: 'GET /settings/plex/library', params: {}, targets: [] });
+    expect(summary.text).toContain('libraries not listed in `enable` are disabled');
+    expect(summary.confirmLiteral).toBeTruthy();
+  });
+
   it('locks running a full scan, or any heavy or unknown job, through the jobs endpoint', async () => {
     const { plugin } = await setup();
     const key = async (jobId: string) =>

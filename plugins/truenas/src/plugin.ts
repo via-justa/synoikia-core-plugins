@@ -1,6 +1,6 @@
 import { ErrorCodes, PluginError } from '@synoikia/plugin-sdk';
 import type { InitParams, PluginHandlers } from '@synoikia/plugin-sdk';
-import { buildCatalog, needsPoolRootKey, POOL_ROOT_SPLIT, POOL_ROOT_SUFFIX } from './catalog.js';
+import { buildCatalog, isLocked, needsPoolRootKey, POOL_ROOT_SPLIT, POOL_ROOT_SUFFIX } from './catalog.js';
 import type { Catalog, MethodInfo } from './catalog.js';
 import { TrueNasClient } from './client.js';
 
@@ -51,6 +51,11 @@ export function createTrueNasPlugin(): PluginHandlers {
       case 'pool.dataset.delete':
       case 'pool.dataset.change_key':
       case 'disk.wipe':
+      case 'pool.dataset.export_key':
+      case 'app.delete':
+      case 'docker.delete_backup':
+      case 'user.renew_2fa_secret':
+      case 'user.setup_local_administrator':
         return stringOr(first(params));
       case 'pool.export':
         return lookup('pool.get_instance', first(params), 'name');
@@ -58,20 +63,28 @@ export function createTrueNasPlugin(): PluginHandlers {
         return lookup('user.get_instance', first(params), 'username');
       case 'user.set_password':
         return stringOr(field(first(params), 'username'));
-      case 'system.reboot':
-      case 'system.shutdown':
-      case 'config.reset': {
-        try {
-          const host = field(await connected().call('system.info', [], 10_000), 'hostname');
-          if (typeof host === 'string' && host) return host;
-        } catch {
-          // fall through
-        }
-        return key;
-      }
+      case 'api_key.create':
+        // What the key can do comes from the user it acts as, not from its (model-chosen) name.
+        return stringOr(field(first(params), 'username')) ?? hostname(key);
+      case 'api_key.update':
+      case 'api_key.delete':
+        return lookup('api_key.get_instance', first(params), 'name');
       default:
-        return undefined;
+        // Every other locked method (reboot, shutdown, config reset, the rest of api_key.*, …)
+        // confirms against the system it acts on.
+        return isLocked(key) ? hostname(key) : undefined;
     }
+  };
+
+  /** The system's hostname, or `fallback` if it can't be read. */
+  const hostname = async (fallback: string): Promise<string> => {
+    try {
+      const host = field(await connected().call('system.info', [], 10_000), 'hostname');
+      if (typeof host === 'string' && host) return host;
+    } catch {
+      // fall through
+    }
+    return fallback;
   };
 
   return {
@@ -120,7 +133,10 @@ export function createTrueNasPlugin(): PluginHandlers {
 
     async summarize({ key, params }) {
       const method = baseMethod(key);
-      const args = JSON.stringify(Array.isArray(params) ? params : [params]).slice(1, -1);
+      const list = Array.isArray(params) ? [...params] : [params];
+      // Core also redacts these (`sensitiveParams`); masking here keeps the summary text clean on its own.
+      for (const i of POSITIONAL_SECRETS[method] ?? []) if (list[i] !== undefined) list[i] = '[REDACTED]';
+      const args = JSON.stringify(maskKeyParams(method, list)).slice(1, -1);
       const text = `TrueNAS ${method}(${args.length > MAX_SUMMARY_PARAMS ? `${args.slice(0, MAX_SUMMARY_PARAMS)}…` : args})${
         key.endsWith(POOL_ROOT_SUFFIX) ? ' at the root of a pool' : ''
       }`;
@@ -136,7 +152,7 @@ export function createTrueNasPlugin(): PluginHandlers {
       const result = known.jobs.has(method)
         ? await connected().callJob(method, args, timeout)
         : await connected().call(method, args, timeout);
-      return method.startsWith('kerberos.keytab.') ? maskKeytabs(result) : result;
+      return maskSecrets(method, result);
     },
 
     async optionsFor({ source, query }) {
@@ -157,16 +173,115 @@ export function createTrueNasPlugin(): PluginHandlers {
   };
 }
 
+/** Positional params that hold a secret, by method (core can't see a key name for them). */
+const POSITIONAL_SECRETS: Record<string, number[]> = {
+  'user.setup_local_administrator': [1],
+};
+
+/** Methods whose whole result is a secret string (a token, an encryption key, a 2FA seed). */
+const SECRET_RESULTS = new Set([
+  'auth.generate_token',
+  'auth.generate_onetime_password',
+  'pool.dataset.export_key',
+  'user.provisioning_uri',
+]);
+
+/** Which result field holds a secret, by method: the key is too common to add to `sensitiveKeys`. */
+function secretField(method: string): string | null {
+  if (method.startsWith('kerberos.keytab.')) return 'file';
+  if (method.startsWith('api_key.') || method.startsWith('pool.dataset.') || method === 'pool.create') return 'key';
+  return null;
+}
+
 /**
- * Keytab rows carry the keytab itself under `file`. Core redacts by key name, and `file` is too
- * common to add to `sensitiveKeys` (it would hide ordinary paths), so it is masked here.
+ * Secrets in results that core can't recognize by key name, because the key is too common to add to
+ * `sensitiveKeys` (it would hide ordinary values) or there is no key at all:
+ * - keytab rows carry the keytab under `file`;
+ * - `api_key.*` returns a new or reset key under `key`, and dataset and pool results an encryption key;
+ * - some methods return the secret itself as a bare string (`SECRET_RESULTS`).
  */
-function maskKeytabs(result: unknown): unknown {
+function maskSecrets(method: string, result: unknown): unknown {
+  // Job records keep each job's arguments and result: mask them by the job's own method, so a secret
+  // a call never returned directly can't be read back later through `core.get_jobs`.
+  if (method === 'core.get_jobs' && Array.isArray(result)) {
+    return result.map((row) => {
+      if (!row || typeof row !== 'object' || Array.isArray(row)) return row;
+      const r = row as Record<string, unknown>;
+      const m = typeof r.method === 'string' ? r.method : '';
+      return {
+        ...r,
+        ...('result' in r ? { result: maskSecrets(m, r.result) } : {}),
+        ...('arguments' in r ? { arguments: maskKeyParams(m, r.arguments) } : {}),
+      };
+    });
+  }
+  if (SECRET_RESULTS.has(method)) return typeof result === 'string' && result ? '[REDACTED]' : result;
+  // Cloud credentials nest their secret under `key` (in `provider`, `attributes` or an embedded
+  // `credentials` object), at any depth: mask every string `key` in these results.
+  if (method.startsWith('cloudsync.') || method.startsWith('cloud_backup.')) return maskKeysDeep(result);
+  const field = secretField(method);
+  if (!field) return result;
   const mask = (row: unknown) =>
-    row && typeof row === 'object' && !Array.isArray(row) && (row as Record<string, unknown>).file
-      ? { ...row, file: '[REDACTED]' }
+    row && typeof row === 'object' && !Array.isArray(row) && typeof (row as Record<string, unknown>)[field] === 'string'
+      ? { ...row, [field]: '[REDACTED]' }
       : row;
   return Array.isArray(result) ? result.map(mask) : mask(result);
+}
+
+/**
+ * Encryption keys passed as params (`encryption_options.key`, `datasets[].key`, `change_key`'s `key`)
+ * sit under the common name `key`, which core can't redact by name: masked in summaries and job
+ * records here; core also keeps them out of approvals and the audit log through `sensitiveParams`.
+ * This also covers the unlock datasets beyond the 32 declared paths, in the summary text.
+ */
+function maskKeyParams(method: string, value: unknown): unknown {
+  const keyed =
+    method.startsWith('pool.dataset.') || method === 'pool.create' || method.startsWith('cloudsync.credentials.');
+  if (!keyed) return value;
+  return maskKeysDeep(value, method === 'pool.dataset.create' || method === 'pool.dataset.update');
+}
+
+/** Dataset user properties (`[{ key, value }]`): `key` is the property's name, not a secret. */
+const USER_PROPERTY_LISTS = new Set(['user_properties', 'user_properties_update']);
+
+/**
+ * Replaces every non-empty string under a `key` property with `[REDACTED]`, on a copy. With
+ * `keepPropertyNames` (dataset create/update params only), the `key` of each item in a user property
+ * list is kept so the approver sees which property changes; everything else in it is still walked.
+ */
+function maskKeysDeep(value: unknown, keepPropertyNames = false): unknown {
+  const walk = (v: unknown, depth: number): unknown => {
+    if (depth > 8 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => walk(x, depth + 1));
+    return copy(v as Record<string, unknown>, depth, (k, x) =>
+      k === 'key' && typeof x === 'string' && x ? '[REDACTED]' : walk(x, depth + 1),
+    );
+  };
+  const copy = (
+    v: Record<string, unknown>,
+    depth: number,
+    each: (k: string, x: unknown) => unknown,
+  ): Record<string, unknown> => {
+    const out: Record<string, unknown> = {};
+    for (const [k, x] of Object.entries(v))
+      Object.defineProperty(out, k, {
+        value:
+          keepPropertyNames && USER_PROPERTY_LISTS.has(k) && Array.isArray(x)
+            ? x.map((item) =>
+                item && typeof item === 'object' && !Array.isArray(item)
+                  ? copy(item as Record<string, unknown>, depth + 2, (ik, ix) =>
+                      ik === 'key' ? ix : walk(ix, depth + 3),
+                    )
+                  : walk(item, depth + 2),
+              )
+            : each(k, x),
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
+    return out;
+  };
+  return walk(value, 0);
 }
 
 function stringOr(value: unknown): string | undefined {

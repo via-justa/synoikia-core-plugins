@@ -1,6 +1,7 @@
 import { OperationDescriptorSchema } from '@synoikia/plugin-sdk';
 import { describe, expect, it } from 'vitest';
 import {
+  actionText,
   buildCatalog,
   classify,
   fillTemplate,
@@ -12,6 +13,7 @@ import {
   REVIEWED_READS,
   SpecError,
 } from '../src/catalog.js';
+import type { OpenApiOperation } from '../src/catalog.js';
 import { SPEC_TEXT } from './fake-seerr.js';
 
 const catalog = buildCatalog(SPEC_TEXT);
@@ -53,13 +55,21 @@ describe('classify (SR §2.3, §7 phase 1)', () => {
   });
 });
 
+describe('library GETs that write (Seerr 3.x)', () => {
+  it('locks both, so no call to them runs as a read', () => {
+    for (const key of ['GET /settings/plex/library', 'GET /settings/jellyfin/library'])
+      expect(op(key)).toMatchObject({ classification: 'write', locked: true, typedConfirmation: true });
+  });
+});
+
 describe('GET-as-action regression (SR §9)', () => {
   const spec = parseSpec(SPEC_TEXT) as {
-    paths: Record<string, Record<string, { summary?: string; description?: string }>>;
+    paths: Record<string, Record<string, OpenApiOperation> & { parameters?: unknown[] }>;
   };
+  // Summary, description and query parameter descriptions, as the catalog reads them.
   const flagged = Object.entries(spec.paths)
     .flatMap(([path, item]) =>
-      item.get ? [[`GET ${path}`, `${item.get.summary ?? ''} ${item.get.description ?? ''}`] as const] : [],
+      item.get ? [[`GET ${path}`, actionText(spec, item.parameters ?? [], item.get)] as const] : [],
     )
     .filter(([key, text]) => looksLikeAction(key, text))
     .map(([key]) => key)
@@ -67,7 +77,12 @@ describe('GET-as-action regression (SR §9)', () => {
 
   it('flags exactly the reviewed list in the pinned spec', () => {
     // A new entry here means Seerr shipped an action-shaped GET: review it, then add it to LOCKED or REVIEWED_READS.
-    expect(flagged).toEqual(['GET /settings/discover/reset', 'GET /settings/jellyfin/sync']);
+    expect(flagged).toEqual([
+      'GET /settings/discover/reset',
+      'GET /settings/jellyfin/library',
+      'GET /settings/jellyfin/sync',
+      'GET /settings/plex/library',
+    ]);
   });
 
   it('has a locked or reviewed decision for every flagged GET', () => {

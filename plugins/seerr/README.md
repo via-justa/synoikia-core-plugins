@@ -37,16 +37,17 @@ return await seerr.request({ method: 'POST', path: '/request', body: { mediaType
 
 ## Classification
 
-Every operation is classified when the catalog syncs. Admins can override a classification, except on locked operations.
+Every operation is classified when the catalog syncs, by its HTTP method: `GET` is a read, everything else a write. Admins can't change it. The locked list always wins, and a `GET` that acts is a write until reviewed (below).
 
 - **Locked** (always a human, with a name typed back; never pre-approved):
   - `DELETE /user/{userId}` (type the user's email), `PUT /user` (batch permission changes);
   - `DELETE /settings/radarr/{radarrId}` and `/sonarr/{sonarrId}` (the instance name), `DELETE /settings/discover/{sliderId}` (the slider title);
   - `POST /settings/initialize`, `POST /settings/main/regenerate`, `GET /settings/discover/reset` (the application title);
   - approving or declining a request **someone else filed** (`POST /request/{requestId}/{status}#on-behalf`, the requester's name). If the requester can't be checked, the call counts as someone else's;
+  - `GET /settings/plex/library` and `GET /settings/jellyfin/library` (the application title): Seerr 3.0 to 3.4.1 saves the enabled-library list on every call, so a call without `enable` disables every library. From 3.5.0 these are plain reads (libraries are switched with `PUT /settings/{plex,jellyfin}/library/{id}`, an ordinary write); they stay locked there too, which only over-locks;
   - starting a full Plex or Jellyfin library scan: `POST /settings/{plex,jellyfin}/sync#start` whenever `start` could be truthy (the application title), and `POST /settings/jobs/{jobId}/run#start` for any scheduled job not on the known-cheap list: the full scans, `availability-sync`, `download-sync-reset`, `process-blocklisted-tags` and any unknown job (the job id). Cheap jobs (recently added scans, Radarr/Sonarr scans, watchlist sync, download sync, token refresh, image cache cleanup) use the ordinary key.
 - **By verb:** `GET` is a read; `POST`, `PUT`, `PATCH` and `DELETE` are writes.
-- **GET as action:** a `GET` whose summary reads like an action (reset, regenerate, sync, flush, run, cancel, invoke) is flagged for review and counts as a write until reviewed here. The flagged list for the pinned spec is a regression test.
+- **GET as action:** a `GET` whose summary, description or query parameters read like an action (reset, regenerate, sync, flush, run, cancel, invoke) is a write flagged for review until it is reviewed here: a real read goes on the reviewed list, one that changes something on the locked list (or gets a locked split key when only some calls change something). The flagged list for the pinned spec is a regression test.
 
 Access groups are the first OpenAPI tag (`request`, `settings`, `users`, `search`, …). New groups start at Read.
 

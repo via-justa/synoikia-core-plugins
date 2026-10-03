@@ -71,11 +71,26 @@ describe('Seerr plugin end to end (fake Seerr)', () => {
         [{ name: 'Radarr 4K', apiKey: '[REDACTED]' }],
       ],
     });
+    // At Read a group's writes are off (new groups start at Ask in newer core).
+    h.setGroupLevel('request', 'read');
     await expect(
       h.execute(
         `return await seerr.request({ method: 'POST', path: '/request', body: { mediaType: 'movie', mediaId: 1 } });`,
       ),
     ).resolves.toMatchObject({ ok: false, error: { code: 'OPERATION_DISABLED' } });
+  });
+
+  it('never runs the library GETs as reads: they save the enabled-library list', async () => {
+    h.setGroupLevel('settings', 'read');
+    expect(h.operation('GET /settings/plex/library')).toMatchObject({ locked: true, classification: 'write' });
+    for (const call of [
+      `seerr.request({ method: 'GET', path: '/settings/plex/library' })`,
+      `seerr.request({ method: 'GET', path: '/settings/jellyfin/library', query: { Enable: '1' } })`,
+    ])
+      await expect(h.execute(`return await ${call};`)).resolves.toMatchObject({
+        ok: false,
+        error: { code: 'OPERATION_DISABLED' },
+      });
   });
 
   it('asks for a media request at Ask and runs it once a human approves', async () => {

@@ -96,6 +96,15 @@ describe('TrueNAS plugin', () => {
     expect(await literal('user.set_password', { username: 'bob', new_password: '[REDACTED]' })).toBe('bob');
     expect(await literal('disk.wipe', 'sda', 'QUICK')).toBe('sda');
     expect(await literal('system.reboot')).toBe('nas01');
+    expect(await literal('pool.dataset.export_key', 'tank/secure')).toBe('tank/secure');
+    expect(await literal('app.delete', 'plex', { remove_images: true })).toBe('plex');
+    // The user the key acts as, not its model-chosen name; without one, the hostname.
+    expect(await literal('api_key.create', { name: 'read-only-viewer', username: 'root' })).toBe('root');
+    expect(await literal('api_key.create', { name: 'ci' })).toBe('nas01');
+    expect(await literal('api_key.delete', 3)).toBe('backup-bot');
+    expect(await literal('api_key.query')).toBe('nas01');
+    expect(await literal('auth.generate_token')).toBe('nas01');
+    expect(await literal('auth.generate_onetime_password')).toBe('nas01');
     expect(await literal('filesystem.chown', { path: '/mnt/tank', uid: 0 })).toBe('/mnt/tank');
     expect(await literal('pool.dataset.create', { name: 'tank/x' })).toBeUndefined();
     const summary = await plugin.summarize({ key: 'pool.dataset.create', params: [{ name: 'tank/x' }], targets: [] });
@@ -114,6 +123,66 @@ describe('TrueNAS plugin', () => {
     // The #pool-root key calls the real method.
     await invoke(plugin, 'filesystem.setacl#pool-root', [{ path: '/mnt/tank' }]);
     expect(fake.calls.at(-1)).toEqual({ method: 'filesystem.setacl', params: [{ path: '/mnt/tank' }] });
+  });
+
+  it('masks new API keys and tokens, and keeps positional passwords out of summaries', async () => {
+    const { plugin } = await setup();
+    await plugin.syncCatalog();
+    expect(await invoke(plugin, 'api_key.create', [{ name: 'ci', username: 'root' }])).toEqual({
+      id: 4,
+      name: 'ci',
+      key: '[REDACTED]',
+    });
+    expect(await invoke(plugin, 'auth.generate_token', [])).toBe('[REDACTED]');
+    expect(await invoke(plugin, 'pool.dataset.export_key', ['tank/secure'])).toBe('[REDACTED]');
+    const summary = await plugin.summarize({
+      key: 'user.setup_local_administrator',
+      params: ['truenas_admin', 'hunter2-secret'],
+      targets: [],
+    });
+    expect(summary.text).not.toContain('hunter2-secret');
+    expect(summary.text).toContain('"truenas_admin","[REDACTED]"');
+    expect(summary.confirmLiteral).toBe('truenas_admin');
+    const create = await plugin.summarize({
+      key: 'pool.dataset.create',
+      params: [{ name: 'tank/secure', encryption_options: { key: 'abcdef0123456789-key-secret' } }],
+      targets: [],
+    });
+    expect(create.text).not.toContain('key-secret');
+    expect(create.text).toContain('"key":"[REDACTED]"');
+    // A dataset user property's `key` is its name, not a secret: create and update keep it.
+    const created = await plugin.summarize({
+      key: 'pool.dataset.create',
+      params: [{ name: 'tank/m', user_properties: [{ key: 'org.example:owner', value: 'alice' }] }],
+      targets: [],
+    });
+    expect(created.text).toContain('org.example:owner');
+    const updated = await plugin.summarize({
+      key: 'pool.dataset.update',
+      params: ['tank/m', { user_properties_update: [{ key: 'org.example:tier', value: 'hot', remove: false }] }],
+      targets: [],
+    });
+    expect(updated.text).toContain('org.example:tier');
+  });
+
+  it('masks cloud credential keys in results and summaries', async () => {
+    const { plugin } = await setup();
+    // A field named like a dataset's user properties doesn't exempt a cloud credential's `key`.
+    const nested = await plugin.summarize({
+      key: 'cloudsync.credentials.create',
+      params: [{ name: 'x', provider: { type: 'S3', user_properties: [{ key: 'nested-key-secret' }] } }],
+      targets: [],
+    });
+    expect(nested.text).not.toContain('nested-key-secret');
+    expect(await invoke(plugin, 'cloudsync.credentials.query', [])).toEqual([
+      { id: 1, name: 'b2', provider: { type: 'B2', account: 'acct-1', key: '[REDACTED]' } },
+    ]);
+    const summary = await plugin.summarize({
+      key: 'cloudsync.credentials.create',
+      params: [{ name: 'b2', provider: { type: 'B2', account: 'acct-1', key: 'b2-application-key-secret' } }],
+      targets: [],
+    });
+    expect(summary.text).not.toContain('b2-application-key-secret');
   });
 
   it('masks the keytab contents, which core cannot recognize by key name', async () => {

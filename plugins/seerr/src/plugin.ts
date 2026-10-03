@@ -12,6 +12,9 @@ import { DEFAULT_SPEC_BASE_URL, fetchSpec } from './spec.js';
  * template (`POST /request/{requestId}/{status}`), and params are `{ path, query, body }`.
  */
 
+/** GETs that save Seerr's enabled-library list (locked; see `LOCKED`). */
+const LIBRARY_GETS = new Set(['GET /settings/plex/library', 'GET /settings/jellyfin/library']);
+
 const MAX_SUMMARY_BODY = 400;
 const LOOKUP_TIMEOUT_MS = 10_000;
 
@@ -223,7 +226,9 @@ export function createSeerrPlugin(): PluginHandlers {
       const body = p.body === undefined ? '' : JSON.stringify(p.body);
       const text = `Seerr ${method} ${path}${queryString(p.query)}${
         body ? ` ${body.length > MAX_SUMMARY_BODY ? `${body.slice(0, MAX_SUMMARY_BODY)}…` : body}` : ''
-      }${key.endsWith('#on-behalf') ? " (another user's request)" : ''}${key.endsWith('#start') ? ' (starts a full library scan or another heavy job)' : ''}`;
+      }${key.endsWith('#on-behalf') ? " (another user's request)" : ''}${key.endsWith('#start') ? ' (starts a full library scan or another heavy job)' : ''}${
+        LIBRARY_GETS.has(key) ? ' (saves the enabled-library list: libraries not listed in `enable` are disabled)' : ''
+      }`;
       const literal = await confirmLiteral(key, p);
       return literal ? { text, confirmLiteral: literal } : { text };
     },

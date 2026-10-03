@@ -42,6 +42,7 @@ export const METHODS: Record<string, MethodInfo> = {
   'pool.dataset.create': {
     description: 'Create a dataset or zvol.',
     accepts: [obj('pool_dataset_create', { name: { type: 'string' }, quota: { type: 'integer' } })],
+    roles: ['DATASET_WRITE'],
   },
   'pool.dataset.delete': {
     description: 'Delete a dataset.',
@@ -52,7 +53,15 @@ export const METHODS: Record<string, MethodInfo> = {
     accepts: [{ type: 'string', title: 'id' }],
     job: true,
   },
-  'pool.dataset.details': { description: 'Dataset details.' },
+  'pool.dataset.export_key': {
+    description: 'Export the encryption key of a dataset.',
+    accepts: [{ type: 'string', title: 'id' }],
+    job: true,
+  },
+  'pool.dataset.details': {
+    description: 'Dataset details.',
+    roles: ['DATASET_READ', 'DATASET_WRITE', 'READONLY_ADMIN'],
+  },
   'pool.scrub.run': { description: 'Run a scrub.', accepts: [{ type: 'string', title: 'name' }], job: true },
   'app.query': { description: 'Query apps.', accepts: [{ type: 'array', title: 'filters' }] },
   'app.upgrade': {
@@ -61,6 +70,32 @@ export const METHODS: Record<string, MethodInfo> = {
     job: true,
   },
   'app.available_space': { description: 'Space for apps.' },
+  'app.delete': {
+    description: 'Delete an app.',
+    accepts: [{ type: 'string', title: 'app_name' }, obj('options')],
+    job: true,
+  },
+  'api_key.query': { description: 'Query API keys.' },
+  'api_key.get_instance': { description: 'Get one API key.', accepts: [{ type: 'integer', title: 'id' }] },
+  'api_key.create': {
+    description: 'Create an API key.',
+    accepts: [obj('api_key_create', { name: { type: 'string' }, username: { type: 'string' } })],
+  },
+  'api_key.delete': { description: 'Delete an API key.', accepts: [{ type: 'integer', title: 'id' }] },
+  'auth.generate_token': { description: 'Generate a token.' },
+  'auth.generate_onetime_password': { description: 'Generate a one-time password.' },
+  'cloudsync.credentials.query': { description: 'Query cloud credentials.' },
+  'cloudsync.credentials.create': {
+    description: 'Create cloud credentials.',
+    accepts: [obj('cloudsync_credentials_create', { name: { type: 'string' }, provider: { type: 'object' } })],
+  },
+  'user.setup_local_administrator': {
+    description: 'Set up the local administrator.',
+    accepts: [
+      { type: 'string', title: 'username' },
+      { type: 'string', title: 'password' },
+    ],
+  },
   'disk.query': { description: 'Query disks.' },
   'disk.wipe': {
     description: 'Wipe a disk.',
@@ -195,9 +230,19 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     'disk.query': () => [{ name: 'sda', serial: 'S1' }],
     'user.query': () => [
       { id: 1, username: 'root' },
-      { id: 70, username: 'alice' },
+      { id: 70, username: 'alice', unixhash: '$6$alice-unix-hash', smbhash: 'ALICE-NT-HASH' },
     ],
     'user.get_instance': ([id]) => ({ id, username: id === 70 ? 'alice' : 'root' }),
+    'api_key.get_instance': ([id]) => ({ id, name: 'backup-bot' }),
+    'api_key.create': ([opts]) => ({ id: 4, name: (opts as { name?: string })?.name, key: '4-fresh-api-key-secret' }),
+    'auth.generate_token': () => 'fresh-session-token-secret',
+    'auth.generate_onetime_password': () => 'one-time-password-secret',
+    'cloudsync.credentials.query': () => [
+      { id: 1, name: 'b2', provider: { type: 'B2', account: 'acct-1', key: 'b2-application-key-secret' } },
+    ],
+    'cloudsync.credentials.create': ([opts]) => ({ id: 2, ...(opts as object) }),
+    'user.setup_local_administrator': ([username]) => ({ username, configured: true }),
+    'pool.dataset.export_key': () => job('pool.dataset.export_key', () => 'a1b2c3d4e5f6-dataset-key-secret'),
     'sharing.smb.query': () => [
       { id: 1, name: 'media', path: '/mnt/tank/media', auxsmbconf: '', password: 'share-secret-123' },
     ],
@@ -212,8 +257,9 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     }),
     'kerberos.keytab.query': () => [{ id: 1, name: 'AD_MACHINE_ACCOUNT', file: 'keytab-secret-b64' }],
     'core.get_jobs': ([filters]) => {
-      const id = ((filters as unknown[][])[0] ?? [])[2];
-      const j = jobs.get(Number(id));
+      const [field, , value] = (filters as unknown[][])[0] ?? [];
+      if (field === 'method') return [...jobs.values()].filter((j) => j.method === value);
+      const j = jobs.get(Number(value));
       return j ? [j] : [];
     },
   };

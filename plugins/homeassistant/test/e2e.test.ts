@@ -52,6 +52,8 @@ describe('Home Assistant plugin end to end (fake Home Assistant)', () => {
       ok: true,
       value: [{ entity_id: 'camera.driveway', attributes: { access_token: '[REDACTED]' } }],
     });
+    // At Read a group's writes are off (new groups start at Ask in newer core).
+    h.setGroupLevel('light', 'read');
     await expect(h.execute(`return await ha.call('light.turn_on', { area_id: 'kitchen' });`)).resolves.toMatchObject({
       ok: false,
       error: { code: 'OPERATION_DISABLED' },
