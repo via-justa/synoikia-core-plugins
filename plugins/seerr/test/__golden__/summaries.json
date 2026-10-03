@@ -1,0 +1,187 @@
+{
+  "DELETE /settings/discover/{sliderId}": [
+    {
+      "text": "Seerr DELETE /settings/discover/{sliderId}"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "Seerr DELETE /settings/discover/1"
+    },
+    {
+      "text": "Seerr DELETE /settings/discover/{sliderId} {\"start\":true}"
+    }
+  ],
+  "DELETE /settings/radarr/{radarrId}": [
+    {
+      "text": "Seerr DELETE /settings/radarr/{radarrId}"
+    },
+    {
+      "confirmLiteral": "Radarr 4K",
+      "text": "Seerr DELETE /settings/radarr/0"
+    },
+    {
+      "text": "Seerr DELETE /settings/radarr/{radarrId} {\"start\":true}"
+    }
+  ],
+  "DELETE /settings/sonarr/{sonarrId}": [
+    {
+      "text": "Seerr DELETE /settings/sonarr/{sonarrId}"
+    },
+    {
+      "confirmLiteral": "0",
+      "text": "Seerr DELETE /settings/sonarr/0"
+    },
+    {
+      "text": "Seerr DELETE /settings/sonarr/{sonarrId} {\"start\":true}"
+    }
+  ],
+  "DELETE /user/{userId}": [
+    {
+      "text": "Seerr DELETE /user/{userId}"
+    },
+    {
+      "confirmLiteral": "admin@example.com",
+      "text": "Seerr DELETE /user/1"
+    },
+    {
+      "text": "Seerr DELETE /user/{userId} {\"start\":true}"
+    }
+  ],
+  "GET /settings/discover/reset": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/discover/reset"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/discover/reset"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/discover/reset {\"start\":true}"
+    }
+  ],
+  "GET /settings/jellyfin/library": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/jellyfin/library (saves the enabled-library list: libraries not listed in `enable` are disabled)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/jellyfin/library (saves the enabled-library list: libraries not listed in `enable` are disabled)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/jellyfin/library {\"start\":true} (saves the enabled-library list: libraries not listed in `enable` are disabled)"
+    }
+  ],
+  "GET /settings/plex/library": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/plex/library (saves the enabled-library list: libraries not listed in `enable` are disabled)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/plex/library (saves the enabled-library list: libraries not listed in `enable` are disabled)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr GET /settings/plex/library {\"start\":true} (saves the enabled-library list: libraries not listed in `enable` are disabled)"
+    }
+  ],
+  "POST /request/{requestId}/{status}#on-behalf": [
+    {
+      "text": "Seerr POST /request/{requestId}/{status} (another user's request)"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "Seerr POST /request/{requestId}/{status} (another user's request)"
+    },
+    {
+      "confirmLiteral": "2",
+      "text": "Seerr POST /request/2/approve {\"start\":true} (another user's request)"
+    }
+  ],
+  "POST /settings/initialize": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/initialize"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/initialize"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/initialize {\"start\":true}"
+    }
+  ],
+  "POST /settings/jellyfin/sync#start": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/jellyfin/sync (starts a full library scan or another heavy job)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/jellyfin/sync (starts a full library scan or another heavy job)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/jellyfin/sync {\"start\":true} (starts a full library scan or another heavy job)"
+    }
+  ],
+  "POST /settings/jobs/{jobId}/run#start": [
+    {
+      "text": "Seerr POST /settings/jobs/{jobId}/run (starts a full library scan or another heavy job)"
+    },
+    {
+      "confirmLiteral": "plex-full-scan",
+      "text": "Seerr POST /settings/jobs/plex-full-scan/run (starts a full library scan or another heavy job)"
+    },
+    {
+      "text": "Seerr POST /settings/jobs/{jobId}/run {\"start\":true} (starts a full library scan or another heavy job)"
+    }
+  ],
+  "POST /settings/main/regenerate": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/main/regenerate"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/main/regenerate"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/main/regenerate {\"start\":true}"
+    }
+  ],
+  "POST /settings/plex/sync#start": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/plex/sync (starts a full library scan or another heavy job)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/plex/sync (starts a full library scan or another heavy job)"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr POST /settings/plex/sync {\"start\":true} (starts a full library scan or another heavy job)"
+    }
+  ],
+  "PUT /user": [
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr PUT /user"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr PUT /user"
+    },
+    {
+      "confirmLiteral": "Home Seerr",
+      "text": "Seerr PUT /user {\"start\":true}"
+    }
+  ]
+}

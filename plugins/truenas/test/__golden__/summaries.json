@@ -1,0 +1,492 @@
+{
+  "api_key.create": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.create()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.create(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.create(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.create(70)"
+    },
+    {
+      "confirmLiteral": "bob",
+      "text": "TrueNAS api_key.create({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.create(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "api_key.delete": [
+    {
+      "text": "TrueNAS api_key.delete()"
+    },
+    {
+      "confirmLiteral": "backup-bot",
+      "text": "TrueNAS api_key.delete(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "backup-bot",
+      "text": "TrueNAS api_key.delete(1)"
+    },
+    {
+      "confirmLiteral": "backup-bot",
+      "text": "TrueNAS api_key.delete(70)"
+    },
+    {
+      "confirmLiteral": "backup-bot",
+      "text": "TrueNAS api_key.delete({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "backup-bot",
+      "text": "TrueNAS api_key.delete(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "api_key.get_instance": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.get_instance()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.get_instance(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.get_instance(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.get_instance(70)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.get_instance({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.get_instance(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "api_key.query": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.query()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.query(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.query(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.query(70)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.query({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS api_key.query(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "app.delete": [
+    {
+      "text": "TrueNAS app.delete()"
+    },
+    {
+      "confirmLiteral": "tank/media",
+      "text": "TrueNAS app.delete(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS app.delete(1)"
+    },
+    {
+      "confirmLiteral": "70",
+      "text": "TrueNAS app.delete(70)"
+    },
+    {
+      "text": "TrueNAS app.delete({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS app.delete(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "auth.generate_onetime_password": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_onetime_password()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_onetime_password(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_onetime_password(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_onetime_password(70)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_onetime_password({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_onetime_password(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "auth.generate_token": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_token()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_token(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_token(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_token(70)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_token({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS auth.generate_token(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "config.reset": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS config.reset()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS config.reset(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS config.reset(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS config.reset(70)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS config.reset({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS config.reset(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "disk.wipe": [
+    {
+      "text": "TrueNAS disk.wipe()"
+    },
+    {
+      "confirmLiteral": "tank/media",
+      "text": "TrueNAS disk.wipe(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS disk.wipe(1)"
+    },
+    {
+      "confirmLiteral": "70",
+      "text": "TrueNAS disk.wipe(70)"
+    },
+    {
+      "text": "TrueNAS disk.wipe({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS disk.wipe(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "filesystem.chown#pool-root": [
+    {
+      "text": "TrueNAS filesystem.chown() at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.chown(\"tank/media\") at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.chown(1) at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.chown(70) at the root of a pool"
+    },
+    {
+      "confirmLiteral": "/mnt/tank",
+      "text": "TrueNAS filesystem.chown({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"}) at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.chown(1,{\"key\":\"secret\"}) at the root of a pool"
+    }
+  ],
+  "filesystem.setacl#pool-root": [
+    {
+      "text": "TrueNAS filesystem.setacl() at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.setacl(\"tank/media\") at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.setacl(1) at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.setacl(70) at the root of a pool"
+    },
+    {
+      "confirmLiteral": "/mnt/tank",
+      "text": "TrueNAS filesystem.setacl({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"}) at the root of a pool"
+    },
+    {
+      "text": "TrueNAS filesystem.setacl(1,{\"key\":\"secret\"}) at the root of a pool"
+    }
+  ],
+  "pool.dataset.change_key": [
+    {
+      "text": "TrueNAS pool.dataset.change_key()"
+    },
+    {
+      "confirmLiteral": "tank/media",
+      "text": "TrueNAS pool.dataset.change_key(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS pool.dataset.change_key(1)"
+    },
+    {
+      "confirmLiteral": "70",
+      "text": "TrueNAS pool.dataset.change_key(70)"
+    },
+    {
+      "text": "TrueNAS pool.dataset.change_key({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS pool.dataset.change_key(1,{\"key\":\"[REDACTED]\"})"
+    }
+  ],
+  "pool.dataset.delete": [
+    {
+      "text": "TrueNAS pool.dataset.delete()"
+    },
+    {
+      "confirmLiteral": "tank/media",
+      "text": "TrueNAS pool.dataset.delete(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS pool.dataset.delete(1)"
+    },
+    {
+      "confirmLiteral": "70",
+      "text": "TrueNAS pool.dataset.delete(70)"
+    },
+    {
+      "text": "TrueNAS pool.dataset.delete({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS pool.dataset.delete(1,{\"key\":\"[REDACTED]\"})"
+    }
+  ],
+  "pool.dataset.export_key": [
+    {
+      "text": "TrueNAS pool.dataset.export_key()"
+    },
+    {
+      "confirmLiteral": "tank/media",
+      "text": "TrueNAS pool.dataset.export_key(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS pool.dataset.export_key(1)"
+    },
+    {
+      "confirmLiteral": "70",
+      "text": "TrueNAS pool.dataset.export_key(70)"
+    },
+    {
+      "text": "TrueNAS pool.dataset.export_key({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS pool.dataset.export_key(1,{\"key\":\"[REDACTED]\"})"
+    }
+  ],
+  "pool.export": [
+    {
+      "text": "TrueNAS pool.export()"
+    },
+    {
+      "confirmLiteral": "tank/media",
+      "text": "TrueNAS pool.export(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "tank",
+      "text": "TrueNAS pool.export(1)"
+    },
+    {
+      "confirmLiteral": "70",
+      "text": "TrueNAS pool.export(70)"
+    },
+    {
+      "confirmLiteral": "[object Object]",
+      "text": "TrueNAS pool.export({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "tank",
+      "text": "TrueNAS pool.export(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "system.reboot": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.reboot()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.reboot(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.reboot(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.reboot(70)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.reboot({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.reboot(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "system.shutdown": [
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.shutdown()"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.shutdown(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.shutdown(1)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.shutdown(70)"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.shutdown({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "nas01",
+      "text": "TrueNAS system.shutdown(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "user.delete": [
+    {
+      "text": "TrueNAS user.delete()"
+    },
+    {
+      "confirmLiteral": "root",
+      "text": "TrueNAS user.delete(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "root",
+      "text": "TrueNAS user.delete(1)"
+    },
+    {
+      "confirmLiteral": "alice",
+      "text": "TrueNAS user.delete(70)"
+    },
+    {
+      "confirmLiteral": "root",
+      "text": "TrueNAS user.delete({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "root",
+      "text": "TrueNAS user.delete(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "user.set_password": [
+    {
+      "text": "TrueNAS user.set_password()"
+    },
+    {
+      "text": "TrueNAS user.set_password(\"tank/media\")"
+    },
+    {
+      "text": "TrueNAS user.set_password(1)"
+    },
+    {
+      "text": "TrueNAS user.set_password(70)"
+    },
+    {
+      "confirmLiteral": "bob",
+      "text": "TrueNAS user.set_password({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "text": "TrueNAS user.set_password(1,{\"key\":\"secret\"})"
+    }
+  ],
+  "user.setup_local_administrator": [
+    {
+      "text": "TrueNAS user.setup_local_administrator()"
+    },
+    {
+      "confirmLiteral": "tank/media",
+      "text": "TrueNAS user.setup_local_administrator(\"tank/media\")"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS user.setup_local_administrator(1)"
+    },
+    {
+      "confirmLiteral": "70",
+      "text": "TrueNAS user.setup_local_administrator(70)"
+    },
+    {
+      "text": "TrueNAS user.setup_local_administrator({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
+    },
+    {
+      "confirmLiteral": "1",
+      "text": "TrueNAS user.setup_local_administrator(1,\"[REDACTED]\")"
+    }
+  ]
+}

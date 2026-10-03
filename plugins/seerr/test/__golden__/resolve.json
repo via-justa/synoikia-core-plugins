@@ -1,0 +1,70 @@
+[
+  {
+    "key": "POST /request/{requestId}/{status}#on-behalf",
+    "params": {
+      "path": {
+        "requestId": "1",
+        "status": "approve"
+      }
+    }
+  },
+  {
+    "key": "POST /request/{requestId}/{status}#on-behalf",
+    "params": {
+      "path": {
+        "requestId": "2",
+        "status": "approve"
+      }
+    }
+  },
+  {
+    "key": "POST /settings/plex/sync#start",
+    "params": {
+      "body": {
+        "start": true
+      }
+    }
+  },
+  {
+    "key": "POST /settings/plex/sync",
+    "params": {
+      "body": {
+        "cancel": true
+      }
+    }
+  },
+  {
+    "key": "POST /settings/jellyfin/sync",
+    "params": {}
+  },
+  {
+    "key": "POST /settings/jobs/{jobId}/run#start",
+    "params": {
+      "path": {
+        "jobId": "plex-full-scan"
+      }
+    }
+  },
+  {
+    "key": "POST /settings/jobs/{jobId}/run",
+    "params": {
+      "path": {
+        "jobId": "radarr-scan"
+      }
+    }
+  },
+  {
+    "key": "POST /request",
+    "params": {
+      "body": {
+        "is4k": false,
+        "mediaId": 1,
+        "mediaType": "movie"
+      }
+    }
+  },
+  {
+    "key": "GET /settings/discover/reset",
+    "params": {}
+  }
+]

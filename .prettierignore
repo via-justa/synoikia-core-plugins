@@ -3,3 +3,4 @@ coverage
 pnpm-lock.yaml
 docs/designs
 docs/mockups
+**/__golden__/

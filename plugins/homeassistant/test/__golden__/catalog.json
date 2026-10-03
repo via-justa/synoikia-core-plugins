@@ -1,0 +1,3560 @@
+[
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "summary": "Disarm"
+    },
+    "group": "alarm_control_panel",
+    "key": "alarm_control_panel.alarm_disarm",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Trigger"
+    },
+    "group": "automation",
+    "key": "automation.trigger",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Set target temperature"
+    },
+    "group": "climate",
+    "key": "climate.set_temperature",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "climate.set_temperature",
+    "paramsSchema": {
+      "properties": {
+        "hvac_mode": {
+          "enum": [
+            "heat",
+            "cool"
+          ]
+        },
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        },
+        "temperature": {
+          "maximum": 35,
+          "minimum": 7,
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Create an area registry entry."
+    },
+    "group": "area",
+    "key": "config/area_registry/create",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Delete an area registry entry."
+    },
+    "group": "area",
+    "key": "config/area_registry/delete",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "area_id": {
+          "description": "The area id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "area_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "The area registry."
+    },
+    "group": "area",
+    "key": "config/area_registry/list",
+    "kind": "ws_command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Update an area registry entry."
+    },
+    "group": "area",
+    "key": "config/area_registry/update",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "area_id": {
+          "description": "The area id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "area_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": true,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Create a automation from a full config. Read its guide with guides.get first."
+    },
+    "group": "automation",
+    "key": "config/automation/config/create",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "config": {
+          "type": "object"
+        },
+        "id": {
+          "description": "automation config id (the \"id\" field); generated when omitted",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Delete a automation."
+    },
+    "group": "automation",
+    "key": "config/automation/config/delete",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "id": {
+          "description": "automation config id (the \"id\" field)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "A automation's config and its config_hash (for config/automation/config/update)."
+    },
+    "group": "automation",
+    "key": "config/automation/config/get",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "id": {
+          "description": "automation config id (the \"id\" field)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": true,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Edit a automation with a JSON Patch against the config_hash read by config/automation/config/get."
+    },
+    "group": "automation",
+    "key": "config/automation/config/update",
+    "kind": "config",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "config_hash": {
+          "description": "From …/get",
+          "type": "string"
+        },
+        "id": {
+          "description": "automation config id (the \"id\" field)",
+          "type": "string"
+        },
+        "patch": {
+          "description": "RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; \"-\" appends to an array.",
+          "items": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "add",
+                  "remove",
+                  "replace",
+                  "test"
+                ]
+              },
+              "path": {
+                "description": "JSON pointer, e.g. /triggers/-",
+                "type": "string"
+              },
+              "value": {}
+            },
+            "required": [
+              "op",
+              "path"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "config_hash",
+        "patch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Create a category registry entry."
+    },
+    "group": "category",
+    "key": "config/category_registry/create",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Delete a category registry entry."
+    },
+    "group": "category",
+    "key": "config/category_registry/delete",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "category_id": {
+          "description": "The category id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "category_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "The category registry."
+    },
+    "group": "category",
+    "key": "config/category_registry/list",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "scope": {
+          "description": "e.g. automation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Update a category registry entry."
+    },
+    "group": "category",
+    "key": "config/category_registry/update",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "category_id": {
+          "description": "The category id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "category_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "The device registry."
+    },
+    "group": "device",
+    "key": "config/device_registry/list",
+    "kind": "ws_command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Update a device registry entry."
+    },
+    "group": "device",
+    "key": "config/device_registry/update",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "device_id": {
+          "description": "The device id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "device_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "The entity registry."
+    },
+    "group": "entity",
+    "key": "config/entity_registry/list",
+    "kind": "ws_command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Remove an entity registry entry."
+    },
+    "group": "entity",
+    "key": "config/entity_registry/remove",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "entity_id": {
+          "description": "The entity id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "entity_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Update an entity registry entry."
+    },
+    "group": "entity",
+    "key": "config/entity_registry/update",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "entity_id": {
+          "description": "The entity id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "entity_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Create a floor registry entry."
+    },
+    "group": "floor",
+    "key": "config/floor_registry/create",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Delete a floor registry entry."
+    },
+    "group": "floor",
+    "key": "config/floor_registry/delete",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "floor_id": {
+          "description": "The floor id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "floor_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "The floor registry."
+    },
+    "group": "floor",
+    "key": "config/floor_registry/list",
+    "kind": "ws_command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Update a floor registry entry."
+    },
+    "group": "floor",
+    "key": "config/floor_registry/update",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "floor_id": {
+          "description": "The floor id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "floor_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Create a label registry entry."
+    },
+    "group": "label",
+    "key": "config/label_registry/create",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Delete a label registry entry."
+    },
+    "group": "label",
+    "key": "config/label_registry/delete",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "label_id": {
+          "description": "The label id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "The label registry."
+    },
+    "group": "label",
+    "key": "config/label_registry/list",
+    "kind": "ws_command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Update a label registry entry."
+    },
+    "group": "label",
+    "key": "config/label_registry/update",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "label_id": {
+          "description": "The label id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label_id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": true,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Create a scene from a full config. Read its guide with guides.get first."
+    },
+    "group": "scene",
+    "key": "config/scene/config/create",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "config": {
+          "type": "object"
+        },
+        "id": {
+          "description": "scene config id (the \"id\" field); generated when omitted",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Delete a scene."
+    },
+    "group": "scene",
+    "key": "config/scene/config/delete",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "id": {
+          "description": "scene config id (the \"id\" field)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "A scene's config and its config_hash (for config/scene/config/update)."
+    },
+    "group": "scene",
+    "key": "config/scene/config/get",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "id": {
+          "description": "scene config id (the \"id\" field)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": true,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Edit a scene with a JSON Patch against the config_hash read by config/scene/config/get."
+    },
+    "group": "scene",
+    "key": "config/scene/config/update",
+    "kind": "config",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "config_hash": {
+          "description": "From …/get",
+          "type": "string"
+        },
+        "id": {
+          "description": "scene config id (the \"id\" field)",
+          "type": "string"
+        },
+        "patch": {
+          "description": "RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; \"-\" appends to an array.",
+          "items": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "add",
+                  "remove",
+                  "replace",
+                  "test"
+                ]
+              },
+              "path": {
+                "description": "JSON pointer, e.g. /triggers/-",
+                "type": "string"
+              },
+              "value": {}
+            },
+            "required": [
+              "op",
+              "path"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "config_hash",
+        "patch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": true,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Create a script from a full config. Read its guide with guides.get first."
+    },
+    "group": "script",
+    "key": "config/script/config/create",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "config": {
+          "type": "object"
+        },
+        "id": {
+          "description": "Script object id (script.<id>); generated when omitted",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "docs": {
+      "summary": "Delete a script."
+    },
+    "group": "script",
+    "key": "config/script/config/delete",
+    "kind": "ws_command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "id": {
+          "description": "Script object id (script.<id>)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "A script's config and its config_hash (for config/script/config/update)."
+    },
+    "group": "script",
+    "key": "config/script/config/get",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "id": {
+          "description": "Script object id (script.<id>)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": true,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Edit a script with a JSON Patch against the config_hash read by config/script/config/get."
+    },
+    "group": "script",
+    "key": "config/script/config/update",
+    "kind": "config",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "config_hash": {
+          "description": "From …/get",
+          "type": "string"
+        },
+        "id": {
+          "description": "Script object id (script.<id>)",
+          "type": "string"
+        },
+        "patch": {
+          "description": "RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; \"-\" appends to an array.",
+          "items": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "add",
+                  "remove",
+                  "replace",
+                  "test"
+                ]
+              },
+              "path": {
+                "description": "JSON pointer, e.g. /triggers/-",
+                "type": "string"
+              },
+              "value": {}
+            },
+            "required": [
+              "op",
+              "path"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "config_hash",
+        "patch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Close"
+    },
+    "group": "cover",
+    "key": "cover.close_cover",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Open"
+    },
+    "group": "cover",
+    "key": "cover.open_cover",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "cover.open_cover on a garage door or gate: locked.",
+      "summary": "Open"
+    },
+    "group": "cover",
+    "key": "cover.open_cover#garage",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Set position"
+    },
+    "group": "cover",
+    "key": "cover.set_cover_position",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "position": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "position"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "cover.set_cover_position on a garage door or gate: locked.",
+      "summary": "Set position"
+    },
+    "group": "cover",
+    "key": "cover.set_cover_position#garage",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "position": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "position"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Toggle"
+    },
+    "group": "cover",
+    "key": "cover.toggle",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "cover.toggle on a garage door or gate: locked.",
+      "summary": "Toggle"
+    },
+    "group": "cover",
+    "key": "cover.toggle#garage",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "Core configuration: version, location, units."
+    },
+    "group": "system",
+    "key": "get_config",
+    "kind": "ws_command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "Current states. Filter with entity_id, domain or area rather than reading everything."
+    },
+    "group": "states",
+    "key": "get_states",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "area": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Area id(s)"
+        },
+        "domain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Domain(s), e.g. light"
+        },
+        "entity_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Entity id(s)"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "State history of some entities over a period."
+    },
+    "group": "history",
+    "key": "history/history_during_period",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "end_time": {
+          "description": "ISO 8601",
+          "type": "string"
+        },
+        "entity_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "minimal_response": {
+          "type": "boolean"
+        },
+        "no_attributes": {
+          "type": "boolean"
+        },
+        "significant_changes_only": {
+          "type": "boolean"
+        },
+        "start_time": {
+          "description": "ISO 8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start_time",
+        "entity_ids"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "summary": "Restart"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.restart",
+    "kind": "service",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "summary": "Stop"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.stop",
+    "kind": "service",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Generic toggle"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.toggle",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "homeassistant.toggle on a lock, an alarm panel, or a garage door or gate: locked.",
+      "summary": "Generic toggle"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.toggle#protected",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Generic turn off"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.turn_off",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "homeassistant.turn_off on a lock, an alarm panel, or a garage door or gate: locked.",
+      "summary": "Generic turn off"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.turn_off#protected",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Generic turn on"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.turn_on",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "homeassistant.turn_on on a lock, an alarm panel, or a garage door or gate: locked.",
+      "summary": "Generic turn on"
+    },
+    "group": "homeassistant",
+    "key": "homeassistant.turn_on#protected",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Turn off"
+    },
+    "group": "light",
+    "key": "light.turn_off",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Turn on: Turns on one or more lights."
+    },
+    "group": "light",
+    "key": "light.turn_on",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "brightness": {
+          "description": "Brightness",
+          "maximum": 255,
+          "minimum": 0,
+          "type": "number"
+        },
+        "flash": {
+          "enum": [
+            "short",
+            "long"
+          ]
+        },
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Lock"
+    },
+    "group": "lock",
+    "key": "lock.lock",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "summary": "Unlock"
+    },
+    "group": "lock",
+    "key": "lock.unlock",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "Logbook events over a period."
+    },
+    "group": "logbook",
+    "key": "logbook/get_events",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "end_time": {
+          "description": "ISO 8601",
+          "type": "string"
+        },
+        "entity_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "start_time": {
+          "description": "ISO 8601",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start_time"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "A dashboard config and its config_hash (for lovelace/config/save)."
+    },
+    "group": "dashboard",
+    "key": "lovelace/config",
+    "kind": "ws_command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "url_path": {
+          "description": "Dashboard url_path; omit for the default dashboard",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "docs": {
+      "summary": "Edit a dashboard with a JSON Patch against the config_hash read by lovelace/config."
+    },
+    "group": "dashboard",
+    "key": "lovelace/config/save",
+    "kind": "config",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "config_hash": {
+          "description": "From lovelace/config",
+          "type": "string"
+        },
+        "patch": {
+          "description": "RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; \"-\" appends to an array.",
+          "items": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "add",
+                  "remove",
+                  "replace",
+                  "test"
+                ]
+              },
+              "path": {
+                "description": "JSON pointer, e.g. /triggers/-",
+                "type": "string"
+              },
+              "value": {}
+            },
+            "required": [
+              "op",
+              "path"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "url_path": {
+          "description": "Dashboard url_path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config_hash",
+        "patch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "docs": {
+      "summary": "Dashboards."
+    },
+    "group": "dashboard",
+    "key": "lovelace/dashboards/list",
+    "kind": "ws_command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Apply"
+    },
+    "group": "scene",
+    "key": "scene.apply",
+    "kind": "service",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "entities": {},
+        "transition": {}
+      },
+      "required": [
+        "entities"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "scene.apply on a lock, an alarm panel, or a garage door or gate: locked.",
+      "summary": "Apply"
+    },
+    "group": "scene",
+    "key": "scene.apply#protected",
+    "kind": "service",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "entities": {},
+        "transition": {}
+      },
+      "required": [
+        "entities"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Activate"
+    },
+    "group": "scene",
+    "key": "scene.turn_on",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "docs": {
+      "description": "scene.turn_on on a lock, an alarm panel, or a garage door or gate: locked.",
+      "summary": "Activate"
+    },
+    "group": "scene",
+    "key": "scene.turn_on#protected",
+    "kind": "service",
+    "locked": true,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Snapshot"
+    },
+    "group": "sonos",
+    "key": "sonos.snapshot",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Turn on"
+    },
+    "group": "switch",
+    "key": "switch.turn_on",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "docs": {
+      "summary": "Get forecasts"
+    },
+    "group": "weather",
+    "key": "weather.get_forecasts",
+    "kind": "service",
+    "locked": false,
+    "matchProfile": "targets",
+    "paramsSchema": {
+      "properties": {
+        "target": {
+          "description": "What to act on. entity_id, area_id, device_id, floor_id and label_id may also be given at the top level.",
+          "properties": {
+            "area_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Area id(s)"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Device id(s)"
+            },
+            "entity_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Entity id(s)"
+            },
+            "floor_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Floor id(s)"
+            },
+            "label_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ],
+              "description": "Label id(s)"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  }
+]

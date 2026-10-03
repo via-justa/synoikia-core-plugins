@@ -1,0 +1,36 @@
+{
+  "api_key.create": {
+    "id": 4,
+    "key": "[REDACTED]"
+  },
+  "auth.generate_token": "[REDACTED]",
+  "cloudsync.credentials.query": [
+    {
+      "id": 1,
+      "name": "b2",
+      "provider": {
+        "account": "acct-1",
+        "key": "[REDACTED]",
+        "type": "B2"
+      }
+    }
+  ],
+  "core.get_jobs": {
+    "error": "core.get_jobs: TypeError: Cannot read properties of undefined (reading '0')"
+  },
+  "kerberos.keytab.query": [
+    {
+      "file": "[REDACTED]",
+      "id": 1,
+      "name": "AD_MACHINE_ACCOUNT"
+    }
+  ],
+  "pool.dataset.export_key": "[REDACTED]",
+  "pool.query": [
+    {
+      "id": 1,
+      "name": "tank",
+      "status": "ONLINE"
+    }
+  ]
+}
