@@ -216,6 +216,9 @@ function maskSecrets(method: string, result: unknown): unknown {
     });
   }
   if (SECRET_RESULTS.has(method)) return typeof result === 'string' && result ? '[REDACTED]' : result;
+  // Cloud credentials nest their secret under `key` (in `provider`, `attributes` or an embedded
+  // `credentials` object), at any depth: mask every string `key` in these results.
+  if (method.startsWith('cloudsync.') || method.startsWith('cloud_backup.')) return maskKeysDeep(result);
   const field = secretField(method);
   if (!field) return result;
   const mask = (row: unknown) =>
@@ -232,7 +235,13 @@ function maskSecrets(method: string, result: unknown): unknown {
  * `sensitiveParams`. This covers older cores and the unlock datasets beyond the declared paths.
  */
 function maskKeyParams(method: string, value: unknown): unknown {
-  if (!method.startsWith('pool.dataset.') && method !== 'pool.create') return value;
+  const keyed =
+    method.startsWith('pool.dataset.') || method === 'pool.create' || method.startsWith('cloudsync.credentials.');
+  return keyed ? maskKeysDeep(value) : value;
+}
+
+/** Replaces every non-empty string under a `key` property with `[REDACTED]`, on a copy. */
+function maskKeysDeep(value: unknown): unknown {
   const walk = (v: unknown, depth: number): unknown => {
     if (depth > 8 || v === null || typeof v !== 'object') return v;
     if (Array.isArray(v)) return v.map((x) => walk(x, depth + 1));

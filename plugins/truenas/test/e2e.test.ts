@@ -176,6 +176,23 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
     expect(JSON.stringify([shown, audit])).not.toContain('hunter2-local-secret');
   });
 
+  it('keeps a cloud credential key out of results and the audit log', async () => {
+    h.setOperationLevel('cloudsync.credentials.query', 'read');
+    const q = await h.execute(`return await truenas.call('cloudsync.credentials.query');`);
+    expect(JSON.stringify(q)).not.toContain('b2-application-key-secret');
+    h.setOperationLevel('cloudsync.credentials.create', 'write');
+    const r = await h.execute(
+      `return await truenas.call('cloudsync.credentials.create', { name: 'b2', provider: { type: 'B2', account: 'a', key: 'b2-new-key-secret' } });`,
+    );
+    expect(r).toMatchObject({ ok: true });
+    expect(JSON.stringify(r)).not.toContain('b2-new-key-secret');
+    expect(fake.calls.at(-1)?.params).toEqual([
+      { name: 'b2', provider: { type: 'B2', account: 'a', key: 'b2-new-key-secret' } },
+    ]);
+    const audit = h.audit({ operationKey: 'cloudsync.credentials.create' }).filter((a) => a.kind === 'call');
+    expect(JSON.stringify(audit)).not.toContain('b2-new-key-secret');
+  });
+
   it('reports a TrueNAS permission denial as UPSTREAM_DENIED', async () => {
     fake.denied.add('user.query');
     await expect(h.execute(`return await truenas.call('user.query');`)).resolves.toMatchObject({

@@ -185,13 +185,21 @@ export function groupOf(method: string): string {
  * item", so `pool.dataset.unlock` lists the first datasets; the plugin also masks summaries and job
  * records itself.
  */
-const UNLOCK_KEYS = Array.from({ length: 24 }, (_, i) => `/1/datasets/${i}/key`);
+// The SDK allows 32 paths per operation; a wildcard would need a core change.
+const DATASET_KEYS = Array.from({ length: 32 }, (_, i) => `/1/datasets/${i}/key`);
 export const SENSITIVE_PARAMS: Record<string, string[]> = {
   'user.setup_local_administrator': ['/1'],
   'pool.create': ['/0/encryption_options/key'],
   'pool.dataset.create': ['/0/encryption_options/key'],
   'pool.dataset.change_key': ['/1/key'],
-  'pool.dataset.unlock': UNLOCK_KEYS,
+  'pool.dataset.unlock': DATASET_KEYS,
+  'pool.dataset.encryption_summary': DATASET_KEYS,
+  'kerberos.keytab.create': ['/0/file'],
+  'kerberos.keytab.update': ['/1/file'],
+  // B2, Azure Blob and Swift credentials keep their secret under `provider.key`.
+  'cloudsync.credentials.create': ['/0/provider/key'],
+  'cloudsync.credentials.update': ['/1/provider/key'],
+  'cloudsync.credentials.verify': ['/0/key'],
 };
 
 const MATCH_PROFILES: Record<string, string> = {

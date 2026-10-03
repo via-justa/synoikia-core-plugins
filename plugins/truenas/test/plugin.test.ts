@@ -151,6 +151,19 @@ describe('TrueNAS plugin', () => {
     expect(create.text).toContain('"key":"[REDACTED]"');
   });
 
+  it('masks cloud credential keys in results and summaries', async () => {
+    const { plugin } = await setup();
+    expect(await invoke(plugin, 'cloudsync.credentials.query', [])).toEqual([
+      { id: 1, name: 'b2', provider: { type: 'B2', account: 'acct-1', key: '[REDACTED]' } },
+    ]);
+    const summary = await plugin.summarize({
+      key: 'cloudsync.credentials.create',
+      params: [{ name: 'b2', provider: { type: 'B2', account: 'acct-1', key: 'b2-application-key-secret' } }],
+      targets: [],
+    });
+    expect(summary.text).not.toContain('b2-application-key-secret');
+  });
+
   it('masks the keytab contents, which core cannot recognize by key name', async () => {
     const { plugin } = await setup();
     expect(await invoke(plugin, 'kerberos.keytab.query', [])).toEqual([

@@ -83,6 +83,11 @@ export const METHODS: Record<string, MethodInfo> = {
   },
   'api_key.delete': { description: 'Delete an API key.', accepts: [{ type: 'integer', title: 'id' }] },
   'auth.generate_token': { description: 'Generate a token.' },
+  'cloudsync.credentials.query': { description: 'Query cloud credentials.' },
+  'cloudsync.credentials.create': {
+    description: 'Create cloud credentials.',
+    accepts: [obj('cloudsync_credentials_create', { name: { type: 'string' }, provider: { type: 'object' } })],
+  },
   'user.setup_local_administrator': {
     description: 'Set up the local administrator.',
     accepts: [
@@ -230,6 +235,10 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     'api_key.get_instance': ([id]) => ({ id, name: 'backup-bot' }),
     'api_key.create': ([opts]) => ({ id: 4, name: (opts as { name?: string })?.name, key: '4-fresh-api-key-secret' }),
     'auth.generate_token': () => 'fresh-session-token-secret',
+    'cloudsync.credentials.query': () => [
+      { id: 1, name: 'b2', provider: { type: 'B2', account: 'acct-1', key: 'b2-application-key-secret' } },
+    ],
+    'cloudsync.credentials.create': ([opts]) => ({ id: 2, ...(opts as object) }),
     'user.setup_local_administrator': ([username]) => ({ username, configured: true }),
     'pool.dataset.export_key': () => job('pool.dataset.export_key', () => 'a1b2c3d4e5f6-dataset-key-secret'),
     'sharing.smb.query': () => [

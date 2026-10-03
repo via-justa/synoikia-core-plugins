@@ -171,12 +171,19 @@ describe('buildCatalog', () => {
       'user.setup_local_administrator': {},
       'pool.dataset.create': {},
       'pool.dataset.unlock': {},
+      'pool.dataset.encryption_summary': {},
+      'kerberos.keytab.create': {},
+      'cloudsync.credentials.update': {},
       'pool.query': {},
     });
     const find = (k: string) => cat.operations.find((o) => o.key === k);
     expect(find('user.setup_local_administrator')?.sensitiveParams).toEqual(['/1']);
     expect(find('pool.dataset.create')?.sensitiveParams).toEqual(['/0/encryption_options/key']);
-    expect(find('pool.dataset.unlock')?.sensitiveParams).toContain('/1/datasets/0/key');
+    expect(find('pool.dataset.unlock')?.sensitiveParams).toHaveLength(32);
+    expect(find('pool.dataset.unlock')?.sensitiveParams).toContain('/1/datasets/31/key');
+    expect(find('pool.dataset.encryption_summary')?.sensitiveParams).toContain('/1/datasets/0/key');
+    expect(find('kerberos.keytab.create')?.sensitiveParams).toEqual(['/0/file']);
+    expect(find('cloudsync.credentials.update')?.sensitiveParams).toEqual(['/1/provider/key']);
     expect(find('pool.query')?.sensitiveParams).toBeUndefined();
     for (const o of cat.operations) expect(() => OperationDescriptorSchema.parse(o)).not.toThrow();
   });
