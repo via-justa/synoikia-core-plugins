@@ -81,6 +81,9 @@ describe('classify (TN §2.3, §9)', () => {
       'auth.generate_onetime_password',
       'user.renew_2fa_secret',
       'app.redeploy',
+      'auth.terminate_session',
+      'mail.send',
+      'interface.commit',
     ])
       expect(classify(m, ['DATASET_READ', 'READONLY_ADMIN']).classification).toBe('write');
     // An unclear name is settled by a read role; a read-named method stays a read.

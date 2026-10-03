@@ -136,7 +136,7 @@ export function createTrueNasPlugin(): PluginHandlers {
       // Positional secrets have no key name for core to redact by (until the descriptor can declare
       // them as `sensitiveParams`): keep them out of the summary text.
       for (const i of POSITIONAL_SECRETS[method] ?? []) if (list[i] !== undefined) list[i] = '[REDACTED]';
-      const args = JSON.stringify(list).slice(1, -1);
+      const args = JSON.stringify(maskKeyParams(method, list)).slice(1, -1);
       const text = `TrueNAS ${method}(${args.length > MAX_SUMMARY_PARAMS ? `${args.slice(0, MAX_SUMMARY_PARAMS)}…` : args})${
         key.endsWith(POOL_ROOT_SUFFIX) ? ' at the root of a pool' : ''
       }`;
@@ -201,6 +201,20 @@ function secretField(method: string): string | null {
  * - some methods return the secret itself as a bare string (`SECRET_RESULTS`).
  */
 function maskSecrets(method: string, result: unknown): unknown {
+  // Job records keep each job's arguments and result: mask them by the job's own method, so a secret
+  // a call never returned directly can't be read back later through `core.get_jobs`.
+  if (method === 'core.get_jobs' && Array.isArray(result)) {
+    return result.map((row) => {
+      if (!row || typeof row !== 'object' || Array.isArray(row)) return row;
+      const r = row as Record<string, unknown>;
+      const m = typeof r.method === 'string' ? r.method : '';
+      return {
+        ...r,
+        ...('result' in r ? { result: maskSecrets(m, r.result) } : {}),
+        ...('arguments' in r ? { arguments: maskKeyParams(m, r.arguments) } : {}),
+      };
+    });
+  }
   if (SECRET_RESULTS.has(method)) return typeof result === 'string' && result ? '[REDACTED]' : result;
   const field = secretField(method);
   if (!field) return result;
@@ -209,6 +223,29 @@ function maskSecrets(method: string, result: unknown): unknown {
       ? { ...row, [field]: '[REDACTED]' }
       : row;
   return Array.isArray(result) ? result.map(mask) : mask(result);
+}
+
+/**
+ * Encryption keys passed as params (`encryption_options.key`, `datasets[].key`, `change_key`'s `key`)
+ * sit under the common name `key`, which core can't redact by name: masked in summaries and job
+ * records. The audit log needs core's `sensitiveParams`.
+ */
+function maskKeyParams(method: string, value: unknown): unknown {
+  if (!method.startsWith('pool.dataset.') && method !== 'pool.create') return value;
+  const walk = (v: unknown, depth: number): unknown => {
+    if (depth > 8 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => walk(x, depth + 1));
+    const out: Record<string, unknown> = {};
+    for (const [k, x] of Object.entries(v))
+      Object.defineProperty(out, k, {
+        value: k === 'key' && typeof x === 'string' && x ? '[REDACTED]' : walk(x, depth + 1),
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
+    return out;
+  };
+  return walk(value, 0);
 }
 
 function stringOr(value: unknown): string | undefined {

@@ -115,6 +115,16 @@ const WRITE_VERBS = new Set([
   'download',
   'leave',
   'join',
+  'terminate',
+  'send',
+  'test',
+  'commit',
+  'checkin',
+  'enable',
+  'disable',
+  'unset',
+  'cancel',
+  'kill',
 ]);
 
 /** A role that only grants reading: `READONLY_ADMIN` or any `*_READ` role. */

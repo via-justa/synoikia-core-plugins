@@ -141,6 +141,13 @@ describe('TrueNAS plugin', () => {
     expect(summary.text).not.toContain('hunter2-secret');
     expect(summary.text).toContain('"truenas_admin","[REDACTED]"');
     expect(summary.confirmLiteral).toBe('truenas_admin');
+    const create = await plugin.summarize({
+      key: 'pool.dataset.create',
+      params: [{ name: 'tank/secure', encryption_options: { key: 'abcdef0123456789-key-secret' } }],
+      targets: [],
+    });
+    expect(create.text).not.toContain('key-secret');
+    expect(create.text).toContain('"key":"[REDACTED]"');
   });
 
   it('masks the keytab contents, which core cannot recognize by key name', async () => {

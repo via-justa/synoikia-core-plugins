@@ -141,7 +141,13 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
       { ok: true, value: '[REDACTED]' },
       { ok: true, value: '[REDACTED]' },
     ]);
-    const all = JSON.stringify([results, h.audit({})]);
+    // Job records don't hand the key back either.
+    h.setGroupLevel('core', 'read');
+    const jobs = await h.execute(
+      `return await truenas.call('core.get_jobs', [['method', '=', 'pool.dataset.export_key']]);`,
+    );
+    expect(jobs).toMatchObject({ ok: true, value: [{ method: 'pool.dataset.export_key', result: '[REDACTED]' }] });
+    const all = JSON.stringify([results, jobs, h.audit({})]);
     for (const secret of ['4-fresh-api-key-secret', 'fresh-session-token-secret', 'dataset-key-secret'])
       expect(all).not.toContain(secret);
   });

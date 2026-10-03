@@ -56,6 +56,7 @@ export const METHODS: Record<string, MethodInfo> = {
   'pool.dataset.export_key': {
     description: 'Export the encryption key of a dataset.',
     accepts: [{ type: 'string', title: 'id' }],
+    job: true,
   },
   'pool.dataset.details': {
     description: 'Dataset details.',
@@ -229,7 +230,7 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     'api_key.get_instance': ([id]) => ({ id, name: 'backup-bot' }),
     'api_key.create': ([opts]) => ({ id: 4, name: (opts as { name?: string })?.name, key: '4-fresh-api-key-secret' }),
     'auth.generate_token': () => 'fresh-session-token-secret',
-    'pool.dataset.export_key': () => 'a1b2c3d4e5f6-dataset-key-secret',
+    'pool.dataset.export_key': () => job('pool.dataset.export_key', () => 'a1b2c3d4e5f6-dataset-key-secret'),
     'sharing.smb.query': () => [
       { id: 1, name: 'media', path: '/mnt/tank/media', auxsmbconf: '', password: 'share-secret-123' },
     ],
@@ -244,8 +245,9 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     }),
     'kerberos.keytab.query': () => [{ id: 1, name: 'AD_MACHINE_ACCOUNT', file: 'keytab-secret-b64' }],
     'core.get_jobs': ([filters]) => {
-      const id = ((filters as unknown[][])[0] ?? [])[2];
-      const j = jobs.get(Number(id));
+      const [field, , value] = (filters as unknown[][])[0] ?? [];
+      if (field === 'method') return [...jobs.values()].filter((j) => j.method === value);
+      const j = jobs.get(Number(value));
       return j ? [j] : [];
     },
   };
