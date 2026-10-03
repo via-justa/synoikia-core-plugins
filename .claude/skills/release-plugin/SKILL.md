@@ -11,12 +11,12 @@ A release is a version bump merged to `main`. The Release workflow (`.github/wor
 
 1. **Pick the version** with semver against the last release (`git log --oneline -- plugins/<id>` shows what changed):
    - patch: fixes, catalog corrections, wording;
-   - minor: new operations, connection fields or capabilities, compatible with existing instances;
+   - minor: new operations, connection fields or capabilities, compatible with existing instances; also any `plugin.yaml` change that unlocks an operation, drops a `sensitiveParams`/`sensitiveResult` rule or overrides a classification to read (call it out in the PR);
    - major: a change that breaks existing instances, such as a renamed operation key, a removed connection field or a changed binding.
 
-   Released versions are immutable, so never reuse one. If the published index already has the version, `build-repo.mjs` skips the plugin and nothing is released.
+   Released versions are immutable, so never reuse one. If the published index already has the version, `synoikia-plugin repo pack` skips the plugin and nothing is released.
 
-2. **Bump both files to the same version.** `build-repo.mjs` fails the release if they differ.
+2. **Bump both files to the same version.** `synoikia-plugin check` (in the plugin's tests) and `repo pack` fail if they differ.
    - `plugins/<id>/manifest.json` → `version`
    - `plugins/<id>/package.json` → `version`
 
@@ -26,7 +26,7 @@ A release is a version bump merged to `main`. The Release workflow (`.github/wor
    "synoikia": { "minCoreVersion": "0.3.0" }
    ```
 
-   Otherwise the manifest's `sdk` range decides which Synoikia versions can install it. If the plugin now needs a newer SDK, bump the `sdk` range in `manifest.json` and the `@synoikia/plugin-sdk` and `@synoikia/core` ranges in `package.json` together, then run `pnpm install`.
+   Otherwise the manifest's `sdk` range decides which Synoikia versions can install it. If the plugin now needs a newer SDK, bump the `sdk` range in `manifest.json` and the `@synoikia/plugin-sdk`, `@synoikia/core` and `@synoikia/create-plugin` ranges in `package.json` together, then run `pnpm install`.
 
 4. **Verify** that what will be packed builds and passes:
 

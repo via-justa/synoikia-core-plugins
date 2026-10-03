@@ -15,17 +15,17 @@ Each plugin version is a GitHub release, `<id>-v<version>`, holding `<id>-<versi
 
 ## Layout
 
-| Path                     | What                                                                                              |
-| ------------------------ | ------------------------------------------------------------------------------------------------- |
-| `plugins/<id>`           | One package per plugin: `manifest.json`, `src/`, `test/`, bundled to `dist/index.js` with esbuild |
-| `scripts/build-repo.mjs` | Packs, indexes, verifies and publishes plugin releases (see [Releasing](#releasing))              |
-| `docs/`                  | The original per-plugin designs                                                                   |
-| `tsconfig.base.json`     | Shared compiler options; each plugin's `tsconfig.json` extends it                                 |
-| `vitest.shared.ts`       | Shared Vitest config; each plugin's `vitest.config.ts` re-exports it                              |
+| Path                 | What                                                                                                |
+| -------------------- | --------------------------------------------------------------------------------------------------- |
+| `plugins/<id>`       | One package per plugin: `manifest.json`, `plugin.yaml`, `src/`, `test/`, bundled to `dist/index.js` |
+| `docs/`              | The original per-plugin designs                                                                     |
+| `tsconfig.base.json` | Shared compiler options; each plugin's `tsconfig.json` extends it                                   |
+| `vitest.shared.ts`   | Shared Vitest config; each plugin's `vitest.config.ts` re-exports it                                |
 
 Plugins build against Synoikia's published npm packages, the same way a community plugin would:
 
 - `@synoikia/plugin-sdk`: the manifest schema, RPC contract and `runPlugin()` runtime. The bundle includes it.
+- `@synoikia/create-plugin` (dev only): `synoikia-plugin new`, `build`, `check` and the `repo` release steps.
 - `@synoikia/core` (dev only): its `@synoikia/core/testing` export is the plugin harness. It boots the real core on the built bundle, running as a permission-confined child as in production, so each plugin's end-to-end tests run against its own fake upstream.
 
 ## Development
@@ -45,24 +45,19 @@ Work on one plugin with `pnpm --filter ./plugins/<id> test`.
 
 ## Adding a plugin
 
-Create `plugins/<id>/` with:
+```sh
+pnpm new          # asks for an id, a name, an archetype (openapi-rest, static-rest, websocket-rpc, blank) and auth
+```
 
-- `manifest.json`: validated by the SDK's schema. `id` matches the directory name; `entry` is `dist/index.js`.
-- `package.json`: named `@synoikia/plugin-<id>`, `private: true`, depending on `@synoikia/plugin-sdk` and, as a dev dependency, `@synoikia/core`, with these scripts:
+`pnpm new` (`synoikia-plugin new`, also non-interactive with `--id --name --archetype --auth --yes`) writes `plugins/<id>/` with a manifest that already follows the secret rules, a `plugin.yaml`, `src/`, a fake upstream, and conformance and e2e contract tests that pass as generated. Then:
 
-  ```json
-  {
-    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/index.js --log-level=warning --banner:js=\"import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);\"",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm run build && vitest run"
-  }
-  ```
+- describe the upstream's operations in `plugin.yaml`: locks, split twins, classification overrides, `sensitiveParams`, `sensitiveResult`, confirmation literals (reference: [Synoikia's plugin authoring guide](https://github.com/via-justa/synoikia-core/blob/main/docs/plugin-authoring.md));
+- keep code in `src/` for what needs logic: discovery, a split predicate, a custom confirmation source;
+- extend the fake upstream and tests.
 
-  The `createRequire` banner lets the ESM bundle `require()` Node built-ins for bundled CommonJS dependencies such as `ws`.
+Each plugin's `test` script runs `synoikia-plugin check` (manifest, `plugin.yaml`, versions), `synoikia-plugin build` (the self-contained bundle, `plugin.yaml` validated and inlined), then its unit and e2e tests. Under the permission model the child can read nothing outside its own package directory, so everything it needs is in `dist/index.js`. A release ships only `manifest.json`, `package.json` and `dist/`.
 
-- `tsconfig.json` (extends `../../tsconfig.base.json`, includes `src` and `test`, `noEmit`), `tsconfig.build.json` and `vitest.config.ts` (`export { default } from '../../vitest.shared.ts';`).
-
-The bundle must be self-contained: under the permission model the child can read nothing outside its own package directory, so every runtime dependency goes into `dist/index.js`. A release ships only `manifest.json`, `package.json` and `dist/`.
+`test/golden.test.ts` records what each plugin tells core: every catalog descriptor, and the approval summary and confirmation literal of every locked operation. A change there changes classification, locks, redaction or approvals; review the diff and update it on purpose (`vitest run test/golden.test.ts -u`).
 
 ## Updating Synoikia
 
@@ -73,11 +68,11 @@ The SDK and harness versions are pinned by each plugin's `package.json` range an
 To release a plugin, bump `version` in both its `manifest.json` and `package.json` (they must match) and merge to `main`. The Release workflow (`.github/workflows/release.yml`) then:
 
 1. runs every plugin's tests;
-2. packs each plugin whose version isn't in the published index yet, as a deterministic flat tarball;
+2. packs each plugin whose version isn't in the published index yet, as a deterministic flat tarball (`synoikia-plugin repo pack`);
 3. signs each tarball with the `MINISIGN_SECRET_KEY` secret and checks it against `minisign.pub`;
-4. merges the new versions into the index;
-5. installs each new version with Synoikia's own repository service (`verifyPluginRepository` from `@synoikia/core/testing`), with `minisign.pub` pinned, then starts it as a permission-confined child, as Synoikia runs it, and requires it to answer;
-6. only then creates the `<id>-v<version>` releases and replaces `index.json` on the `index` release.
+4. merges the new versions into the index (`repo index`);
+5. installs each new version with Synoikia's own repository service (`verifyPluginRepository` from `@synoikia/core/testing`), with `minisign.pub` pinned, then starts it as a permission-confined child, as Synoikia runs it, and requires it to answer (`repo verify`);
+6. only then creates the `<id>-v<version>` releases and replaces `index.json` on the `index` release (`repo publish`). An existing tag is reused only if its tarball is byte-identical.
 
 A version that is already released is skipped, so re-running the workflow is safe. To ship a fix, bump the version again. A plugin can require a minimum Synoikia version with `"synoikia": { "minCoreVersion": "0.3.0" }` in its `package.json`; otherwise its manifest's `sdk` range decides which Synoikia versions can install it.
 
