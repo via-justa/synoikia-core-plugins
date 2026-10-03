@@ -12,6 +12,9 @@ import { DEFAULT_SPEC_BASE_URL, fetchSpec } from './spec.js';
  * template (`POST /request/{requestId}/{status}`), and params are `{ path, query, body }`.
  */
 
+/** GETs that save Seerr's enabled-library list (locked; see `LOCKED`). */
+const LIBRARY_GETS = new Set(['GET /settings/plex/library', 'GET /settings/jellyfin/library']);
+
 const MAX_SUMMARY_BODY = 400;
 const LOOKUP_TIMEOUT_MS = 10_000;
 
@@ -122,7 +125,7 @@ export function createSeerrPlugin(): PluginHandlers {
         return named('/settings/discover', path.sliderId);
       default:
         if (key === 'POST /settings/jobs/{jobId}/run#start') return path.jobId;
-        return LOCKED.has(key) || key.endsWith('#start') || key.endsWith('#apply') ? appTitle() : undefined;
+        return LOCKED.has(key) || key.endsWith('#start') ? appTitle() : undefined;
     }
   };
 
@@ -208,8 +211,6 @@ export function createSeerrPlugin(): PluginHandlers {
       if (split === '#start' && key === 'POST /settings/jobs/{jobId}/run') {
         if (!CHEAP_JOBS.has(match.pathParams.jobId!)) key += split;
       } else if (split === '#start' && startsScan(req.body)) key += split;
-      // Listing libraries is a read; `sync` or `enable` (any value, even false) saves the library list.
-      if (split === '#apply' && params.query && ('sync' in params.query || 'enable' in params.query)) key += split;
       return { key, params };
     },
 
@@ -226,7 +227,7 @@ export function createSeerrPlugin(): PluginHandlers {
       const text = `Seerr ${method} ${path}${queryString(p.query)}${
         body ? ` ${body.length > MAX_SUMMARY_BODY ? `${body.slice(0, MAX_SUMMARY_BODY)}…` : body}` : ''
       }${key.endsWith('#on-behalf') ? " (another user's request)" : ''}${key.endsWith('#start') ? ' (starts a full library scan or another heavy job)' : ''}${
-        key.endsWith('#apply') ? ' (syncs or changes which libraries are enabled; libraries left out are disabled)' : ''
+        LIBRARY_GETS.has(key) ? ' (saves the enabled-library list: libraries not listed in `enable` are disabled)' : ''
       }`;
       const literal = await confirmLiteral(key, p);
       return literal ? { text, confirmLiteral: literal } : { text };

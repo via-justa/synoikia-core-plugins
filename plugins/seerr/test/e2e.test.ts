@@ -37,7 +37,7 @@ afterAll(async () => {
 
 describe('Seerr plugin end to end (fake Seerr)', () => {
   it('syncs the spec for the instance version into groups that start at Read', () => {
-    expect(h.operations()).toHaveLength(218);
+    expect(h.operations()).toHaveLength(216);
     expect(h.operation('GET /settings/discover/reset')).toMatchObject({ locked: true });
     expect(h.operation('POST /request/{requestId}/{status}#on-behalf')).toMatchObject({
       locked: true,
@@ -78,6 +78,19 @@ describe('Seerr plugin end to end (fake Seerr)', () => {
         `return await seerr.request({ method: 'POST', path: '/request', body: { mediaType: 'movie', mediaId: 1 } });`,
       ),
     ).resolves.toMatchObject({ ok: false, error: { code: 'OPERATION_DISABLED' } });
+  });
+
+  it('never runs the library GETs as reads: they save the enabled-library list', async () => {
+    h.setGroupLevel('settings', 'read');
+    expect(h.operation('GET /settings/plex/library')).toMatchObject({ locked: true, classification: 'write' });
+    for (const call of [
+      `seerr.request({ method: 'GET', path: '/settings/plex/library' })`,
+      `seerr.request({ method: 'GET', path: '/settings/jellyfin/library', query: { Enable: '1' } })`,
+    ])
+      await expect(h.execute(`return await ${call};`)).resolves.toMatchObject({
+        ok: false,
+        error: { code: 'OPERATION_DISABLED' },
+      });
   });
 
   it('asks for a media request at Ask and runs it once a human approves', async () => {

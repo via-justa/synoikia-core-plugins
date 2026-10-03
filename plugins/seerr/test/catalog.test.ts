@@ -55,6 +55,13 @@ describe('classify (SR §2.3, §7 phase 1)', () => {
   });
 });
 
+describe('library GETs that write (Seerr 3.x)', () => {
+  it('locks both, so no call to them runs as a read', () => {
+    for (const key of ['GET /settings/plex/library', 'GET /settings/jellyfin/library'])
+      expect(op(key)).toMatchObject({ classification: 'write', locked: true, typedConfirmation: true });
+  });
+});
+
 describe('GET-as-action regression (SR §9)', () => {
   const spec = parseSpec(SPEC_TEXT) as {
     paths: Record<string, Record<string, OpenApiOperation> & { parameters?: unknown[] }>;
@@ -85,7 +92,7 @@ describe('GET-as-action regression (SR §9)', () => {
 
 describe('buildCatalog', () => {
   it('produces a valid descriptor for every operation in the real spec', () => {
-    expect(catalog.operations.length).toBe(218); // 212 operations + 6 split keys
+    expect(catalog.operations.length).toBe(216); // 212 operations + 4 split keys
     for (const d of catalog.operations) expect(() => OperationDescriptorSchema.parse(d), d.key).not.toThrow();
   });
 

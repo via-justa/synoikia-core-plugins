@@ -119,6 +119,33 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
     expect(fake.datasets.has('tank/apps')).toBe(false);
   });
 
+  it('never hands the model a new API key, token or dataset encryption key', async () => {
+    h.setOperationLevel('api_key.create', 'ask');
+    h.setOperationLevel('auth.generate_token', 'ask');
+    h.setOperationLevel('pool.dataset.export_key', 'ask');
+    const approveAll = {
+      onApproval: (a: { approve: (typed?: string) => void; message: string }) => {
+        // Locked calls need their literal: the key's user, or the system's hostname.
+        if (a.message.includes('api_key.create')) a.approve('root');
+        else if (a.message.includes('auth.generate_token')) a.approve('nas01');
+        else a.approve();
+      },
+    };
+    const results = [
+      await h.execute(`return await truenas.call('api_key.create', { name: 'ci', username: 'root' });`, approveAll),
+      await h.execute(`return await truenas.call('auth.generate_token');`, approveAll),
+      await h.execute(`return await truenas.call('pool.dataset.export_key', 'tank/secure');`, approveAll),
+    ];
+    expect(results).toMatchObject([
+      { ok: true, value: { name: 'ci', key: '[REDACTED]' } },
+      { ok: true, value: '[REDACTED]' },
+      { ok: true, value: '[REDACTED]' },
+    ]);
+    const all = JSON.stringify([results, h.audit({})]);
+    for (const secret of ['4-fresh-api-key-secret', 'fresh-session-token-secret', 'dataset-key-secret'])
+      expect(all).not.toContain(secret);
+  });
+
   it('reports a TrueNAS permission denial as UPSTREAM_DENIED', async () => {
     fake.denied.add('user.query');
     await expect(h.execute(`return await truenas.call('user.query');`)).resolves.toMatchObject({

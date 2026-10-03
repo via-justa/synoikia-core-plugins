@@ -6,7 +6,7 @@ import { parse } from 'yaml';
  * layered and fails closed: a hardcoded locked list always wins, then the HTTP verb (GET reads,
  * everything else writes). A GET whose summary, description or query parameters read like an action
  * ("reset", "sync", …) is a write flagged for review unless it has been reviewed here; one that really
- * changes something belongs in `LOCKED` or gets a locked split key (`SPLITS`).
+ * changes something belongs in `LOCKED`, or gets a locked split key (`SPLITS`) when only some calls do.
  */
 
 export const VERBS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;
@@ -22,6 +22,10 @@ export const LOCKED = new Set([
   'POST /settings/main/regenerate',
   'DELETE /settings/discover/{sliderId}',
   'GET /settings/discover/reset',
+  // Seerr 3.x re-saves the enabled-library list on every call: without `enable`, every library is
+  // disabled. Newer Seerr makes these plain reads; locking them there only over-locks (fail closed).
+  'GET /settings/plex/library',
+  'GET /settings/jellyfin/library',
 ]);
 
 /**
@@ -36,9 +40,6 @@ export const SPLITS: Record<string, string> = {
   'POST /settings/plex/sync': '#start',
   'POST /settings/jellyfin/sync': '#start',
   'POST /settings/jobs/{jobId}/run': '#start',
-  // `sync` re-reads and saves the library list; `enable` sets it ("any libraries not passed will be disabled!").
-  'GET /settings/plex/library': '#apply',
-  'GET /settings/jellyfin/library': '#apply',
 };
 
 /**
@@ -66,9 +67,6 @@ const ACTION_WORDS = /\b(reset\w*|regenerat\w*|sync\w*|flush\w*|run|runs|cancel\
  */
 export const REVIEWED_READS = new Set([
   'GET /settings/jellyfin/sync', // "Get status of full Jellyfin library sync"
-  // Plain reads without a query; with `sync` or `enable` they take the locked `#apply` key.
-  'GET /settings/plex/library',
-  'GET /settings/jellyfin/library',
 ]);
 
 /** The raw heuristic, before the locked and reviewed lists apply (for the regression test). */
@@ -212,7 +210,10 @@ const SPLIT_DESCRIPTIONS: Record<string, string> = {
     'Running a full library scan or another heavy or unknown scheduled job: locked. Cheap jobs (recently added scans, Radarr/Sonarr scans, download sync, …) use the ordinary key.',
   '#on-behalf': 'Approving or declining a request filed by another Seerr user: locked.',
   '#start': 'Starting a full library scan: locked.',
-  '#apply': 'Syncing or changing which libraries are enabled (the `sync` or `enable` query parameter): locked.',
+  'GET /settings/plex/library':
+    'Seerr 3.x saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
+  'GET /settings/jellyfin/library':
+    'Seerr 3.x saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
 };
 
 /** The text the GET-as-action heuristic reads: summary, description and query parameter descriptions. */

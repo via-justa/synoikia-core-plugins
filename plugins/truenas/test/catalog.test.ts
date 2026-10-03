@@ -69,7 +69,19 @@ describe('classify (TN §2.3, §9)', () => {
   });
 
   it('never lets roles turn a write-named method into a read', () => {
-    for (const m of ['pool.dataset.create', 'x.run_foo', 'x.set_foo', 'vm.update', 'service.restart'])
+    for (const m of [
+      'pool.dataset.create',
+      'x.run_foo',
+      'x.set_foo',
+      'vm.update',
+      'service.restart',
+      'pool.dataset.unlock',
+      'zfs.snapshot.rollback',
+      'pool.dataset.promote',
+      'auth.generate_onetime_password',
+      'user.renew_2fa_secret',
+      'app.redeploy',
+    ])
       expect(classify(m, ['DATASET_READ', 'READONLY_ADMIN']).classification).toBe('write');
     // An unclear name is settled by a read role; a read-named method stays a read.
     expect(classify('pool.dataset.details', ['DATASET_READ']).classification).toBe('read');

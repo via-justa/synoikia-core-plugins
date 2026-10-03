@@ -132,6 +132,7 @@ describe('TrueNAS plugin', () => {
       key: '[REDACTED]',
     });
     expect(await invoke(plugin, 'auth.generate_token', [])).toBe('[REDACTED]');
+    expect(await invoke(plugin, 'pool.dataset.export_key', ['tank/secure'])).toBe('[REDACTED]');
     const summary = await plugin.summarize({
       key: 'user.setup_local_administrator',
       params: ['truenas_admin', 'hunter2-secret'],

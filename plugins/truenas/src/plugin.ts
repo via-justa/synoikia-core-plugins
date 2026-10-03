@@ -178,19 +178,34 @@ const POSITIONAL_SECRETS: Record<string, number[]> = {
   'user.setup_local_administrator': [1],
 };
 
+/** Methods whose whole result is a secret string (a token, an encryption key, a 2FA seed). */
+const SECRET_RESULTS = new Set([
+  'auth.generate_token',
+  'auth.generate_onetime_password',
+  'pool.dataset.export_key',
+  'user.provisioning_uri',
+]);
+
+/** Which result field holds a secret, by method: the key is too common to add to `sensitiveKeys`. */
+function secretField(method: string): string | null {
+  if (method.startsWith('kerberos.keytab.')) return 'file';
+  if (method.startsWith('api_key.') || method.startsWith('pool.dataset.') || method === 'pool.create') return 'key';
+  return null;
+}
+
 /**
  * Secrets in results that core can't recognize by key name, because the key is too common to add to
  * `sensitiveKeys` (it would hide ordinary values) or there is no key at all:
  * - keytab rows carry the keytab under `file`;
- * - `api_key.*` returns a new or reset key under `key`;
- * - `auth.generate_token` returns the token as a bare string.
+ * - `api_key.*` returns a new or reset key under `key`, and dataset and pool results an encryption key;
+ * - some methods return the secret itself as a bare string (`SECRET_RESULTS`).
  */
 function maskSecrets(method: string, result: unknown): unknown {
-  if (method === 'auth.generate_token') return typeof result === 'string' && result ? '[REDACTED]' : result;
-  const field = method.startsWith('kerberos.keytab.') ? 'file' : method.startsWith('api_key.') ? 'key' : null;
+  if (SECRET_RESULTS.has(method)) return typeof result === 'string' && result ? '[REDACTED]' : result;
+  const field = secretField(method);
   if (!field) return result;
   const mask = (row: unknown) =>
-    row && typeof row === 'object' && !Array.isArray(row) && (row as Record<string, unknown>)[field]
+    row && typeof row === 'object' && !Array.isArray(row) && typeof (row as Record<string, unknown>)[field] === 'string'
       ? { ...row, [field]: '[REDACTED]' }
       : row;
   return Array.isArray(result) ? result.map(mask) : mask(result);
