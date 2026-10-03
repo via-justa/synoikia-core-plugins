@@ -167,6 +167,24 @@ describe('Seerr plugin end to end (fake Seerr)', () => {
     fake.denied.delete('/settings/main');
   });
 
+  it('accepts a local-user connection that leaves "Sign in as" at its default', async () => {
+    // The portal sends no authMethod when the select is untouched; core fills the default only after
+    // the conditional branches run, so the API-key branch must not match a missing authMethod.
+    await expect(
+      h.testConnection({ baseUrl: fake.url, email: FAKE_EMAIL, password: FAKE_PASSWORD, specBaseUrl: fake.specUrl }),
+    ).resolves.toMatchObject({ ok: true });
+    await expect(h.testConnection({ baseUrl: fake.url, specBaseUrl: fake.specUrl })).rejects.toMatchObject({
+      code: 'invalid_connection',
+      details: expect.arrayContaining([expect.stringMatching(/required property 'email'/)]),
+    });
+    await expect(
+      h.testConnection({ baseUrl: fake.url, authMethod: 'apiKey', specBaseUrl: fake.specUrl }),
+    ).rejects.toMatchObject({
+      code: 'invalid_connection',
+      details: expect.arrayContaining([expect.stringMatching(/required property 'apiKey'/)]),
+    });
+  });
+
   it('loads under the permission model and reports an unreachable Seerr cleanly', async () => {
     await expect(
       // A new address needs every stored secret entered again, as in the portal.
