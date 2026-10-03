@@ -83,6 +83,7 @@ export const METHODS: Record<string, MethodInfo> = {
   },
   'api_key.delete': { description: 'Delete an API key.', accepts: [{ type: 'integer', title: 'id' }] },
   'auth.generate_token': { description: 'Generate a token.' },
+  'auth.generate_onetime_password': { description: 'Generate a one-time password.' },
   'cloudsync.credentials.query': { description: 'Query cloud credentials.' },
   'cloudsync.credentials.create': {
     description: 'Create cloud credentials.',
@@ -229,12 +230,13 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     'disk.query': () => [{ name: 'sda', serial: 'S1' }],
     'user.query': () => [
       { id: 1, username: 'root' },
-      { id: 70, username: 'alice' },
+      { id: 70, username: 'alice', unixhash: '$6$alice-unix-hash', smbhash: 'ALICE-NT-HASH' },
     ],
     'user.get_instance': ([id]) => ({ id, username: id === 70 ? 'alice' : 'root' }),
     'api_key.get_instance': ([id]) => ({ id, name: 'backup-bot' }),
     'api_key.create': ([opts]) => ({ id: 4, name: (opts as { name?: string })?.name, key: '4-fresh-api-key-secret' }),
     'auth.generate_token': () => 'fresh-session-token-secret',
+    'auth.generate_onetime_password': () => 'one-time-password-secret',
     'cloudsync.credentials.query': () => [
       { id: 1, name: 'b2', provider: { type: 'B2', account: 'acct-1', key: 'b2-application-key-secret' } },
     ],

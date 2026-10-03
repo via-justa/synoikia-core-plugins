@@ -28,6 +28,7 @@ export const LOCKED = new Set([
   'app.delete',
   'audit.config',
   'auth.generate_token',
+  'auth.generate_onetime_password',
   'docker.delete_backup',
   'interface.network_config_to_be_removed',
   'user.has_local_administrator_set_up',
@@ -185,7 +186,8 @@ export function groupOf(method: string): string {
  * item", so `pool.dataset.unlock` lists the first datasets; the plugin also masks summaries and job
  * records itself.
  */
-// The SDK allows 32 paths per operation; a wildcard would need a core change.
+// The SDK allows 32 paths per operation, so a single unlock of more than 32 keyed datasets shows the
+// rest to core (an accepted limit; the plugin's own summary masks them all).
 const DATASET_KEYS = Array.from({ length: 32 }, (_, i) => `/1/datasets/${i}/key`);
 export const SENSITIVE_PARAMS: Record<string, string[]> = {
   'user.setup_local_administrator': ['/1'],

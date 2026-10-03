@@ -104,6 +104,7 @@ describe('TrueNAS plugin', () => {
     expect(await literal('api_key.delete', 3)).toBe('backup-bot');
     expect(await literal('api_key.query')).toBe('nas01');
     expect(await literal('auth.generate_token')).toBe('nas01');
+    expect(await literal('auth.generate_onetime_password')).toBe('nas01');
     expect(await literal('filesystem.chown', { path: '/mnt/tank', uid: 0 })).toBe('/mnt/tank');
     expect(await literal('pool.dataset.create', { name: 'tank/x' })).toBeUndefined();
     const summary = await plugin.summarize({ key: 'pool.dataset.create', params: [{ name: 'tank/x' }], targets: [] });
@@ -149,10 +150,30 @@ describe('TrueNAS plugin', () => {
     });
     expect(create.text).not.toContain('key-secret');
     expect(create.text).toContain('"key":"[REDACTED]"');
+    // A dataset user property's `key` is its name, not a secret: create and update keep it.
+    const created = await plugin.summarize({
+      key: 'pool.dataset.create',
+      params: [{ name: 'tank/m', user_properties: [{ key: 'org.example:owner', value: 'alice' }] }],
+      targets: [],
+    });
+    expect(created.text).toContain('org.example:owner');
+    const updated = await plugin.summarize({
+      key: 'pool.dataset.update',
+      params: ['tank/m', { user_properties_update: [{ key: 'org.example:tier', value: 'hot', remove: false }] }],
+      targets: [],
+    });
+    expect(updated.text).toContain('org.example:tier');
   });
 
   it('masks cloud credential keys in results and summaries', async () => {
     const { plugin } = await setup();
+    // A field named like a dataset's user properties doesn't exempt a cloud credential's `key`.
+    const nested = await plugin.summarize({
+      key: 'cloudsync.credentials.create',
+      params: [{ name: 'x', provider: { type: 'S3', user_properties: [{ key: 'nested-key-secret' }] } }],
+      targets: [],
+    });
+    expect(nested.text).not.toContain('nested-key-secret');
     expect(await invoke(plugin, 'cloudsync.credentials.query', [])).toEqual([
       { id: 1, name: 'b2', provider: { type: 'B2', account: 'acct-1', key: '[REDACTED]' } },
     ]);

@@ -134,7 +134,7 @@ export function createTrueNasPlugin(): PluginHandlers {
     async summarize({ key, params }) {
       const method = baseMethod(key);
       const list = Array.isArray(params) ? [...params] : [params];
-      // Core 0.4.0+ already redacts these (`sensitiveParams`); masking here too covers older cores.
+      // Core also redacts these (`sensitiveParams`); masking here keeps the summary text clean on its own.
       for (const i of POSITIONAL_SECRETS[method] ?? []) if (list[i] !== undefined) list[i] = '[REDACTED]';
       const args = JSON.stringify(maskKeyParams(method, list)).slice(1, -1);
       const text = `TrueNAS ${method}(${args.length > MAX_SUMMARY_PARAMS ? `${args.slice(0, MAX_SUMMARY_PARAMS)}…` : args})${
@@ -231,24 +231,50 @@ function maskSecrets(method: string, result: unknown): unknown {
 /**
  * Encryption keys passed as params (`encryption_options.key`, `datasets[].key`, `change_key`'s `key`)
  * sit under the common name `key`, which core can't redact by name: masked in summaries and job
- * records here; core 0.4.0+ also keeps them out of approvals and the audit log through
- * `sensitiveParams`. This covers older cores and the unlock datasets beyond the declared paths.
+ * records here; core also keeps them out of approvals and the audit log through `sensitiveParams`.
+ * This also covers the unlock datasets beyond the 32 declared paths, in the summary text.
  */
 function maskKeyParams(method: string, value: unknown): unknown {
   const keyed =
     method.startsWith('pool.dataset.') || method === 'pool.create' || method.startsWith('cloudsync.credentials.');
-  return keyed ? maskKeysDeep(value) : value;
+  if (!keyed) return value;
+  return maskKeysDeep(value, method === 'pool.dataset.create' || method === 'pool.dataset.update');
 }
 
-/** Replaces every non-empty string under a `key` property with `[REDACTED]`, on a copy. */
-function maskKeysDeep(value: unknown): unknown {
+/** Dataset user properties (`[{ key, value }]`): `key` is the property's name, not a secret. */
+const USER_PROPERTY_LISTS = new Set(['user_properties', 'user_properties_update']);
+
+/**
+ * Replaces every non-empty string under a `key` property with `[REDACTED]`, on a copy. With
+ * `keepPropertyNames` (dataset create/update params only), the `key` of each item in a user property
+ * list is kept so the approver sees which property changes; everything else in it is still walked.
+ */
+function maskKeysDeep(value: unknown, keepPropertyNames = false): unknown {
   const walk = (v: unknown, depth: number): unknown => {
     if (depth > 8 || v === null || typeof v !== 'object') return v;
     if (Array.isArray(v)) return v.map((x) => walk(x, depth + 1));
+    return copy(v as Record<string, unknown>, depth, (k, x) =>
+      k === 'key' && typeof x === 'string' && x ? '[REDACTED]' : walk(x, depth + 1),
+    );
+  };
+  const copy = (
+    v: Record<string, unknown>,
+    depth: number,
+    each: (k: string, x: unknown) => unknown,
+  ): Record<string, unknown> => {
     const out: Record<string, unknown> = {};
     for (const [k, x] of Object.entries(v))
       Object.defineProperty(out, k, {
-        value: k === 'key' && typeof x === 'string' && x ? '[REDACTED]' : walk(x, depth + 1),
+        value:
+          keepPropertyNames && USER_PROPERTY_LISTS.has(k) && Array.isArray(x)
+            ? x.map((item) =>
+                item && typeof item === 'object' && !Array.isArray(item)
+                  ? copy(item as Record<string, unknown>, depth + 2, (ik, ix) =>
+                      ik === 'key' ? ix : walk(ix, depth + 3),
+                    )
+                  : walk(item, depth + 2),
+              )
+            : each(k, x),
         enumerable: true,
         writable: true,
         configurable: true,

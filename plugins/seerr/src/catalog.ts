@@ -22,8 +22,8 @@ export const LOCKED = new Set([
   'POST /settings/main/regenerate',
   'DELETE /settings/discover/{sliderId}',
   'GET /settings/discover/reset',
-  // Seerr 3.x re-saves the enabled-library list on every call: without `enable`, every library is
-  // disabled. Newer Seerr makes these plain reads; locking them there only over-locks (fail closed).
+  // Seerr 3.0–3.4.1 re-saves the enabled-library list on every call: without `enable`, every library is
+  // disabled. From 3.5.0 these are plain reads; locking them there only over-locks (fail closed).
   'GET /settings/plex/library',
   'GET /settings/jellyfin/library',
 ]);
@@ -211,9 +211,9 @@ const SPLIT_DESCRIPTIONS: Record<string, string> = {
   '#on-behalf': 'Approving or declining a request filed by another Seerr user: locked.',
   '#start': 'Starting a full library scan: locked.',
   'GET /settings/plex/library':
-    'Seerr 3.x saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
+    'Seerr 3.0–3.4.1 saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
   'GET /settings/jellyfin/library':
-    'Seerr 3.x saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
+    'Seerr 3.0–3.4.1 saves the enabled-library list on every call: libraries not listed in `enable` are disabled. Locked.',
 };
 
 /** The text the GET-as-action heuristic reads: summary, description and query parameter descriptions. */

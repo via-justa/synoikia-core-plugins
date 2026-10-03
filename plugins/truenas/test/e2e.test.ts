@@ -60,6 +60,9 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
         [{ file: '[REDACTED]' }],
       ],
     });
+    // Password hashes in user rows (TrueNAS marks them Secret).
+    const users = await h.execute(`return await truenas.call('user.query');`);
+    expect(JSON.stringify(users)).not.toMatch(/alice-unix-hash|ALICE-NT-HASH/);
     // At Read a group's writes are off (new groups start at Ask in newer core).
     h.setGroupLevel('pool.dataset', 'read');
     await expect(
@@ -122,12 +125,13 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
   it('never hands the model a new API key, token or dataset encryption key', async () => {
     h.setOperationLevel('api_key.create', 'ask');
     h.setOperationLevel('auth.generate_token', 'ask');
+    h.setOperationLevel('auth.generate_onetime_password', 'ask');
     h.setOperationLevel('pool.dataset.export_key', 'ask');
     const approveAll = {
       onApproval: (a: { approve: (typed?: string) => void; message: string }) => {
         // Locked calls need their literal: the key's user, or the system's hostname.
         if (a.message.includes('api_key.create')) a.approve('root');
-        else if (a.message.includes('auth.generate_token')) a.approve('nas01');
+        else if (a.message.includes('auth.generate_')) a.approve('nas01');
         else if (a.message.includes('pool.dataset.export_key')) a.approve('tank/secure');
         else a.approve();
       },
@@ -135,10 +139,12 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
     const results = [
       await h.execute(`return await truenas.call('api_key.create', { name: 'ci', username: 'root' });`, approveAll),
       await h.execute(`return await truenas.call('auth.generate_token');`, approveAll),
+      await h.execute(`return await truenas.call('auth.generate_onetime_password');`, approveAll),
       await h.execute(`return await truenas.call('pool.dataset.export_key', 'tank/secure');`, approveAll),
     ];
     expect(results).toMatchObject([
       { ok: true, value: { name: 'ci', key: '[REDACTED]' } },
+      { ok: true, value: '[REDACTED]' },
       { ok: true, value: '[REDACTED]' },
       { ok: true, value: '[REDACTED]' },
     ]);

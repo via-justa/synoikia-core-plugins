@@ -69,6 +69,27 @@ describe('classify (TN §2.3, §9)', () => {
     expect(classify('pool.dataset.delete', ['DATASET_READ'])).toMatchObject({ locked: true, classification: 'write' });
   });
 
+  it('classifies the role lists TrueNAS 25.04 actually returns', () => {
+    // `core.get_methods` lists every role that grants the method, expanded through role includes
+    // (middlewared role.py `roles_for_resource`): a write role includes its read role, so a read
+    // method lists both, and READONLY_ADMIN and SHARING_ADMIN come along.
+    expect(
+      classify('pool.dataset.query', ['DATASET_READ', 'DATASET_WRITE', 'READONLY_ADMIN', 'SHARING_ADMIN']),
+    ).toMatchObject({ classification: 'read', reason: 'roles:read(DATASET_READ)' });
+    expect(
+      classify('pool.dataset.encryption_summary', ['DATASET_READ', 'DATASET_WRITE', 'READONLY_ADMIN']),
+    ).toMatchObject({ classification: 'read' });
+    expect(classify('pool.dataset.unlock', ['DATASET_WRITE', 'SHARING_ADMIN'])).toMatchObject({
+      classification: 'write',
+      reason: 'roles:write(DATASET_WRITE)',
+    });
+    expect(classify('app.query', ['APPS_READ', 'APPS_WRITE', 'READONLY_ADMIN'])).toMatchObject({
+      classification: 'read',
+    });
+    // A method without explicit roles gets an empty list (FULL_ADMIN only): the name decides.
+    expect(classify('system.info', [])).toMatchObject({ classification: 'read', reason: 'naming:read(.info)' });
+  });
+
   it('never lets roles turn a write-named method into a read', () => {
     for (const m of [
       'pool.dataset.create',
