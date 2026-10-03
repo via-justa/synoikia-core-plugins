@@ -1,0 +1,458 @@
+[
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "alarm_control_panel.alarm_arm_away",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "alarm_control_panel.alarm_disarm",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "backup.create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "backup.restore",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "climate.set_temperature",
+    "locked": false,
+    "matchProfile": "climate.set_temperature"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/area_registry/create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/area_registry/delete",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/area_registry/list",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/area_registry/update",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/automation/config/create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/automation/config/delete",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/automation/config/get",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/automation/config/update",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/category_registry/create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/category_registry/delete",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/category_registry/list",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/category_registry/update",
+    "locked": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/device_registry/list",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/device_registry/update",
+    "locked": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/entity_registry/list",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/entity_registry/remove",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/entity_registry/update",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/floor_registry/create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/floor_registry/delete",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/floor_registry/list",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/floor_registry/update",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/label_registry/create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/label_registry/delete",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/label_registry/list",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/label_registry/update",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/scene/config/create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/scene/config/delete",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/scene/config/get",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/scene/config/update",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/script/config/create",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:config-delete",
+    "key": "config/script/config/delete",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "config/script/config/get",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "config/script/config/update",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "cover.close_cover",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "cover.open_cover",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "cover.open_cover on a garage door or gate: locked.",
+    "key": "cover.open_cover#garage",
+    "locked": true,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "cover.set_cover_position",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "cover.set_cover_position on a garage door or gate: locked.",
+    "key": "cover.set_cover_position#garage",
+    "locked": true,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "cover.toggle",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "cover.toggle on a garage door or gate: locked.",
+    "key": "cover.toggle#garage",
+    "locked": true,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "get_config",
+    "locked": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "get_states",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "hassio.host_reboot",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "hassio.host_shutdown",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "hassio.restore_full",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "hassio.restore_partial",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "history/history_during_period",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "homeassistant.restart",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "homeassistant.stop",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "homeassistant.toggle",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "homeassistant.toggle on a lock, an alarm panel, or a garage door or gate: locked.",
+    "key": "homeassistant.toggle#protected",
+    "locked": true,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "homeassistant.turn_off",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "homeassistant.turn_off on a lock, an alarm panel, or a garage door or gate: locked.",
+    "key": "homeassistant.turn_off#protected",
+    "locked": true,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "homeassistant.turn_on",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "homeassistant.turn_on on a lock, an alarm panel, or a garage door or gate: locked.",
+    "key": "homeassistant.turn_on#protected",
+    "locked": true,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "light.turn_on",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "lock.lock",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "lock.open",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "key": "lock.unlock",
+    "locked": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "logbook/get_events",
+    "locked": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "lovelace/config",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "command-shape:write",
+    "key": "lovelace/config/save",
+    "locked": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "command-shape:read",
+    "key": "lovelace/dashboards/list",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "scene.apply",
+    "locked": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "scene.apply on a lock, an alarm panel, or a garage door or gate: locked.",
+    "key": "scene.apply#protected",
+    "locked": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "call_service-default",
+    "key": "scene.turn_on",
+    "locked": false,
+    "matchProfile": "targets"
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:physical-or-system",
+    "description": "scene.turn_on on a lock, an alarm panel, or a garage door or gate: locked.",
+    "key": "scene.turn_on#protected",
+    "locked": true,
+    "matchProfile": "targets"
+  }
+]

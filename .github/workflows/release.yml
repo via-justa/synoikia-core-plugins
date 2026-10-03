@@ -22,6 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Nothing here pushes with git; keep the token out of .git/config while dev dependencies run.
+          persist-credentials: false
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -34,16 +37,21 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view index >/dev/null 2>&1; then
+          # Start a new index only when there really is none: on any other error (rate limit, network)
+          # stop, rather than rebuild every released version.
+          if out=$(gh release view index 2>&1); then
             gh release download index --pattern index.json --dir .repo-current
-          else
+          elif grep -qi 'release not found' <<<"$out"; then
             echo "No index release yet: starting a new index."
+          else
+            echo "::error::Could not read the index release: $out"
+            exit 1
           fi
 
       - name: Pack new plugin versions
         id: pack
         run: |
-          node scripts/build-repo.mjs pack
+          pnpm exec synoikia-plugin repo pack
           echo "count=$(node -p "require('./.repo/releases.json').length")" >> "$GITHUB_OUTPUT"
 
       - name: Sign
@@ -66,16 +74,16 @@ jobs:
 
       - name: Build the index
         if: steps.pack.outputs.count != '0'
-        run: node scripts/build-repo.mjs index
+        run: pnpm exec synoikia-plugin repo index
 
       # Core's own repository service installs every new version with minisign.pub pinned, before
       # anything is uploaded.
       - name: Verify with Synoikia
         if: steps.pack.outputs.count != '0'
-        run: node scripts/build-repo.mjs verify
+        run: pnpm exec synoikia-plugin repo verify
 
       - name: Publish
         if: steps.pack.outputs.count != '0'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: node scripts/build-repo.mjs publish
+        run: pnpm exec synoikia-plugin repo publish

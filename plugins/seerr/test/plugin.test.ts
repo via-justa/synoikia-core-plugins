@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { checkConformance, ErrorCodes } from '@synoikia/plugin-sdk';
+import { checkConformance, ErrorCodes, parseManifest } from '@synoikia/plugin-sdk';
 import type { InitParams, PluginHandlers } from '@synoikia/plugin-sdk';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createSeerrPlugin } from '../src/plugin.js';
@@ -130,15 +130,27 @@ describe('Seerr plugin', () => {
     expect(await plugin.testConnection()).toMatchObject({ ok: false, message: expect.stringMatching(/rejected/) });
   });
 
-  it('requires the fields of the chosen sign-in method', () => {
+  it('defaults to a local user and shows only the fields for the chosen sign-in method', () => {
+    const { connection } = parseManifest(manifest);
+    const props = connection.schema.properties as Record<string, { default?: unknown }>;
+    expect(props.authMethod?.default).toBe('local');
+    const shownFor = (method: string) =>
+      Object.entries(connection.ui)
+        .filter(([, ui]) => !ui.showWhen || ui.showWhen.in.includes(method))
+        .map(([name]) => name);
+    expect(shownFor('local')).toEqual(['baseUrl', 'authMethod', 'email', 'password', 'specBaseUrl']);
+    expect(shownFor('apiKey')).toEqual(['baseUrl', 'authMethod', 'apiKey', 'actAsUserId', 'specBaseUrl']);
+  });
+
+  it('requires the fields of the chosen sign-in method', async () => {
     const plugin = createSeerrPlugin();
-    const init = (config: Record<string, unknown>, secrets: Record<string, string>) =>
+    const init = async (config: Record<string, unknown>, secrets: Record<string, string>) =>
       plugin.init({ instanceId: 'x', config, secrets, sdkVersion: '1.0.0' });
-    expect(() => init({}, {})).toThrow(/baseUrl/);
-    expect(() => init({ baseUrl: 'https://s' }, { password: 'p' })).toThrow(/email/);
-    expect(() => init({ baseUrl: 'https://s', email: 'a@b' }, {})).toThrow(/password/);
-    expect(() => init({ baseUrl: 'https://s', authMethod: 'apiKey' }, {})).toThrow(/apiKey/);
-    expect(() => init({ baseUrl: 'https://s', authMethod: 'apiKey' }, { apiKey: 'k' })).not.toThrow();
+    await expect(init({}, {})).rejects.toThrow(/baseUrl/);
+    await expect(init({ baseUrl: 'https://s' }, { password: 'p' })).rejects.toThrow(/email/);
+    await expect(init({ baseUrl: 'https://s', email: 'a@b' }, {})).rejects.toThrow(/password/);
+    await expect(init({ baseUrl: 'https://s', authMethod: 'apiKey' }, {})).rejects.toThrow(/apiKey/);
+    await expect(init({ baseUrl: 'https://s', authMethod: 'apiKey' }, { apiKey: 'k' })).resolves.toBeUndefined();
   });
 
   it('splits params into path, query and body', async () => {

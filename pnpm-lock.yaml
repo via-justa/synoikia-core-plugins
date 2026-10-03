@@ -12,14 +12,14 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.11.0)
       '@synoikia/core':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.5.0
+        version: 0.5.0
+      '@synoikia/create-plugin':
+        specifier: 0.1.1
+        version: 0.1.1(@synoikia/core@0.5.0)
       '@types/node':
         specifier: ^22.19.0
         version: 22.20.4
-      esbuild:
-        specifier: ^0.28.2
-        version: 0.28.2
       eslint:
         specifier: ^10.11.0
         version: 10.11.0
@@ -39,15 +39,18 @@ importers:
   plugins/homeassistant:
     dependencies:
       '@synoikia/plugin-sdk':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       ws:
         specifier: ^8.22.0
         version: 8.22.0
     devDependencies:
       '@synoikia/core':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.5.0
+        version: 0.5.0
+      '@synoikia/create-plugin':
+        specifier: 0.1.1
+        version: 0.1.1(@synoikia/core@0.5.0)
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -55,28 +58,34 @@ importers:
   plugins/seerr:
     dependencies:
       '@synoikia/plugin-sdk':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
     devDependencies:
       '@synoikia/core':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.5.0
+        version: 0.5.0
+      '@synoikia/create-plugin':
+        specifier: 0.1.1
+        version: 0.1.1(@synoikia/core@0.5.0)
 
   plugins/truenas:
     dependencies:
       '@synoikia/plugin-sdk':
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.3.0
+        version: 0.3.0
       ws:
         specifier: ^8.22.0
         version: 8.22.0
     devDependencies:
       '@synoikia/core':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.5.0
+        version: 0.5.0
+      '@synoikia/create-plugin':
+        specifier: 0.1.1
+        version: 0.1.1(@synoikia/core@0.5.0)
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -88,6 +97,14 @@ packages:
 
   '@cacheable/utils@2.5.0':
     resolution: {integrity: sha512-buipgOVDkkPXNR5+xBpDw7Zk2n1EvU7qBJCNUcL7rhQ//kfpOXPAvQ511Os0vpLYJ1pZnvudNytkQt2hst3wqA==}
+
+  '@clack/core@1.5.1':
+    resolution: {integrity: sha512-iHTrHA8MtVuLl2TfZySmcKv1qO2PoyC9Z7pfSDozEuV5vtY3/wcOPKJXlqJ5Oq2Cx5DDGQGAMVx6HZfRRoVEbQ==}
+    engines: {node: '>= 20.12.0'}
+
+  '@clack/prompts@1.8.1':
+    resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
+    engines: {node: '>= 20.12.0'}
 
   '@esbuild/aix-ppc64@0.28.2':
     resolution: {integrity: sha512-XExcO+dvLKvVtNTibSTBej1NCAbaGhWn9Ww1ZPx80qsahhPFe/8jgWP0IchNe0F3HwkU7n8ejhH8bjonqht8mQ==}
@@ -531,20 +548,20 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@synoikia/core@0.2.0':
-    resolution: {integrity: sha512-P0UhDSKn8nTlpD/CVHgTV6YPfX15zEy68rYbDaLtfREi28p3lnvH4vfpAm8jJ87mGK4+MpeocNUh5uKH98/rhQ==}
+  '@synoikia/core@0.5.0':
+    resolution: {integrity: sha512-0OGxEtv07A6sRd2J3OR7YcdhZrpjnockfsrrjDhJfVmLzqlS3b3rviiLDepytc/jYbhQndmbNQLjqr8PQqha3Q==}
 
-  '@synoikia/core@0.3.0':
-    resolution: {integrity: sha512-XWVCiBlfh4XDFttG8WY6YTDVRKHQgRBh7KkBfMee4VZCBCTjwZL7T7rgeTwWbR0sfpYgGxTzkPnG9ONQbf5X7g==}
+  '@synoikia/create-plugin@0.1.1':
+    resolution: {integrity: sha512-/hYIYIBgDnjgcgGapEGk+KynFDducN5/l6wPqfKfCShFtzt19Fw5qwnRLEmdjtJJIGr+wP2pVMAvmVeOMpuOFQ==}
+    hasBin: true
+    peerDependencies:
+      '@synoikia/core': ^0.5.0
+    peerDependenciesMeta:
+      '@synoikia/core':
+        optional: true
 
-  '@synoikia/core@0.4.0':
-    resolution: {integrity: sha512-rfXDDI+77UsaLQxt7BbJ64qWb/EpueReqXq+yIsNhoJtkMABqIcpHmutTL4bgJaHz76TqhrZk6DYyrzHvYaGPA==}
-
-  '@synoikia/plugin-sdk@0.2.0':
-    resolution: {integrity: sha512-p7BSqllVojIRJ2WA40v0qcqKOYuDEmBpacaruCUCUllMkyJSFcgkTqBcjaqkW24nFwFqmyennSewZK5gJZabsw==}
-
-  '@synoikia/plugin-sdk@0.2.1':
-    resolution: {integrity: sha512-3WGmtrc4buCMYQCjNBJpvqUPkttjW8OX0yaQDGGhUmkLyvNTbNuGJ74ITPdBFH7gTQtcSUQ0nVv38ju99Pp7Wg==}
+  '@synoikia/plugin-sdk@0.3.0':
+    resolution: {integrity: sha512-NO2tFWnvJT4OYNrUh5yN+g5hqoxbwFjJ/wqBNWWuKMYxqIv4bMNpjnrfl7mFKiAWCRAGsQ9V+0b8R4HaqiL2KA==}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -972,8 +989,17 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
+  fast-string-truncated-width@3.0.3:
+    resolution: {integrity: sha512-0jjjIEL6+0jag3l2XWWizO64/aZVtpiGE3t0Zgqxv0DPuxiMjvB3M24fCyhZUO4KomJQPj3LTSUnDP3GpdwC0g==}
+
+  fast-string-width@3.0.2:
+    resolution: {integrity: sha512-gX8LrtNEI5hq8DVUfRQMbr5lpaS4nMIWV+7XEbXk2b8kiQIizgnlr12B4dA3ZEx3308ze0O4Q1R+cHts8kyUJg==}
+
   fast-uri@3.1.8:
     resolution: {integrity: sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==}
+
+  fast-wrap-ansi@0.2.2:
+    resolution: {integrity: sha512-7F2Fl+TjRSenLqlU3UjSH0iyqopqoZIu7eZVpEirP2g1GtWa2G/ecEmBdgz31+Mxr+ELclgg6sokpSFIQiZ02Q==}
 
   fdir@6.5.0:
     resolution: {integrity: sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==}
@@ -1418,6 +1444,9 @@ packages:
     resolution: {integrity: sha512-6x6dK6zJdpTzF4sQeNYxwtvBzf6Eg4GtlesS94HOvTudUeyK2WXAaIfmDgsyslYrRBeFIlsi54AYsFGUuhmvrQ==}
     engines: {node: '>= 0.4'}
 
+  sisteransi@1.0.5:
+    resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
@@ -1641,6 +1670,18 @@ snapshots:
     dependencies:
       hashery: 1.5.1
       keyv: 5.6.0
+
+  '@clack/core@1.5.1':
+    dependencies:
+      fast-wrap-ansi: 0.2.2
+      sisteransi: 1.0.5
+
+  '@clack/prompts@1.8.1':
+    dependencies:
+      '@clack/core': 1.5.1
+      fast-string-width: 3.0.2
+      fast-wrap-ansi: 0.2.2
+      sisteransi: 1.0.5
 
   '@esbuild/aix-ppc64@0.28.2':
     optional: true
@@ -1921,12 +1962,12 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@synoikia/core@0.2.0':
+  '@synoikia/core@0.5.0':
     dependencies:
       '@hono/node-server': 2.1.1(hono@4.13.9)
       '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
       '@node-rs/argon2': 2.2.1
-      '@synoikia/plugin-sdk': 0.2.0
+      '@synoikia/plugin-sdk': 0.3.0
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       better-sqlite3: 13.0.3
@@ -1971,114 +2012,19 @@ snapshots:
       - sqlite3
       - supports-color
 
-  '@synoikia/core@0.3.0':
+  '@synoikia/create-plugin@0.1.1(@synoikia/core@0.5.0)':
     dependencies:
-      '@hono/node-server': 2.1.1(hono@4.13.9)
-      '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
-      '@node-rs/argon2': 2.2.1
-      '@synoikia/plugin-sdk': 0.2.0
-      ajv: 8.20.0
-      ajv-formats: 3.0.1(ajv@8.20.0)
-      better-sqlite3: 13.0.3
-      drizzle-orm: 0.45.3(better-sqlite3@13.0.3)
-      hono: 4.13.9
-      isolated-vm: 6.2.0
-      jose: 6.2.12
-      openid-client: 6.8.8
-      semver: 7.8.5
-      tar: 7.5.22
-      zod: 4.6.5
-    transitivePeerDependencies:
-      - '@aws-sdk/client-rds-data'
-      - '@cfworker/json-schema'
-      - '@cloudflare/workers-types'
-      - '@electric-sql/pglite'
-      - '@libsql/client'
-      - '@libsql/client-wasm'
-      - '@neondatabase/serverless'
-      - '@netlify/db'
-      - '@op-engineering/op-sqlite'
-      - '@opentelemetry/api'
-      - '@planetscale/database'
-      - '@prisma/client'
-      - '@tidbcloud/serverless'
-      - '@types/better-sqlite3'
-      - '@types/pg'
-      - '@types/sql.js'
-      - '@upstash/redis'
-      - '@vercel/postgres'
-      - '@xata.io/client'
-      - bun-types
-      - expo-sqlite
-      - gel
-      - knex
-      - kysely
-      - mysql2
-      - pg
-      - postgres
-      - prisma
-      - sql.js
-      - sqlite3
-      - supports-color
+      '@clack/prompts': 1.8.1
+      '@synoikia/plugin-sdk': 0.3.0
+      esbuild: 0.28.2
+      yaml: 2.9.1
+    optionalDependencies:
+      '@synoikia/core': 0.5.0
 
-  '@synoikia/core@0.4.0':
-    dependencies:
-      '@hono/node-server': 2.1.1(hono@4.13.9)
-      '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
-      '@node-rs/argon2': 2.2.1
-      '@synoikia/plugin-sdk': 0.2.1
-      ajv: 8.20.0
-      ajv-formats: 3.0.1(ajv@8.20.0)
-      better-sqlite3: 13.0.3
-      drizzle-orm: 0.45.3(better-sqlite3@13.0.3)
-      hono: 4.13.9
-      isolated-vm: 6.2.0
-      jose: 6.2.12
-      openid-client: 6.8.8
-      semver: 7.8.5
-      tar: 7.5.22
-      zod: 4.6.5
-    transitivePeerDependencies:
-      - '@aws-sdk/client-rds-data'
-      - '@cfworker/json-schema'
-      - '@cloudflare/workers-types'
-      - '@electric-sql/pglite'
-      - '@libsql/client'
-      - '@libsql/client-wasm'
-      - '@neondatabase/serverless'
-      - '@netlify/db'
-      - '@op-engineering/op-sqlite'
-      - '@opentelemetry/api'
-      - '@planetscale/database'
-      - '@prisma/client'
-      - '@tidbcloud/serverless'
-      - '@types/better-sqlite3'
-      - '@types/pg'
-      - '@types/sql.js'
-      - '@upstash/redis'
-      - '@vercel/postgres'
-      - '@xata.io/client'
-      - bun-types
-      - expo-sqlite
-      - gel
-      - knex
-      - kysely
-      - mysql2
-      - pg
-      - postgres
-      - prisma
-      - sql.js
-      - sqlite3
-      - supports-color
-
-  '@synoikia/plugin-sdk@0.2.0':
+  '@synoikia/plugin-sdk@0.3.0':
     dependencies:
       semver: 7.8.5
-      zod: 4.6.5
-
-  '@synoikia/plugin-sdk@0.2.1':
-    dependencies:
-      semver: 7.8.5
+      yaml: 2.9.1
       zod: 4.6.5
 
   '@types/chai@5.2.3':
@@ -2496,7 +2442,17 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
+  fast-string-truncated-width@3.0.3: {}
+
+  fast-string-width@3.0.2:
+    dependencies:
+      fast-string-truncated-width: 3.0.3
+
   fast-uri@3.1.8: {}
+
+  fast-wrap-ansi@0.2.2:
+    dependencies:
+      fast-string-width: 3.0.2
 
   fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
@@ -2913,6 +2869,8 @@ snapshots:
       side-channel-list: 1.0.1
       side-channel-map: 1.0.1
       side-channel-weakmap: 1.0.2
+
+  sisteransi@1.0.5: {}
 
   source-map-js@1.2.1: {}
 

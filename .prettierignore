@@ -3,3 +3,6 @@ coverage
 pnpm-lock.yaml
 docs/designs
 docs/mockups
+**/__golden__/
+# Guide text is hashed into attestation keys; keep it byte-for-byte.
+plugins/*/guides

@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { startPluginHarness } from '@synoikia/core/testing';
+import { checkPluginContract, startPluginHarness } from '@synoikia/core/testing';
 import type { PluginHarness } from '@synoikia/core/testing';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FAKE_TOKEN, startFakeHa } from './fake-ha.js';
@@ -175,5 +175,23 @@ describe('Home Assistant plugin end to end (fake Home Assistant)', () => {
     await expect(h.testConnection({ baseUrl: 'http://127.0.0.1:1', token: 't' })).resolves.toMatchObject({
       ok: false,
     });
+  });
+
+  it('keeps the plugin contract (shared checks from @synoikia/core/testing)', async () => {
+    expect(
+      await checkPluginContract(h, {
+        read: { key: 'get_states', code: `return await ha.call('get_states', { domain: 'light' });` },
+        write: { key: 'light.turn_on', code: `return await ha.call('light.turn_on', { area_id: 'kitchen' });` },
+        locked: {
+          key: 'lock.unlock',
+          code: `return await ha.call('lock.unlock', { entity_id: 'lock.front_door' });`,
+          confirm: 'Front Door',
+        },
+        secrets: {
+          code: `return await ha.call('get_states', { domain: 'camera' });`,
+          values: ['cam-secret-token-123'],
+        },
+      }),
+    ).toEqual([]);
   });
 });

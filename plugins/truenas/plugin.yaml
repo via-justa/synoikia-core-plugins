@@ -1,0 +1,240 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+#
+# What the TrueNAS plugin tells core about its methods (TN §2.2–§3.4). The catalog is
+# `core.get_methods`; src/catalog.ts classifies each method from its declared roles and its name, and
+# these rules lock, split, redact and describe on top. Precedence fails closed: excluded methods don't
+# exist, a lock always wins, and a method nothing classifies is a write. Core decides what is allowed.
+
+defaults:
+  # Every locked method without its own literal confirms against the system it acts on.
+  confirm: instance
+  timeouts: { request: 30000, lookup: 10000 }
+
+instanceName: { op: system.info, field: hostname, fallback: '{key}' }
+
+# Session plumbing the model has no business calling, and `core.*` middleware: some of it dispatches
+# other methods (`core.bulk`, `core.download`) or opens a debugger (`core.debug`), which would bypass
+# the locks. Only the `include`d core methods are exposed, so one a future TrueNAS adds stays out.
+exclude:
+  - auth.login
+  - auth.login_ex
+  - auth.login_with_api_key
+  - auth.login_with_token
+  - auth.logout
+  - 'core.*'
+include: [core.get_jobs, core.get_methods, core.ping, core.job_abort]
+
+rules:
+  # Destructive or irreversible: always a human with a typed confirmation (TN §3.4).
+  - match:
+      - system.reboot
+      - system.shutdown
+      - pool.export
+      - disk.wipe
+      - config.reset
+      - user.set_password
+      - user.delete
+      - pool.dataset.change_key
+      - pool.dataset.delete
+      - app.delete
+      - audit.config
+      - auth.generate_token
+      - auth.generate_onetime_password
+      - docker.delete_backup
+      - interface.network_config_to_be_removed
+      - user.has_local_administrator_set_up
+      - user.renew_2fa_secret
+      - user.setup_local_administrator
+      - pool.dataset.export_key
+      # The whole namespace, including methods a future TrueNAS adds to it.
+      - 'api_key.*'
+    locked: true
+
+  # The literal an approver types: the thing the method destroys. A lookup is made only with a plain id;
+  # without one the approver types the system's hostname instead.
+  - match:
+      - pool.dataset.delete
+      - pool.dataset.change_key
+      - disk.wipe
+      - pool.dataset.export_key
+      - app.delete
+      - docker.delete_backup
+      - user.renew_2fa_secret
+      - user.setup_local_administrator
+    confirm: { param: /0 }
+  - match: pool.export
+    confirm: [{ lookup: { op: pool.get_instance, args: [{ $param: /0 }], field: name } }, instance]
+  - match: user.delete
+    confirm: [{ lookup: { op: user.get_instance, args: [{ $param: /0 }], field: username } }, instance]
+  - match: user.set_password
+    confirm: { param: /0/username }
+  # What a key can do comes from the user it acts as, not from its (model-chosen) name.
+  - match: api_key.create
+    confirm: [{ param: /0/username }, instance]
+  - match: [api_key.update, api_key.delete]
+    confirm: [{ lookup: { op: api_key.get_instance, args: [{ $param: /0 }], field: name } }, instance]
+
+  # An ACL or owner change at a pool's root (`/mnt/<pool>`), outside /mnt, or on a path with . or ..
+  # segments takes the locked twin; deeper down it is an ordinary write (src/catalog.ts needsPoolRootKey).
+  - match: [filesystem.setacl, filesystem.chown]
+    split: pool-root
+  - match: '*#pool-root'
+    description: "{base} on a pool's root (/mnt/<pool>), outside /mnt, or on a path with . or .. segments: locked."
+    summaryNote: at the root of a pool
+    confirm: { param: /0/path }
+
+  # Params that hold a secret core can't recognize by key name (a positional password, an encryption
+  # key under the common name `key`). A pointer can't say "every item", so dataset unlocks list the
+  # first 32 datasets (the SDK's limit); the plugin also masks summaries and job records itself.
+  - match: user.setup_local_administrator
+    sensitiveParams: [/1]
+  - match: [pool.create, pool.dataset.create]
+    sensitiveParams: [/0/encryption_options/key]
+  - match: pool.dataset.change_key
+    sensitiveParams: [/1/key]
+  - match: [pool.dataset.unlock, pool.dataset.encryption_summary]
+    sensitiveParams:
+      &datasetKeys [
+        /1/datasets/0/key,
+        /1/datasets/1/key,
+        /1/datasets/2/key,
+        /1/datasets/3/key,
+        /1/datasets/4/key,
+        /1/datasets/5/key,
+        /1/datasets/6/key,
+        /1/datasets/7/key,
+        /1/datasets/8/key,
+        /1/datasets/9/key,
+        /1/datasets/10/key,
+        /1/datasets/11/key,
+        /1/datasets/12/key,
+        /1/datasets/13/key,
+        /1/datasets/14/key,
+        /1/datasets/15/key,
+        /1/datasets/16/key,
+        /1/datasets/17/key,
+        /1/datasets/18/key,
+        /1/datasets/19/key,
+        /1/datasets/20/key,
+        /1/datasets/21/key,
+        /1/datasets/22/key,
+        /1/datasets/23/key,
+        /1/datasets/24/key,
+        /1/datasets/25/key,
+        /1/datasets/26/key,
+        /1/datasets/27/key,
+        /1/datasets/28/key,
+        /1/datasets/29/key,
+        /1/datasets/30/key,
+        /1/datasets/31/key,
+      ]
+  - match: kerberos.keytab.create
+    sensitiveParams: [/0/file]
+  - match: kerberos.keytab.update
+    sensitiveParams: [/1/file]
+  # B2, Azure Blob and Swift credentials keep their secret under `provider.key`.
+  - match: cloudsync.credentials.create
+    sensitiveParams: [/0/provider/key]
+  - match: cloudsync.credentials.update
+    sensitiveParams: [/1/provider/key]
+  - match: cloudsync.credentials.verify
+    sensitiveParams: [/0/key]
+
+  # Secrets in results core can't recognize by key name. The first matching rule wins, so whole-result
+  # secrets come before the namespaces they sit in.
+  - match: [auth.generate_token, auth.generate_onetime_password, pool.dataset.export_key, user.provisioning_uri]
+    sensitiveResult: whole
+  # Cloud credentials nest their secret under `key` at any depth.
+  - match: ['cloudsync.*', 'cloud_backup.*']
+    sensitiveResult: { keys: [key], deep: true }
+  - match: 'kerberos.keytab.*'
+    sensitiveResult: { keys: [file] }
+  # A new or reset API key, and dataset and pool encryption keys.
+  - match: ['api_key.*', 'pool.dataset.*', pool.create]
+    sensitiveResult: { keys: [key] }
+
+  - match: pool.dataset.create
+    matchProfile: dataset-name-prefix
+  - match: app.upgrade
+    matchProfile: app-name-in
+
+  # Wizard-style guidance the old 52-tool server baked into its prompts (TN §6), now on demand.
+  - match: pool.dataset.create
+    guidance: >-
+      Name is "<pool>/<path>". Common options: type FILESYSTEM (default) or VOLUME (needs volsize), share_type
+      GENERIC/SMB/APPS, compression, quota/refquota in bytes, acltype. Create parents first; check pool.dataset.query.
+  - match: sharing.smb.create
+    guidance: >-
+      Needs path under /mnt/<pool>/… (an existing dataset) and name. purpose presets: DEFAULT_SHARE,
+      MULTIPROTOCOL_SHARE, TIMEMACHINE_SHARE. The dataset should use share_type SMB for correct ACLs.
+  - match: sharing.nfs.create
+    guidance: Needs path under /mnt/<pool>/…; restrict with networks/hosts; maproot/mapall for ownership mapping.
+  - match: app.create
+    guidance: >-
+      Needs app_name, catalog_app (see app.available / catalog), train, version and a values object following the
+      app schema (catalog.get_app_details). Storage usually maps host paths under an existing dataset.
+
+plugin:
+  # Naming conventions src/catalog.ts reads when a method's roles don't settle it (TN §2.3).
+  readLast: [query, get_instance, config, status, choices, info]
+  readVerbs: [list, listdir, get, search]
+  writeLast: [create, update, delete]
+  writeVerbs: [
+      run,
+      start,
+      stop,
+      restart,
+      install,
+      upgrade,
+      reboot,
+      shutdown,
+      wipe,
+      attach,
+      detach,
+      export,
+      remove,
+      replace,
+      set,
+      # Write-shaped verbs a read role must not settle as a read.
+      lock,
+      unlock,
+      import,
+      sync,
+      scrub,
+      dismiss,
+      restore,
+      rollback,
+      clone,
+      promote,
+      reload,
+      abort,
+      generate,
+      renew,
+      reset,
+      mount,
+      umount,
+      upload,
+      put,
+      pull,
+      prune,
+      redeploy,
+      expand,
+      online,
+      offline,
+      activate,
+      download,
+      leave,
+      join,
+      terminate,
+      send,
+      test,
+      commit,
+      checkin,
+      enable,
+      disable,
+      unset,
+      cancel,
+      kill,
+    ]
+  # How often a job is polled until it finishes.
+  jobPollMs: 250

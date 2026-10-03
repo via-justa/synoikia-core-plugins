@@ -1,0 +1,1185 @@
+[
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "system.reboot",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "system.reboot"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "system.shutdown",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "system.shutdown"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.export",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.export"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "disk.wipe",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "disk.wipe"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "config.reset",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "config.reset"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "user.set_password",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "user.set_password"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "user.delete",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "user.delete"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.dataset.change_key",
+        "locked": true,
+        "sensitiveParams": [
+          "/1/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.dataset.change_key"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.dataset.delete",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.dataset.delete"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "app.delete",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "app.delete"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "audit.config",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "audit.config"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "auth.generate_token",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": "[REDACTED]",
+      "text": "[REDACTED]"
+    },
+    "n": "auth.generate_token"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "auth.generate_onetime_password",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": "[REDACTED]",
+      "text": "[REDACTED]"
+    },
+    "n": "auth.generate_onetime_password"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "docker.delete_backup",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "docker.delete_backup"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "interface.network_config_to_be_removed",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "interface.network_config_to_be_removed"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "user.has_local_administrator_set_up",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "user.has_local_administrator_set_up"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "user.renew_2fa_secret",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "user.renew_2fa_secret"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "user.setup_local_administrator",
+        "locked": true,
+        "sensitiveParams": [
+          "/1"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "user.setup_local_administrator"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.dataset.export_key",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": "[REDACTED]",
+      "text": "[REDACTED]"
+    },
+    "n": "pool.dataset.export_key"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "api_key.create",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "api_key.create"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "api_key.update",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "api_key.update"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "api_key.delete",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "api_key.delete"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "api_key.some_future_method",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "api_key.some_future_method"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "filesystem.setacl",
+        "locked": false
+      },
+      {
+        "classification": "write",
+        "description": "filesystem.setacl on a pool's root (/mnt/<pool>), outside /mnt, or on a path with . or .. segments: locked.",
+        "key": "filesystem.setacl#pool-root",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "filesystem.setacl"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "filesystem.chown",
+        "locked": false
+      },
+      {
+        "classification": "write",
+        "description": "filesystem.chown on a pool's root (/mnt/<pool>), outside /mnt, or on a path with . or .. segments: locked.",
+        "key": "filesystem.chown#pool-root",
+        "locked": true
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "filesystem.chown"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.create",
+        "locked": false,
+        "sensitiveParams": [
+          "/0/encryption_options/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.create"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "guidance": "Name is \"<pool>/<path>\". Common options: type FILESYSTEM (default) or VOLUME (needs volsize), share_type GENERIC/SMB/APPS, compression, quota/refquota in bytes, acltype. Create parents first; check pool.dataset.query.",
+        "key": "pool.dataset.create",
+        "locked": false,
+        "matchProfile": "dataset-name-prefix",
+        "sensitiveParams": [
+          "/0/encryption_options/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.dataset.create"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.dataset.update",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.dataset.update"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.dataset.unlock",
+        "locked": false,
+        "sensitiveParams": [
+          "/1/datasets/0/key",
+          "/1/datasets/1/key",
+          "/1/datasets/2/key",
+          "/1/datasets/3/key",
+          "/1/datasets/4/key",
+          "/1/datasets/5/key",
+          "/1/datasets/6/key",
+          "/1/datasets/7/key",
+          "/1/datasets/8/key",
+          "/1/datasets/9/key",
+          "/1/datasets/10/key",
+          "/1/datasets/11/key",
+          "/1/datasets/12/key",
+          "/1/datasets/13/key",
+          "/1/datasets/14/key",
+          "/1/datasets/15/key",
+          "/1/datasets/16/key",
+          "/1/datasets/17/key",
+          "/1/datasets/18/key",
+          "/1/datasets/19/key",
+          "/1/datasets/20/key",
+          "/1/datasets/21/key",
+          "/1/datasets/22/key",
+          "/1/datasets/23/key",
+          "/1/datasets/24/key",
+          "/1/datasets/25/key",
+          "/1/datasets/26/key",
+          "/1/datasets/27/key",
+          "/1/datasets/28/key",
+          "/1/datasets/29/key",
+          "/1/datasets/30/key",
+          "/1/datasets/31/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.dataset.unlock"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.dataset.encryption_summary",
+        "locked": false,
+        "sensitiveParams": [
+          "/1/datasets/0/key",
+          "/1/datasets/1/key",
+          "/1/datasets/2/key",
+          "/1/datasets/3/key",
+          "/1/datasets/4/key",
+          "/1/datasets/5/key",
+          "/1/datasets/6/key",
+          "/1/datasets/7/key",
+          "/1/datasets/8/key",
+          "/1/datasets/9/key",
+          "/1/datasets/10/key",
+          "/1/datasets/11/key",
+          "/1/datasets/12/key",
+          "/1/datasets/13/key",
+          "/1/datasets/14/key",
+          "/1/datasets/15/key",
+          "/1/datasets/16/key",
+          "/1/datasets/17/key",
+          "/1/datasets/18/key",
+          "/1/datasets/19/key",
+          "/1/datasets/20/key",
+          "/1/datasets/21/key",
+          "/1/datasets/22/key",
+          "/1/datasets/23/key",
+          "/1/datasets/24/key",
+          "/1/datasets/25/key",
+          "/1/datasets/26/key",
+          "/1/datasets/27/key",
+          "/1/datasets/28/key",
+          "/1/datasets/29/key",
+          "/1/datasets/30/key",
+          "/1/datasets/31/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.dataset.encryption_summary"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.dataset.export_keys",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.dataset.export_keys"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "kerberos.keytab.create",
+        "locked": false,
+        "sensitiveParams": [
+          "/0/file"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "[REDACTED]",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "kerberos.keytab.create"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "kerberos.keytab.update",
+        "locked": false,
+        "sensitiveParams": [
+          "/1/file"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "[REDACTED]",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "kerberos.keytab.update"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "kerberos.keytab.query",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "[REDACTED]",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "kerberos.keytab.query"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "cloudsync.credentials.create",
+        "locked": false,
+        "sensitiveParams": [
+          "/0/provider/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "[REDACTED]"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "cloudsync.credentials.create"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "cloudsync.credentials.update",
+        "locked": false,
+        "sensitiveParams": [
+          "/1/provider/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "[REDACTED]"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "cloudsync.credentials.update"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "cloudsync.credentials.verify",
+        "locked": false,
+        "sensitiveParams": [
+          "/0/key"
+        ]
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "[REDACTED]"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "cloudsync.credentials.verify"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "cloudsync.credentials.query",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "[REDACTED]"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "cloudsync.credentials.query"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "cloud_backup.query",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "[REDACTED]",
+        "name": "n",
+        "provider": {
+          "key": "[REDACTED]"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "cloud_backup.query"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "user.provisioning_uri",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": "[REDACTED]",
+      "text": "[REDACTED]"
+    },
+    "n": "user.provisioning_uri"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "app.upgrade",
+        "locked": false,
+        "matchProfile": "app-name-in"
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "app.upgrade"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "guidance": "Needs path under /mnt/<pool>/… (an existing dataset) and name. purpose presets: DEFAULT_SHARE, MULTIPROTOCOL_SHARE, TIMEMACHINE_SHARE. The dataset should use share_type SMB for correct ACLs.",
+        "key": "sharing.smb.create",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "sharing.smb.create"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "auth.login",
+        "locked": false
+      }
+    ],
+    "excluded": true,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "auth.login"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "auth.login_with_api_key",
+        "locked": false
+      }
+    ],
+    "excluded": true,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "auth.login_with_api_key"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "core.bulk",
+        "locked": false
+      }
+    ],
+    "excluded": true,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "core.bulk"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "core.download",
+        "locked": false
+      }
+    ],
+    "excluded": true,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "core.download"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "core.debug",
+        "locked": false
+      }
+    ],
+    "excluded": true,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "core.debug"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "core.get_jobs",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "core.get_jobs"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "core.ping",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "core.ping"
+  },
+  {
+    "descriptors": [
+      {
+        "classification": "write",
+        "key": "pool.query",
+        "locked": false
+      }
+    ],
+    "excluded": false,
+    "masked": {
+      "row": {
+        "file": "f",
+        "key": "k",
+        "name": "n",
+        "provider": {
+          "key": "pk"
+        }
+      },
+      "text": "secret-string"
+    },
+    "n": "pool.query"
+  }
+]

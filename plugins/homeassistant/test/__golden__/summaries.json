@@ -1,0 +1,82 @@
+{
+  "alarm_control_panel.alarm_disarm": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Disarm (alarm_control_panel.alarm_disarm) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/area_registry/delete": {
+    "confirmLiteral": "Kitchen",
+    "text": "Home Assistant config/area_registry/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/automation/config/delete": {
+    "confirmLiteral": "a1",
+    "text": "Home Assistant config/automation/config/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/category_registry/delete": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Home Assistant config/category_registry/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/entity_registry/remove": {
+    "confirmLiteral": "Front Door",
+    "text": "Home Assistant config/entity_registry/remove {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/floor_registry/delete": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Home Assistant config/floor_registry/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/label_registry/delete": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Home Assistant config/label_registry/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/scene/config/delete": {
+    "confirmLiteral": "a1",
+    "text": "Home Assistant config/scene/config/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "config/script/config/delete": {
+    "confirmLiteral": "a1",
+    "text": "Home Assistant config/script/config/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "cover.open_cover#garage": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Open (cover.open_cover) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a garage door or gate)"
+  },
+  "cover.set_cover_position#garage": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Set position (cover.set_cover_position) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a garage door or gate)"
+  },
+  "cover.toggle#garage": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Toggle (cover.toggle) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a garage door or gate)"
+  },
+  "homeassistant.restart": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Restart (homeassistant.restart) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "homeassistant.stop": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Stop (homeassistant.stop) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "homeassistant.toggle#protected": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Generic toggle (homeassistant.toggle) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a lock, alarm panel, garage door or gate)"
+  },
+  "homeassistant.turn_off#protected": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Generic turn off (homeassistant.turn_off) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a lock, alarm panel, garage door or gate)"
+  },
+  "homeassistant.turn_on#protected": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Generic turn on (homeassistant.turn_on) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a lock, alarm panel, garage door or gate)"
+  },
+  "lock.unlock": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Unlock (lock.unlock) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
+  },
+  "scene.apply#protected": {
+    "confirmLiteral": "Front Door",
+    "text": "Apply (scene.apply) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a lock, alarm panel, garage door or gate)"
+  },
+  "scene.turn_on#protected": {
+    "confirmLiteral": "Home Sweet Home",
+    "text": "Activate (scene.turn_on) with {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}} (a lock, alarm panel, garage door or gate)"
+  }
+}

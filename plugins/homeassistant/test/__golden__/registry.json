@@ -1,0 +1,212 @@
+{
+  "entries": [
+    {
+      "id": "ground",
+      "kind": "floor",
+      "name": "Ground floor"
+    },
+    {
+      "id": "top",
+      "kind": "floor",
+      "name": "Top floor"
+    },
+    {
+      "id": "living_room",
+      "kind": "area",
+      "name": "Living Room",
+      "parentId": "ground"
+    },
+    {
+      "id": "kitchen",
+      "kind": "area",
+      "name": "Kitchen",
+      "parentId": "ground"
+    },
+    {
+      "id": "garage",
+      "kind": "area",
+      "name": "Garage",
+      "parentId": "ground"
+    },
+    {
+      "id": "attic",
+      "kind": "area",
+      "name": "Attic",
+      "parentId": "top"
+    },
+    {
+      "id": "dev_lamp",
+      "kind": "device",
+      "name": "Reading lamp",
+      "parentId": "living_room"
+    },
+    {
+      "id": "dev_garage",
+      "kind": "device",
+      "name": "Garage Door Opener",
+      "parentId": "garage"
+    },
+    {
+      "attrs": {
+        "device_id": "dev_lamp"
+      },
+      "id": "light.reading_lamp",
+      "kind": "entity",
+      "name": "Reading Lamp",
+      "parentId": "living_room",
+      "scopes": {
+        "area": "living_room",
+        "domain": "light"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "light.ceiling",
+      "kind": "entity",
+      "name": "Living Room Ceiling",
+      "parentId": "living_room",
+      "scopes": {
+        "area": "living_room",
+        "domain": "light"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "light.kitchen",
+      "kind": "entity",
+      "name": "Kitchen Light",
+      "parentId": "kitchen",
+      "scopes": {
+        "area": "kitchen",
+        "domain": "light"
+      }
+    },
+    {
+      "attrs": {
+        "device_class": "garage",
+        "device_id": "dev_garage"
+      },
+      "id": "cover.garage_door",
+      "kind": "entity",
+      "name": "Garage Door",
+      "parentId": "garage",
+      "scopes": {
+        "area": "garage",
+        "domain": "cover"
+      }
+    },
+    {
+      "attrs": {
+        "device_class": "blind"
+      },
+      "id": "cover.blinds",
+      "kind": "entity",
+      "name": "Blinds",
+      "parentId": "living_room",
+      "scopes": {
+        "area": "living_room",
+        "domain": "cover"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "lock.front_door",
+      "kind": "entity",
+      "name": "Front Door",
+      "scopes": {
+        "domain": "lock"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "climate.thermostat",
+      "kind": "entity",
+      "name": "Thermostat",
+      "parentId": "living_room",
+      "scopes": {
+        "area": "living_room",
+        "domain": "climate"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "switch.porch",
+      "kind": "entity",
+      "name": "Porch Light",
+      "scopes": {
+        "domain": "switch"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "weather.home",
+      "kind": "entity",
+      "name": "Home",
+      "scopes": {
+        "domain": "weather"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "media_player.sonos_living",
+      "kind": "entity",
+      "name": "Living Room Sonos",
+      "parentId": "living_room",
+      "scopes": {
+        "area": "living_room",
+        "domain": "media_player"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "media_player.tv",
+      "kind": "entity",
+      "name": "TV",
+      "parentId": "living_room",
+      "scopes": {
+        "area": "living_room",
+        "domain": "media_player"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "scene.movie",
+      "kind": "entity",
+      "name": "Movie night",
+      "scopes": {
+        "domain": "scene"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "scene.leaving",
+      "kind": "entity",
+      "name": "Leaving",
+      "scopes": {
+        "domain": "scene"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "camera.driveway",
+      "kind": "entity",
+      "name": "Driveway",
+      "scopes": {
+        "domain": "camera"
+      }
+    },
+    {
+      "attrs": {},
+      "id": "sensor.untracked",
+      "kind": "entity",
+      "name": "Untracked Sensor",
+      "scopes": {
+        "domain": "sensor"
+      }
+    }
+  ],
+  "guide": {
+    "content": "# Automation best practices\n- Trigger on the event that matters (state, numeric_state, time, sun, event); never poll with a\n  time_pattern trigger when a state trigger would do.\n- Use \"for:\" on state triggers to ride out flapping sensors, and conditions to express \"only when\".\n- Pick the mode deliberately: single (default) drops overlapping runs, restart suits motion lights,\n  queued/parallel suit notifications. Set max for queued/parallel.\n- Give every trigger an id when actions branch on which one fired (choose + trigger condition).\n- Guard physical actions (locks, covers, heating) with conditions on presence, time or state, and\n  prefer notifying over acting for anything security-related.\n- Keep actions idempotent: turning on a light that is on is fine; toggling is not.\n- Use the automation's own id for the config id (a stable unique string).\n\n- Read before you write: use config/<type>/config/get for an existing object, and edit it with a\n  small JSON Patch against the returned config_hash instead of resending the whole config.\n- Refer to entities by entity_id (look them up with registry.find or get_states), never by\n  friendly name. Prefer areas or labels as targets when the user means \"all the lights in …\".\n- Give the object an alias and a description that say what it does and why.\n- Don't store secrets in the config; use !secret in YAML or a helper instead.",
+    "version": "97768aa98c65"
+  }
+}

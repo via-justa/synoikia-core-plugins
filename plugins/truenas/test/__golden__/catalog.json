@@ -1,0 +1,974 @@
+[
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Create an API key."
+    },
+    "group": "api_key",
+    "key": "api_key.create",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "title": "api_key_create",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Delete an API key."
+    },
+    "group": "api_key",
+    "key": "api_key.delete",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "integer"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Get one API key."
+    },
+    "group": "api_key",
+    "key": "api_key.get_instance",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "integer"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Query API keys."
+    },
+    "group": "api_key",
+    "key": "api_key.query",
+    "kind": "method",
+    "locked": true,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "default:ambiguous",
+    "docs": {
+      "summary": "Space for apps."
+    },
+    "group": "app",
+    "key": "app.available_space",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Delete an app."
+    },
+    "group": "app",
+    "key": "app.delete",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "app_name",
+          "type": "string"
+        },
+        {
+          "properties": {},
+          "title": "options",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query apps."
+    },
+    "group": "app",
+    "key": "app.query",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "filters",
+          "type": "array"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "naming:write(upgrade)",
+    "docs": {
+      "summary": "Upgrade an app."
+    },
+    "group": "app",
+    "key": "app.upgrade",
+    "kind": "method",
+    "locked": false,
+    "matchProfile": "app-name-in",
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "app_name",
+          "type": "string"
+        },
+        {
+          "properties": {},
+          "title": "options",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Generate a one-time password."
+    },
+    "group": "auth",
+    "key": "auth.generate_onetime_password",
+    "kind": "method",
+    "locked": true,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Generate a token."
+    },
+    "group": "auth",
+    "key": "auth.generate_token",
+    "kind": "method",
+    "locked": true,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "naming:write(.create)",
+    "docs": {
+      "summary": "Create cloud credentials."
+    },
+    "group": "cloudsync.credentials",
+    "key": "cloudsync.credentials.create",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "provider": {
+              "type": "object"
+            }
+          },
+          "title": "cloudsync_credentials_create",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "sensitiveParams": [
+      "/0/provider/key"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query cloud credentials."
+    },
+    "group": "cloudsync.credentials",
+    "key": "cloudsync.credentials.query",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Reset configuration."
+    },
+    "group": "config",
+    "key": "config.reset",
+    "kind": "method",
+    "locked": true,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(get)",
+    "docs": {
+      "summary": "Query jobs."
+    },
+    "group": "core",
+    "key": "core.get_jobs",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "default:ambiguous",
+    "docs": {
+      "summary": "Ping."
+    },
+    "group": "core",
+    "key": "core.ping",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query disks."
+    },
+    "group": "disk",
+    "key": "disk.query",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Wipe a disk."
+    },
+    "group": "disk",
+    "key": "disk.wipe",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "dev",
+          "type": "string"
+        },
+        {
+          "title": "mode",
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "default:ambiguous",
+    "docs": {
+      "summary": "Change owner."
+    },
+    "group": "filesystem",
+    "key": "filesystem.chown",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "title": "filesystem_ownership",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "description": "filesystem.chown on a pool's root (/mnt/<pool>), outside /mnt, or on a path with . or .. segments: locked.",
+      "summary": "Change owner."
+    },
+    "group": "filesystem",
+    "key": "filesystem.chown#pool-root",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "title": "filesystem_ownership",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(listdir)",
+    "docs": {
+      "summary": "List a directory."
+    },
+    "group": "filesystem",
+    "key": "filesystem.listdir",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "default:ambiguous",
+    "docs": {
+      "summary": "Set an ACL."
+    },
+    "group": "filesystem",
+    "key": "filesystem.setacl",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "title": "filesystem_acl",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "description": "filesystem.setacl on a pool's root (/mnt/<pool>), outside /mnt, or on a path with . or .. segments: locked.",
+      "summary": "Set an ACL."
+    },
+    "group": "filesystem",
+    "key": "filesystem.setacl#pool-root",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "title": "filesystem_acl",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.kerberos_principal_choices)",
+    "docs": {
+      "summary": "Principals."
+    },
+    "group": "kerberos.keytab",
+    "key": "kerberos.keytab.kerberos_principal_choices",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query keytabs."
+    },
+    "group": "kerberos.keytab",
+    "key": "kerberos.keytab.query",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Change a dataset key."
+    },
+    "group": "pool.dataset",
+    "key": "pool.dataset.change_key",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    },
+    "sensitiveParams": [
+      "/1/key"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "roles:write(DATASET_WRITE)",
+    "docs": {
+      "guidance": "Name is \"<pool>/<path>\". Common options: type FILESYSTEM (default) or VOLUME (needs volsize), share_type GENERIC/SMB/APPS, compression, quota/refquota in bytes, acltype. Create parents first; check pool.dataset.query.",
+      "summary": "Create a dataset or zvol."
+    },
+    "group": "pool.dataset",
+    "key": "pool.dataset.create",
+    "kind": "method",
+    "locked": false,
+    "matchProfile": "dataset-name-prefix",
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "quota": {
+              "type": "integer"
+            }
+          },
+          "title": "pool_dataset_create",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "sensitiveParams": [
+      "/0/encryption_options/key"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Delete a dataset."
+    },
+    "group": "pool.dataset",
+    "key": "pool.dataset.delete",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "string"
+        },
+        {
+          "properties": {
+            "recursive": {
+              "type": "boolean"
+            }
+          },
+          "title": "options",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "roles:read(DATASET_READ)",
+    "docs": {
+      "summary": "Dataset details."
+    },
+    "group": "pool.dataset",
+    "key": "pool.dataset.details",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Export the encryption key of a dataset."
+    },
+    "group": "pool.dataset",
+    "key": "pool.dataset.export_key",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query datasets."
+    },
+    "group": "pool.dataset",
+    "key": "pool.dataset.query",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "filters",
+          "type": "array"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Export a pool."
+    },
+    "group": "pool",
+    "key": "pool.export",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "integer"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.get_instance)",
+    "docs": {
+      "summary": "Get one pool."
+    },
+    "group": "pool",
+    "key": "pool.get_instance",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "integer"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query pools."
+    },
+    "group": "pool",
+    "key": "pool.query",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "filters",
+          "type": "array"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "naming:write(run)",
+    "docs": {
+      "summary": "Run a scrub."
+    },
+    "group": "pool.scrub",
+    "key": "pool.scrub.run",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "name",
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "naming:write(restart)",
+    "docs": {
+      "summary": "Restart a service."
+    },
+    "group": "service",
+    "key": "service.restart",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "service",
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "naming:write(.create)",
+    "docs": {
+      "guidance": "Needs path under /mnt/<pool>/… (an existing dataset) and name. purpose presets: DEFAULT_SHARE, MULTIPROTOCOL_SHARE, TIMEMACHINE_SHARE. The dataset should use share_type SMB for correct ACLs.",
+      "summary": "Create an SMB share."
+    },
+    "group": "sharing.smb",
+    "key": "sharing.smb.create",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {},
+          "title": "smb_share_create",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query SMB shares."
+    },
+    "group": "sharing.smb",
+    "key": "sharing.smb.query",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.config)",
+    "docs": {
+      "summary": "SNMP settings."
+    },
+    "group": "snmp",
+    "key": "snmp.config",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.config)",
+    "docs": {
+      "summary": "SSH settings."
+    },
+    "group": "ssh",
+    "key": "ssh.config",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.config)",
+    "docs": {
+      "summary": "General settings."
+    },
+    "group": "system.general",
+    "key": "system.general.config",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "naming:write(.update)",
+    "docs": {
+      "summary": "Update general settings."
+    },
+    "group": "system.general",
+    "key": "system.general.update",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {},
+          "title": "system_general_update",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.info)",
+    "docs": {
+      "summary": "System information."
+    },
+    "group": "system",
+    "key": "system.info",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Reboot."
+    },
+    "group": "system",
+    "key": "system.reboot",
+    "kind": "method",
+    "locked": true,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Shut down."
+    },
+    "group": "system",
+    "key": "system.shutdown",
+    "kind": "method",
+    "locked": true,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "default:ambiguous",
+    "docs": {
+      "summary": "TrueNAS version."
+    },
+    "group": "system",
+    "key": "system.version",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.config)",
+    "docs": {
+      "summary": "UPS settings."
+    },
+    "group": "ups",
+    "key": "ups.config",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Delete a user."
+    },
+    "group": "user",
+    "key": "user.delete",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "integer"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.get_instance)",
+    "docs": {
+      "summary": "Get one user."
+    },
+    "group": "user",
+    "key": "user.get_instance",
+    "kind": "method",
+    "locked": false,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "id",
+          "type": "integer"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(.query)",
+    "docs": {
+      "summary": "Query users."
+    },
+    "group": "user",
+    "key": "user.query",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Set a password."
+    },
+    "group": "user",
+    "key": "user.set_password",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "properties": {
+            "username": {
+              "type": "string"
+            }
+          },
+          "title": "set_password",
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Set up the local administrator."
+    },
+    "group": "user",
+    "key": "user.setup_local_administrator",
+    "kind": "method",
+    "locked": true,
+    "paramsSchema": {
+      "prefixItems": [
+        {
+          "title": "username",
+          "type": "string"
+        },
+        {
+          "title": "password",
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    },
+    "sensitiveParams": [
+      "/1"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "naming:read(get)",
+    "docs": {
+      "summary": "An oddly named method."
+    },
+    "group": "vm",
+    "key": "vm.get_console",
+    "kind": "method",
+    "locked": false,
+    "typedConfirmation": false
+  }
+]

@@ -1,0 +1,1082 @@
+[
+  {
+    "n": "system.reboot",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "system.shutdown",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "pool.export",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "disk.wipe",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "config.reset",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "user.set_password",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "user.delete",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "pool.dataset.change_key",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "pool.dataset.delete",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "app.delete",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "audit.config",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "auth.generate_token",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "auth.generate_onetime_password",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "docker.delete_backup",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "interface.network_config_to_be_removed",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "user.has_local_administrator_set_up",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "user.renew_2fa_secret",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "user.setup_local_administrator",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "pool.dataset.export_key",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "api_key.create",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "api_key.query",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "filesystem.setacl",
+    "r": [
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "default:ambiguous"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "filesystem.setacl#pool-root",
+    "r": [
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      },
+      {
+        "classification": "write",
+        "locked": true,
+        "reason": "locked:destructive"
+      }
+    ]
+  },
+  {
+    "n": "pool.query",
+    "r": [
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "naming:read(.query)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "pool.get_instance",
+    "r": [
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "naming:read(.get_instance)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "system.info",
+    "r": [
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "naming:read(.info)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "disk.list",
+    "r": [
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "naming:read(list)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "app.start",
+    "r": [
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(start)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(start)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(start)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "pool.scrub",
+    "r": [
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(scrub)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(scrub)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(scrub)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "foo.bar",
+    "r": [
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "default:ambiguous"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "x.lock_y",
+    "r": [
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(lock)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(lock)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(lock)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "pool.dataset.create",
+    "r": [
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(.create)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(.create)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(.create)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "sharing.smb.update",
+    "r": [
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(.update)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(.update)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "naming:write(.update)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "cert.choices",
+    "r": [
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "naming:read(.choices)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "cert.ec_curve_choices",
+    "r": [
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "naming:read(.ec_curve_choices)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  },
+  {
+    "n": "vm.get_display_web_uri",
+    "r": [
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "naming:read(get)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(POOL_READ)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(POOL_WRITE)"
+      },
+      {
+        "classification": "read",
+        "locked": false,
+        "reason": "roles:read(READONLY_ADMIN)"
+      },
+      {
+        "classification": "write",
+        "locked": false,
+        "reason": "roles:write(FULL_ADMIN)"
+      }
+    ]
+  }
+]
