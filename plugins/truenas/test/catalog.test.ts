@@ -41,6 +41,7 @@ describe('classify (TN §2.3, §9)', () => {
     for (const m of LOCKED) expect(classify(m)).toMatchObject({ classification: 'write', locked: true });
     // user.delete would be an ordinary write by name; the list wins.
     expect(classify('user.delete').locked).toBe(true);
+    expect(classify('pool.dataset.export_key')).toMatchObject({ classification: 'write', locked: true });
     expect(classify('user.update').locked).toBe(false);
     expect(classify('filesystem.setacl#pool-root').locked).toBe(true);
   });

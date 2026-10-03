@@ -33,6 +33,7 @@ export const LOCKED = new Set([
   'user.has_local_administrator_set_up',
   'user.renew_2fa_secret',
   'user.setup_local_administrator',
+  'pool.dataset.export_key',
 ]);
 
 /** Whole namespaces that are locked, including methods a future TrueNAS adds to them. */

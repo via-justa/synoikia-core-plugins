@@ -96,6 +96,7 @@ describe('TrueNAS plugin', () => {
     expect(await literal('user.set_password', { username: 'bob', new_password: '[REDACTED]' })).toBe('bob');
     expect(await literal('disk.wipe', 'sda', 'QUICK')).toBe('sda');
     expect(await literal('system.reboot')).toBe('nas01');
+    expect(await literal('pool.dataset.export_key', 'tank/secure')).toBe('tank/secure');
     expect(await literal('app.delete', 'plex', { remove_images: true })).toBe('plex');
     // The user the key acts as, not its model-chosen name; without one, the hostname.
     expect(await literal('api_key.create', { name: 'read-only-viewer', username: 'root' })).toBe('root');

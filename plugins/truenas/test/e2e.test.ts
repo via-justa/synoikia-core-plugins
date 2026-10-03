@@ -128,6 +128,7 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
         // Locked calls need their literal: the key's user, or the system's hostname.
         if (a.message.includes('api_key.create')) a.approve('root');
         else if (a.message.includes('auth.generate_token')) a.approve('nas01');
+        else if (a.message.includes('pool.dataset.export_key')) a.approve('tank/secure');
         else a.approve();
       },
     };

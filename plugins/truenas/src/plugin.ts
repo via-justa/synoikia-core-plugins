@@ -51,6 +51,7 @@ export function createTrueNasPlugin(): PluginHandlers {
       case 'pool.dataset.delete':
       case 'pool.dataset.change_key':
       case 'disk.wipe':
+      case 'pool.dataset.export_key':
       case 'app.delete':
       case 'docker.delete_backup':
       case 'user.renew_2fa_secret':
