@@ -1,7 +1,7 @@
 {
   "id": "homeassistant",
   "name": "Home Assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "sdk": "^0.2.0",
   "description": "Search/execute over Home Assistant services and config-entry-flow commands.",
   "entry": "dist/index.js",
