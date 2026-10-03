@@ -7,22 +7,28 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "new": "synoikia-plugin new",
     "build": "pnpm -r --filter './plugins/*' build",
     "typecheck": "pnpm -r --filter './plugins/*' typecheck",
     "test": "pnpm -r --filter './plugins/*' test",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check": "synoikia-plugin check"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@synoikia/core": "^0.3.0",
+    "@synoikia/core": "^0.5.0",
+    "@synoikia/create-plugin": "0.1.0",
     "@types/node": "^22.19.0",
-    "esbuild": "^0.28.2",
     "eslint": "^10.11.0",
     "prettier": "^3.6.2",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.70.1",
     "vitest": "^5.0.2"
+  },
+  "synoikia": {
+    "repository": "via-justa/synoikia-core-plugins",
+    "name": "Synoikia plugins"
   }
 }
