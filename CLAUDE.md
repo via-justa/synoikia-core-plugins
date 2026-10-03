@@ -40,6 +40,10 @@ The e2e tests run the **built** `dist/index.js` on the real core (`startPluginHa
 
 Strict TypeScript with `noUncheckedIndexedAccess` and `verbatimModuleSyntax`: use `import type`, and `.js` extensions on relative imports. Unused variables are allowed only with a `_` prefix. Prettier formats everything, and a hook runs it after each edit. New behavior gets a unit test and, when it crosses the plugin boundary, an e2e case with the fake upstream extended to match.
 
+## Security review
+
+Before opening a PR that touches a plugin's `manifest.json`, `src/` or dependencies, `scripts/build-repo.mjs` or `.github/workflows/`, run the `security-reviewer` subagent (`.claude/agents/security-reviewer.md`) on the diff and address its findings. It checks classification, request building, approval summaries, secrets, network hosts and the release flow, and runs `pnpm audit` to triage known CVEs by whether the dependency is bundled into a plugin.
+
 ## Protected files
 
 A PreToolUse hook (`.claude/hooks/guard-paths.mjs`) denies edits to `pnpm-lock.yaml` and `plugins/*/dist/`, and asks first for `minisign.pub`. Never touch the `MINISIGN_SECRET_KEY` flow in `.github/workflows/release.yml` unless asked.
