@@ -44,6 +44,12 @@ describe('classify (TN §2.3, §9)', () => {
     expect(classify('user.update').locked).toBe(false);
     expect(classify('filesystem.setacl#pool-root').locked).toBe(true);
   });
+
+  it('locks every api_key.* method, including ones a future TrueNAS adds', () => {
+    for (const m of ['api_key.query', 'api_key.create', 'api_key.delete', 'api_key.some_future_method'])
+      expect(classify(m)).toMatchObject({ classification: 'write', locked: true });
+    expect(classify('api_keys.query').locked).toBe(false);
+  });
 });
 
 describe('groupOf', () => {

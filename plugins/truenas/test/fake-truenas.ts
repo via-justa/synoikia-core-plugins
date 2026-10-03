@@ -61,6 +61,19 @@ export const METHODS: Record<string, MethodInfo> = {
     job: true,
   },
   'app.available_space': { description: 'Space for apps.' },
+  'app.delete': {
+    description: 'Delete an app.',
+    accepts: [{ type: 'string', title: 'app_name' }, obj('options')],
+    job: true,
+  },
+  'api_key.query': { description: 'Query API keys.' },
+  'api_key.get_instance': { description: 'Get one API key.', accepts: [{ type: 'integer', title: 'id' }] },
+  'api_key.create': {
+    description: 'Create an API key.',
+    accepts: [obj('api_key_create', { name: { type: 'string' } })],
+  },
+  'api_key.delete': { description: 'Delete an API key.', accepts: [{ type: 'integer', title: 'id' }] },
+  'auth.generate_token': { description: 'Generate a token.' },
   'disk.query': { description: 'Query disks.' },
   'disk.wipe': {
     description: 'Wipe a disk.',
@@ -198,6 +211,7 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
       { id: 70, username: 'alice' },
     ],
     'user.get_instance': ([id]) => ({ id, username: id === 70 ? 'alice' : 'root' }),
+    'api_key.get_instance': ([id]) => ({ id, name: 'backup-bot' }),
     'sharing.smb.query': () => [
       { id: 1, name: 'media', path: '/mnt/tank/media', auxsmbconf: '', password: 'share-secret-123' },
     ],

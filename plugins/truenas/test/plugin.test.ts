@@ -96,6 +96,11 @@ describe('TrueNAS plugin', () => {
     expect(await literal('user.set_password', { username: 'bob', new_password: '[REDACTED]' })).toBe('bob');
     expect(await literal('disk.wipe', 'sda', 'QUICK')).toBe('sda');
     expect(await literal('system.reboot')).toBe('nas01');
+    expect(await literal('app.delete', 'plex', { remove_images: true })).toBe('plex');
+    expect(await literal('api_key.create', { name: 'ci' })).toBe('ci');
+    expect(await literal('api_key.delete', 3)).toBe('backup-bot');
+    expect(await literal('api_key.query')).toBe('nas01');
+    expect(await literal('auth.generate_token')).toBe('nas01');
     expect(await literal('filesystem.chown', { path: '/mnt/tank', uid: 0 })).toBe('/mnt/tank');
     expect(await literal('pool.dataset.create', { name: 'tank/x' })).toBeUndefined();
     const summary = await plugin.summarize({ key: 'pool.dataset.create', params: [{ name: 'tank/x' }], targets: [] });

@@ -23,7 +23,21 @@ export const LOCKED = new Set([
   'user.delete',
   'pool.dataset.change_key',
   'pool.dataset.delete',
+  'app.delete',
+  'audit.config',
+  'auth.generate_token',
+  'docker.delete_backup',
+  'interface.network_config_to_be_removed',
+  'user.has_local_administrator_set_up',
+  'user.renew_2fa_secret',
+  'user.setup_local_administrator',
 ]);
+
+/** Whole namespaces that are locked, including methods a future TrueNAS adds to them. */
+export const LOCKED_PREFIXES = ['api_key.'] as const;
+
+export const isLocked = (method: string) =>
+  LOCKED.has(method) || LOCKED_PREFIXES.some((p) => method.startsWith(p)) || method.endsWith(POOL_ROOT_SUFFIX);
 
 /**
  * Methods whose risk depends on their params get a second catalog key (design §3.4): an ACL or owner
@@ -72,7 +86,7 @@ const WRITE_VERBS = new Set([
 ]);
 
 export function classify(method: string): { classification: 'read' | 'write'; reason: string; locked: boolean } {
-  if (LOCKED.has(method) || method.endsWith(POOL_ROOT_SUFFIX)) {
+  if (isLocked(method)) {
     return { classification: 'write', reason: 'locked:destructive', locked: true };
   }
   const last = method.split('.').at(-1) ?? method;

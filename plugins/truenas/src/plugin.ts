@@ -1,6 +1,6 @@
 import { ErrorCodes, PluginError } from '@synoikia/plugin-sdk';
 import type { InitParams, PluginHandlers } from '@synoikia/plugin-sdk';
-import { buildCatalog, needsPoolRootKey, POOL_ROOT_SPLIT, POOL_ROOT_SUFFIX } from './catalog.js';
+import { buildCatalog, isLocked, needsPoolRootKey, POOL_ROOT_SPLIT, POOL_ROOT_SUFFIX } from './catalog.js';
 import type { Catalog, MethodInfo } from './catalog.js';
 import { TrueNasClient } from './client.js';
 
@@ -51,6 +51,10 @@ export function createTrueNasPlugin(): PluginHandlers {
       case 'pool.dataset.delete':
       case 'pool.dataset.change_key':
       case 'disk.wipe':
+      case 'app.delete':
+      case 'docker.delete_backup':
+      case 'user.renew_2fa_secret':
+      case 'user.setup_local_administrator':
         return stringOr(first(params));
       case 'pool.export':
         return lookup('pool.get_instance', first(params), 'name');
@@ -58,20 +62,27 @@ export function createTrueNasPlugin(): PluginHandlers {
         return lookup('user.get_instance', first(params), 'username');
       case 'user.set_password':
         return stringOr(field(first(params), 'username'));
-      case 'system.reboot':
-      case 'system.shutdown':
-      case 'config.reset': {
-        try {
-          const host = field(await connected().call('system.info', [], 10_000), 'hostname');
-          if (typeof host === 'string' && host) return host;
-        } catch {
-          // fall through
-        }
-        return key;
-      }
+      case 'api_key.create':
+        return stringOr(field(first(params), 'name')) ?? hostname(key);
+      case 'api_key.update':
+      case 'api_key.delete':
+        return lookup('api_key.get_instance', first(params), 'name');
       default:
-        return undefined;
+        // Every other locked method (reboot, shutdown, config reset, the rest of api_key.*, …)
+        // confirms against the system it acts on.
+        return isLocked(key) ? hostname(key) : undefined;
     }
+  };
+
+  /** The system's hostname, or `fallback` if it can't be read. */
+  const hostname = async (fallback: string): Promise<string> => {
+    try {
+      const host = field(await connected().call('system.info', [], 10_000), 'hostname');
+      if (typeof host === 'string' && host) return host;
+    } catch {
+      // fall through
+    }
+    return fallback;
   };
 
   return {
