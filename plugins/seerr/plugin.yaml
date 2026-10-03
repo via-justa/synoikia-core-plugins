@@ -1,0 +1,124 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+#
+# What the Seerr plugin tells core about its API (SR §2.2–§3.4). The catalog is Seerr's OpenAPI spec:
+# GET reads, every other verb writes, and a GET whose text reads like an action ("reset", "sync"…) is
+# a write flagged for review until a rule here settles it. These rules lock, split and describe on
+# top; anything that really changes something belongs in a lock. Core decides what is allowed.
+
+defaults:
+  # Locked operations without their own literal confirm against the instance's title.
+  confirm: instance
+  timeouts: { request: 15000, lookup: 10000 }
+
+instanceName: { op: 'GET /settings/public', field: applicationTitle, fallback: Seerr }
+
+rules:
+  # Irreversible or affecting other users or integrations: always a human with a typed confirmation.
+  - match:
+      - 'DELETE /user/{userId}'
+      - 'PUT /user'
+      - 'DELETE /settings/radarr/{radarrId}'
+      - 'DELETE /settings/sonarr/{sonarrId}'
+      - 'POST /settings/initialize'
+      - 'POST /settings/main/regenerate'
+      - 'DELETE /settings/discover/{sliderId}'
+      - 'GET /settings/discover/reset'
+      # Seerr 3.0–3.4.1 re-saves the enabled-library list on every call: without `enable`, every library is
+      # disabled. From 3.5.0 these are plain reads; locking them there only over-locks (fail closed).
+      - 'GET /settings/plex/library'
+      - 'GET /settings/jellyfin/library'
+    locked: true
+
+  - match: ['GET /settings/plex/library', 'GET /settings/jellyfin/library']
+    description: >-
+      Seerr 3.0–3.4.1 saves the enabled-library list on every call: libraries not listed in `enable` are
+      disabled. Locked.
+    summaryNote: '(saves the enabled-library list: libraries not listed in `enable` are disabled)'
+
+  # GETs the heuristic flags that were reviewed and only read. A newly flagged GET that is neither
+  # locked nor listed here stays a write until someone reviews it.
+  - match: 'GET /settings/jellyfin/sync' # "Get status of full Jellyfin library sync"
+    classification: read
+    reason: verb:GET
+    needsReview: false
+
+  # Operations whose risk depends on the call: each gets a locked twin the plugin picks per call.
+  # - `#on-behalf`: approving or declining a request someone else filed (SR §3.4).
+  # - `#start`: starting a full library scan (SR §2.3), as opposed to reading or cancelling one, and
+  #   running any scheduled job not in `plugin.cheapJobs` (`plex-full-scan` starts the same scan).
+  - match: 'POST /request/{requestId}/{status}'
+    split: on-behalf
+  - match: ['POST /settings/plex/sync', 'POST /settings/jellyfin/sync', 'POST /settings/jobs/{jobId}/run']
+    split: start
+
+  - match: 'POST /settings/jobs/{jobId}/run#start'
+    description: >-
+      Running a full library scan or another heavy or unknown scheduled job: locked. Cheap jobs (recently added
+      scans, Radarr/Sonarr scans, download sync, …) use the ordinary key.
+    confirm: { param: /path/jobId }
+  - match: '*#on-behalf'
+    description: 'Approving or declining a request filed by another Seerr user: locked.'
+    summaryNote: "(another user's request)"
+    confirm:
+      lookup:
+        op: 'GET /request/{requestId}'
+        args: [{ requestId: { $param: /path/requestId } }]
+        field: [/requestedBy/displayName, /requestedBy/email]
+  - match: '*#start'
+    description: 'Starting a full library scan: locked.'
+    summaryNote: '(starts a full library scan or another heavy job)'
+
+  # The literal an approver types: the thing the operation affects (SR §3.4).
+  - match: 'DELETE /user/{userId}'
+    confirm:
+      lookup: { op: 'GET /user/{userId}', args: [{ userId: { $param: /path/userId } }], field: [email, displayName] }
+  - match: 'DELETE /settings/radarr/{radarrId}'
+    confirm:
+      lookup:
+        op: 'GET /settings/radarr'
+        find: { field: id, equals: { $param: /path/radarrId } }
+        field: [name, title]
+  - match: 'DELETE /settings/sonarr/{sonarrId}'
+    confirm:
+      lookup:
+        op: 'GET /settings/sonarr'
+        find: { field: id, equals: { $param: /path/sonarrId } }
+        field: [name, title]
+  - match: 'DELETE /settings/discover/{sliderId}'
+    confirm:
+      lookup:
+        op: 'GET /settings/discover'
+        find: { field: id, equals: { $param: /path/sliderId } }
+        field: [name, title]
+
+  - match: 'POST /request'
+    matchProfile: media-request
+
+plugin:
+  # Seerr has no introspection endpoint: the spec comes from the release tag matching the instance's
+  # `/status` version, falling back to `develop` (SR §2.2). The base URL is a connection field, so a
+  # mirror works on a network without GitHub access.
+  spec:
+    baseUrl: https://raw.githubusercontent.com/seerr-team/seerr
+    file: seerr-api.yml
+    fallbackRef: develop
+    maxBytes: 5242880
+    timeoutMs: 20000
+  # The GET-as-action heuristic: words in a GET's summary, description or query parameter descriptions
+  # that make it a write flagged for review (SR §2.3). The path check of the SDK's default heuristic is
+  # off; every GET in the spec was reviewed against this list (see test/catalog.test.ts).
+  actionWords: ['reset\w*', 'regenerat\w*', 'sync\w*', 'flush\w*', run, runs, 'cancel\w*', 'invok\w*']
+  # Guard against an empty or truncated spec replacing a real catalog (SR §5).
+  minOperations: 50
+  # Scheduled jobs (Seerr `server/job/schedule.ts`) that are cheap to run on demand. Running any other job,
+  # including one a future Seerr adds, takes the locked `#start` key: the full library scans,
+  # `availability-sync` (can mark media unavailable), `download-sync-reset`, `process-blocklisted-tags`.
+  cheapJobs:
+    - plex-recently-added-scan
+    - jellyfin-recently-added-scan
+    - plex-refresh-token
+    - plex-watchlist-sync
+    - radarr-scan
+    - sonarr-scan
+    - download-sync
+    - image-cache-cleanup

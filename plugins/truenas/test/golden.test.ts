@@ -1,6 +1,6 @@
 import type { OperationDescriptor } from '@synoikia/plugin-sdk';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { classify } from '../src/catalog.js';
+import { classify, policy } from '../src/catalog.js';
 import { createTrueNasPlugin } from '../src/plugin.js';
 import { FAKE_API_KEY, startFakeTrueNas } from './fake-truenas.js';
 import type { FakeTrueNas } from './fake-truenas.js';
@@ -135,5 +135,81 @@ describe('TrueNAS golden record', () => {
       }
     }
     await expect(stable(out)).toMatchFileSnapshot('__golden__/results.json');
+  });
+
+  // Written out here, not read from plugin.yaml: deleting a lock, a split, a sensitive param or a result
+  // mask from plugin.yaml must show up as a diff in this record, even for methods the fake doesn't have.
+  it('policy for every method plugin.yaml protects', async () => {
+    const names = [
+      'system.reboot',
+      'system.shutdown',
+      'pool.export',
+      'disk.wipe',
+      'config.reset',
+      'user.set_password',
+      'user.delete',
+      'pool.dataset.change_key',
+      'pool.dataset.delete',
+      'app.delete',
+      'audit.config',
+      'auth.generate_token',
+      'auth.generate_onetime_password',
+      'docker.delete_backup',
+      'interface.network_config_to_be_removed',
+      'user.has_local_administrator_set_up',
+      'user.renew_2fa_secret',
+      'user.setup_local_administrator',
+      'pool.dataset.export_key',
+      'api_key.create',
+      'api_key.update',
+      'api_key.delete',
+      'api_key.some_future_method',
+      'filesystem.setacl',
+      'filesystem.chown',
+      'pool.create',
+      'pool.dataset.create',
+      'pool.dataset.update',
+      'pool.dataset.unlock',
+      'pool.dataset.encryption_summary',
+      'pool.dataset.export_keys',
+      'kerberos.keytab.create',
+      'kerberos.keytab.update',
+      'kerberos.keytab.query',
+      'cloudsync.credentials.create',
+      'cloudsync.credentials.update',
+      'cloudsync.credentials.verify',
+      'cloudsync.credentials.query',
+      'cloud_backup.query',
+      'user.provisioning_uri',
+      'app.upgrade',
+      'sharing.smb.create',
+      'auth.login',
+      'auth.login_with_api_key',
+      'core.bulk',
+      'core.download',
+      'core.debug',
+      'core.get_jobs',
+      'core.ping',
+      'pool.query',
+    ];
+    const sample = { key: 'k', file: 'f', provider: { key: 'pk' }, name: 'n' };
+    const out = names.map((n) => {
+      const d = policy.describe({ key: n, kind: 'method', group: 'g' });
+      return {
+        n,
+        excluded: policy.excluded(n),
+        descriptors: d.map(({ key, locked, classification, sensitiveParams, matchProfile, docs }) => ({
+          key,
+          locked,
+          classification,
+          sensitiveParams,
+          matchProfile,
+          description: docs?.description,
+          guidance: docs?.guidance,
+        })),
+        masked: { row: policy.maskResult(n, sample), text: policy.maskResult(n, 'secret-string') },
+      };
+    });
+    await expect(stable(out)).toMatchFileSnapshot('__golden__/policy.json');
   });
 });

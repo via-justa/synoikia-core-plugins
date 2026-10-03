@@ -1,9 +1,11 @@
-import type { OperationDescriptor } from '@synoikia/plugin-sdk';
+import { compileRules, isPlainObject, parsePluginSettings, toGroup } from '@synoikia/plugin-sdk';
+import type { OperationDescriptor, OperationDraft } from '@synoikia/plugin-sdk';
+import raw from '../plugin.yaml';
 
 /**
  * Turns `core.get_methods` into the catalog (TN §2.2–§2.3). Classification is layered and fails
- * closed: a hardcoded locked list always wins, then naming conventions, and anything ambiguous is a
- * write. Core applies admin overrides on top.
+ * closed: plugin.yaml's locks always win, then the roles TrueNAS declares and naming conventions,
+ * and anything ambiguous is a write. Core applies admin overrides on top.
  */
 
 export interface MethodInfo {
@@ -14,150 +16,74 @@ export interface MethodInfo {
   roles?: unknown;
 }
 
-/** Destructive or irreversible: always a human with a typed confirmation, never pre-approved (TN §3.4). */
-export const LOCKED = new Set([
-  'system.reboot',
-  'system.shutdown',
-  'pool.export',
-  'disk.wipe',
-  'config.reset',
-  'user.set_password',
-  'user.delete',
-  'pool.dataset.change_key',
-  'pool.dataset.delete',
-  'app.delete',
-  'audit.config',
-  'auth.generate_token',
-  'auth.generate_onetime_password',
-  'docker.delete_backup',
-  'interface.network_config_to_be_removed',
-  'user.has_local_administrator_set_up',
-  'user.renew_2fa_secret',
-  'user.setup_local_administrator',
-  'pool.dataset.export_key',
-]);
+const words = (p: Record<string, unknown>, key: string): Set<string> => {
+  const list = p[key];
+  if (!Array.isArray(list) || !list.every((w) => typeof w === 'string'))
+    throw new Error(`plugin.yaml plugin.${key} must be a list of words`);
+  return new Set(list);
+};
 
-/** Whole namespaces that are locked, including methods a future TrueNAS adds to them. */
-export const LOCKED_PREFIXES = ['api_key.'] as const;
+export const settings = parsePluginSettings(raw, {
+  parse(value) {
+    const p = isPlainObject(value) ? value : {};
+    return {
+      readLast: words(p, 'readLast'),
+      readVerbs: words(p, 'readVerbs'),
+      writeLast: words(p, 'writeLast'),
+      writeVerbs: words(p, 'writeVerbs'),
+      jobPollMs: typeof p.jobPollMs === 'number' ? p.jobPollMs : 250,
+    };
+  },
+});
 
-export const isLocked = (method: string) =>
-  LOCKED.has(method) || LOCKED_PREFIXES.some((p) => method.startsWith(p)) || method.endsWith(POOL_ROOT_SUFFIX);
+/** plugin.yaml's rules, without upstream lookups (confirmation literals compile their own per instance). */
+export const policy = compileRules(settings);
+
+/** Methods plugin.yaml locks by name (namespaces such as `api_key.*` are locked too; see `isLocked`). */
+export const LOCKED = new Set(
+  settings.rules
+    .filter((r) => r.locked)
+    .flatMap((r) => (Array.isArray(r.match) ? r.match : [r.match]))
+    .filter((m) => !m.includes('*')),
+);
+
+export const isLocked = (method: string) => policy.isLocked(method);
 
 /**
  * Methods whose risk depends on their params get a second catalog key (design §3.4): an ACL or owner
  * change at a pool's root (`/mnt/<pool>`) is locked; the same call deeper down is an ordinary write.
  */
-export const POOL_ROOT_SPLIT = ['filesystem.setacl', 'filesystem.chown'] as const;
-export const POOL_ROOT_SUFFIX = '#pool-root';
-
-/** Session plumbing the model has no business calling. */
-const EXCLUDED = new Set([
-  'auth.login',
-  'auth.login_ex',
-  'auth.login_with_api_key',
-  'auth.login_with_token',
-  'auth.logout',
-]);
-
-/**
- * `core.*` is middleware plumbing, and some of it dispatches other methods (`core.bulk`,
- * `core.download`) or opens a debugger (`core.debug`), which would bypass the locked list. Only these
- * are exposed; anything else under `core`, including methods a future TrueNAS adds, is excluded.
- */
-const CORE_ALLOWED = new Set(['core.get_jobs', 'core.get_methods', 'core.ping', 'core.job_abort']);
-
-const excluded = (method: string) => EXCLUDED.has(method) || (method.startsWith('core.') && !CORE_ALLOWED.has(method));
-
-const READ_LAST = new Set(['query', 'get_instance', 'config', 'status', 'choices', 'info']);
-const READ_VERBS = new Set(['list', 'listdir', 'get', 'search']);
-const WRITE_LAST = new Set(['create', 'update', 'delete']);
-const WRITE_VERBS = new Set([
-  'run',
-  'start',
-  'stop',
-  'restart',
-  'install',
-  'upgrade',
-  'reboot',
-  'shutdown',
-  'wipe',
-  'attach',
-  'detach',
-  'export',
-  'remove',
-  'replace',
-  'set',
-  // Write-shaped verbs a read role must not settle as a read.
-  'lock',
-  'unlock',
-  'import',
-  'sync',
-  'scrub',
-  'dismiss',
-  'restore',
-  'rollback',
-  'clone',
-  'promote',
-  'reload',
-  'abort',
-  'generate',
-  'renew',
-  'reset',
-  'mount',
-  'umount',
-  'upload',
-  'put',
-  'pull',
-  'prune',
-  'redeploy',
-  'expand',
-  'online',
-  'offline',
-  'activate',
-  'download',
-  'leave',
-  'join',
-  'terminate',
-  'send',
-  'test',
-  'commit',
-  'checkin',
-  'enable',
-  'disable',
-  'unset',
-  'cancel',
-  'kill',
-]);
+export const POOL_ROOT = 'pool-root';
+export const POOL_ROOT_SUFFIX = `#${POOL_ROOT}`;
 
 /** A role that only grants reading: `READONLY_ADMIN` or any `*_READ` role. */
 const isReadRole = (role: string) => role === 'READONLY_ADMIN' || role.endsWith('_READ');
 
 /** What the method's name says: a definite read or write, or nothing when the name is unclear. */
 function byName(method: string): { classification: 'read' | 'write'; reason: string } | null {
+  const { readLast, readVerbs, writeLast, writeVerbs } = settings.plugin;
   const last = method.split('.').at(-1) ?? method;
   const verb = last.split('_')[0] ?? last;
-  if (WRITE_LAST.has(last)) return { classification: 'write', reason: `naming:write(.${last})` };
-  if (WRITE_VERBS.has(verb)) return { classification: 'write', reason: `naming:write(${verb})` };
-  if (READ_LAST.has(last) || last.endsWith('_choices'))
+  if (writeLast.has(last)) return { classification: 'write', reason: `naming:write(.${last})` };
+  if (writeVerbs.has(verb)) return { classification: 'write', reason: `naming:write(${verb})` };
+  if (readLast.has(last) || last.endsWith('_choices'))
     return { classification: 'read', reason: `naming:read(.${last})` };
-  if (READ_VERBS.has(verb)) return { classification: 'read', reason: `naming:read(${verb})` };
+  if (readVerbs.has(verb)) return { classification: 'read', reason: `naming:read(${verb})` };
   return null;
 }
 
 /**
- * Read or write. The locked list always wins. The roles TrueNAS declares (`core.get_methods`) are
- * upstream data, so they may only make a method stricter or settle an unclear name, never turn a
- * write-named method into a read: declared roles with no read role make it a write; a read role
- * (`READONLY_ADMIN`, `*_READ`) makes it a read unless its name says write. Without roles, the name
- * decides, and anything unclear is a write (fail closed).
+ * Read or write. A lock always wins. The roles TrueNAS declares (`core.get_methods`) are upstream
+ * data, so they may only make a method stricter or settle an unclear name, never turn a write-named
+ * method into a read: declared roles with no read role make it a write; a read role (`READONLY_ADMIN`,
+ * `*_READ`) makes it a read unless its name says write. Without roles, the name decides, and anything
+ * unclear is a write (fail closed).
  */
 export function classify(
   method: string,
   roles?: unknown,
 ): { classification: 'read' | 'write'; reason: string; locked: boolean } {
-  if (isLocked(method)) {
-    return { classification: 'write', reason: 'locked:destructive', locked: true };
-  }
+  if (isLocked(method)) return { classification: 'write', reason: 'locked:destructive', locked: true };
   const named = byName(method);
   const declared = (Array.isArray(roles) ? roles : []).filter((r): r is string => typeof r === 'string' && r !== '');
   if (declared.length > 0) {
@@ -175,54 +101,8 @@ export function classify(
 /** Access group: the method's namespace (`pool.dataset.create` → `pool.dataset`). */
 export function groupOf(method: string): string {
   const parts = method.split('.');
-  const group = (parts.length > 1 ? parts.slice(0, -1) : parts).join('.').toLowerCase();
-  return group.replace(/[^a-z0-9._-]/g, '_').replace(/^[^a-z0-9]+/, '') || 'misc';
+  return toGroup((parts.length > 1 ? parts.slice(0, -1) : parts).join('.'), 'misc');
 }
-
-/**
- * Params that hold a secret core can't recognize by key name (a positional password, an encryption
- * key under the common name `key`). Core redacts these JSON-pointer paths in summaries, approvals,
- * notifications and the audit log; `invoke` still gets the real values. A pointer can't say "every
- * item", so `pool.dataset.unlock` lists the first datasets; the plugin also masks summaries and job
- * records itself.
- */
-// The SDK allows 32 paths per operation, so a single unlock of more than 32 keyed datasets shows the
-// rest to core (an accepted limit; the plugin's own summary masks them all).
-const DATASET_KEYS = Array.from({ length: 32 }, (_, i) => `/1/datasets/${i}/key`);
-export const SENSITIVE_PARAMS: Record<string, string[]> = {
-  'user.setup_local_administrator': ['/1'],
-  'pool.create': ['/0/encryption_options/key'],
-  'pool.dataset.create': ['/0/encryption_options/key'],
-  'pool.dataset.change_key': ['/1/key'],
-  'pool.dataset.unlock': DATASET_KEYS,
-  'pool.dataset.encryption_summary': DATASET_KEYS,
-  'kerberos.keytab.create': ['/0/file'],
-  'kerberos.keytab.update': ['/1/file'],
-  // B2, Azure Blob and Swift credentials keep their secret under `provider.key`.
-  'cloudsync.credentials.create': ['/0/provider/key'],
-  'cloudsync.credentials.update': ['/1/provider/key'],
-  'cloudsync.credentials.verify': ['/0/key'],
-};
-
-const MATCH_PROFILES: Record<string, string> = {
-  'pool.dataset.create': 'dataset-name-prefix',
-  'app.upgrade': 'app-name-in',
-};
-
-/** Wizard-style guidance the old 52-tool server baked into its prompts (TN §6), now on demand. */
-const GUIDANCE: Record<string, string> = {
-  'pool.dataset.create':
-    'Name is "<pool>/<path>". Common options: type FILESYSTEM (default) or VOLUME (needs volsize), share_type ' +
-    'GENERIC/SMB/APPS, compression, quota/refquota in bytes, acltype. Create parents first; check pool.dataset.query.',
-  'sharing.smb.create':
-    'Needs path under /mnt/<pool>/… (an existing dataset) and name. purpose presets: DEFAULT_SHARE, ' +
-    'MULTIPROTOCOL_SHARE, TIMEMACHINE_SHARE. The dataset should use share_type SMB for correct ACLs.',
-  'sharing.nfs.create':
-    'Needs path under /mnt/<pool>/…; restrict with networks/hosts; maproot/mapall for ownership mapping.',
-  'app.create':
-    'Needs app_name, catalog_app (see app.available / catalog), train, version and a values object following ' +
-    'the app schema (catalog.get_app_details). Storage usually maps host paths under an existing dataset.',
-};
 
 export interface Catalog {
   operations: OperationDescriptor[];
@@ -232,36 +112,19 @@ export interface Catalog {
   methods: Set<string>;
 }
 
-function describe(key: string, method: string, info: MethodInfo): OperationDescriptor {
-  const { classification, reason, locked } = classify(key, info.roles);
+function draft(method: string, info: MethodInfo): OperationDraft {
+  const { classification, reason } = classify(method, info.roles);
   const accepts = Array.isArray(info.accepts) ? info.accepts : undefined;
   const summary = info.description?.trim().slice(0, 500);
-  const guidance = GUIDANCE[method];
   return {
-    key,
+    key: method,
     kind: 'method',
     group: groupOf(method),
     classification,
     classificationReason: reason,
-    locked,
-    typedConfirmation: locked,
-    ...(MATCH_PROFILES[key] ? { matchProfile: MATCH_PROFILES[key] } : {}),
-    ...(SENSITIVE_PARAMS[method] ? { sensitiveParams: SENSITIVE_PARAMS[method] } : {}),
     // TrueNAS params are positional: `truenas.call('pool.dataset.create', { name })` → `[{ name }]`.
     ...(accepts ? { paramsSchema: { type: 'array', prefixItems: accepts } } : {}),
-    ...(summary || guidance
-      ? {
-          docs: {
-            ...(summary ? { summary } : {}),
-            ...(key.endsWith(POOL_ROOT_SUFFIX)
-              ? {
-                  description: `${method} on a pool's root (/mnt/<pool>), outside /mnt, or on a path with . or .. segments: locked.`,
-                }
-              : {}),
-            ...(guidance ? { guidance } : {}),
-          },
-        }
-      : {}),
+    ...(summary ? { docs: { summary } } : {}),
   };
 }
 
@@ -270,13 +133,10 @@ export function buildCatalog(methods: Record<string, MethodInfo>): Catalog {
   const jobs = new Set<string>();
   const names = new Set<string>();
   for (const [method, info] of Object.entries(methods).sort(([a], [b]) => a.localeCompare(b))) {
-    if (excluded(method) || !/^[a-z0-9_.]+$/i.test(method)) continue;
+    if (policy.excluded(method) || !/^[a-z0-9_.]+$/i.test(method)) continue;
     names.add(method);
     if (info?.job) jobs.add(method);
-    operations.push(describe(method, method, info ?? {}));
-    if ((POOL_ROOT_SPLIT as readonly string[]).includes(method)) {
-      operations.push(describe(`${method}${POOL_ROOT_SUFFIX}`, method, info ?? {}));
-    }
+    operations.push(...policy.describe(draft(method, info ?? {})));
   }
   return { operations, jobs, methods: names };
 }

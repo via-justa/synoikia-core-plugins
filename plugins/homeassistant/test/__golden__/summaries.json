@@ -12,7 +12,7 @@
     "text": "Home Assistant config/automation/config/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
   },
   "config/category_registry/delete": {
-    "confirmLiteral": "",
+    "confirmLiteral": "Home Sweet Home",
     "text": "Home Assistant config/category_registry/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
   },
   "config/entity_registry/remove": {
@@ -20,11 +20,11 @@
     "text": "Home Assistant config/entity_registry/remove {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
   },
   "config/floor_registry/delete": {
-    "confirmLiteral": "",
+    "confirmLiteral": "Home Sweet Home",
     "text": "Home Assistant config/floor_registry/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
   },
   "config/label_registry/delete": {
-    "confirmLiteral": "",
+    "confirmLiteral": "Home Sweet Home",
     "text": "Home Assistant config/label_registry/delete {\"id\":\"a1\",\"area_id\":\"kitchen\",\"entity_id\":\"lock.front_door\",\"entities\":{\"lock.front_door\":\"unlocked\"}}"
   },
   "config/scene/config/delete": {

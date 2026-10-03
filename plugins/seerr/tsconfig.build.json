@@ -5,5 +5,5 @@
     "outDir": "dist",
     "customConditions": []
   },
-  "include": ["src"]
+  "include": ["src", "../../plugin-files.d.ts"]
 }

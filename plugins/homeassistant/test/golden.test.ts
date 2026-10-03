@@ -1,5 +1,6 @@
 import type { OperationDescriptor } from '@synoikia/plugin-sdk';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { buildCatalog } from '../src/catalog.js';
 import { createHomeAssistantPlugin } from '../src/plugin.js';
 import { FAKE_TOKEN, startFakeHa } from './fake-ha.js';
 import type { FakeHa } from './fake-ha.js';
@@ -76,5 +77,42 @@ describe('Home Assistant golden record', () => {
       guide = { error: (err as Error).message };
     }
     await expect(stable({ entries, guide })).toMatchFileSnapshot('__golden__/registry.json');
+  });
+
+  // Written out here, not read from plugin.yaml: deleting a lock or a split from plugin.yaml must show up
+  // as a diff in this record, even for services the fake doesn't have.
+  it('policy for every service plugin.yaml protects', async () => {
+    const services = {
+      lock: { unlock: {}, open: {}, lock: {} },
+      alarm_control_panel: { alarm_disarm: {}, alarm_arm_away: {} },
+      homeassistant: {
+        restart: {},
+        stop: {},
+        turn_on: { target: {} },
+        turn_off: { target: {} },
+        toggle: { target: {} },
+      },
+      hassio: { host_reboot: {}, host_shutdown: {}, restore_full: {}, restore_partial: {} },
+      backup: { restore: {}, create: {} },
+      cover: {
+        open_cover: { target: {} },
+        toggle: { target: {} },
+        set_cover_position: { target: {} },
+        close_cover: {},
+      },
+      scene: { apply: {}, turn_on: { target: {} } },
+      climate: { set_temperature: { target: {} } },
+      light: { turn_on: { target: {} } },
+    };
+    const { operations } = buildCatalog(services);
+    const out = operations.map(({ key, locked, classification, classificationReason, matchProfile, docs }) => ({
+      key,
+      locked,
+      classification,
+      classificationReason,
+      matchProfile,
+      description: docs?.description,
+    }));
+    await expect(stable(out)).toMatchFileSnapshot('__golden__/policy.json');
   });
 });

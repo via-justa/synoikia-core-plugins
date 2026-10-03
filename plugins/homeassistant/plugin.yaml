@@ -1,0 +1,579 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+#
+# What the Home Assistant plugin tells core about its operations (HA §2.2–§3.4). The catalog is every
+# `domain.service` from `get_services`, plus the fixed WebSocket/REST commands below, which
+# `get_services` doesn't list; there is no raw command passthrough. Every service is a write, whatever
+# its name (HA's metadata can't tell "turn on a light" from "unlock a door"), and these rules lock and
+# split on top. Core decides what is allowed.
+
+defaults:
+  # A locked service confirms against the entities it acts on; anything else against the instance's name.
+  confirm: [targets, instance]
+  timeouts: { request: 15000, lookup: 10000 }
+
+instanceName: { op: get_config, field: location_name, fallback: Home Assistant }
+
+rules:
+  # Physical-safety or system-integrity critical: always a human with a typed confirmation (HA §3.4).
+  - match:
+      - lock.unlock
+      - lock.open
+      - alarm_control_panel.alarm_disarm
+      - homeassistant.restart
+      - homeassistant.stop
+      - hassio.host_reboot
+      - hassio.host_shutdown
+      - hassio.restore_full
+      - hassio.restore_partial
+      - backup.restore
+    locked: true
+    reason: locked:physical-or-system
+
+  # Services whose risk depends on what they target (design §3.4): src/plugin.ts takes the locked twin
+  # when any resolved target is sensitive, judged by device class and domain, never by name.
+  # - `#garage`: opening a cover that is a garage door or gate.
+  # - `#protected`: the generic homeassistant.turn_on/turn_off/toggle on a lock, an alarm panel or a
+  #   garage door or gate (turn_on opens a cover, turn_off unlocks a lock); scene.apply setting one of
+  #   those, and scene.turn_on on a scene that includes one (an unknown entity counts as protected).
+  - match: [cover.open_cover, cover.toggle, cover.set_cover_position]
+    split: garage
+  - match: [homeassistant.turn_on, homeassistant.turn_off, homeassistant.toggle, scene.apply, scene.turn_on]
+    split: protected
+  - match: '*#garage'
+    reason: locked:physical-or-system
+    description: '{base} on a garage door or gate: locked.'
+    summaryNote: (a garage door or gate)
+  - match: 'scene.apply#protected'
+    confirm: { custom: protected-scene-entities }
+  - match: '*#protected'
+    reason: locked:physical-or-system
+    description: '{base} on a lock, an alarm panel, or a garage door or gate: locked.'
+    summaryNote: (a lock, alarm panel, garage door or gate)
+
+  # Deleting a config object or a registry entry.
+  - match:
+      - config/automation/config/delete
+      - config/script/config/delete
+      - config/scene/config/delete
+      - config/area_registry/delete
+      - config/floor_registry/delete
+      - config/label_registry/delete
+      - config/category_registry/delete
+      - config/entity_registry/remove
+    locked: true
+    reason: locked:config-delete
+  - match: 'config/*/config/delete'
+    confirm: [{ custom: config-alias }, instance]
+  - match: 'config/*_registry/*'
+    confirm: [{ custom: registry-name }, instance]
+
+  - match: climate.set_temperature
+    matchProfile: climate.set_temperature
+
+operations:
+  - key: get_states
+    kind: ws_command
+    group: states
+    classification: read
+    summary: 'Current states. Filter with entity_id, domain or area rather than reading everything.'
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            entity_id:
+              {
+                anyOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+                description: 'Entity id(s)',
+              },
+            domain:
+              {
+                anyOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+                description: 'Domain(s), e.g. light',
+              },
+            area:
+              { anyOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }], description: 'Area id(s)' },
+          },
+      }
+  - key: get_config
+    kind: ws_command
+    group: system
+    classification: read
+    summary: 'Core configuration: version, location, units.'
+  - key: history/history_during_period
+    kind: ws_command
+    group: history
+    classification: read
+    summary: State history of some entities over a period.
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            start_time: { type: 'string', description: 'ISO 8601' },
+            end_time: { type: 'string', description: 'ISO 8601' },
+            entity_ids: { type: 'array', items: { type: 'string' } },
+            minimal_response: { type: 'boolean' },
+            no_attributes: { type: 'boolean' },
+            significant_changes_only: { type: 'boolean' },
+          },
+        required: ['start_time', 'entity_ids'],
+      }
+  - key: logbook/get_events
+    kind: ws_command
+    group: logbook
+    classification: read
+    summary: Logbook events over a period.
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            start_time: { type: 'string', description: 'ISO 8601' },
+            end_time: { type: 'string', description: 'ISO 8601' },
+            entity_ids: { type: 'array', items: { type: 'string' } },
+          },
+        required: ['start_time'],
+      }
+  - key: lovelace/dashboards/list
+    kind: ws_command
+    group: dashboard
+    classification: read
+    summary: Dashboards.
+  - key: lovelace/config
+    kind: ws_command
+    group: dashboard
+    classification: read
+    summary: A dashboard config and its config_hash (for lovelace/config/save).
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { url_path: { type: 'string', description: 'Dashboard url_path; omit for the default dashboard' } },
+      }
+  - key: lovelace/config/save
+    kind: config
+    group: dashboard
+    classification: write
+    summary: Edit a dashboard with a JSON Patch against the config_hash read by lovelace/config.
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            url_path: { type: 'string', description: 'Dashboard url_path' },
+            config_hash: { type: 'string', description: 'From lovelace/config' },
+            patch:
+              {
+                type: 'array',
+                description: 'RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; "-" appends to an array.',
+                items:
+                  {
+                    type: 'object',
+                    properties:
+                      {
+                        op: { enum: ['add', 'remove', 'replace', 'test'] },
+                        path: { type: 'string', description: 'JSON pointer, e.g. /triggers/-' },
+                        value: {},
+                      },
+                    required: ['op', 'path'],
+                  },
+              },
+          },
+        required: ['config_hash', 'patch'],
+      }
+  - key: config/automation/config/get
+    kind: ws_command
+    group: automation
+    classification: read
+    summary: "A automation's config and its config_hash (for config/automation/config/update)."
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { id: { type: 'string', description: 'automation config id (the "id" field)' } },
+        required: ['id'],
+      }
+  - key: config/automation/config/create
+    kind: ws_command
+    group: automation
+    classification: write
+    summary: Create a automation from a full config. Read its guide with guides.get first.
+    attestation: true
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            id: { type: 'string', description: 'automation config id (the "id" field); generated when omitted' },
+            config: { type: 'object' },
+          },
+        required: ['config'],
+      }
+  - key: config/automation/config/update
+    kind: config
+    group: automation
+    classification: write
+    summary: Edit a automation with a JSON Patch against the config_hash read by config/automation/config/get.
+    attestation: true
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            id: { type: 'string', description: 'automation config id (the "id" field)' },
+            config_hash: { type: 'string', description: 'From …/get' },
+            patch:
+              {
+                type: 'array',
+                description: 'RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; "-" appends to an array.',
+                items:
+                  {
+                    type: 'object',
+                    properties:
+                      {
+                        op: { enum: ['add', 'remove', 'replace', 'test'] },
+                        path: { type: 'string', description: 'JSON pointer, e.g. /triggers/-' },
+                        value: {},
+                      },
+                    required: ['op', 'path'],
+                  },
+              },
+          },
+        required: ['id', 'config_hash', 'patch'],
+      }
+  - key: config/automation/config/delete
+    kind: ws_command
+    group: automation
+    classification: write
+    summary: Delete a automation.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { id: { type: 'string', description: 'automation config id (the "id" field)' } },
+        required: ['id'],
+      }
+  - key: config/script/config/get
+    kind: ws_command
+    group: script
+    classification: read
+    summary: "A script's config and its config_hash (for config/script/config/update)."
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { id: { type: 'string', description: 'Script object id (script.<id>)' } },
+        required: ['id'],
+      }
+  - key: config/script/config/create
+    kind: ws_command
+    group: script
+    classification: write
+    summary: Create a script from a full config. Read its guide with guides.get first.
+    attestation: true
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            id: { type: 'string', description: 'Script object id (script.<id>); generated when omitted' },
+            config: { type: 'object' },
+          },
+        required: ['config'],
+      }
+  - key: config/script/config/update
+    kind: config
+    group: script
+    classification: write
+    summary: Edit a script with a JSON Patch against the config_hash read by config/script/config/get.
+    attestation: true
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            id: { type: 'string', description: 'Script object id (script.<id>)' },
+            config_hash: { type: 'string', description: 'From …/get' },
+            patch:
+              {
+                type: 'array',
+                description: 'RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; "-" appends to an array.',
+                items:
+                  {
+                    type: 'object',
+                    properties:
+                      {
+                        op: { enum: ['add', 'remove', 'replace', 'test'] },
+                        path: { type: 'string', description: 'JSON pointer, e.g. /triggers/-' },
+                        value: {},
+                      },
+                    required: ['op', 'path'],
+                  },
+              },
+          },
+        required: ['id', 'config_hash', 'patch'],
+      }
+  - key: config/script/config/delete
+    kind: ws_command
+    group: script
+    classification: write
+    summary: Delete a script.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { id: { type: 'string', description: 'Script object id (script.<id>)' } },
+        required: ['id'],
+      }
+  - key: config/scene/config/get
+    kind: ws_command
+    group: scene
+    classification: read
+    summary: "A scene's config and its config_hash (for config/scene/config/update)."
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { id: { type: 'string', description: 'scene config id (the "id" field)' } },
+        required: ['id'],
+      }
+  - key: config/scene/config/create
+    kind: ws_command
+    group: scene
+    classification: write
+    summary: Create a scene from a full config. Read its guide with guides.get first.
+    attestation: true
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            id: { type: 'string', description: 'scene config id (the "id" field); generated when omitted' },
+            config: { type: 'object' },
+          },
+        required: ['config'],
+      }
+  - key: config/scene/config/update
+    kind: config
+    group: scene
+    classification: write
+    summary: Edit a scene with a JSON Patch against the config_hash read by config/scene/config/get.
+    attestation: true
+    paramsSchema:
+      {
+        type: 'object',
+        properties:
+          {
+            id: { type: 'string', description: 'scene config id (the "id" field)' },
+            config_hash: { type: 'string', description: 'From …/get' },
+            patch:
+              {
+                type: 'array',
+                description: 'RFC 6902 JSON Patch against the object read with …/get: ops add, remove, replace, test; "-" appends to an array.',
+                items:
+                  {
+                    type: 'object',
+                    properties:
+                      {
+                        op: { enum: ['add', 'remove', 'replace', 'test'] },
+                        path: { type: 'string', description: 'JSON pointer, e.g. /triggers/-' },
+                        value: {},
+                      },
+                    required: ['op', 'path'],
+                  },
+              },
+          },
+        required: ['id', 'config_hash', 'patch'],
+      }
+  - key: config/scene/config/delete
+    kind: ws_command
+    group: scene
+    classification: write
+    summary: Delete a scene.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { id: { type: 'string', description: 'scene config id (the "id" field)' } },
+        required: ['id'],
+      }
+  - key: config/area_registry/list
+    kind: ws_command
+    group: area
+    classification: read
+    summary: The area registry.
+  - key: config/area_registry/create
+    kind: ws_command
+    group: area
+    classification: write
+    summary: Create an area registry entry.
+    paramsSchema: { type: 'object', properties: {} }
+  - key: config/area_registry/update
+    kind: ws_command
+    group: area
+    classification: write
+    summary: Update an area registry entry.
+    paramsSchema:
+      { type: 'object', properties: { area_id: { type: 'string', description: 'The area id' } }, required: ['area_id'] }
+  - key: config/area_registry/delete
+    kind: ws_command
+    group: area
+    classification: write
+    summary: Delete an area registry entry.
+    paramsSchema:
+      { type: 'object', properties: { area_id: { type: 'string', description: 'The area id' } }, required: ['area_id'] }
+  - key: config/floor_registry/list
+    kind: ws_command
+    group: floor
+    classification: read
+    summary: The floor registry.
+  - key: config/floor_registry/create
+    kind: ws_command
+    group: floor
+    classification: write
+    summary: Create a floor registry entry.
+    paramsSchema: { type: 'object', properties: {} }
+  - key: config/floor_registry/update
+    kind: ws_command
+    group: floor
+    classification: write
+    summary: Update a floor registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { floor_id: { type: 'string', description: 'The floor id' } },
+        required: ['floor_id'],
+      }
+  - key: config/floor_registry/delete
+    kind: ws_command
+    group: floor
+    classification: write
+    summary: Delete a floor registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { floor_id: { type: 'string', description: 'The floor id' } },
+        required: ['floor_id'],
+      }
+  - key: config/label_registry/list
+    kind: ws_command
+    group: label
+    classification: read
+    summary: The label registry.
+  - key: config/label_registry/create
+    kind: ws_command
+    group: label
+    classification: write
+    summary: Create a label registry entry.
+    paramsSchema: { type: 'object', properties: {} }
+  - key: config/label_registry/update
+    kind: ws_command
+    group: label
+    classification: write
+    summary: Update a label registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { label_id: { type: 'string', description: 'The label id' } },
+        required: ['label_id'],
+      }
+  - key: config/label_registry/delete
+    kind: ws_command
+    group: label
+    classification: write
+    summary: Delete a label registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { label_id: { type: 'string', description: 'The label id' } },
+        required: ['label_id'],
+      }
+  - key: config/category_registry/list
+    kind: ws_command
+    group: category
+    classification: read
+    summary: The category registry.
+    paramsSchema:
+      { type: 'object', properties: { scope: { type: 'string', description: 'e.g. automation' } }, required: ['scope'] }
+  - key: config/category_registry/create
+    kind: ws_command
+    group: category
+    classification: write
+    summary: Create a category registry entry.
+    paramsSchema: { type: 'object', properties: {} }
+  - key: config/category_registry/update
+    kind: ws_command
+    group: category
+    classification: write
+    summary: Update a category registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { category_id: { type: 'string', description: 'The category id' } },
+        required: ['category_id'],
+      }
+  - key: config/category_registry/delete
+    kind: ws_command
+    group: category
+    classification: write
+    summary: Delete a category registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { category_id: { type: 'string', description: 'The category id' } },
+        required: ['category_id'],
+      }
+  - key: config/device_registry/list
+    kind: ws_command
+    group: device
+    classification: read
+    summary: The device registry.
+  - key: config/device_registry/update
+    kind: ws_command
+    group: device
+    classification: write
+    summary: Update a device registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { device_id: { type: 'string', description: 'The device id' } },
+        required: ['device_id'],
+      }
+  - key: config/entity_registry/list
+    kind: ws_command
+    group: entity
+    classification: read
+    summary: The entity registry.
+  - key: config/entity_registry/update
+    kind: ws_command
+    group: entity
+    classification: write
+    summary: Update an entity registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { entity_id: { type: 'string', description: 'The entity id' } },
+        required: ['entity_id'],
+      }
+  - key: config/entity_registry/remove
+    kind: ws_command
+    group: entity
+    classification: write
+    summary: Remove an entity registry entry.
+    paramsSchema:
+      {
+        type: 'object',
+        properties: { entity_id: { type: 'string', description: 'The entity id' } },
+        required: ['entity_id'],
+      }
+
+plugin:
+  # Device classes that make a cover a garage door or gate, and domains that are always protected.
+  garageClasses: [garage, gate]
+  protectedDomains: [lock, alarm_control_panel]
+  # Registry events that invalidate the cached registry view, and events that change the catalog.
+  registryEvents:
+    - area_registry_updated
+    - device_registry_updated
+    - entity_registry_updated
+    - floor_registry_updated
+    - label_registry_updated
+  catalogEvents: [component_loaded, service_registered, service_removed]
+  registryTtlMs: 300000
+  # Registries managed over WebSocket (`config/<name>_registry/<verb>`) and the field that names an entry.
+  registryIds:
+    { area: area_id, floor: floor_id, label: label_id, category: category_id, device: device_id, entity: entity_id }

@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { startPluginHarness } from '@synoikia/core/testing';
+import { checkPluginContract, startPluginHarness } from '@synoikia/core/testing';
 import type { PluginHarness } from '@synoikia/core/testing';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FAKE_EMAIL, FAKE_PASSWORD, startFakeSeerr } from './fake-seerr.js';
@@ -172,5 +172,27 @@ describe('Seerr plugin end to end (fake Seerr)', () => {
       // A new address needs every stored secret entered again, as in the portal.
       h.testConnection({ baseUrl: 'http://127.0.0.1:1', authMethod: 'apiKey', apiKey: 'k', password: 'p' }),
     ).resolves.toMatchObject({ ok: false });
+  });
+
+  it('keeps the plugin contract (shared checks from @synoikia/core/testing)', async () => {
+    expect(
+      await checkPluginContract(h, {
+        read: { key: 'GET /movie/{movieId}', code: `return await seerr.request({ path: '/movie/603' });` },
+        write: {
+          key: 'POST /request',
+          code: `return await seerr.request({ method: 'POST', path: '/request', body: { mediaType: 'movie', mediaId: 2 } });`,
+        },
+        locked: {
+          key: 'DELETE /user/{userId}',
+          code: `return await seerr.request({ method: 'DELETE', path: '/user/14' });`,
+          confirm: 'alex@example.com',
+        },
+        secrets: {
+          code: `return await seerr.request({ path: '/settings/main' });`,
+          values: ['seerr-main-api-key-123'],
+        },
+      }),
+    ).toEqual([]);
+    expect(fake.users.has(14)).toBe(false);
   });
 });

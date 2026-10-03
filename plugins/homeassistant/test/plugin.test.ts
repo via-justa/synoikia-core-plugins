@@ -124,14 +124,14 @@ describe('Home Assistant plugin', () => {
     });
   });
 
-  it('requires a URL and a token', () => {
+  it('requires a URL and a token', async () => {
     const plugin = createHomeAssistantPlugin();
-    expect(() => plugin.init({ instanceId: 'x', config: {}, secrets: { token: 't' }, sdkVersion: '1.0.0' })).toThrow(
-      /baseUrl/,
-    );
-    expect(() =>
+    await expect(
+      plugin.init({ instanceId: 'x', config: {}, secrets: { token: 't' }, sdkVersion: '1.0.0' }),
+    ).rejects.toThrow(/baseUrl/);
+    await expect(
       plugin.init({ instanceId: 'x', config: { baseUrl: 'http://ha' }, secrets: {}, sdkVersion: '1.0.0' }),
-    ).toThrow(/token/);
+    ).rejects.toThrow(/token/);
   });
 
   it('resolves targets to friendly, scoped entities and summarizes with their names', async () => {

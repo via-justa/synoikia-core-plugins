@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { startPluginHarness } from '@synoikia/core/testing';
+import { checkPluginContract, startPluginHarness } from '@synoikia/core/testing';
 import type { PluginHarness } from '@synoikia/core/testing';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FAKE_API_KEY, startFakeTrueNas } from './fake-truenas.js';
@@ -212,5 +212,26 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
     await expect(h.testConnection({ baseUrl: 'http://127.0.0.1:1', apiKey: 'k' })).resolves.toMatchObject({
       ok: false,
     });
+  });
+
+  it('keeps the plugin contract (shared checks from @synoikia/core/testing)', async () => {
+    fake.datasets.set('tank/contract', { id: 'tank/contract', name: 'tank/contract' });
+    expect(
+      await checkPluginContract(h, {
+        read: { key: 'pool.query', code: `return await truenas.call('pool.query');` },
+        write: {
+          key: 'pool.dataset.create',
+          code: `return await truenas.call('pool.dataset.create', { name: 'tank/x' });`,
+        },
+        locked: {
+          key: 'pool.dataset.delete',
+          code: `return await truenas.call('pool.dataset.delete', 'tank/contract');`,
+          confirm: 'tank/contract',
+        },
+        // The keytab sits under the common name `file`: masked by plugin.yaml's sensitiveResult, not by core.
+        secrets: { code: `return await truenas.call('kerberos.keytab.query');`, values: ['keytab-secret-b64'] },
+      }),
+    ).toEqual([]);
+    expect(fake.datasets.has('tank/contract')).toBe(false);
   });
 });

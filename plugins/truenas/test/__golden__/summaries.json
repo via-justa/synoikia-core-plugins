@@ -27,6 +27,7 @@
   ],
   "api_key.delete": [
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS api_key.delete()"
     },
     {
@@ -42,7 +43,7 @@
       "text": "TrueNAS api_key.delete(70)"
     },
     {
-      "confirmLiteral": "backup-bot",
+      "confirmLiteral": "nas01",
       "text": "TrueNAS api_key.delete({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
     },
     {
@@ -344,6 +345,7 @@
   ],
   "pool.export": [
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS pool.export()"
     },
     {
@@ -359,7 +361,7 @@
       "text": "TrueNAS pool.export(70)"
     },
     {
-      "confirmLiteral": "[object Object]",
+      "confirmLiteral": "nas01",
       "text": "TrueNAS pool.export({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
     },
     {
@@ -421,6 +423,7 @@
   ],
   "user.delete": [
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS user.delete()"
     },
     {
@@ -436,7 +439,7 @@
       "text": "TrueNAS user.delete(70)"
     },
     {
-      "confirmLiteral": "root",
+      "confirmLiteral": "nas01",
       "text": "TrueNAS user.delete({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"})"
     },
     {

@@ -74,12 +74,12 @@ describe('TrueNAS plugin', () => {
 
   it('requires a URL and an API key', async () => {
     const plugin = createTrueNasPlugin();
-    expect(() => plugin.init({ instanceId: 'x', config: {}, secrets: { apiKey: 'k' }, sdkVersion: '1.0.0' })).toThrow(
-      /baseUrl/,
-    );
-    expect(() =>
+    await expect(
+      plugin.init({ instanceId: 'x', config: {}, secrets: { apiKey: 'k' }, sdkVersion: '1.0.0' }),
+    ).rejects.toThrow(/baseUrl/);
+    await expect(
       plugin.init({ instanceId: 'x', config: { baseUrl: 'https://nas' }, secrets: {}, sdkVersion: '1.0.0' }),
-    ).toThrow(/apiKey/);
+    ).rejects.toThrow(/apiKey/);
   });
 
   it('asks for the name of what a locked operation destroys', async () => {

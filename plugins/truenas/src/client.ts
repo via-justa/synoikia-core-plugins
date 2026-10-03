@@ -1,4 +1,11 @@
-import { ErrorCodes, PluginError } from '@synoikia/plugin-sdk';
+import {
+  ErrorCodes,
+  joinApiPath,
+  PendingRequests,
+  PluginError,
+  singleFlight,
+  upstreamError,
+} from '@synoikia/plugin-sdk';
 import WebSocket from 'ws';
 
 /**
@@ -19,57 +26,38 @@ interface RpcError {
   data?: { error?: number; errname?: string; reason?: string; extra?: unknown };
 }
 
-interface Pending {
-  method: string;
-  resolve: (value: unknown) => void;
-  reject: (err: Error) => void;
-  timer: NodeJS.Timeout;
-}
-
 const DENIED_ERRNAMES = new Set(['EACCES', 'EPERM', 'ENOTAUTHENTICATED']);
-const JOB_POLL_MS = 250;
 
 /** `https://nas.lan/` → `wss://nas.lan/api/current` (a path in the base URL is kept). */
-export function apiUrl(baseUrl: string): string {
-  const url = new URL(baseUrl);
-  if (url.protocol === 'https:') url.protocol = 'wss:';
-  else if (url.protocol === 'http:') url.protocol = 'ws:';
-  else if (url.protocol !== 'wss:' && url.protocol !== 'ws:')
-    throw new PluginError(ErrorCodes.InvalidParams, `Unsupported URL scheme ${url.protocol}`);
-  url.pathname = `${url.pathname.replace(/\/+$/, '')}/api/current`;
-  url.search = '';
-  url.hash = '';
-  return url.toString();
-}
+export const apiUrl = (baseUrl: string): string => joinApiPath(baseUrl, '/api/current', { websocket: true });
 
 /** Maps a TrueNAS error to the plugin error codes core understands (TN §4). */
 export function toPluginError(method: string, err: RpcError): PluginError {
   const reason = err.data?.reason?.trim() || err.message || 'Unknown TrueNAS error';
   const errname = err.data?.errname;
-  if ((errname && DENIED_ERRNAMES.has(errname)) || /not (authori[sz]ed|authenticated)/i.test(reason)) {
-    return new PluginError(ErrorCodes.UpstreamDenied, `TrueNAS denied ${method}: insufficient permission (${reason})`);
-  }
-  if (err.code === -32602 || (errname === 'EINVAL' && err.data?.extra !== undefined)) {
-    return new PluginError(ErrorCodes.InvalidParams, `${method}: ${reason}`, err.data?.extra);
-  }
+  if ((errname && DENIED_ERRNAMES.has(errname)) || /not (authori[sz]ed|authenticated)/i.test(reason))
+    return upstreamError('TrueNAS', 'denied', method, reason);
+  if (err.code === -32602 || (errname === 'EINVAL' && err.data?.extra !== undefined))
+    return upstreamError('TrueNAS', 'invalid', method, reason, err.data?.extra);
   if (err.code === -32601) return new PluginError(ErrorCodes.UnknownOperation, `${method} is not a TrueNAS method`);
-  return new PluginError(ErrorCodes.UpstreamError, `${method}: ${reason}`);
+  return upstreamError('TrueNAS', 'failed', method, reason);
 }
 
 export class TrueNasClient {
   private ws?: WebSocket;
-  private connecting?: Promise<WebSocket>;
-  private nextId = 1;
-  private readonly pending = new Map<number, Pending>();
+  private readonly pending = new PendingRequests(
+    (method, ms) => new PluginError(ErrorCodes.UpstreamError, `${method}: TrueNAS did not answer within ${ms} ms`),
+  );
+  private readonly connect = singleFlight((timeoutMs: number) => this.open(timeoutMs));
 
   constructor(
     private readonly conn: TrueNasConnection,
-    private readonly opts: { timeoutMs?: number } = {},
+    private readonly opts: { timeoutMs?: number; jobPollMs?: number } = {},
   ) {}
 
   /** Calls a method and returns its result. `timeoutMs` bounds the whole call. */
   async call(method: string, params: unknown[] = [], timeoutMs = this.opts.timeoutMs ?? 30_000): Promise<unknown> {
-    const ws = await this.connection(timeoutMs);
+    const ws = this.ws?.readyState === WebSocket.OPEN ? this.ws : await this.connect(timeoutMs);
     return this.send(ws, method, params, timeoutMs);
   }
 
@@ -98,19 +86,13 @@ export class TrueNasClient {
       if (job?.state === 'FAILED' || job?.state === 'ABORTED') {
         throw toPluginError(method, { message: job.error ?? `job ${job.state.toLowerCase()}` });
       }
-      await new Promise((r) => setTimeout(r, Math.min(JOB_POLL_MS, Math.max(1, left))));
+      await new Promise((r) => setTimeout(r, Math.min(this.opts.jobPollMs ?? 250, Math.max(1, left))));
     }
   }
 
   close() {
     this.ws?.close();
     this.ws = undefined;
-  }
-
-  private connection(timeoutMs: number): Promise<WebSocket> {
-    if (this.ws?.readyState === WebSocket.OPEN) return Promise.resolve(this.ws);
-    this.connecting ??= this.open(timeoutMs).finally(() => (this.connecting = undefined));
-    return this.connecting;
   }
 
   private async open(timeoutMs: number): Promise<WebSocket> {
@@ -129,11 +111,7 @@ export class TrueNasClient {
     ws.on('error', () => undefined); // 'close' follows and fails what is pending
     ws.on('close', () => {
       if (this.ws === ws) this.ws = undefined;
-      for (const [id, p] of this.pending) {
-        clearTimeout(p.timer);
-        p.reject(new PluginError(ErrorCodes.UpstreamError, 'Connection to TrueNAS closed'));
-        this.pending.delete(id);
-      }
+      this.pending.failAll(new PluginError(ErrorCodes.UpstreamError, 'Connection to TrueNAS closed'));
     });
     const ok = await this.send(ws, 'auth.login_with_api_key', [this.conn.apiKey], timeoutMs).catch((err: unknown) => {
       ws.close();
@@ -148,19 +126,12 @@ export class TrueNasClient {
   }
 
   private send(ws: WebSocket, method: string, params: unknown[], timeoutMs: number): Promise<unknown> {
-    const id = this.nextId++;
-    return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        this.pending.delete(id);
-        reject(new PluginError(ErrorCodes.UpstreamError, `${method}: TrueNAS did not answer within ${timeoutMs} ms`));
-      }, timeoutMs);
-      this.pending.set(id, { method, resolve, reject, timer });
-      ws.send(JSON.stringify({ jsonrpc: '2.0', id, method, params }), (err) => {
-        if (!err || !this.pending.delete(id)) return;
-        clearTimeout(timer);
-        reject(new PluginError(ErrorCodes.UpstreamError, `${method}: could not send (${err.message})`));
-      });
+    const { id, promise } = this.pending.start(method, timeoutMs);
+    ws.send(JSON.stringify({ jsonrpc: '2.0', id, method, params }), (err) => {
+      if (err)
+        this.pending.fail(id, new PluginError(ErrorCodes.UpstreamError, `${method}: could not send (${err.message})`));
     });
+    return promise;
   }
 
   private onMessage(data: WebSocket.RawData) {
@@ -170,13 +141,11 @@ export class TrueNasClient {
     } catch {
       return;
     }
-    if (typeof msg.id !== 'number') return; // notifications (collection_update, …) are not used
-    const p = this.pending.get(msg.id);
+    // Notifications (collection_update, …) carry no id and are not used.
+    const p = this.pending.take(msg.id);
     if (!p) return;
-    clearTimeout(p.timer);
-    this.pending.delete(msg.id);
     // Errors name the method only, never echo params (the login call's param is the API key).
-    if (msg.error) p.reject(toPluginError(p.method, msg.error));
+    if (msg.error) p.reject(toPluginError(p.label, msg.error));
     else p.resolve(msg.result);
   }
 }
