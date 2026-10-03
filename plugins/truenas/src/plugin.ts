@@ -134,8 +134,7 @@ export function createTrueNasPlugin(): PluginHandlers {
     async summarize({ key, params }) {
       const method = baseMethod(key);
       const list = Array.isArray(params) ? [...params] : [params];
-      // Positional secrets have no key name for core to redact by (until the descriptor can declare
-      // them as `sensitiveParams`): keep them out of the summary text.
+      // Core 0.4.0+ already redacts these (`sensitiveParams`); masking here too covers older cores.
       for (const i of POSITIONAL_SECRETS[method] ?? []) if (list[i] !== undefined) list[i] = '[REDACTED]';
       const args = JSON.stringify(maskKeyParams(method, list)).slice(1, -1);
       const text = `TrueNAS ${method}(${args.length > MAX_SUMMARY_PARAMS ? `${args.slice(0, MAX_SUMMARY_PARAMS)}…` : args})${
@@ -229,7 +228,8 @@ function maskSecrets(method: string, result: unknown): unknown {
 /**
  * Encryption keys passed as params (`encryption_options.key`, `datasets[].key`, `change_key`'s `key`)
  * sit under the common name `key`, which core can't redact by name: masked in summaries and job
- * records. The audit log needs core's `sensitiveParams`.
+ * records here; core 0.4.0+ also keeps them out of approvals and the audit log through
+ * `sensitiveParams`. This covers older cores and the unlock datasets beyond the declared paths.
  */
 function maskKeyParams(method: string, value: unknown): unknown {
   if (!method.startsWith('pool.dataset.') && method !== 'pool.create') return value;

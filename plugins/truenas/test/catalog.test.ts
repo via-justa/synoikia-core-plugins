@@ -166,6 +166,21 @@ describe('buildCatalog', () => {
     expect(cat.operations.find((o) => o.key === 'pool.dataset.create')).toMatchObject({ classification: 'write' });
   });
 
+  it('declares secrets in params that have no key name for core to redact', () => {
+    const cat = buildCatalog({
+      'user.setup_local_administrator': {},
+      'pool.dataset.create': {},
+      'pool.dataset.unlock': {},
+      'pool.query': {},
+    });
+    const find = (k: string) => cat.operations.find((o) => o.key === k);
+    expect(find('user.setup_local_administrator')?.sensitiveParams).toEqual(['/1']);
+    expect(find('pool.dataset.create')?.sensitiveParams).toEqual(['/0/encryption_options/key']);
+    expect(find('pool.dataset.unlock')?.sensitiveParams).toContain('/1/datasets/0/key');
+    expect(find('pool.query')?.sensitiveParams).toBeUndefined();
+    for (const o of cat.operations) expect(() => OperationDescriptorSchema.parse(o)).not.toThrow();
+  });
+
   it('adds a locked pool-root key next to setacl and chown', () => {
     expect(op('filesystem.setacl')).toMatchObject({ locked: false });
     expect(op('filesystem.setacl#pool-root')).toMatchObject({ locked: true, group: 'filesystem' });

@@ -68,15 +68,15 @@ importers:
   plugins/truenas:
     dependencies:
       '@synoikia/plugin-sdk':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.2.1
+        version: 0.2.1
       ws:
         specifier: ^8.22.0
         version: 8.22.0
     devDependencies:
       '@synoikia/core':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -537,8 +537,14 @@ packages:
   '@synoikia/core@0.3.0':
     resolution: {integrity: sha512-XWVCiBlfh4XDFttG8WY6YTDVRKHQgRBh7KkBfMee4VZCBCTjwZL7T7rgeTwWbR0sfpYgGxTzkPnG9ONQbf5X7g==}
 
+  '@synoikia/core@0.4.0':
+    resolution: {integrity: sha512-rfXDDI+77UsaLQxt7BbJ64qWb/EpueReqXq+yIsNhoJtkMABqIcpHmutTL4bgJaHz76TqhrZk6DYyrzHvYaGPA==}
+
   '@synoikia/plugin-sdk@0.2.0':
     resolution: {integrity: sha512-p7BSqllVojIRJ2WA40v0qcqKOYuDEmBpacaruCUCUllMkyJSFcgkTqBcjaqkW24nFwFqmyennSewZK5gJZabsw==}
+
+  '@synoikia/plugin-sdk@0.2.1':
+    resolution: {integrity: sha512-3WGmtrc4buCMYQCjNBJpvqUPkttjW8OX0yaQDGGhUmkLyvNTbNuGJ74ITPdBFH7gTQtcSUQ0nVv38ju99Pp7Wg==}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -2015,7 +2021,62 @@ snapshots:
       - sqlite3
       - supports-color
 
+  '@synoikia/core@0.4.0':
+    dependencies:
+      '@hono/node-server': 2.1.1(hono@4.13.9)
+      '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
+      '@node-rs/argon2': 2.2.1
+      '@synoikia/plugin-sdk': 0.2.1
+      ajv: 8.20.0
+      ajv-formats: 3.0.1(ajv@8.20.0)
+      better-sqlite3: 13.0.3
+      drizzle-orm: 0.45.3(better-sqlite3@13.0.3)
+      hono: 4.13.9
+      isolated-vm: 6.2.0
+      jose: 6.2.12
+      openid-client: 6.8.8
+      semver: 7.8.5
+      tar: 7.5.22
+      zod: 4.6.5
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cfworker/json-schema'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@netlify/db'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - bun-types
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - mysql2
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
   '@synoikia/plugin-sdk@0.2.0':
+    dependencies:
+      semver: 7.8.5
+      zod: 4.6.5
+
+  '@synoikia/plugin-sdk@0.2.1':
     dependencies:
       semver: 7.8.5
       zod: 4.6.5

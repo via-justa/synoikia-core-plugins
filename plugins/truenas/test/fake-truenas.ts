@@ -230,6 +230,7 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
     'api_key.get_instance': ([id]) => ({ id, name: 'backup-bot' }),
     'api_key.create': ([opts]) => ({ id: 4, name: (opts as { name?: string })?.name, key: '4-fresh-api-key-secret' }),
     'auth.generate_token': () => 'fresh-session-token-secret',
+    'user.setup_local_administrator': ([username]) => ({ username, configured: true }),
     'pool.dataset.export_key': () => job('pool.dataset.export_key', () => 'a1b2c3d4e5f6-dataset-key-secret'),
     'sharing.smb.query': () => [
       { id: 1, name: 'media', path: '/mnt/tank/media', auxsmbconf: '', password: 'share-secret-123' },

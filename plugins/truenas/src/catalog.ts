@@ -178,6 +178,22 @@ export function groupOf(method: string): string {
   return group.replace(/[^a-z0-9._-]/g, '_').replace(/^[^a-z0-9]+/, '') || 'misc';
 }
 
+/**
+ * Params that hold a secret core can't recognize by key name (a positional password, an encryption
+ * key under the common name `key`). Core redacts these JSON-pointer paths in summaries, approvals,
+ * notifications and the audit log; `invoke` still gets the real values. A pointer can't say "every
+ * item", so `pool.dataset.unlock` lists the first datasets; the plugin also masks summaries and job
+ * records itself.
+ */
+const UNLOCK_KEYS = Array.from({ length: 24 }, (_, i) => `/1/datasets/${i}/key`);
+export const SENSITIVE_PARAMS: Record<string, string[]> = {
+  'user.setup_local_administrator': ['/1'],
+  'pool.create': ['/0/encryption_options/key'],
+  'pool.dataset.create': ['/0/encryption_options/key'],
+  'pool.dataset.change_key': ['/1/key'],
+  'pool.dataset.unlock': UNLOCK_KEYS,
+};
+
 const MATCH_PROFILES: Record<string, string> = {
   'pool.dataset.create': 'dataset-name-prefix',
   'app.upgrade': 'app-name-in',
@@ -220,6 +236,7 @@ function describe(key: string, method: string, info: MethodInfo): OperationDescr
     locked,
     typedConfirmation: locked,
     ...(MATCH_PROFILES[key] ? { matchProfile: MATCH_PROFILES[key] } : {}),
+    ...(SENSITIVE_PARAMS[method] ? { sensitiveParams: SENSITIVE_PARAMS[method] } : {}),
     // TrueNAS params are positional: `truenas.call('pool.dataset.create', { name })` → `[{ name }]`.
     ...(accepts ? { paramsSchema: { type: 'array', prefixItems: accepts } } : {}),
     ...(summary || guidance

@@ -153,6 +153,29 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
       expect(all).not.toContain(secret);
   });
 
+  it('keeps a positional password out of the approval and the audit log, via core', async () => {
+    h.setOperationLevel('user.setup_local_administrator', 'ask');
+    const shown: string[] = [];
+    const r = await h.execute(
+      `return await truenas.call('user.setup_local_administrator', 'truenas_admin', 'hunter2-local-secret');`,
+      {
+        onApproval: (a) => {
+          shown.push(a.message);
+          a.approve('truenas_admin');
+        },
+      },
+    );
+    expect(r).toMatchObject({ ok: true, value: { username: 'truenas_admin', configured: true } });
+    // The upstream got the real password; nobody else saw it.
+    expect(fake.calls.at(-1)).toEqual({
+      method: 'user.setup_local_administrator',
+      params: ['truenas_admin', 'hunter2-local-secret'],
+    });
+    const audit = h.audit({ operationKey: 'user.setup_local_administrator' }).filter((a) => a.kind === 'call');
+    expect(audit[0]?.params).toEqual(['truenas_admin', '[REDACTED]']);
+    expect(JSON.stringify([shown, audit])).not.toContain('hunter2-local-secret');
+  });
+
   it('reports a TrueNAS permission denial as UPSTREAM_DENIED', async () => {
     fake.denied.add('user.query');
     await expect(h.execute(`return await truenas.call('user.query');`)).resolves.toMatchObject({
