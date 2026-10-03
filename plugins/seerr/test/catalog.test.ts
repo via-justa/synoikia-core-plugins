@@ -38,10 +38,10 @@ describe('classify (SR §2.3, §7 phase 1)', () => {
     expect(classify('POST /request/{requestId}/{status}#on-behalf').locked).toBe(true);
   });
 
-  it('treats an unreviewed action-shaped GET as a write needing review (fail closed)', () => {
+  it('lets the verb decide, flagging an unreviewed action-shaped GET for review', () => {
     expect(classify('GET /settings/cache/flush', 'Flush a cache')).toEqual({
-      classification: 'write',
-      reason: 'heuristic:get-as-action',
+      classification: 'read',
+      reason: 'verb:GET',
       locked: false,
       needsReview: true,
     });

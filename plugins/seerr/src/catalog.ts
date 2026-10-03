@@ -3,9 +3,9 @@ import { parse } from 'yaml';
 
 /**
  * Turns Seerr's `seerr-api.yml` (OpenAPI 3.0) into the catalog (SR §2.2–§2.3). Classification is
- * layered and fails closed: a hardcoded locked list always wins, then the HTTP verb, and a GET that
- * reads like an action ("reset", "sync", …) is a write flagged for review unless it has been reviewed
- * here. Core applies admin overrides on top.
+ * layered: a hardcoded locked list always wins, then the HTTP verb decides (GET reads, everything else
+ * writes). A GET that reads like an action ("reset", "sync", …) stays a read but is flagged for review
+ * unless it has been reviewed here; one that really changes something belongs in `LOCKED`.
  */
 
 export const VERBS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;
@@ -58,7 +58,7 @@ const ACTION_WORDS = /\b(reset\w*|regenerat\w*|sync\w*|flush\w*|run|runs|cancel\
 
 /**
  * GETs the heuristic flags that were reviewed and are plain reads. A newly flagged GET that is in
- * neither this list nor `LOCKED` is classified write until someone reviews it.
+ * neither this list nor `LOCKED` is shown as needing review until someone does.
  */
 export const REVIEWED_READS = new Set([
   'GET /settings/jellyfin/sync', // "Get status of full Jellyfin library sync"
@@ -106,9 +106,12 @@ export function classify(
     return { classification: 'write', reason: 'locked:destructive', locked: true, needsReview: flagged };
   }
   if (method === 'GET') {
-    if (flagged && !REVIEWED_READS.has(key))
-      return { classification: 'write', reason: 'heuristic:get-as-action', locked: false, needsReview: true };
-    return { classification: 'read', reason: 'verb:GET', locked: false, needsReview: false };
+    return {
+      classification: 'read',
+      reason: 'verb:GET',
+      locked: false,
+      needsReview: flagged && !REVIEWED_READS.has(key),
+    };
   }
   return { classification: 'write', reason: `verb:${method}`, locked: false, needsReview: false };
 }

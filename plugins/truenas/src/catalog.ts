@@ -10,6 +10,8 @@ export interface MethodInfo {
   description?: string | null;
   accepts?: unknown[] | null;
   job?: boolean;
+  /** Roles that may call the method (TrueNAS 24.04+), e.g. `POOL_READ`, `POOL_WRITE`, `READONLY_ADMIN`. */
+  roles?: string[] | null;
 }
 
 /** Destructive or irreversible: always a human with a typed confirmation, never pre-approved (TN §3.4). */
@@ -85,9 +87,27 @@ const WRITE_VERBS = new Set([
   'set',
 ]);
 
-export function classify(method: string): { classification: 'read' | 'write'; reason: string; locked: boolean } {
+/** A role that only grants reading: `READONLY_ADMIN` or any `*_READ` role. */
+const isReadRole = (role: string) => role === 'READONLY_ADMIN' || role.endsWith('_READ');
+
+/**
+ * Read or write, from what TrueNAS itself says (design: the API decides, not an admin). A method a
+ * read-only role may call is a read; one that declares roles but no read role is a write. Methods
+ * that declare no roles fall back to naming conventions, and anything ambiguous is a write.
+ */
+export function classify(
+  method: string,
+  roles?: readonly string[] | null,
+): { classification: 'read' | 'write'; reason: string; locked: boolean } {
   if (isLocked(method)) {
     return { classification: 'write', reason: 'locked:destructive', locked: true };
+  }
+  const declared = (roles ?? []).filter((r) => typeof r === 'string' && r);
+  if (declared.length > 0) {
+    const read = declared.find(isReadRole);
+    if (read) return { classification: 'read', reason: `roles:read(${read})`, locked: false };
+    const write = declared.find((r) => r !== 'FULL_ADMIN') ?? declared[0]!;
+    return { classification: 'write', reason: `roles:write(${write})`, locked: false };
   }
   const last = method.split('.').at(-1) ?? method;
   const verb = last.split('_')[0] ?? last;
@@ -135,7 +155,7 @@ export interface Catalog {
 }
 
 function describe(key: string, method: string, info: MethodInfo): OperationDescriptor {
-  const { classification, reason, locked } = classify(key);
+  const { classification, reason, locked } = classify(key, info.roles);
   const accepts = Array.isArray(info.accepts) ? info.accepts : undefined;
   const summary = info.description?.trim().slice(0, 500);
   const guidance = GUIDANCE[method];

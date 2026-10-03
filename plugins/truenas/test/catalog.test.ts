@@ -45,6 +45,29 @@ describe('classify (TN §2.3, §9)', () => {
     expect(classify('filesystem.setacl#pool-root').locked).toBe(true);
   });
 
+  it('reads the declared roles before the name', () => {
+    // Named like a write, but a read-only role may call it: a read.
+    expect(classify('pool.dataset.details', ['DATASET_READ', 'DATASET_WRITE'])).toMatchObject({
+      classification: 'read',
+      reason: 'roles:read(DATASET_READ)',
+    });
+    expect(classify('disk.temperatures', ['READONLY_ADMIN'])).toMatchObject({ classification: 'read' });
+    // Named like a read, but only a write role may call it: a write.
+    expect(classify('vm.get_console', ['VM_WRITE'])).toMatchObject({
+      classification: 'write',
+      reason: 'roles:write(VM_WRITE)',
+    });
+    expect(classify('system.general.update', ['FULL_ADMIN'])).toMatchObject({
+      classification: 'write',
+      reason: 'roles:write(FULL_ADMIN)',
+    });
+    // No roles declared: naming conventions, ambiguous still a write.
+    expect(classify('pool.query', [])).toMatchObject({ classification: 'read', reason: 'naming:read(.query)' });
+    expect(classify('pool.dataset.details', null).classification).toBe('write');
+    // The locked list beats roles.
+    expect(classify('pool.dataset.delete', ['DATASET_READ'])).toMatchObject({ locked: true, classification: 'write' });
+  });
+
   it('locks every api_key.* method, including ones a future TrueNAS adds', () => {
     for (const m of ['api_key.query', 'api_key.create', 'api_key.delete', 'api_key.some_future_method'])
       expect(classify(m)).toMatchObject({ classification: 'write', locked: true });
@@ -91,6 +114,19 @@ describe('buildCatalog', () => {
     expect(op('app.upgrade')).toMatchObject({ matchProfile: 'app-name-in' });
     expect(op('pool.dataset.delete')).toMatchObject({ locked: true, typedConfirmation: true });
     expect(op('pool.dataset.create')).toMatchObject({ locked: false, typedConfirmation: false });
+  });
+
+  it('classifies synced methods by their declared roles', () => {
+    const cat = buildCatalog({
+      'pool.dataset.details': { description: 'Dataset details.', roles: ['DATASET_READ'] },
+      'pool.dataset.create': { roles: ['DATASET_WRITE'] },
+    });
+    expect(cat.operations.find((o) => o.key === 'pool.dataset.details')).toMatchObject({
+      classification: 'read',
+      classificationReason: 'roles:read(DATASET_READ)',
+      docs: { summary: 'Dataset details.' },
+    });
+    expect(cat.operations.find((o) => o.key === 'pool.dataset.create')).toMatchObject({ classification: 'write' });
   });
 
   it('adds a locked pool-root key next to setacl and chown', () => {

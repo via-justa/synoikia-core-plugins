@@ -30,12 +30,12 @@ Job methods (`app.upgrade`, `pool.scrub.run`, …) are waited for within the scr
 
 ## Classification
 
-Every method is classified when the catalog syncs. Admins can override a classification, except on locked methods.
+Every method is classified when the catalog syncs, from what TrueNAS declares; admins can't change it. The locked list wins; then the roles a method requires (from `core.get_methods`): a method a read-only role may call (`READONLY_ADMIN` or any `*_READ` role, such as `POOL_READ`) is a read, and one that declares only write roles is a write. Methods that declare no roles fall back to their names:
 
 - **Locked** (always a human, with the name typed back; never pre-approved): `system.reboot`, `system.shutdown`, `config.reset`, `pool.export`, `disk.wipe`, `pool.dataset.delete`, `pool.dataset.change_key`, `user.delete`, `user.set_password`, `app.delete`, `audit.config`, `auth.generate_token`, `docker.delete_backup`, `interface.network_config_to_be_removed`, `user.has_local_administrator_set_up`, `user.renew_2fa_secret`, `user.setup_local_administrator`, every `api_key.*` method, and ACL/owner changes at a pool's root (`filesystem.setacl#pool-root`, `filesystem.chown#pool-root`: the call targets `/mnt/<pool>` itself, a path outside `/mnt`, or a path with `.`/`..` segments; only a plain path inside a pool gets the ordinary key). The typed name is the dataset, disk, pool, app, backup, API key or user being acted on, or the system's hostname for the rest (reboot, shutdown, config reset, token generation and the like).
 - **Read** by name: `.query`, `.get_instance`, `.config`, `.status`, `.info`, `.choices` / `*_choices`, and `list…`, `get…`, `search…`.
 - **Write** by name: `.create`, `.update`, `.delete`, `set_…`, and run/start/stop/restart/install/upgrade/reboot/shutdown/wipe/attach/detach/export/remove/replace.
-- **Anything else is a write** (fail closed), shown with the reason `default:ambiguous` so an admin can reclassify it.
+- **Anything else is a write** (fail closed), shown with the reason `default:ambiguous`.
 
 Not in the catalog at all: login/session methods, and every `core.*` method except `core.get_jobs`, `core.get_methods`, `core.ping` and `core.job_abort`. Methods such as `core.bulk` and `core.download` call other methods, so exposing them would bypass the locked list.
 

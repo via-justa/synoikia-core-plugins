@@ -42,6 +42,7 @@ export const METHODS: Record<string, MethodInfo> = {
   'pool.dataset.create': {
     description: 'Create a dataset or zvol.',
     accepts: [obj('pool_dataset_create', { name: { type: 'string' }, quota: { type: 'integer' } })],
+    roles: ['DATASET_WRITE'],
   },
   'pool.dataset.delete': {
     description: 'Delete a dataset.',
@@ -52,7 +53,10 @@ export const METHODS: Record<string, MethodInfo> = {
     accepts: [{ type: 'string', title: 'id' }],
     job: true,
   },
-  'pool.dataset.details': { description: 'Dataset details.' },
+  'pool.dataset.details': {
+    description: 'Dataset details.',
+    roles: ['DATASET_READ', 'DATASET_WRITE', 'READONLY_ADMIN'],
+  },
   'pool.scrub.run': { description: 'Run a scrub.', accepts: [{ type: 'string', title: 'name' }], job: true },
   'app.query': { description: 'Query apps.', accepts: [{ type: 'array', title: 'filters' }] },
   'app.upgrade': {
