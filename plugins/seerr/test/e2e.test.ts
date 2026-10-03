@@ -71,6 +71,8 @@ describe('Seerr plugin end to end (fake Seerr)', () => {
         [{ name: 'Radarr 4K', apiKey: '[REDACTED]' }],
       ],
     });
+    // At Read a group's writes are off (new groups start at Ask in newer core).
+    h.setGroupLevel('request', 'read');
     await expect(
       h.execute(
         `return await seerr.request({ method: 'POST', path: '/request', body: { mediaType: 'movie', mediaId: 1 } });`,

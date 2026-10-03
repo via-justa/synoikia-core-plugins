@@ -60,6 +60,8 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
         [{ file: '[REDACTED]' }],
       ],
     });
+    // At Read a group's writes are off (new groups start at Ask in newer core).
+    h.setGroupLevel('pool.dataset', 'read');
     await expect(
       h.execute(`return await truenas.call('pool.dataset.create', { name: 'tank/x' });`),
     ).resolves.toMatchObject({ ok: false, error: { code: 'OPERATION_DISABLED' } });
