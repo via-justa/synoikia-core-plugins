@@ -1,7 +1,7 @@
 {
   "id": "seerr",
   "name": "Seerr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "sdk": "^0.2.0",
   "description": "Search/execute over the Seerr REST API, catalog from the seerr-api.yml OpenAPI spec.",
   "entry": "dist/index.js",
