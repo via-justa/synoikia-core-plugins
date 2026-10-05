@@ -15,9 +15,14 @@
       }
     }
   ],
-  "core.get_jobs": {
-    "error": "core.get_jobs: TypeError: Cannot read properties of undefined (reading '0')"
-  },
+  "core.get_jobs": [
+    {
+      "id": 1,
+      "method": "pool.dataset.export_key",
+      "result": "[REDACTED]",
+      "state": "SUCCESS"
+    }
+  ],
   "kerberos.keytab.query": [
     {
       "file": "[REDACTED]",

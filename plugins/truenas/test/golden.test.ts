@@ -132,7 +132,12 @@ describe('TrueNAS golden record', () => {
         out[op] = maskSensitiveResult(
           await plugin.invoke({
             key: op,
-            params: op === 'pool.dataset.export_key' ? ['tank/secure'] : [],
+            params:
+              op === 'pool.dataset.export_key'
+                ? ['tank/secure']
+                : op === 'core.get_jobs'
+                  ? [[['method', '=', 'pool.dataset.export_key']]]
+                  : [],
             context: { callId: 'g', deadlineMs: 5000 },
           }),
           declared.get(op),
