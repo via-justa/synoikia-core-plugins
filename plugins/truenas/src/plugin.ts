@@ -12,11 +12,8 @@ import { buildCatalog, needsPoolRootKey, POOL_ROOT, POOL_ROOT_SUFFIX, policy, se
 import type { MethodInfo } from './catalog.js';
 import { TrueNasClient } from './client.js';
 
-/**
- * The TrueNAS plugin's handlers (design §3.3–§3.4, TN design). The sandbox calls
- * `truenas.call(method, ...params)`; params stay positional, exactly as TrueNAS takes them. Locks,
- * confirmation literals and secrets are in plugin.yaml.
- */
+/** TrueNAS handlers (design §3.3–§3.4): `truenas.call(method, ...params)`, params positional as TrueNAS
+ * takes them; locks, literals and secrets are in plugin.yaml. */
 
 const MAX_SUMMARY_PARAMS = 400;
 
@@ -50,12 +47,8 @@ export function createTrueNasPlugin(): PluginHandlers {
           .sensitiveParams?.filter((p) => /^\/\d+$/.test(p))
           .map((p) => Number(p.slice(1))) ?? [];
 
-      /**
-       * Core masks each method's own result by its plugin.yaml `sensitiveResult`. Job records keep
-       * other methods' arguments and results, which core can't attribute: each is masked here by the
-       * job's own method, so a secret a call never returned directly can't be read back later through
-       * `core.get_jobs`.
-       */
+      /** Core masks each method's own result; job records embed other methods' results and arguments, so each
+       * is masked here by the job's own method. */
       const maskJobs = (result: unknown): unknown => {
         // Query options reshape the answer (`get` returns one record, `count` a number, `select`
         // drops or renames fields), so this fails closed on any shape it doesn't know.
@@ -143,12 +136,8 @@ export function createTrueNasPlugin(): PluginHandlers {
   });
 }
 
-/**
- * Encryption keys passed as params (`encryption_options.key`, `datasets[].key`, `change_key`'s `key`)
- * sit under the common name `key`, which core can't redact by name: masked in summaries and job
- * records here; core also keeps them out of approvals and the audit log through `sensitiveParams`.
- * This also covers the unlock datasets beyond the 32 declared paths, in the summary text.
- */
+/** Encryption keys passed as params sit under the common name `key`: masked in summaries and job records
+ * here; `sensitiveParams` keeps them out of approvals and the audit log. */
 function maskKeyParams(method: string, value: unknown): unknown {
   const keyed =
     method.startsWith('pool.dataset.') || method === 'pool.create' || method.startsWith('cloudsync.credentials.');
@@ -185,11 +174,8 @@ const JOB_FIELDS_UNATTRIBUTED = new Set(['id', 'state', 'abortable', 'transient'
 /** Dataset user properties (`[{ key, value }]`): `key` is the property's name, not a secret. */
 const USER_PROPERTY_LISTS = new Set(['user_properties', 'user_properties_update']);
 
-/**
- * Replaces every non-empty string under a `key` property with `[REDACTED]`, on a copy. With
- * `keepPropertyNames` (dataset create/update params only), the `key` of each item in a user property
- * list is kept so the approver sees which property changes; everything else in it is still walked.
- */
+/** Replaces non-empty strings under `key` with `[REDACTED]` on a copy; `keepPropertyNames` keeps user
+ * property names in dataset create/update params. */
 function maskKeysDeep(value: unknown, keepPropertyNames = false): unknown {
   const walk = (v: unknown, depth: number): unknown => {
     if (depth > 8 || v === null || typeof v !== 'object') return v;

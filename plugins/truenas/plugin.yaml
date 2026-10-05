@@ -1,9 +1,6 @@
 # yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
-#
-# What the TrueNAS plugin tells core about its methods (TN §2.2–§3.4). The catalog is
-# `core.get_methods`; src/catalog.ts classifies each method from its declared roles and its name, and
-# these rules lock, split, redact and describe on top. Precedence fails closed: excluded methods don't
-# exist, a lock always wins, and a method nothing classifies is a write. Core decides what is allowed.
+# Rules on top of the `core.get_methods` catalog (TN §2.2–§3.4), failing closed: excluded methods don't
+# exist, a lock always wins, and anything unclassified is a write.
 
 defaults:
   # Every locked method without its own literal confirms against the system it acts on.
@@ -12,9 +9,8 @@ defaults:
 
 instanceName: { op: system.info, field: hostname, fallback: '{key}' }
 
-# Session plumbing the model has no business calling, and `core.*` middleware: some of it dispatches
-# other methods (`core.bulk`, `core.download`) or opens a debugger (`core.debug`), which would bypass
-# the locks. Only the `include`d core methods are exposed, so one a future TrueNAS adds stays out.
+# Session plumbing and `core.*` middleware, some of which dispatches other methods around the locks;
+# only the `include`d core methods are exposed.
 exclude:
   - auth.login
   - auth.login_ex
@@ -83,9 +79,8 @@ rules:
     summaryNote: at the root of a pool
     confirm: { param: /0/path }
 
-  # Params that hold a secret core can't recognize by key name (a positional password, an encryption
-  # key under the common name `key`). A pointer can't say "every item", so dataset unlocks list the
-  # first 32 datasets (the SDK's limit); the plugin also masks summaries and job records itself.
+  # Params holding a secret with no telling key name; dataset unlocks list the first 32 datasets (the
+  # limit), and the plugin also masks `key` in summaries and job records.
   - match: user.setup_local_administrator
     sensitiveParams: [/1]
   - match: [pool.create, pool.dataset.create]

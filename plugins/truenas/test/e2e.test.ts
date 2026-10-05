@@ -6,10 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FAKE_API_KEY, startFakeTrueNas } from './fake-truenas.js';
 import type { FakeTrueNas } from './fake-truenas.js';
 
-/**
- * The real core running this plugin's built bundle (a permission-confined child) against a fake
- * TrueNAS over WebSocket, through core's plugin harness (design §13 phase 17).
- */
+/** The real core running this plugin's built bundle against a fake TrueNAS, via core's harness. */
 
 const PLUGIN_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 

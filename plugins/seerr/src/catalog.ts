@@ -14,11 +14,8 @@ import {
 import type { OpenApiCatalog, OpenApiOperation } from '@synoikia/plugin-sdk';
 import raw from '../plugin.yaml';
 
-/**
- * Seerr's catalog (SR §2.2–§2.3): the SDK's OpenAPI catalog over `seerr-api.yml`, with plugin.yaml's
- * locks, splits and reviewed reads on top. Classification fails closed: a lock always wins, GET reads,
- * every other verb writes, and an action-shaped GET is a write flagged for review until reviewed.
- */
+/** Seerr's catalog (SR §2.2–§2.3): the SDK's OpenAPI catalog over `seerr-api.yml` with plugin.yaml's
+ * rules on top; GET reads, other verbs write, action-shaped GETs are writes until reviewed. */
 
 export interface SeerrSettings {
   spec: { baseUrl: string; file: string; fallbackRef: string; maxBytes: number; timeoutMs: number };

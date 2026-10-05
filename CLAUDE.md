@@ -44,7 +44,7 @@ The e2e tests run the **built** `dist/index.js` on the real core (`startPluginHa
 
 ## Conventions
 
-Strict TypeScript with `noUncheckedIndexedAccess` and `verbatimModuleSyntax`: use `import type`, and `.js` extensions on relative imports. Unused variables are allowed only with a `_` prefix. Prettier formats everything, and a hook runs it after each edit. New behavior gets a unit test and, when it crosses the plugin boundary, an e2e case with the fake upstream extended to match.
+Strict TypeScript with `noUncheckedIndexedAccess` and `verbatimModuleSyntax`: use `import type`, and `.js` extensions on relative imports. Unused variables are allowed only with a `_` prefix. Keep comments minimal: one or two lines, only for what the code can't say (a reason, a constraint, a design § reference), with no multi-line comment blocks in code, YAML or workflows. Prettier formats everything, and a hook runs it after each edit. New behavior gets a unit test and, when it crosses the plugin boundary, an e2e case with the fake upstream extended to match.
 
 ## Security review
 

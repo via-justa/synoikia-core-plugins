@@ -1,9 +1,7 @@
 name: Release
 
-# Publishes the signed plugin repository Synoikia installs from (README "Plugin repository"). A plugin
-# version is released when its manifest version isn't in the published index yet: each gets a
-# `<id>-v<version>` release with its tarball and minisign signature, and index.json on the `index`
-# release is replaced. Released versions are never rebuilt or removed.
+# Publishes the signed plugin repository (README "Plugin repository"): each manifest version not yet in the
+# index gets a `<id>-v<version>` release, and index.json on the `index` release is replaced. Releases never change.
 
 on:
   push:

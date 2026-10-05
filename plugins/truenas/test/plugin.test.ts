@@ -25,10 +25,7 @@ async function setup() {
 const invoke = (plugin: PluginHandlers, key: string, params: unknown[], deadlineMs = 5000) =>
   plugin.invoke({ key, params, context: { callId: 'c1', deadlineMs } });
 
-/**
- * A call's result as core hands it on: masked by the `sensitiveResult` the plugin declared on that
- * operation's descriptor (core applies it after `invoke`; the e2e tests run the real thing).
- */
+/** A result as core hands it on: masked by the operation's declared `sensitiveResult`. */
 const asCoreSees = async (plugin: PluginHandlers, key: string, params: unknown[]) => {
   const { operations } = await plugin.syncCatalog();
   const declared = operations.find((op) => op.key === key)?.sensitiveResult;

@@ -1,12 +1,8 @@
 import { fetchSpec as fetchText } from '@synoikia/plugin-sdk';
 import { settings } from './catalog.js';
 
-/**
- * Where the catalog comes from (SR §2.2): Seerr has no introspection endpoint, so the plugin fetches
- * the spec from the release tag matching the instance's `/status` version, and falls back to a branch
- * (nightly and self-built instances have no matching tag). The source is in plugin.yaml; the base URL
- * is a connection field for a mirror on a network without GitHub access. No credentials are sent.
- */
+/** Seerr has no introspection (SR §2.2): the spec is fetched from the release tag matching `/status`'s
+ * version, else a branch, from a configurable mirror; no credentials sent. */
 
 export const DEFAULT_SPEC_BASE_URL = settings.plugin.spec.baseUrl;
 

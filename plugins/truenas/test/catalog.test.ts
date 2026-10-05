@@ -70,9 +70,8 @@ describe('classify (TN §2.3, §9)', () => {
   });
 
   it('classifies the role lists TrueNAS 25.04 actually returns', () => {
-    // `core.get_methods` lists every role that grants the method, expanded through role includes
-    // (middlewared role.py `roles_for_resource`): a write role includes its read role, so a read
-    // method lists both, and READONLY_ADMIN and SHARING_ADMIN come along.
+    // `core.get_methods` lists every role granting a method, expanded through includes, so a read method
+    // also lists its write role's read role, READONLY_ADMIN and SHARING_ADMIN.
     expect(
       classify('pool.dataset.query', ['DATASET_READ', 'DATASET_WRITE', 'READONLY_ADMIN', 'SHARING_ADMIN']),
     ).toMatchObject({ classification: 'read', reason: 'roles:read(DATASET_READ)' });

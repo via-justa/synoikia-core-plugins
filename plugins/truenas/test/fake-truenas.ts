@@ -2,10 +2,7 @@ import type { AddressInfo } from 'node:net';
 import { WebSocketServer } from 'ws';
 import type WebSocket from 'ws';
 
-/**
- * A small fake TrueNAS for tests: JSON-RPC 2.0 over WebSocket at `/api/current`, API-key login, a
- * realistic slice of `core.get_methods`, in-memory datasets, jobs, and one method that is denied.
- */
+/** A fake TrueNAS: JSON-RPC over WebSocket, API-key login, a slice of `core.get_methods`, datasets, jobs. */
 
 export const FAKE_API_KEY = '1-fake-truenas-api-key-abcdef';
 
