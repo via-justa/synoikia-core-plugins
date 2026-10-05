@@ -1,6 +1,6 @@
 # Seerr plugin
 
-Exposes a Seerr instance's whole REST API (about 210 operations: requests, media, users, settings, notifications, discover sliders, …) through the two MCP tools, `search` and `execute`, behind core's permission gate. Seerr has no introspection endpoint, so the catalog comes from its OpenAPI spec, `seerr-api.yml`, fetched for the release the instance runs. A Seerr upgrade needs no change here. Design: [`docs/reference/seerr-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/seerr-mcp-design.md), mapped onto the plugin hooks in [`docs/design/unified-mcp-server.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/design/unified-mcp-server.md) §3.3–§3.4.
+Exposes a Seerr instance's whole REST API (about 210 operations: requests, media, users, settings, notifications, discover sliders, …) through the two MCP tools, `search` and `execute`, behind core's permission gate. Seerr has no introspection endpoint, so the catalog comes from its OpenAPI spec, `seerr-api.yml`, fetched for the release the instance runs. A Seerr upgrade needs no change here. Design: [`docs/reference/seerr-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/seerr-mcp-design.md), mapped onto the plugin hooks in [Synoikia design `03-plugin-model.md`](https://github.com/via-justa/synoikia-core/blob/main/docs/design/03-plugin-model.md) §3.3–§3.4.
 
 ## Signing in
 

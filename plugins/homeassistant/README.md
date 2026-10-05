@@ -5,7 +5,7 @@ Exposes a Home Assistant instance through the two MCP tools, `search` and `execu
 - every service on the instance (from `get_services`, so a new integration needs no change here);
 - the reads and config objects that aren't services: states, history, logbook, registries, automations, scripts, scenes and dashboards.
 
-Design: [`docs/reference/homeassistant-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/homeassistant-mcp-design.md), mapped onto the plugin hooks in [`docs/design/unified-mcp-server.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/design/unified-mcp-server.md) §3.3–§3.4.
+Design: [`docs/reference/homeassistant-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/homeassistant-mcp-design.md), mapped onto the plugin hooks in [Synoikia design `03-plugin-model.md`](https://github.com/via-justa/synoikia-core/blob/main/docs/design/03-plugin-model.md) §3.3–§3.4.
 
 ## Connection
 

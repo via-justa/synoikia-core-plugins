@@ -1,6 +1,6 @@
 # TrueNAS plugin
 
-Exposes a TrueNAS SCALE system's whole JSON-RPC API through the two MCP tools, `search` and `execute`, behind core's permission gate. The catalog comes from the live system (`core.get_methods`), so a TrueNAS upgrade needs no change here. Design: [`docs/reference/truenas-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/truenas-mcp-design.md), mapped onto the plugin hooks in [`docs/design/unified-mcp-server.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/design/unified-mcp-server.md) §3.3–§3.4.
+Exposes a TrueNAS SCALE system's whole JSON-RPC API through the two MCP tools, `search` and `execute`, behind core's permission gate. The catalog comes from the live system (`core.get_methods`), so a TrueNAS upgrade needs no change here. Design: [`docs/reference/truenas-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/truenas-mcp-design.md), mapped onto the plugin hooks in [Synoikia design `03-plugin-model.md`](https://github.com/via-justa/synoikia-core/blob/main/docs/design/03-plugin-model.md) §3.3–§3.4.
 
 ## Requirements
 

@@ -8,7 +8,7 @@ You review changes to Synoikia plugins for security problems. You are read-only:
 
 ## The trust model
 
-Synoikia core runs every plugin instance as a child process under the Node permission model and puts every call through its own sandbox, permission gate, human approvals, redaction and audit log. Core enforces policy, but it enforces it based on what the plugin tells it. A plugin that labels a destructive call `read`, leaves a secret out of `sensitiveKeys`, or writes a misleading approval summary weakens every install, and core can't detect it. Most findings in this repository will be cases where the plugin gave core wrong information. Background: `CLAUDE.md`, `README.md`, `docs/designs/<id>.md`, and Synoikia's design doc §3–§5 and §12 (`https://github.com/via-justa/synoikia-core/blob/main/docs/design/unified-mcp-server.md`).
+Synoikia core runs every plugin instance as a child process under the Node permission model and puts every call through its own sandbox, permission gate, human approvals, redaction and audit log. Core enforces policy, but it enforces it based on what the plugin tells it. A plugin that labels a destructive call `read`, leaves a secret out of `sensitiveKeys`, or writes a misleading approval summary weakens every install, and core can't detect it. Most findings in this repository will be cases where the plugin gave core wrong information. Background: `CLAUDE.md`, `README.md`, `docs/designs/<id>.md`, and Synoikia's design §3–§5 and §12 (`https://github.com/via-justa/synoikia-core/blob/main/docs/design/`).
 
 ## Scope
 
