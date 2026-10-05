@@ -37,7 +37,7 @@ The e2e tests run the **built** `dist/index.js` on the real core (`startPluginHa
 ## Rules that break releases or installs
 
 - **Self-contained bundle.** Under the Node permission model the plugin can read nothing outside its own package directory, so every runtime dependency and data file must be bundled into `dist/index.js`. `synoikia-plugin build` (from `@synoikia/create-plugin`) does it, with the `createRequire` banner bundled CommonJS such as `ws` needs.
-- **Network hosts.** The plugin can reach only the hosts in `manifest.json` `network.hosts`. A new upstream URL, such as a spec mirror, goes there too.
+- **Network hosts.** `manifest.json` `network.hosts` lists every host the plugin connects to; a new upstream URL, such as a spec mirror, goes there too. Admins review it before enabling the plugin, and an update that changes it installs disabled. Core doesn't enforce it (the plugin process can reach any host), so it must be accurate.
 - **Secrets.** Every credential field is `writeOnly: true` in the connection schema, uses the `secret` widget, and is listed in `sensitiveKeys` along with any secret field the upstream returns. `synoikia-plugin check`, run by each plugin's `test` script, checks this.
 - **Versions.** `version` in `manifest.json` and `package.json` must match. A version that is released can never change, so any change to a released plugin needs a new version. Bump only when asked; the `release-plugin` skill covers it.
 - **SDK and core ranges.** Plugins depend on published `@synoikia/plugin-sdk`, `@synoikia/core` and `@synoikia/create-plugin` from npm, not on a local checkout. Updating means bumping the ranges and running `pnpm install`.

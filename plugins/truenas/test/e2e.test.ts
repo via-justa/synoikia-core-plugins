@@ -228,7 +228,8 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
           code: `return await truenas.call('pool.dataset.delete', 'tank/contract');`,
           confirm: 'tank/contract',
         },
-        // The keytab sits under the common name `file`: masked by plugin.yaml's sensitiveResult, not by core.
+        // The keytab sits under the common name `file`: no key name gives it away; plugin.yaml's
+        // sensitiveResult declares it, and core masks it.
         secrets: { code: `return await truenas.call('kerberos.keytab.query');`, values: ['keytab-secret-b64'] },
       }),
     ).toEqual([]);

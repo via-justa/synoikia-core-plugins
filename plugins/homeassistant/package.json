@@ -1,6 +1,6 @@
 {
   "name": "@synoikia/plugin-homeassistant",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -11,12 +11,12 @@
     "test": "synoikia-plugin check && synoikia-plugin build && vitest run"
   },
   "dependencies": {
-    "@synoikia/plugin-sdk": "^0.3.0",
+    "@synoikia/plugin-sdk": "^0.4.0",
     "ws": "^8.22.0"
   },
   "devDependencies": {
-    "@synoikia/core": "^0.5.0",
-    "@synoikia/create-plugin": "0.1.1",
+    "@synoikia/core": "^0.6.0",
+    "@synoikia/create-plugin": "0.2.0",
     "@types/ws": "^8.18.1"
   }
 }

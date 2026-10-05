@@ -51,24 +51,25 @@ export function createTrueNasPlugin(): PluginHandlers {
           .map((p) => Number(p.slice(1))) ?? [];
 
       /**
-       * Secrets in results core can't recognize by key name (plugin.yaml `sensitiveResult`). Job
-       * records keep each job's arguments and result: they are masked by the job's own method, so a
-       * secret a call never returned directly can't be read back later through `core.get_jobs`.
+       * Core masks each method's own result by its plugin.yaml `sensitiveResult`. Job records keep
+       * other methods' arguments and results, which core can't attribute: each is masked here by the
+       * job's own method, so a secret a call never returned directly can't be read back later through
+       * `core.get_jobs`.
        */
-      const maskSecrets = (method: string, result: unknown): unknown => {
-        if (method === 'core.get_jobs' && Array.isArray(result)) {
-          return result.map((row) => {
-            if (!isPlainObject(row)) return row;
-            const m = typeof row.method === 'string' ? row.method : '';
-            return {
-              ...row,
-              ...('result' in row ? { result: maskSecrets(m, row.result) } : {}),
-              ...('arguments' in row ? { arguments: maskKeyParams(m, row.arguments) } : {}),
-            };
-          });
-        }
-        return rules.maskResult(method, result);
-      };
+      const maskJobs = (result: unknown): unknown =>
+        Array.isArray(result)
+          ? result.map((row) => {
+              if (!isPlainObject(row)) return row;
+              const m = typeof row.method === 'string' ? row.method : '';
+              return {
+                ...row,
+                ...('result' in row ? { result: maskEmbedded(m, row.result) } : {}),
+                ...('arguments' in row ? { arguments: maskKeyParams(m, row.arguments) } : {}),
+              };
+            })
+          : result;
+      const maskEmbedded = (method: string, result: unknown): unknown =>
+        method === 'core.get_jobs' ? maskJobs(result) : rules.maskEmbeddedResult(method, result);
 
       return {
         async syncCatalog() {
@@ -111,7 +112,7 @@ export function createTrueNasPlugin(): PluginHandlers {
           const result = known.jobs.has(method)
             ? await kit.client().callJob(method, args, timeout)
             : await kit.client().call(method, args, timeout);
-          return maskSecrets(method, result);
+          return method === 'core.get_jobs' ? maskJobs(result) : result;
         },
 
         async optionsFor({ source, query }) {

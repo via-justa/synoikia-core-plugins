@@ -26,6 +26,12 @@
       ],
       "type": "array"
     },
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": true
   },
   {
@@ -46,6 +52,12 @@
         }
       ],
       "type": "array"
+    },
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
     },
     "typedConfirmation": true
   },
@@ -68,6 +80,12 @@
       ],
       "type": "array"
     },
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": true
   },
   {
@@ -80,6 +98,12 @@
     "key": "api_key.query",
     "kind": "method",
     "locked": true,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": true
   },
   {
@@ -178,6 +202,7 @@
     "key": "auth.generate_onetime_password",
     "kind": "method",
     "locked": true,
+    "sensitiveResult": "whole",
     "typedConfirmation": true
   },
   {
@@ -190,6 +215,7 @@
     "key": "auth.generate_token",
     "kind": "method",
     "locked": true,
+    "sensitiveResult": "whole",
     "typedConfirmation": true
   },
   {
@@ -222,6 +248,12 @@
     "sensitiveParams": [
       "/0/provider/key"
     ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": false
   },
   {
@@ -234,6 +266,12 @@
     "key": "cloudsync.credentials.query",
     "kind": "method",
     "locked": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": false
   },
   {
@@ -437,6 +475,12 @@
     "key": "kerberos.keytab.kerberos_principal_choices",
     "kind": "method",
     "locked": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "file"
+      ]
+    },
     "typedConfirmation": false
   },
   {
@@ -449,6 +493,12 @@
     "key": "kerberos.keytab.query",
     "kind": "method",
     "locked": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "file"
+      ]
+    },
     "typedConfirmation": false
   },
   {
@@ -473,6 +523,12 @@
     "sensitiveParams": [
       "/1/key"
     ],
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": true
   },
   {
@@ -507,6 +563,12 @@
     "sensitiveParams": [
       "/0/encryption_options/key"
     ],
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": false
   },
   {
@@ -537,6 +599,12 @@
       ],
       "type": "array"
     },
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": true
   },
   {
@@ -549,6 +617,12 @@
     "key": "pool.dataset.details",
     "kind": "method",
     "locked": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
+    },
     "typedConfirmation": false
   },
   {
@@ -570,6 +644,7 @@
       ],
       "type": "array"
     },
+    "sensitiveResult": "whole",
     "typedConfirmation": true
   },
   {
@@ -590,6 +665,12 @@
         }
       ],
       "type": "array"
+    },
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "key"
+      ]
     },
     "typedConfirmation": false
   },
