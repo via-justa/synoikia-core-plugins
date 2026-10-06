@@ -12,11 +12,11 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.11.0)
       '@synoikia/core':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@synoikia/create-plugin':
-        specifier: 0.1.1
-        version: 0.1.1(@synoikia/core@0.5.0)
+        specifier: 0.2.0
+        version: 0.2.0(@synoikia/core@0.6.0)
       '@types/node':
         specifier: ^22.19.0
         version: 22.20.4
@@ -39,18 +39,18 @@ importers:
   plugins/homeassistant:
     dependencies:
       '@synoikia/plugin-sdk':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       ws:
         specifier: ^8.22.0
         version: 8.22.0
     devDependencies:
       '@synoikia/core':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@synoikia/create-plugin':
-        specifier: 0.1.1
-        version: 0.1.1(@synoikia/core@0.5.0)
+        specifier: 0.2.0
+        version: 0.2.0(@synoikia/core@0.6.0)
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -58,34 +58,34 @@ importers:
   plugins/seerr:
     dependencies:
       '@synoikia/plugin-sdk':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
     devDependencies:
       '@synoikia/core':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@synoikia/create-plugin':
-        specifier: 0.1.1
-        version: 0.1.1(@synoikia/core@0.5.0)
+        specifier: 0.2.0
+        version: 0.2.0(@synoikia/core@0.6.0)
 
   plugins/truenas:
     dependencies:
       '@synoikia/plugin-sdk':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       ws:
         specifier: ^8.22.0
         version: 8.22.0
     devDependencies:
       '@synoikia/core':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@synoikia/create-plugin':
-        specifier: 0.1.1
-        version: 0.1.1(@synoikia/core@0.5.0)
+        specifier: 0.2.0
+        version: 0.2.0(@synoikia/core@0.6.0)
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -548,20 +548,20 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@synoikia/core@0.5.0':
-    resolution: {integrity: sha512-0OGxEtv07A6sRd2J3OR7YcdhZrpjnockfsrrjDhJfVmLzqlS3b3rviiLDepytc/jYbhQndmbNQLjqr8PQqha3Q==}
+  '@synoikia/core@0.6.0':
+    resolution: {integrity: sha512-IMIU/Jrz4ofjKX6PuCvaYbsSQ1tcTw57cxTpUyKBzUXz7WmV7txOKGT8PJFwKrvnzrAaii+ijttN8DVP0zitmA==}
 
-  '@synoikia/create-plugin@0.1.1':
-    resolution: {integrity: sha512-/hYIYIBgDnjgcgGapEGk+KynFDducN5/l6wPqfKfCShFtzt19Fw5qwnRLEmdjtJJIGr+wP2pVMAvmVeOMpuOFQ==}
+  '@synoikia/create-plugin@0.2.0':
+    resolution: {integrity: sha512-sjpKmovzlVKKCW8uWEsmm52obrzgSULmxMpKrajZxTJa7pTkqy3Iqns6pihVHbOsnNpyDn0sjgXcNdQ6JXWfkw==}
     hasBin: true
     peerDependencies:
-      '@synoikia/core': ^0.5.0
+      '@synoikia/core': ^0.6.0
     peerDependenciesMeta:
       '@synoikia/core':
         optional: true
 
-  '@synoikia/plugin-sdk@0.3.0':
-    resolution: {integrity: sha512-NO2tFWnvJT4OYNrUh5yN+g5hqoxbwFjJ/wqBNWWuKMYxqIv4bMNpjnrfl7mFKiAWCRAGsQ9V+0b8R4HaqiL2KA==}
+  '@synoikia/plugin-sdk@0.4.0':
+    resolution: {integrity: sha512-r8UBNPiUeZUUY98f6Se/G/lDBQk5+0duJ1MKWLUNaERqet3lHp+s7uT5+lxlhcnQrlYPDzhWYZ3tBbKB9mLeHQ==}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -1962,12 +1962,12 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@synoikia/core@0.5.0':
+  '@synoikia/core@0.6.0':
     dependencies:
       '@hono/node-server': 2.1.1(hono@4.13.9)
       '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
       '@node-rs/argon2': 2.2.1
-      '@synoikia/plugin-sdk': 0.3.0
+      '@synoikia/plugin-sdk': 0.4.0
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       better-sqlite3: 13.0.3
@@ -2012,16 +2012,16 @@ snapshots:
       - sqlite3
       - supports-color
 
-  '@synoikia/create-plugin@0.1.1(@synoikia/core@0.5.0)':
+  '@synoikia/create-plugin@0.2.0(@synoikia/core@0.6.0)':
     dependencies:
       '@clack/prompts': 1.8.1
-      '@synoikia/plugin-sdk': 0.3.0
+      '@synoikia/plugin-sdk': 0.4.0
       esbuild: 0.28.2
       yaml: 2.9.1
     optionalDependencies:
-      '@synoikia/core': 0.5.0
+      '@synoikia/core': 0.6.0
 
-  '@synoikia/plugin-sdk@0.3.0':
+  '@synoikia/plugin-sdk@0.4.0':
     dependencies:
       semver: 7.8.5
       yaml: 2.9.1
