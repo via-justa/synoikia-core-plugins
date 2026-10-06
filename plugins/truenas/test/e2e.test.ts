@@ -6,10 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FAKE_API_KEY, startFakeTrueNas } from './fake-truenas.js';
 import type { FakeTrueNas } from './fake-truenas.js';
 
-/**
- * The real core running this plugin's built bundle (a permission-confined child) against a fake
- * TrueNAS over WebSocket, through core's plugin harness (design §13 phase 17).
- */
+/** The real core running this plugin's built bundle against a fake TrueNAS, via core's harness. */
 
 const PLUGIN_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -154,7 +151,24 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
       `return await truenas.call('core.get_jobs', [['method', '=', 'pool.dataset.export_key']]);`,
     );
     expect(jobs).toMatchObject({ ok: true, value: [{ method: 'pool.dataset.export_key', result: '[REDACTED]' }] });
-    const all = JSON.stringify([results, jobs, h.audit({})]);
+    // Query options that reshape the records don't get around it: one record (`get`), no method,
+    // a renamed result, a count.
+    const filter = `[['method', '=', 'pool.dataset.export_key']]`;
+    const reshaped = [
+      await h.execute(`return await truenas.call('core.get_jobs', ${filter}, { get: true });`),
+      await h.execute(`return await truenas.call('core.get_jobs', ${filter}, { select: ['id', 'result'] });`),
+      await h.execute(
+        `return await truenas.call('core.get_jobs', ${filter}, { select: ['method', ['result', 'r']] });`,
+      ),
+      await h.execute(`return await truenas.call('core.get_jobs', ${filter}, { count: true });`),
+    ];
+    expect(reshaped).toMatchObject([
+      { ok: true, value: { method: 'pool.dataset.export_key', result: '[REDACTED]' } },
+      { ok: true, value: [{ id: expect.any(Number), result: '[REDACTED]' }] },
+      { ok: true, value: [{ method: 'pool.dataset.export_key', r: '[REDACTED]' }] },
+      { ok: true, value: 1 },
+    ]);
+    const all = JSON.stringify([results, jobs, reshaped, h.audit({})]);
     for (const secret of ['4-fresh-api-key-secret', 'fresh-session-token-secret', 'dataset-key-secret'])
       expect(all).not.toContain(secret);
   });
@@ -228,7 +242,8 @@ describe('TrueNAS plugin end to end (fake TrueNAS)', () => {
           code: `return await truenas.call('pool.dataset.delete', 'tank/contract');`,
           confirm: 'tank/contract',
         },
-        // The keytab sits under the common name `file`: masked by plugin.yaml's sensitiveResult, not by core.
+        // The keytab sits under the common name `file`: no key name gives it away; plugin.yaml's
+        // sensitiveResult declares it, and core masks it.
         secrets: { code: `return await truenas.call('kerberos.keytab.query');`, values: ['keytab-secret-b64'] },
       }),
     ).toEqual([]);

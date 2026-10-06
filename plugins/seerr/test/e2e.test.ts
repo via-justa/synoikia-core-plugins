@@ -6,10 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FAKE_EMAIL, FAKE_PASSWORD, startFakeSeerr } from './fake-seerr.js';
 import type { FakeSeerr } from './fake-seerr.js';
 
-/**
- * The real core running this plugin's built bundle (a permission-confined child) against a fake Seerr
- * over HTTP, spec included, through core's plugin harness (design §13 phase 18).
- */
+/** The real core running this plugin's built bundle against a fake Seerr, via core's harness. */
 
 const PLUGIN_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 

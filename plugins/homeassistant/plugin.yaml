@@ -1,10 +1,6 @@
 # yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
-#
-# What the Home Assistant plugin tells core about its operations (HA §2.2–§3.4). The catalog is every
-# `domain.service` from `get_services`, plus the fixed WebSocket/REST commands below, which
-# `get_services` doesn't list; there is no raw command passthrough. Every service is a write, whatever
-# its name (HA's metadata can't tell "turn on a light" from "unlock a door"), and these rules lock and
-# split on top. Core decides what is allowed.
+# Every `domain.service` plus the fixed commands below, no raw passthrough (HA §2.2–§3.4); every service
+# is a write, whatever its name, and these rules lock and split on top.
 
 defaults:
   # A locked service confirms against the entities it acts on; anything else against the instance's name.
@@ -29,12 +25,8 @@ rules:
     locked: true
     reason: locked:physical-or-system
 
-  # Services whose risk depends on what they target (design §3.4): src/plugin.ts takes the locked twin
-  # when any resolved target is sensitive, judged by device class and domain, never by name.
-  # - `#garage`: opening a cover that is a garage door or gate.
-  # - `#protected`: the generic homeassistant.turn_on/turn_off/toggle on a lock, an alarm panel or a
-  #   garage door or gate (turn_on opens a cover, turn_off unlocks a lock); scene.apply setting one of
-  #   those, and scene.turn_on on a scene that includes one (an unknown entity counts as protected).
+  # Locked twins taken when any resolved target is sensitive, by device class and domain (design §3.4):
+  # `#garage` opens a garage cover; `#protected` touches a lock, alarm or garage door (unknown counts).
   - match: [cover.open_cover, cover.toggle, cover.set_cover_position]
     split: garage
   - match: [homeassistant.turn_on, homeassistant.turn_off, homeassistant.toggle, scene.apply, scene.turn_on]

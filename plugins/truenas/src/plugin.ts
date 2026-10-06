@@ -12,11 +12,8 @@ import { buildCatalog, needsPoolRootKey, POOL_ROOT, POOL_ROOT_SUFFIX, policy, se
 import type { MethodInfo } from './catalog.js';
 import { TrueNasClient } from './client.js';
 
-/**
- * The TrueNAS plugin's handlers (design §3.3–§3.4, TN design). The sandbox calls
- * `truenas.call(method, ...params)`; params stay positional, exactly as TrueNAS takes them. Locks,
- * confirmation literals and secrets are in plugin.yaml.
- */
+/** TrueNAS handlers (design §3.3–§3.4): `truenas.call(method, ...params)`, params positional as TrueNAS
+ * takes them; locks, literals and secrets are in plugin.yaml. */
 
 const MAX_SUMMARY_PARAMS = 400;
 
@@ -50,25 +47,34 @@ export function createTrueNasPlugin(): PluginHandlers {
           .sensitiveParams?.filter((p) => /^\/\d+$/.test(p))
           .map((p) => Number(p.slice(1))) ?? [];
 
-      /**
-       * Secrets in results core can't recognize by key name (plugin.yaml `sensitiveResult`). Job
-       * records keep each job's arguments and result: they are masked by the job's own method, so a
-       * secret a call never returned directly can't be read back later through `core.get_jobs`.
-       */
-      const maskSecrets = (method: string, result: unknown): unknown => {
-        if (method === 'core.get_jobs' && Array.isArray(result)) {
-          return result.map((row) => {
-            if (!isPlainObject(row)) return row;
-            const m = typeof row.method === 'string' ? row.method : '';
-            return {
-              ...row,
-              ...('result' in row ? { result: maskSecrets(m, row.result) } : {}),
-              ...('arguments' in row ? { arguments: maskKeyParams(m, row.arguments) } : {}),
-            };
-          });
-        }
-        return rules.maskResult(method, result);
+      /** Core masks each method's own result; job records embed other methods' results and arguments, so each
+       * is masked here by the job's own method. */
+      const maskJobs = (result: unknown): unknown => {
+        // Query options reshape the answer (`get` returns one record, `count` a number, `select`
+        // drops or renames fields), so this fails closed on any shape it doesn't know.
+        if (Array.isArray(result)) return result.map(maskJobRow);
+        if (isPlainObject(result)) return maskJobRow(result);
+        return typeof result === 'number' ? result : REDACTED;
       };
+      const maskJobRow = (row: unknown): unknown => {
+        if (!isPlainObject(row)) return REDACTED;
+        const m = typeof row.method === 'string' && row.method ? row.method : undefined;
+        const out: Record<string, unknown> = {};
+        for (const [k, v] of Object.entries(row)) {
+          let shown: unknown;
+          // Without its method a record's result and arguments can't be attributed: only fields
+          // that never carry them stay.
+          if (!m) shown = JOB_FIELDS_UNATTRIBUTED.has(k) ? v : REDACTED;
+          else if (k === 'result') shown = maskEmbedded(m, v);
+          else if (k === 'arguments') shown = maskKeyParams(m, v);
+          // Anything else, an alias from `select` included, is hidden.
+          else shown = JOB_FIELDS.has(k) ? v : REDACTED;
+          Object.defineProperty(out, k, { value: shown, enumerable: true, writable: true, configurable: true });
+        }
+        return out;
+      };
+      const maskEmbedded = (method: string, result: unknown): unknown =>
+        method === 'core.get_jobs' ? maskJobs(result) : rules.maskEmbeddedResult(method, result);
 
       return {
         async syncCatalog() {
@@ -111,7 +117,7 @@ export function createTrueNasPlugin(): PluginHandlers {
           const result = known.jobs.has(method)
             ? await kit.client().callJob(method, args, timeout)
             : await kit.client().call(method, args, timeout);
-          return maskSecrets(method, result);
+          return method === 'core.get_jobs' ? maskJobs(result) : result;
         },
 
         async optionsFor({ source, query }) {
@@ -130,12 +136,8 @@ export function createTrueNasPlugin(): PluginHandlers {
   });
 }
 
-/**
- * Encryption keys passed as params (`encryption_options.key`, `datasets[].key`, `change_key`'s `key`)
- * sit under the common name `key`, which core can't redact by name: masked in summaries and job
- * records here; core also keeps them out of approvals and the audit log through `sensitiveParams`.
- * This also covers the unlock datasets beyond the 32 declared paths, in the summary text.
- */
+/** Encryption keys passed as params sit under the common name `key`: masked in summaries and job records
+ * here; `sensitiveParams` keeps them out of approvals and the audit log. */
 function maskKeyParams(method: string, value: unknown): unknown {
   const keyed =
     method.startsWith('pool.dataset.') || method === 'pool.create' || method.startsWith('cloudsync.credentials.');
@@ -143,14 +145,37 @@ function maskKeyParams(method: string, value: unknown): unknown {
   return maskKeysDeep(value, method === 'pool.dataset.create' || method === 'pool.dataset.update');
 }
 
+const REDACTED = '[REDACTED]';
+
+/** Job record fields shown as they are; `result` and `arguments` are masked by the job's method. */
+const JOB_FIELDS = new Set([
+  'id',
+  'method',
+  'transient',
+  'description',
+  'abortable',
+  'logs_path',
+  'logs_excerpt',
+  'progress',
+  'result_encoding_error',
+  'error',
+  'exception',
+  'exc_info',
+  'state',
+  'time_started',
+  'time_finished',
+  'credentials',
+  'message_ids',
+]);
+
+/** What a job record without its method may show: nothing that can carry its arguments or result. */
+const JOB_FIELDS_UNATTRIBUTED = new Set(['id', 'state', 'abortable', 'transient', 'time_started', 'time_finished']);
+
 /** Dataset user properties (`[{ key, value }]`): `key` is the property's name, not a secret. */
 const USER_PROPERTY_LISTS = new Set(['user_properties', 'user_properties_update']);
 
-/**
- * Replaces every non-empty string under a `key` property with `[REDACTED]`, on a copy. With
- * `keepPropertyNames` (dataset create/update params only), the `key` of each item in a user property
- * list is kept so the approver sees which property changes; everything else in it is still walked.
- */
+/** Replaces non-empty strings under `key` with `[REDACTED]` on a copy; `keepPropertyNames` keeps user
+ * property names in dataset create/update params. */
 function maskKeysDeep(value: unknown, keepPropertyNames = false): unknown {
   const walk = (v: unknown, depth: number): unknown => {
     if (depth > 8 || v === null || typeof v !== 'object') return v;

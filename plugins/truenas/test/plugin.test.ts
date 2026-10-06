@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { checkConformance, ErrorCodes, PluginError } from '@synoikia/plugin-sdk';
+import { checkConformance, ErrorCodes, maskSensitiveResult, PluginError } from '@synoikia/plugin-sdk';
 import type { PluginHandlers } from '@synoikia/plugin-sdk';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createTrueNasPlugin } from '../src/plugin.js';
@@ -24,6 +24,13 @@ async function setup() {
 
 const invoke = (plugin: PluginHandlers, key: string, params: unknown[], deadlineMs = 5000) =>
   plugin.invoke({ key, params, context: { callId: 'c1', deadlineMs } });
+
+/** A result as core hands it on: masked by the operation's declared `sensitiveResult`. */
+const asCoreSees = async (plugin: PluginHandlers, key: string, params: unknown[]) => {
+  const { operations } = await plugin.syncCatalog();
+  const declared = operations.find((op) => op.key === key)?.sensitiveResult;
+  return maskSensitiveResult(await invoke(plugin, key, params), declared);
+};
 
 describe('TrueNAS plugin', () => {
   it('passes the SDK conformance checks against a (fake) TrueNAS', async () => {
@@ -125,16 +132,15 @@ describe('TrueNAS plugin', () => {
     expect(fake.calls.at(-1)).toEqual({ method: 'filesystem.setacl', params: [{ path: '/mnt/tank' }] });
   });
 
-  it('masks new API keys and tokens, and keeps positional passwords out of summaries', async () => {
+  it('declares new API keys and tokens for core to mask, and keeps positional passwords out of summaries', async () => {
     const { plugin } = await setup();
-    await plugin.syncCatalog();
-    expect(await invoke(plugin, 'api_key.create', [{ name: 'ci', username: 'root' }])).toEqual({
+    expect(await asCoreSees(plugin, 'api_key.create', [{ name: 'ci', username: 'root' }])).toEqual({
       id: 4,
       name: 'ci',
       key: '[REDACTED]',
     });
-    expect(await invoke(plugin, 'auth.generate_token', [])).toBe('[REDACTED]');
-    expect(await invoke(plugin, 'pool.dataset.export_key', ['tank/secure'])).toBe('[REDACTED]');
+    expect(await asCoreSees(plugin, 'auth.generate_token', [])).toBe('[REDACTED]');
+    expect(await asCoreSees(plugin, 'pool.dataset.export_key', ['tank/secure'])).toBe('[REDACTED]');
     const summary = await plugin.summarize({
       key: 'user.setup_local_administrator',
       params: ['truenas_admin', 'hunter2-secret'],
@@ -165,7 +171,7 @@ describe('TrueNAS plugin', () => {
     expect(updated.text).toContain('org.example:tier');
   });
 
-  it('masks cloud credential keys in results and summaries', async () => {
+  it('declares cloud credential keys in results for core to mask, and masks them in summaries', async () => {
     const { plugin } = await setup();
     // A field named like a dataset's user properties doesn't exempt a cloud credential's `key`.
     const nested = await plugin.summarize({
@@ -174,7 +180,7 @@ describe('TrueNAS plugin', () => {
       targets: [],
     });
     expect(nested.text).not.toContain('nested-key-secret');
-    expect(await invoke(plugin, 'cloudsync.credentials.query', [])).toEqual([
+    expect(await asCoreSees(plugin, 'cloudsync.credentials.query', [])).toEqual([
       { id: 1, name: 'b2', provider: { type: 'B2', account: 'acct-1', key: '[REDACTED]' } },
     ]);
     const summary = await plugin.summarize({
@@ -185,9 +191,9 @@ describe('TrueNAS plugin', () => {
     expect(summary.text).not.toContain('b2-application-key-secret');
   });
 
-  it('masks the keytab contents, which core cannot recognize by key name', async () => {
+  it('declares the keytab contents, which core cannot recognize by key name, for core to mask', async () => {
     const { plugin } = await setup();
-    expect(await invoke(plugin, 'kerberos.keytab.query', [])).toEqual([
+    expect(await asCoreSees(plugin, 'kerberos.keytab.query', [])).toEqual([
       { id: 1, name: 'AD_MACHINE_ACCOUNT', file: '[REDACTED]' },
     ]);
   });

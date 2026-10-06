@@ -16,12 +16,8 @@ import { SeerrClient } from './client.js';
 import type { SeerrAuth } from './client.js';
 import { DEFAULT_SPEC_BASE_URL, fetchSpec } from './spec.js';
 
-/**
- * The Seerr plugin's handlers (design §3.3–§3.4, SR design). The sandbox calls
- * `seerr.request({ method, path, query, body })`; the catalog key is the verb plus the OpenAPI path
- * template (`POST /request/{requestId}/{status}`), and params are `{ path, query, body }`. Locks,
- * splits and confirmation literals are in plugin.yaml.
- */
+/** Seerr handlers (design §3.3–§3.4): `seerr.request({ method, path, query, body })`, keyed by verb plus
+ * OpenAPI path template; locks and literals are in plugin.yaml. */
 
 export interface SeerrParams {
   path?: Record<string, string>;

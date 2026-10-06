@@ -4,12 +4,8 @@ import common from '../guides/common.md';
 import scene from '../guides/scene.md';
 import script from '../guides/script.md';
 
-/**
- * Best-practice guides behind the attestation gate (HA §3.6): `guides.get(key)` returns one of these
- * with a `best_practice_key`, which create/update calls must present. The text lives in `guides/*.md`
- * (bundled at build time). The version is a hash of the content, so editing a guide invalidates keys
- * issued for the old text.
- */
+/** Best-practice guides behind attestation (HA §3.6), bundled from `guides/*.md`; the version is a
+ * content hash, so editing a guide invalidates its keys. */
 
 const compose = (text: string) => `${text.trimEnd()}\n\n${common.trim()}`;
 

@@ -3,15 +3,8 @@ import type { OperationDescriptor } from '@synoikia/plugin-sdk';
 import raw from '../plugin.yaml';
 import type { EntityFilter } from './registry.js';
 
-/**
- * The Home Assistant catalog (HA §2.2–§2.3): every `domain.service` from `get_services`, plus the
- * fixed WebSocket/REST commands declared in plugin.yaml for reads and config objects, which
- * `get_services` doesn't list. There is no raw `ws_command` passthrough: anything not in this catalog
- * is unreachable.
- *
- * Classification is stricter than for other plugins: every service is a write, whatever its name
- * (HA's metadata can't tell "turn on a light" from "unlock a door"); plugin.yaml's locks always win.
- */
+/** The Home Assistant catalog (HA §2.2–§2.3): every `domain.service` plus plugin.yaml's fixed commands;
+ * nothing else is reachable. Every service is a write, whatever its name; plugin.yaml's locks win. */
 
 export interface ServiceField {
   name?: string;
@@ -126,11 +119,7 @@ export const REGISTRY_ID_FIELD: Record<string, string> = settings.plugin.registr
 const asList = (v: unknown): string[] =>
   typeof v === 'string' ? [v] : Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [];
 
-/**
- * The entities a service acts on, from its target selector (`target.entity`: one filter or a list of
- * alternatives, each with an optional `domain` and `integration`). No filter, or any alternative
- * without one, means every entity.
- */
+/** The entities a service acts on, from its `target.entity` selector; no filter means every entity. */
 export function entityFilter(info: ServiceInfo | undefined): EntityFilter {
   const target = info?.target;
   if (!target || typeof target !== 'object') return [];

@@ -1,12 +1,8 @@
 import { ErrorCodes, PluginError } from '@synoikia/plugin-sdk';
 import type { RegistryEntry, ResolvedTarget } from '@synoikia/plugin-sdk';
 
-/**
- * The registry view (HA §2.4): areas, floors, devices, labels and entities, joined so a target like
- * "the kitchen" expands to the concrete entities it covers. Everything here is pure; the plugin
- * fetches the raw lists and caches the view. Resolution fails closed: an unknown id is an error,
- * never "zero entities" that a rule or approver could wave through.
- */
+/** The registry view (HA §2.4): areas, floors, devices, labels and entities joined so a target expands
+ * to concrete entities; pure, and failing closed on unknown ids. */
 
 export interface RawRegistry {
   areas: { area_id: string; name?: string; floor_id?: string | null; labels?: string[] }[];
@@ -144,10 +140,7 @@ const asList = (v: unknown): string[] | undefined => {
   return undefined;
 };
 
-/**
- * Service call params as the gate sees them: service data plus one `target` object, with ids as
- * lists. Target keys given at the top level (as HA also accepts) move into `target`.
- */
+/** Service params as the gate sees them: service data plus one `target`, top-level target keys moved in. */
 export function normalizeServiceParams(params: unknown): Record<string, unknown> {
   if (params === undefined || params === null) return {};
   if (typeof params !== 'object' || Array.isArray(params))
@@ -177,11 +170,7 @@ export function normalizeServiceParams(params: unknown): Record<string, unknown>
 const unresolved = (what: string, ids: string[]) =>
   new PluginError(ErrorCodes.TargetResolutionFailed, `Unknown ${what}: ${ids.join(', ')}`);
 
-/**
- * Which entities a service acts on, from its `get_services` target selector: a list of alternatives,
- * each narrowing by domain and/or integration. An empty list means any entity, as HA treats a
- * selector without filters.
- */
+/** The entities a service acts on, from its target selector; an empty list means any entity. */
 export type EntityFilter = { domain?: string[]; integration?: string }[];
 
 const passes = (e: EntityView, filter: EntityFilter) =>
@@ -190,13 +179,8 @@ const passes = (e: EntityView, filter: EntityFilter) =>
     (f) => (!f.domain?.length || f.domain.includes(e.domain)) && (!f.integration || f.integration === e.platform),
   );
 
-/**
- * Expands a normalized `target` into the concrete entities it covers (HA §3.1 step 5), deduplicated
- * and sorted. Areas, devices, floors, labels and `entity_id: all` only reach entities the service
- * acts on, per its target selector: `light.turn_on` on a room doesn't touch the thermostat, and
- * `sonos.snapshot` finds the room's Sonos media players. Entities named directly are kept as given
- * (HA rejects a wrong one itself).
- */
+/** Expands a `target` to the concrete entities it covers (HA §3.1), limited to those the service acts on;
+ * entities named directly are kept as given. */
 export function resolveTarget(view: RegistryView, target: Target | undefined, filter: EntityFilter): ResolvedTarget[] {
   if (!target) return [];
   const ids = new Set<string>();

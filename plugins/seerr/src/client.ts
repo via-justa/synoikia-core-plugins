@@ -9,13 +9,8 @@ import {
   upstreamError,
 } from '@synoikia/plugin-sdk';
 
-/**
- * Seerr REST client (`<baseUrl>/api/v1`) on the SDK's HTTP client. Signs in either as a dedicated
- * local user (cookie session from `POST /auth/local`) or with the global API key (`X-Api-Key`,
- * optionally `X-API-User`). Seerr answers 403, not 401, when a session has expired, so a local-user
- * client signs in again once and retries; the first attempt never reached the handler. Credentials
- * never appear in errors.
- */
+/** Seerr REST client: signs in as a local user (cookie) or with the API key. Seerr answers 403 for an
+ * expired session, so a local-user client signs in again and retries once; credentials never in errors. */
 
 export type SeerrAuth =
   { kind: 'local'; email: string; password: string } | { kind: 'apiKey'; apiKey: string; actAsUserId?: number };

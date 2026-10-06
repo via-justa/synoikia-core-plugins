@@ -5,11 +5,8 @@ import { createHomeAssistantPlugin } from '../src/plugin.js';
 import { FAKE_TOKEN, startFakeHa } from './fake-ha.js';
 import type { FakeHa } from './fake-ha.js';
 
-/**
- * Golden record of what the plugin tells core: every catalog descriptor, and the approval summary and
- * typed-confirmation literal of every locked operation. A change here changes classification, locks,
- * redaction or approvals, so review the snapshot diff as a security change.
- */
+/** Golden record of what the plugin tells core (descriptors, locked summaries and literals): review
+ * snapshot diffs as security changes. */
 
 /** Stable JSON (sorted keys): property order means nothing to core. */
 function stable(value: unknown): string {

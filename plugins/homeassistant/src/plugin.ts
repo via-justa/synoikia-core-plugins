@@ -25,13 +25,8 @@ import { buildView, normalizeServiceParams, resolveTarget, toRegistryEntries } f
 import type { RawRegistry, RegistryView, Target } from './registry.js';
 import { applyPatch, configHash, diff, validatePatch } from './transform.js';
 
-/**
- * The Home Assistant plugin's handlers (design §3.3–§3.4, HA design). The sandbox calls
- * `ha.call(operation, params)`: a `domain.service` from `get_services`, or one of the fixed commands
- * in plugin.yaml. Service params are service data plus a `target`; the plugin resolves targets to
- * concrete entities, and acts on exactly the ones the approver saw. Locks, splits and confirmation
- * literals are in plugin.yaml; the decisions that need the registry are here.
- */
+/** Home Assistant handlers (design §3.3–§3.4): `ha.call(operation, params)` on services or plugin.yaml
+ * commands; targets resolve to concrete entities, acting on exactly those the approver saw. */
 
 const {
   registryEvents: REGISTRY_EVENTS,

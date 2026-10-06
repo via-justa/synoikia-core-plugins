@@ -8,11 +8,8 @@ import {
 } from '@synoikia/plugin-sdk';
 import WebSocket from 'ws';
 
-/**
- * TrueNAS JSON-RPC 2.0 client over WebSocket (`wss://<host>/api/current`, TrueNAS 25.04+).
- * Connects lazily, signs in with the API key, and reconnects on the next call after a drop. The
- * API key never appears in errors or logs.
- */
+/** TrueNAS JSON-RPC 2.0 over WebSocket (25.04+): lazy API-key sign-in, reconnect after a drop; the key
+ * never appears in errors or logs. */
 
 export interface TrueNasConnection {
   baseUrl: string;
@@ -61,10 +58,7 @@ export class TrueNasClient {
     return this.send(ws, method, params, timeoutMs);
   }
 
-  /**
-   * Calls a job method (`@job` in TrueNAS): the call returns a job id, then the job is polled until it
-   * finishes, fails or `timeoutMs` runs out. Returns the job's result.
-   */
+  /** Calls a `@job` method and polls the job until it ends or `timeoutMs` runs out; returns its result. */
   async callJob(method: string, params: unknown[] = [], timeoutMs = this.opts.timeoutMs ?? 30_000): Promise<unknown> {
     const until = Date.now() + timeoutMs;
     const jobId = await this.call(method, params, timeoutMs);

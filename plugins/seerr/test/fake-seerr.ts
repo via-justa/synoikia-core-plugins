@@ -2,11 +2,8 @@ import { readFileSync } from 'node:fs';
 import { startFakeHttp } from '@synoikia/core/testing';
 import type { FakeRequest, FakeResponse } from '@synoikia/core/testing';
 
-/**
- * A small fake Seerr for tests: `/api/v1` with local sign-in (cookie) and API-key auth, the handful of
- * endpoints the tests call, secret-bearing settings reads, and the OpenAPI spec served the way GitHub
- * serves it (`/spec/<ref>/seerr-api.yml`). Like Seerr, it answers 403 (not 401) without a session.
- */
+/** A fake Seerr: `/api/v1` with cookie and API-key auth, the endpoints the tests use, and the spec;
+ * like Seerr, 403 without a session. */
 
 export const FAKE_EMAIL = 'mcp@seerr.local';
 export const FAKE_PASSWORD = 'fake-seerr-password-123';

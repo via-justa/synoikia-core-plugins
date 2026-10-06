@@ -10,12 +10,8 @@ import {
 } from '@synoikia/plugin-sdk';
 import WebSocket from 'ws';
 
-/**
- * Home Assistant client: the WebSocket API (`/api/websocket`) for services, registries and reads, and
- * the REST API for the automation/script/scene config endpoints, which have no WebSocket command.
- * Connects lazily, signs in with the long-lived token, reconnects on the next call after a drop, and
- * re-subscribes to the events it was asked to watch. The token never appears in errors or logs.
- */
+/** Home Assistant client: WebSocket API, plus REST for automation/script/scene config. Lazy token sign-in,
+ * reconnects and re-subscribes after a drop; the token never appears in errors or logs. */
 
 export interface HaConnection {
   baseUrl: string;

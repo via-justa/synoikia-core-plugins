@@ -2,10 +2,7 @@ import type { AddressInfo } from 'node:net';
 import { WebSocketServer } from 'ws';
 import type WebSocket from 'ws';
 
-/**
- * A small fake TrueNAS for tests: JSON-RPC 2.0 over WebSocket at `/api/current`, API-key login, a
- * realistic slice of `core.get_methods`, in-memory datasets, jobs, and one method that is denied.
- */
+/** A fake TrueNAS: JSON-RPC over WebSocket, API-key login, a slice of `core.get_methods`, datasets, jobs. */
 
 export const FAKE_API_KEY = '1-fake-truenas-api-key-abcdef';
 
@@ -256,11 +253,27 @@ export async function startFakeTrueNas(opts: { jobDelayMs?: number } = {}): Prom
       host_ed25519_key_pub: 'ssh-ed25519 AAAA',
     }),
     'kerberos.keytab.query': () => [{ id: 1, name: 'AD_MACHINE_ACCOUNT', file: 'keytab-secret-b64' }],
-    'core.get_jobs': ([filters]) => {
-      const [field, , value] = (filters as unknown[][])[0] ?? [];
-      if (field === 'method') return [...jobs.values()].filter((j) => j.method === value);
-      const j = jobs.get(Number(value));
-      return j ? [j] : [];
+    'core.get_jobs': ([filters, options]) => {
+      const [field, , value] = ((filters as unknown[][] | undefined) ?? [])[0] ?? [];
+      const found =
+        field === 'method'
+          ? [...jobs.values()].filter((j) => j.method === value)
+          : field === 'id'
+            ? [jobs.get(Number(value))].filter((j) => j !== undefined)
+            : [...jobs.values()];
+      // TrueNAS query options: `select` (with `[field, alias]` pairs), `count` and `get`.
+      const opts = (options ?? {}) as { select?: (string | [string, string])[]; count?: boolean; get?: boolean };
+      if (opts.count) return found.length;
+      const rows = found.map((j) => {
+        if (!opts.select) return j;
+        const row: Record<string, unknown> = {};
+        for (const s of opts.select) {
+          const [from, to] = Array.isArray(s) ? s : [s, s];
+          row[to] = (j as Record<string, unknown>)[from];
+        }
+        return row;
+      });
+      return opts.get ? (rows[0] ?? null) : rows;
     },
   };
 

@@ -2,11 +2,8 @@ import { compileRules, isPlainObject, parsePluginSettings, toGroup } from '@syno
 import type { OperationDescriptor, OperationDraft } from '@synoikia/plugin-sdk';
 import raw from '../plugin.yaml';
 
-/**
- * Turns `core.get_methods` into the catalog (TN §2.2–§2.3). Classification is layered and fails
- * closed: plugin.yaml's locks always win, then the roles TrueNAS declares and naming conventions,
- * and anything ambiguous is a write. Core applies admin overrides on top.
- */
+/** Turns `core.get_methods` into the catalog (TN §2.2–§2.3), failing closed: plugin.yaml's locks win,
+ * then TrueNAS's declared roles and naming; anything ambiguous is a write. */
 
 export interface MethodInfo {
   description?: string | null;
@@ -49,10 +46,7 @@ export const LOCKED = new Set(
 
 export const isLocked = (method: string) => policy.isLocked(method);
 
-/**
- * Methods whose risk depends on their params get a second catalog key (design §3.4): an ACL or owner
- * change at a pool's root (`/mnt/<pool>`) is locked; the same call deeper down is an ordinary write.
- */
+/** Risk-dependent methods get a second key (design §3.4): ACL or owner changes at a pool root are locked. */
 export const POOL_ROOT = 'pool-root';
 export const POOL_ROOT_SUFFIX = `#${POOL_ROOT}`;
 
@@ -72,13 +66,8 @@ function byName(method: string): { classification: 'read' | 'write'; reason: str
   return null;
 }
 
-/**
- * Read or write. A lock always wins. The roles TrueNAS declares (`core.get_methods`) are upstream
- * data, so they may only make a method stricter or settle an unclear name, never turn a write-named
- * method into a read: declared roles with no read role make it a write; a read role (`READONLY_ADMIN`,
- * `*_READ`) makes it a read unless its name says write. Without roles, the name decides, and anything
- * unclear is a write (fail closed).
- */
+/** Read or write: a lock wins; declared roles may only make a method stricter or settle an unclear name
+ * (a read role reads unless the name says write); otherwise the name decides, and unclear is a write. */
 export function classify(
   method: string,
   roles?: unknown,
@@ -141,13 +130,8 @@ export function buildCatalog(methods: Record<string, MethodInfo>): Catalog {
   return { operations, jobs, methods: names };
 }
 
-/**
- * Whether an ACL/owner change on `path` needs the locked `#pool-root` key. Fails closed: only a plain
- * absolute path strictly inside a pool (`/mnt/tank/media`) gets the ordinary key. A pool root
- * (`/mnt/tank`), anything outside `/mnt`, a relative path, or any `.`/`..` segment (`/mnt/tank/.`,
- * `/mnt/tank/media/..`) is locked. A missing or non-string path keeps the ordinary key; TrueNAS
- * rejects the call as invalid.
- */
+/** Whether an ACL/owner change on `path` needs the locked `#pool-root` key: only a plain path strictly
+ * inside a pool gets the ordinary key (a missing path too; TrueNAS rejects it). */
 export function needsPoolRootKey(path: unknown): boolean {
   if (typeof path !== 'string') return false;
   if (!path.startsWith('/')) return true;

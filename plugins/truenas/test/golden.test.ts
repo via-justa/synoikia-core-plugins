@@ -1,3 +1,4 @@
+import { maskSensitiveResult } from '@synoikia/plugin-sdk';
 import type { OperationDescriptor } from '@synoikia/plugin-sdk';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { classify, policy } from '../src/catalog.js';
@@ -5,11 +6,8 @@ import { createTrueNasPlugin } from '../src/plugin.js';
 import { FAKE_API_KEY, startFakeTrueNas } from './fake-truenas.js';
 import type { FakeTrueNas } from './fake-truenas.js';
 
-/**
- * Golden record of what the plugin tells core: every catalog descriptor, and the approval summary and
- * typed-confirmation literal of every locked operation. A change here changes classification, locks,
- * redaction or approvals, so review the snapshot diff as a security change.
- */
+/** Golden record of what the plugin tells core (descriptors, locked summaries and literals): review
+ * snapshot diffs as security changes. */
 
 /** Stable JSON (sorted keys): property order means nothing to core. */
 function stable(value: unknown): string {
@@ -113,7 +111,10 @@ describe('TrueNAS golden record', () => {
     await expect(stable(out)).toMatchFileSnapshot('__golden__/classify.json');
   });
 
+  // What core hands on: each result masked by the sensitiveResult its descriptor declares (core applies
+  // it after invoke), and job records masked by the plugin itself, per embedded method.
   it('result masking', async () => {
+    const declared = new Map((await plugin.syncCatalog()).operations.map((op) => [op.key, op.sensitiveResult]));
     const out: Record<string, unknown> = {};
     for (const op of [
       'pool.dataset.export_key',
@@ -125,11 +126,19 @@ describe('TrueNAS golden record', () => {
       'pool.query',
     ]) {
       try {
-        out[op] = await plugin.invoke({
-          key: op,
-          params: op === 'pool.dataset.export_key' ? ['tank/secure'] : [],
-          context: { callId: 'g', deadlineMs: 5000 },
-        });
+        out[op] = maskSensitiveResult(
+          await plugin.invoke({
+            key: op,
+            params:
+              op === 'pool.dataset.export_key'
+                ? ['tank/secure']
+                : op === 'core.get_jobs'
+                  ? [[['method', '=', 'pool.dataset.export_key']]]
+                  : [],
+            context: { callId: 'g', deadlineMs: 5000 },
+          }),
+          declared.get(op),
+        );
       } catch (err) {
         out[op] = { error: (err as Error).message };
       }
@@ -198,16 +207,17 @@ describe('TrueNAS golden record', () => {
       return {
         n,
         excluded: policy.excluded(n),
-        descriptors: d.map(({ key, locked, classification, sensitiveParams, matchProfile, docs }) => ({
+        descriptors: d.map(({ key, locked, classification, sensitiveParams, sensitiveResult, matchProfile, docs }) => ({
           key,
           locked,
           classification,
           sensitiveParams,
+          sensitiveResult,
           matchProfile,
           description: docs?.description,
           guidance: docs?.guidance,
         })),
-        masked: { row: policy.maskResult(n, sample), text: policy.maskResult(n, 'secret-string') },
+        masked: { row: policy.maskEmbeddedResult(n, sample), text: policy.maskEmbeddedResult(n, 'secret-string') },
       };
     });
     await expect(stable(out)).toMatchFileSnapshot('__golden__/policy.json');

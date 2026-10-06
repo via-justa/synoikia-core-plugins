@@ -1,9 +1,6 @@
 # yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
-#
-# What the Seerr plugin tells core about its API (SR §2.2–§3.4). The catalog is Seerr's OpenAPI spec:
-# GET reads, every other verb writes, and a GET whose text reads like an action ("reset", "sync"…) is
-# a write flagged for review until a rule here settles it. These rules lock, split and describe on
-# top; anything that really changes something belongs in a lock. Core decides what is allowed.
+# Rules on top of Seerr's OpenAPI catalog (SR §2.2–§3.4): GET reads, other verbs write, action-like GETs
+# are writes until a rule settles them.
 
 defaults:
   # Locked operations without their own literal confirm against the instance's title.
@@ -42,10 +39,8 @@ rules:
     reason: verb:GET
     needsReview: false
 
-  # Operations whose risk depends on the call: each gets a locked twin the plugin picks per call.
-  # - `#on-behalf`: approving or declining a request someone else filed (SR §3.4).
-  # - `#start`: starting a full library scan (SR §2.3), as opposed to reading or cancelling one, and
-  #   running any scheduled job not in `plugin.cheapJobs` (`plex-full-scan` starts the same scan).
+  # Locked twins picked per call: `#on-behalf` decides another user's request (SR §3.4); `#start` starts a
+  # full library scan or any job not in `plugin.cheapJobs` (SR §2.3).
   - match: 'POST /request/{requestId}/{status}'
     split: on-behalf
   - match: ['POST /settings/plex/sync', 'POST /settings/jellyfin/sync', 'POST /settings/jobs/{jobId}/run']
@@ -95,24 +90,20 @@ rules:
     matchProfile: media-request
 
 plugin:
-  # Seerr has no introspection endpoint: the spec comes from the release tag matching the instance's
-  # `/status` version, falling back to `develop` (SR §2.2). The base URL is a connection field, so a
-  # mirror works on a network without GitHub access.
+  # The spec, from the tag matching `/status`'s version, else `develop` (SR §2.2); the base URL is a
+  # connection field, so a mirror works offline.
   spec:
     baseUrl: https://raw.githubusercontent.com/seerr-team/seerr
     file: seerr-api.yml
     fallbackRef: develop
     maxBytes: 5242880
     timeoutMs: 20000
-  # The GET-as-action heuristic: words in a GET's summary, description or query parameter descriptions
-  # that make it a write flagged for review (SR §2.3). The path check of the SDK's default heuristic is
-  # off; every GET in the spec was reviewed against this list (see test/catalog.test.ts).
+  # Words that make a GET a write flagged for review (SR §2.3); the SDK's path check is off, every GET
+  # having been reviewed against this list (test/catalog.test.ts).
   actionWords: ['reset\w*', 'regenerat\w*', 'sync\w*', 'flush\w*', run, runs, 'cancel\w*', 'invok\w*']
   # Guard against an empty or truncated spec replacing a real catalog (SR §5).
   minOperations: 50
-  # Scheduled jobs (Seerr `server/job/schedule.ts`) that are cheap to run on demand. Running any other job,
-  # including one a future Seerr adds, takes the locked `#start` key: the full library scans,
-  # `availability-sync` (can mark media unavailable), `download-sync-reset`, `process-blocklisted-tags`.
+  # Scheduled jobs cheap to run on demand; any other job, a future one included, takes the locked `#start`.
   cheapJobs:
     - plex-recently-added-scan
     - jellyfin-recently-added-scan

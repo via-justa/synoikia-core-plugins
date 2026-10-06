@@ -6,10 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FAKE_TOKEN, startFakeHa } from './fake-ha.js';
 import type { FakeHa } from './fake-ha.js';
 
-/**
- * The real core running this plugin's built bundle (a permission-confined child) against a fake Home
- * Assistant over WebSocket and REST, through core's plugin harness (design §13 phase 19).
- */
+/** The real core running this plugin's built bundle against a fake Home Assistant, via core's harness. */
 
 const PLUGIN_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 

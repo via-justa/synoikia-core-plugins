@@ -4,11 +4,7 @@ import type { AddressInfo } from 'node:net';
 import { WebSocketServer } from 'ws';
 import type WebSocket from 'ws';
 
-/**
- * A small fake Home Assistant for tests: the WebSocket API at `/api/websocket` (token sign-in,
- * `get_config`, `get_services`, registries, `get_states`, `call_service`, dashboards, event
- * subscriptions) and the REST config endpoints for automations/scripts/scenes, on one port.
- */
+/** A fake Home Assistant: the WebSocket API and the REST config endpoints, on one port. */
 
 export const FAKE_TOKEN = 'fake-ha-long-lived-token-abcdef';
 

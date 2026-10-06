@@ -1,12 +1,8 @@
 import { createHash } from 'node:crypto';
 import { ErrorCodes, PluginError } from '@synoikia/plugin-sdk';
 
-/**
- * Surgical config edits with optimistic locking (HA §2.8). A read returns the object and its
- * `config_hash`; a write sends a small JSON Patch (RFC 6902: add, remove, replace, test) plus that
- * hash. The plugin applies the patch to the live object, refuses if the object changed since it was
- * read, and hands core a field-level diff for the approval prompt.
- */
+/** Surgical config edits with optimistic locking (HA §2.8): a JSON Patch plus the `config_hash` read,
+ * refused if the object changed; core gets a field-level diff for the approval. */
 
 export interface PatchOp {
   op: 'add' | 'remove' | 'replace' | 'test';
