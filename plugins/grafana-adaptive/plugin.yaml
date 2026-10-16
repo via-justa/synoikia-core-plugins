@@ -1,0 +1,402 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Adaptive Metrics, Logs and Traces serve no API spec: operations confirmed from grafana.com docs and Grafana's own
+# clients (docs/designs/grafana-adaptive.md). A key's first part names the service whose URL it is sent to.
+
+defaults:
+  # Locked operations without their own literal confirm against the service's instance (tenant) id.
+  confirm: { custom: instance }
+  timeouts: { request: 15000, lookup: 10000 }
+
+operations:
+  - key: metrics.rules.list
+    group: metrics.rules
+    classification: read
+    summary: The aggregation rules in force, with the `etag` a rules write needs.
+    http: { method: GET, path: /aggregations/rules }
+    paramsSchema: &segment-only
+      type: object
+      properties:
+        query: &segment-query
+          type: object
+          additionalProperties: false
+          properties: { segment: { type: string, description: 'Segment id; leave out for the default segment' } }
+  - key: metrics.rules.get
+    group: metrics.rules
+    classification: read
+    summary: The aggregation rule of one metric.
+    http: { method: GET, path: '/aggregations/rule/{metric}' }
+    paramsSchema:
+      type: object
+      required: [path]
+      properties:
+        path: &metric-path { type: object, required: [metric], properties: { metric: { type: string } } }
+        query: *segment-query
+  - key: metrics.rules.check
+    group: metrics.rules
+    classification: read
+    reason: 'declared:read (validates a rule set without applying it)'
+    summary: Validate a rule set without applying it; returns the errors, if any.
+    http: { method: POST, path: /aggregations/check-rules }
+    paramsSchema:
+      type: object
+      required: [body]
+      properties:
+        query: *segment-query
+        body: &rule-list { type: array, items: { $ref: '#/$defs/rule' } }
+      $defs: &rule-defs
+        rule:
+          type: object
+          required: [metric]
+          properties:
+            metric: { type: string }
+            match_type: { type: string, enum: [exact, prefix, suffix] }
+            drop: { type: boolean, description: 'Drop the metric entirely: no ingestion, no aggregation' }
+            keep_labels: { type: array, items: { type: string } }
+            drop_labels: { type: array, items: { type: string } }
+            aggregations: { type: array, items: { type: string } }
+            aggregation_interval: { type: string }
+            aggregation_delay: { type: string }
+  - key: metrics.recommendations.list
+    group: metrics.recommendations
+    classification: read
+    summary: Recommended aggregation rules; `verbose` adds usage counts and series before and after.
+    description: >-
+      Without `verbose`, `recommendations` is the complete recommended rule set and `rulesVersion` works as the
+      `ifMatch` of `metrics.rules.replace` to apply it.
+    http: { method: GET, path: /aggregations/recommendations }
+    paramsSchema:
+      type: object
+      properties:
+        query:
+          type: object
+          additionalProperties: false
+          properties:
+            verbose: { type: boolean }
+            action: { type: array, items: { type: string, enum: [add, keep, remove, update] } }
+            segment: { type: string }
+  - key: metrics.recommendations.config
+    group: metrics.recommendations
+    classification: read
+    summary: Recommendation settings, `keep_labels` and `auto_apply`.
+    http: { method: GET, path: /aggregations/recommendations/config }
+  - key: metrics.segments.list
+    group: metrics.rules
+    classification: read
+    summary: Segments (scoped rule sets) and their ids.
+    http: { method: GET, path: /aggregations/rules/segments }
+  - key: metrics.exemptions.list
+    group: metrics.exemptions
+    classification: read
+    summary: Metrics that recommendations leave alone, fully or for some labels.
+    http: { method: GET, path: /v1/recommendations/exemptions }
+    paramsSchema: *segment-only
+  - key: metrics.exemptions.get
+    group: metrics.exemptions
+    classification: read
+    summary: One metrics exemption.
+    http: { method: GET, path: '/v1/recommendations/exemptions/{id}' }
+    paramsSchema: &id-read
+      type: object
+      required: [path]
+      properties:
+        path: &id-path { type: object, required: [id], properties: { id: { type: string } } }
+        query: *segment-query
+
+  - key: metrics.rules.replace
+    group: metrics.rules
+    classification: write
+    summary: Replace the whole aggregation rule set; needs `ifMatch` from `metrics.rules.list`.
+    description: >-
+      Rules left out of `body` are removed. Read the rules, change them, and send them all back with the `etag` as
+      `ifMatch`; a stale one fails with 412.
+    http: { method: POST, path: /aggregations/rules }
+    paramsSchema:
+      type: object
+      required: [body, ifMatch]
+      properties:
+        ifMatch: { type: string }
+        query: *segment-query
+        body: *rule-list
+      $defs: *rule-defs
+  - key: metrics.rules.create
+    group: metrics.rules
+    classification: write
+    summary: Add the aggregation rule of one metric; needs `ifMatch` from `metrics.rules.list`.
+    http: { method: POST, path: '/aggregations/rule/{metric}' }
+    paramsSchema: &rule-write
+      type: object
+      required: [path, body, ifMatch]
+      properties:
+        path: *metric-path
+        ifMatch: { type: string }
+        query: *segment-query
+        body: { $ref: '#/$defs/rule' }
+      $defs: *rule-defs
+  - key: metrics.rules.update
+    group: metrics.rules
+    classification: write
+    summary: Change the aggregation rule of one metric; needs `ifMatch` from `metrics.rules.list`.
+    http: { method: PUT, path: '/aggregations/rule/{metric}' }
+    paramsSchema: *rule-write
+  - key: metrics.rules.delete
+    group: metrics.rules
+    classification: write
+    summary: Remove the aggregation rule of one metric; needs `ifMatch` from `metrics.rules.list`.
+    http: { method: DELETE, path: '/aggregations/rule/{metric}' }
+    paramsSchema:
+      type: object
+      required: [path, ifMatch]
+      properties: { path: *metric-path, ifMatch: { type: string }, query: *segment-query }
+  - key: metrics.recommendations.updateConfig
+    group: metrics.recommendations
+    classification: write
+    summary: Change the recommendation settings; `auto_apply` applies recommendations without review.
+    http: { method: POST, path: /aggregations/recommendations/config }
+    paramsSchema:
+      type: object
+      required: [body]
+      properties:
+        body:
+          type: object
+          properties:
+            keep_labels: { type: array, items: { type: string } }
+            auto_apply:
+              type: object
+              properties:
+                enabled: { type: boolean }
+                gate: { type: object, properties: { policy: { type: string, enum: [unbounded, no-increase] } } }
+  - key: metrics.exemptions.create
+    group: metrics.exemptions
+    classification: write
+    summary: Exempt a metric from recommendations, fully or for some labels.
+    http: { method: POST, path: /v1/recommendations/exemptions }
+    paramsSchema:
+      type: object
+      required: [body]
+      properties:
+        query: *segment-query
+        body: &metrics-exemption-body
+          type: object
+          required: [metric]
+          properties:
+            metric: { type: string }
+            match_type: { type: string }
+            keep_labels: { type: array, items: { type: string } }
+            disable_recommendations: { type: boolean }
+            reason: { type: string }
+            active_interval: { type: string }
+            expires_at: { type: string }
+  - key: metrics.exemptions.update
+    group: metrics.exemptions
+    classification: write
+    summary: Change a metrics exemption.
+    http: { method: PUT, path: '/v1/recommendations/exemptions/{id}' }
+    paramsSchema:
+      type: object
+      required: [path, body]
+      properties: { path: *id-path, query: *segment-query, body: *metrics-exemption-body }
+  - key: metrics.exemptions.delete
+    group: metrics.exemptions
+    classification: write
+    summary: Remove a metrics exemption, so recommendations may aggregate or drop the metric again.
+    http: { method: DELETE, path: '/v1/recommendations/exemptions/{id}' }
+    paramsSchema: *id-read
+
+  - key: logs.recommendations.list
+    group: logs.patterns
+    classification: read
+    summary: Log patterns with volume and their configured and recommended drop rates.
+    http: { method: GET, path: /adaptive-logs/recommendations }
+  - key: logs.segments.list
+    group: logs.patterns
+    classification: read
+    summary: Log segments and their ids.
+    http: { method: GET, path: /adaptive-logs/segments }
+  - key: logs.dropRules.list
+    group: logs.drop-rules
+    classification: read
+    summary: Drop rules (stream selector, levels, line text, drop rate).
+    http: { method: GET, path: /adaptive-logs/drop-rules }
+    paramsSchema:
+      type: object
+      properties:
+        query:
+          type: object
+          additionalProperties: false
+          properties:
+            segment_id: { type: string }
+            expiration_filter: { type: string, enum: [all, active, expired] }
+  - key: logs.dropRules.get
+    group: logs.drop-rules
+    classification: read
+    summary: One drop rule.
+    http: { method: GET, path: '/adaptive-logs/drop-rules/{id}' }
+    paramsSchema: &id-only
+      type: object
+      required: [path]
+      properties: { path: *id-path }
+  - key: logs.exemptions.list
+    group: logs.exemptions
+    classification: read
+    summary: Log streams that are never dropped.
+    http: { method: GET, path: /adaptive-logs/exemptions }
+  - key: logs.exemptions.get
+    group: logs.exemptions
+    classification: read
+    summary: One logs exemption.
+    http: { method: GET, path: '/adaptive-logs/exemptions/{id}' }
+    paramsSchema: *id-only
+
+  - key: logs.dropRules.create
+    group: logs.drop-rules
+    classification: write
+    summary: Drop a share of matching log lines before they are stored.
+    http: { method: POST, path: /adaptive-logs/drop-rules }
+    paramsSchema:
+      type: object
+      required: [body]
+      properties:
+        body: &drop-rule-body
+          type: object
+          required: [name, body]
+          properties:
+            version: { type: integer, enum: [1] }
+            name: { type: string }
+            segment_id: { type: string, description: 'Create only; __global__ (the default) for the whole tenant' }
+            disabled: { type: boolean }
+            expires_at: { type: string }
+            body:
+              type: object
+              required: [drop_rate, stream_selector]
+              properties:
+                drop_rate: { type: number, minimum: 0 }
+                stream_selector: { type: string }
+                levels: { type: array, items: { type: string } }
+                log_line_contains: { type: array, items: { type: string } }
+  - key: logs.dropRules.update
+    group: logs.drop-rules
+    classification: write
+    summary: Change a drop rule.
+    http: { method: PUT, path: '/adaptive-logs/drop-rules/{id}' }
+    paramsSchema:
+      type: object
+      required: [path, body]
+      properties: { path: *id-path, body: *drop-rule-body }
+  - key: logs.dropRules.delete
+    group: logs.drop-rules
+    classification: write
+    summary: Remove a drop rule.
+    http: { method: DELETE, path: '/adaptive-logs/drop-rules/{id}' }
+    paramsSchema: *id-only
+  - key: logs.exemptions.create
+    group: logs.exemptions
+    classification: write
+    summary: Never drop the log lines of a stream selector.
+    http: { method: POST, path: /adaptive-logs/exemptions }
+    paramsSchema:
+      type: object
+      required: [body]
+      properties:
+        body: &logs-exemption-body
+          type: object
+          required: [stream_selector]
+          properties:
+            stream_selector: { type: string }
+            reason: { type: string }
+            active_interval: { type: string }
+            expires_at: { type: string }
+  - key: logs.exemptions.update
+    group: logs.exemptions
+    classification: write
+    summary: Change a logs exemption.
+    http: { method: PUT, path: '/adaptive-logs/exemptions/{id}' }
+    paramsSchema:
+      type: object
+      required: [path, body]
+      properties: { path: *id-path, body: *logs-exemption-body }
+  - key: logs.exemptions.delete
+    group: logs.exemptions
+    classification: write
+    summary: Remove a logs exemption, so its lines may be dropped again.
+    http: { method: DELETE, path: '/adaptive-logs/exemptions/{id}' }
+    paramsSchema: *id-only
+
+  - key: traces.policies.list
+    group: traces.policies
+    classification: read
+    summary: Sampling policies (type, name, body, expiry).
+    http: { method: GET, path: /adaptive-traces/api/v1/policies }
+  - key: traces.policies.get
+    group: traces.policies
+    classification: read
+    summary: One sampling policy.
+    http: { method: GET, path: '/adaptive-traces/api/v1/policies/{id}' }
+    paramsSchema: *id-only
+  - key: traces.recommendations.list
+    group: traces.recommendations
+    classification: read
+    summary: Sampling recommendations and the policy actions each would take.
+    http: { method: GET, path: /adaptive-traces/api/v1/recommendations }
+
+  - key: traces.policies.create
+    group: traces.policies
+    classification: write
+    summary: Add a sampling policy; traces no policy keeps are discarded.
+    http: { method: POST, path: /adaptive-traces/api/v1/policies }
+    paramsSchema:
+      type: object
+      required: [body]
+      properties:
+        body: &policy-body
+          type: object
+          required: [type, name, body]
+          properties:
+            type: { type: string, description: 'e.g. probabilistic, rate_limiting' }
+            name: { type: string }
+            body: { type: object }
+            expires_at: { type: string }
+  - key: traces.policies.update
+    group: traces.policies
+    classification: write
+    summary: Change a sampling policy.
+    http: { method: PUT, path: '/adaptive-traces/api/v1/policies/{id}' }
+    paramsSchema:
+      type: object
+      required: [path, body]
+      properties: { path: *id-path, body: *policy-body }
+  - key: traces.policies.delete
+    group: traces.policies
+    classification: write
+    summary: Remove a sampling policy.
+    http: { method: DELETE, path: '/adaptive-traces/api/v1/policies/{id}' }
+    paramsSchema: *id-only
+  - key: traces.recommendations.apply
+    group: traces.recommendations
+    classification: write
+    summary: Apply a recommendation; adds, changes or removes the policies it lists.
+    http: { method: POST, path: '/adaptive-traces/api/v1/recommendations/{id}/apply' }
+    paramsSchema: *id-only
+  - key: traces.recommendations.dismiss
+    group: traces.recommendations
+    classification: write
+    summary: Dismiss a recommendation without applying it.
+    http: { method: POST, path: '/adaptive-traces/api/v1/recommendations/{id}/dismiss' }
+    paramsSchema: *id-only
+
+rules:
+  # Each write that changes which telemetry is kept, aggregated, dropped or sampled: a human with a typed confirmation.
+  # Matched by verb, so a write declared later with one of these verbs is locked until reviewed.
+  - match: ['*.create', '*.update', '*.delete', '*.replace', '*.apply', '*.updateConfig']
+    locked: true
+  # Per-object writes confirm on what they act on: the metric, the stream selector or the stored name.
+  - match: ['metrics.rules.create', 'metrics.rules.update', 'metrics.rules.delete', 'metrics.exemptions.*']
+    confirm: { custom: subject }
+  - match: ['logs.dropRules.*', 'logs.exemptions.*', 'traces.policies.*']
+    confirm: { custom: subject }
+
+plugin:
+  # The read each configured service answers in the connection test.
+  probes:
+    metrics: /aggregations/recommendations/config
+    logs: /adaptive-logs/exemptions
+    traces: /adaptive-traces/api/v1/policies

@@ -2,6 +2,10 @@
 
 Exposes a Seerr instance's whole REST API (about 210 operations: requests, media, users, settings, notifications, discover sliders, …) through the two MCP tools, `search` and `execute`, behind core's permission gate. Seerr has no introspection endpoint, so the catalog comes from its OpenAPI spec, `seerr-api.yml`, fetched for the release the instance runs. A Seerr upgrade needs no change here. Design: [`docs/reference/seerr-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/seerr-mcp-design.md), mapped onto the plugin hooks in [Synoikia design `03-plugin-model.md`](https://github.com/via-justa/synoikia-core/blob/main/docs/design/03-plugin-model.md) §3.3–§3.4.
 
+## Agent instructions
+
+Since 0.2.0 the plugin ships `instructions.md` (the API shape, paging and common workflows), and core adds it to the MCP server instructions. It needs **Synoikia core 0.14.0 or newer**; older cores reject the manifest field.
+
 ## Signing in
 
 Seerr has no service accounts and no per-user API keys, so there are two choices:

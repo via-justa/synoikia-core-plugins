@@ -1,0 +1,254 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of the OpenAPI spec the instance serves at /openapi.json (docs/designs/mealie.md): keys are the
+# spec's own paths (`GET /api/recipes/{slug}`); GET reads, other verbs write, anything unlisted stays a write.
+
+defaults:
+  # Locked operations without their own literal confirm against the connection's group name.
+  confirm: instance
+  timeouts: { request: 15000, lookup: 10000 }
+
+instanceName: { op: 'GET /api/groups/self', field: name, fallback: Mealie }
+
+# Plumbing the model has no business calling: sign-in, OIDC, sign-up and password-recovery flows, file
+# serving and download tokens, debug, and uploads, imports and streams, which carry raw files and backups.
+exclude:
+  - '* /api/auth/*'
+  - 'POST /api/users/register'
+  - 'POST /api/users/forgot-password'
+  - 'GET /api/media/*'
+  - 'GET /api/utils/download'
+  - 'GET /api/recipes/shared/*'
+  - 'GET /api/recipes/bulk-actions/export/{export_id}/download'
+  - 'GET /api/admin/backups/{file_name}'
+  - 'POST /api/admin/backups/upload'
+  - '* /api/admin/debug/*'
+  - 'POST /api/users/{id}/image'
+  - 'POST /api/groups/migrations'
+  - 'POST /api/recipes/create/ai'
+  - 'POST /api/recipes/create/zip'
+  - 'POST /api/recipes/*/stream'
+  - 'PUT /api/recipes/{slug}/image'
+  - 'POST /api/recipes/{slug}/assets'
+  - 'PUT /api/recipes/timeline/events/{item_id}/image'
+
+rules:
+  # Irreversible, instance-wide, or granting access or credentials: always a human with a typed confirmation.
+  - match:
+      - 'POST /api/admin/users'
+      - 'PUT /api/admin/users/{item_id}'
+      - 'DELETE /api/admin/users/{item_id}'
+      - 'POST /api/admin/users/unlock'
+      - 'POST /api/admin/users/password-reset-token'
+      - 'POST /api/admin/groups'
+      - 'PUT /api/admin/groups/{item_id}'
+      - 'DELETE /api/admin/groups/{item_id}'
+      - 'POST /api/admin/households'
+      - 'PUT /api/admin/households/{item_id}'
+      - 'DELETE /api/admin/households/{item_id}'
+      - 'POST /api/admin/groups/{group_id}/ai-providers/providers'
+      - 'PUT /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}'
+      - 'DELETE /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}'
+      - 'POST /api/admin/backups/{file_name}/restore'
+      - 'DELETE /api/admin/backups/{file_name}'
+      - 'POST /api/admin/maintenance/clean/images'
+      - 'POST /api/admin/maintenance/clean/temp'
+      - 'POST /api/admin/maintenance/clean/recipe-folders'
+      - 'POST /api/admin/email'
+      - 'POST /api/recipes/bulk-actions/delete'
+      - 'DELETE /api/recipes/bulk-actions/export/purge'
+      - 'POST /api/users/api-tokens'
+      - 'DELETE /api/users/api-tokens/{token_id}'
+      - 'PUT /api/users/password'
+      - 'POST /api/users/reset-password'
+      - 'PUT /api/users/{item_id}'
+      - 'PUT /api/households/permissions'
+      - 'POST /api/households/invitations'
+      - 'POST /api/households/invitations/email'
+      # A provider's baseUrl and headers decide where its stored key and the group's recipes are sent.
+      - 'POST /api/groups/ai-providers/providers'
+      - 'PUT /api/groups/ai-providers/providers/{provider_id}'
+      - 'DELETE /api/groups/ai-providers/providers/{provider_id}'
+      # A webhook posts household data to its url.
+      - 'POST /api/households/webhooks'
+      - 'PUT /api/households/webhooks/{item_id}'
+      # Privacy flags here make the group's or household's recipes public without sign-in.
+      - 'PUT /api/groups/preferences'
+      - 'PUT /api/households/preferences'
+    locked: true
+  # Every other delete, and one a newer spec adds: a human types the stored name, else the path id.
+  - match: 'DELETE *'
+    locked: true
+
+  # The literal an approver types: the thing the operation affects.
+  # The stored user, never the body's username: the model writes the body.
+  - match: ['PUT /api/admin/users/{item_id}', 'DELETE /api/admin/users/{item_id}', 'PUT /api/users/{item_id}']
+    confirm:
+      lookup:
+        op: 'GET /api/admin/users/{item_id}'
+        args: [{ item_id: { $param: /path/item_id } }]
+        field: [username, email]
+  - match: 'POST /api/admin/users'
+    confirm: { param: /body/username }
+  - match:
+      ['POST /api/admin/users/password-reset-token', 'POST /api/households/invitations/email', 'POST /api/admin/email']
+    confirm: { param: /body/email }
+  - match: ['PUT /api/admin/groups/{item_id}', 'DELETE /api/admin/groups/{item_id}']
+    confirm:
+      lookup: { op: 'GET /api/admin/groups/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: '* /api/admin/groups/{group_id}/ai-providers/*'
+    confirm:
+      lookup: { op: 'GET /api/admin/groups/{item_id}', args: [{ item_id: { $param: /path/group_id } }], field: name }
+  - match: ['PUT /api/admin/households/{item_id}', 'DELETE /api/admin/households/{item_id}']
+    confirm:
+      lookup: { op: 'GET /api/admin/households/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: ['POST /api/admin/groups', 'POST /api/admin/households', 'POST /api/users/api-tokens']
+    confirm: { param: /body/name }
+  - match: ['POST /api/admin/backups/{file_name}/restore', 'DELETE /api/admin/backups/{file_name}']
+    confirm: { param: /path/file_name }
+  - match: 'POST /api/admin/backups/{file_name}/restore'
+    summaryNote: '(replaces every group, user and recipe with the backup)'
+  # Core redacts `token_id` (it names a token) before summarizing, so the literal is the token's owner.
+  - match: ['DELETE /api/users/api-tokens/{token_id}', 'PUT /api/users/password']
+    confirm: [{ lookup: { op: 'GET /api/users/self', field: username } }, instance]
+  - match: 'POST /api/users/reset-password'
+    confirm: { param: /body/email }
+  - match: 'PUT /api/households/permissions'
+    confirm:
+      lookup:
+        op: 'GET /api/groups/members/{username_or_id}'
+        args: [{ username_or_id: { $param: /body/userId } }]
+        field: [username, fullName]
+
+  # Deletes the catch-all locks: the stored object's name (the lookup falls back to the path id).
+  - match: 'DELETE /api/recipes/{slug}'
+    confirm:
+      lookup: { op: 'GET /api/recipes/{slug}', args: [{ slug: { $param: /path/slug } }], field: name }
+  - match: 'DELETE /api/foods/{item_id}'
+    confirm:
+      lookup: { op: 'GET /api/foods/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/units/{item_id}'
+    confirm:
+      lookup: { op: 'GET /api/units/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/groups/labels/{item_id}'
+    confirm:
+      lookup: { op: 'GET /api/groups/labels/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/groups/reports/{item_id}'
+    confirm:
+      lookup: { op: 'GET /api/groups/reports/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/households/cookbooks/{item_id}'
+    confirm:
+      lookup:
+        { op: 'GET /api/households/cookbooks/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/households/events/notifications/{item_id}'
+    confirm:
+      lookup:
+        {
+          op: 'GET /api/households/events/notifications/{item_id}',
+          args: [{ item_id: { $param: /path/item_id } }],
+          field: name,
+        }
+  - match: 'DELETE /api/households/mealplans/{item_id}'
+    confirm:
+      lookup:
+        { op: 'GET /api/households/mealplans/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: title }
+  - match: 'DELETE /api/households/recipe-actions/{item_id}'
+    confirm:
+      lookup:
+        {
+          op: 'GET /api/households/recipe-actions/{item_id}',
+          args: [{ item_id: { $param: /path/item_id } }],
+          field: title,
+        }
+  - match: 'DELETE /api/households/shopping/items/{item_id}'
+    confirm:
+      lookup:
+        {
+          op: 'GET /api/households/shopping/items/{item_id}',
+          args: [{ item_id: { $param: /path/item_id } }],
+          field: [display, note],
+        }
+  - match: 'DELETE /api/households/shopping/lists/{item_id}'
+    confirm:
+      lookup:
+        {
+          op: 'GET /api/households/shopping/lists/{item_id}',
+          args: [{ item_id: { $param: /path/item_id } }],
+          field: name,
+        }
+  - match: 'DELETE /api/households/webhooks/{item_id}'
+    confirm:
+      lookup:
+        { op: 'GET /api/households/webhooks/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/organizers/categories/{item_id}'
+    confirm:
+      lookup:
+        { op: 'GET /api/organizers/categories/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/organizers/tags/{item_id}'
+    confirm:
+      lookup: { op: 'GET /api/organizers/tags/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/organizers/tools/{item_id}'
+    confirm:
+      lookup: { op: 'GET /api/organizers/tools/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: name }
+  - match: 'DELETE /api/recipes/timeline/events/{item_id}'
+    confirm:
+      lookup:
+        {
+          op: 'GET /api/recipes/timeline/events/{item_id}',
+          args: [{ item_id: { $param: /path/item_id } }],
+          field: subject,
+        }
+  - match: 'DELETE /api/shared/recipes/{item_id}'
+    confirm:
+      lookup:
+        { op: 'GET /api/shared/recipes/{item_id}', args: [{ item_id: { $param: /path/item_id } }], field: /recipe/name }
+  - match: ['DELETE /api/recipes/{slug}/image', 'DELETE /api/users/{id}/favorites/{slug}']
+    confirm: { param: /path/slug }
+  # No name to show: a comment, a meal plan rule, or one a newer spec adds.
+  - match: 'DELETE */{item_id}'
+    confirm: { param: /path/item_id }
+
+  # GETs the action heuristic flags that were reviewed and only read.
+  - match: 'GET /api/app/about/startup-info' # "start" in the summary; returns first-login and demo flags
+    classification: read
+    reason: verb:GET
+    needsReview: false
+
+  # Secrets in params and results that the manifest's sensitiveKeys don't name.
+  - match: ['POST /api/users/api-tokens', 'POST /api/admin/users/password-reset-token']
+    sensitiveResult: { keys: [token] }
+  - match: ['GET /api/households/invitations', 'POST /api/households/invitations']
+    sensitiveResult: { keys: [token], deep: true }
+  - match: 'GET /api/admin/about'
+    sensitiveResult: { keys: [dbUrl] }
+  - match: ['PUT /api/users/password']
+    sensitiveParams: [/body/currentPassword, /body/newPassword]
+  - match: ['POST /api/users/reset-password']
+    sensitiveParams: [/body/token, /body/password, /body/passwordConfirm]
+  - match: ['POST /api/admin/users']
+    sensitiveParams: [/body/password]
+  - match: 'POST /api/households/invitations/email'
+    sensitiveParams: [/body/token]
+  - match: ['POST /api/households/events/notifications', 'PUT /api/households/events/notifications/{item_id}']
+    sensitiveParams: [/body/appriseUrl]
+  # AI provider keys and custom headers (often an Authorization header) go to a third party.
+  - match: ['* /api/groups/ai-providers/providers*', '* /api/admin/groups/{group_id}/ai-providers/*']
+    sensitiveParams: [/body/apiKey, /body/requestHeaders, /body/requestParams]
+    sensitiveResult: { keys: [requestHeaders, requestParams], deep: true }
+  # Webhook URLs often carry their own secret (a Home Assistant webhook id); groups and households embed them.
+  # Masked in results only: the approver of a locked webhook write must see where it posts.
+  - match:
+      - '* /api/households/webhooks*'
+      - 'GET /api/households/self'
+      - '* /api/admin/groups'
+      - '* /api/admin/groups/{item_id}'
+      - '* /api/admin/households'
+      - '* /api/admin/households/{item_id}'
+    sensitiveResult: { keys: [url], deep: true }
+
+plugin:
+  # Where the instance serves its spec (FastAPI's default, outside /api) and reports its version.
+  specPath: /openapi.json
+  versionPath: /api/app/about
+  versionField: version
+  # Refuse a spec with fewer operations: a truncated one must not replace the catalog.
+  minOperations: 150

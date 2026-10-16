@@ -1,0 +1,3576 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Nginx Proxy Manager API",
+    "version": "2.x.x",
+    "description": "This is the official API documentation for Nginx Proxy Manager.\n\nMost endpoints require authentication via Bearer Token (JWT). You can generate a token by logging in via the `POST /tokens` endpoint.\n\nFor more information, visit the [Nginx Proxy Manager Documentation](https://nginxproxymanager.com)."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:81/api"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT Bearer Token authentication"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "public",
+      "description": "Endpoints that do not require authentication"
+    },
+    {
+      "name": "audit-log",
+      "description": "Endpoints related to Audit Logs"
+    },
+    {
+      "name": "logs",
+      "description": "Endpoints for viewing system, Let's Encrypt and per-host logs"
+    },
+    {
+      "name": "access-lists",
+      "description": "Endpoints related to Access Lists"
+    },
+    {
+      "name": "certificates",
+      "description": "Endpoints related to Certificates"
+    },
+    {
+      "name": "404-hosts",
+      "description": "Endpoints related to 404 Hosts"
+    },
+    {
+      "name": "proxy-hosts",
+      "description": "Endpoints related to Proxy Hosts"
+    },
+    {
+      "name": "redirection-hosts",
+      "description": "Endpoints related to Redirection Hosts"
+    },
+    {
+      "name": "streams",
+      "description": "Endpoints related to Streams"
+    },
+    {
+      "name": "reports",
+      "description": "Endpoints for viewing reports"
+    },
+    {
+      "name": "settings",
+      "description": "Endpoints for managing application settings"
+    },
+    {
+      "name": "tokens",
+      "description": "Endpoints for managing authentication tokens"
+    },
+    {
+      "name": "users",
+      "description": "Endpoints for managing users"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "health",
+        "summary": "Returns the API health status",
+        "tags": ["public"],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/audit-log": {
+      "get": {
+        "operationId": "getAuditLogs",
+        "summary": "Get Audit Logs",
+        "tags": ["audit-log"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/audit-log/{id}": {
+      "get": {
+        "operationId": "getAuditLog",
+        "summary": "Get Audit Log Event",
+        "tags": ["audit-log"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Audit Log Event ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/logs/sources": {
+      "get": {
+        "operationId": "getLogSources",
+        "summary": "Get available log sources",
+        "tags": ["logs"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/logs/tail": {
+      "get": {
+        "operationId": "getLogTail",
+        "summary": "Get the last N lines of a log source",
+        "tags": ["logs"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "description": "Which log source to read",
+            "schema": {
+              "type": "string",
+              "enum": ["system", "letsencrypt", "host"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "host_type",
+            "description": "Required when type=host",
+            "schema": {
+              "type": "string",
+              "enum": ["proxy", "redirection", "dead", "stream"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "host_id",
+            "description": "Required when type=host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "channel",
+            "description": "Required when type=host - which log file to read (not to be confused with host_type=stream)",
+            "schema": {
+              "type": "string",
+              "enum": ["access", "error"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "lines",
+            "description": "Number of lines to return from the end of the file",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "level",
+            "description": "Only applicable to type=system",
+            "schema": {
+              "type": "string",
+              "enum": ["INFO", "WARN", "ERROR", "DEBUG", "SUCCESS", "FATAL", "COMPLETE"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Case-insensitive plain-text search",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/access-lists": {
+      "get": {
+        "operationId": "getAccessLists",
+        "summary": "Get all access lists",
+        "tags": ["access-lists"],
+        "security": [
+          {
+            "bearerAuth": ["access_lists.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expand",
+            "description": "Expansions",
+            "schema": {
+              "type": "string",
+              "enum": ["owner", "items", "clients", "proxy_hosts"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createAccessList",
+        "summary": "Create a Access List",
+        "tags": ["access-lists"],
+        "security": [
+          {
+            "bearerAuth": ["access_lists.manage"]
+          }
+        ],
+        "requestBody": {
+          "description": "Access List Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "My Access List"
+                  },
+                  "satisfy_any": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "pass_auth": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "password": {
+                          "type": "string"
+                        }
+                      },
+                      "example": {
+                        "username": "admin",
+                        "password": "pass"
+                      }
+                    },
+                    "example": [
+                      {
+                        "username": "admin",
+                        "password": "pass"
+                      }
+                    ]
+                  },
+                  "clients": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "address": {
+                          "oneOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$"
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?$"
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^all$"
+                            }
+                          ],
+                          "example": "192.168.0.11"
+                        },
+                        "directive": {
+                          "type": "string",
+                          "enum": ["allow", "deny"],
+                          "example": "allow"
+                        }
+                      },
+                      "example": {
+                        "directive": "allow",
+                        "address": "192.168.0.0/24"
+                      }
+                    },
+                    "example": [
+                      {
+                        "directive": "allow",
+                        "address": "192.168.0.0/24"
+                      }
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "name": "My Access List",
+                "satisfy_any": true,
+                "pass_auth": false,
+                "items": [
+                  {
+                    "username": "admin",
+                    "password": "pass"
+                  }
+                ],
+                "clients": [
+                  {
+                    "directive": "allow",
+                    "address": "192.168.0.0/24"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 response"
+          }
+        }
+      }
+    },
+    "/nginx/access-lists/{listID}": {
+      "get": {
+        "operationId": "getAccessList",
+        "summary": "Get a access List",
+        "tags": ["access-lists"],
+        "security": [
+          {
+            "bearerAuth": ["access_lists.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listID",
+            "description": "Access List ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateAccessList",
+        "summary": "Update a Access List",
+        "tags": ["access-lists"],
+        "security": [
+          {
+            "bearerAuth": ["access_lists.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listID",
+            "description": "Access List ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Access List Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "My Access List"
+                  },
+                  "satisfy_any": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "pass_auth": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "password": {
+                          "type": "string"
+                        }
+                      },
+                      "example": {
+                        "username": "admin",
+                        "password": "pass"
+                      }
+                    },
+                    "example": [
+                      {
+                        "username": "admin",
+                        "password": "pass"
+                      }
+                    ]
+                  },
+                  "clients": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "address": {
+                          "oneOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$"
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?$"
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^all$"
+                            }
+                          ],
+                          "example": "192.168.0.11"
+                        },
+                        "directive": {
+                          "type": "string",
+                          "enum": ["allow", "deny"],
+                          "example": "allow"
+                        }
+                      },
+                      "example": {
+                        "directive": "allow",
+                        "address": "192.168.0.0/24"
+                      }
+                    },
+                    "example": [
+                      {
+                        "directive": "allow",
+                        "address": "192.168.0.0/24"
+                      }
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "name": "My Access List",
+                "satisfy_any": true,
+                "pass_auth": false,
+                "items": [
+                  {
+                    "username": "admin2",
+                    "password": "pass2"
+                  }
+                ],
+                "clients": [
+                  {
+                    "directive": "allow",
+                    "address": "192.168.0.0/24"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteAccessList",
+        "summary": "Delete a Access List",
+        "tags": ["access-lists"],
+        "security": [
+          {
+            "bearerAuth": ["access_lists.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listID",
+            "description": "Access List ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates": {
+      "get": {
+        "operationId": "getCertificates",
+        "summary": "Get all certificates",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expand",
+            "description": "Expansions",
+            "schema": {
+              "type": "string",
+              "enum": ["owner"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createCertificate",
+        "summary": "Create a Certificate",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.manage"]
+          }
+        ],
+        "requestBody": {
+          "description": "Certificate Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["provider"],
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "pattern": "^(letsencrypt|other)$",
+                    "example": "letsencrypt"
+                  },
+                  "nice_name": {
+                    "type": "string",
+                    "description": "Nice Name for the custom certificate",
+                    "example": "My Custom Cert"
+                  },
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  },
+                  "meta": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "certificate": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "certificate_key": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "dns_challenge": {
+                        "type": "boolean"
+                      },
+                      "dns_provider_credentials": {
+                        "type": "string"
+                      },
+                      "dns_provider": {
+                        "type": "string"
+                      },
+                      "letsencrypt_certificate": {
+                        "type": "object"
+                      },
+                      "propagation_seconds": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "key_type": {
+                        "type": "string",
+                        "enum": ["rsa", "ecdsa"],
+                        "default": "rsa"
+                      }
+                    },
+                    "example": {
+                      "dns_challenge": false
+                    }
+                  }
+                }
+              },
+              "example": {
+                "provider": "letsencrypt",
+                "domain_names": ["test.example.com"],
+                "meta": {
+                  "dns_challenge": false
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates/dns-providers": {
+      "get": {
+        "operationId": "getDNSProviders",
+        "summary": "Get DNS Providers for Certificates",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.view"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates/validate": {
+      "post": {
+        "operationId": "validateCertificates",
+        "summary": "Validates given Custom Certificates",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.manage"]
+          }
+        ],
+        "requestBody": {
+          "description": "Certificate Files",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["certificate", "certificate_key"],
+                "properties": {
+                  "certificate": {
+                    "type": "string",
+                    "example": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----"
+                  },
+                  "certificate_key": {
+                    "type": "string",
+                    "example": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----"
+                  },
+                  "intermediate_certificate": {
+                    "type": "string",
+                    "example": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----"
+                  }
+                }
+              },
+              "example": {
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----",
+                "certificate_key": "-----BEGIN PRIVATE\nMIID...-----END CERTIFICATE-----"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates/test-http": {
+      "post": {
+        "operationId": "testHttpReach",
+        "summary": "Test HTTP Reachability",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.view"]
+          }
+        ],
+        "requestBody": {
+          "description": "Test Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["domains"],
+                "properties": {
+                  "domains": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates/{certID}": {
+      "get": {
+        "operationId": "getCertificate",
+        "summary": "Get a Certificate",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "certID",
+            "description": "Certificate ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteCertificate",
+        "summary": "Delete a Certificate",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "certID",
+            "description": "Certificate ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates/{certID}/download": {
+      "get": {
+        "operationId": "downloadCertificate",
+        "summary": "Downloads a Certificate",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "certID",
+            "description": "Certificate ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates/{certID}/renew": {
+      "post": {
+        "operationId": "renewCertificate",
+        "summary": "Renews a Certificate",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "certID",
+            "description": "Certificate ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/certificates/{certID}/upload": {
+      "post": {
+        "operationId": "uploadCertificate",
+        "summary": "Uploads a custom Certificate",
+        "tags": ["certificates"],
+        "security": [
+          {
+            "bearerAuth": ["certificates.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "certID",
+            "description": "Certificate ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "description": "Certificate Files",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["certificate", "certificate_key"],
+                "properties": {
+                  "certificate": {
+                    "type": "string",
+                    "example": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----"
+                  },
+                  "certificate_key": {
+                    "type": "string",
+                    "example": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----"
+                  },
+                  "intermediate_certificate": {
+                    "type": "string",
+                    "example": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----"
+                  }
+                }
+              },
+              "example": {
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIID...-----END CERTIFICATE-----",
+                "certificate_key": "-----BEGIN PRIVATE\nMIID...-----END CERTIFICATE-----"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/proxy-hosts": {
+      "get": {
+        "operationId": "getProxyHosts",
+        "summary": "Get all proxy hosts",
+        "tags": ["proxy-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["proxy_hosts.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expand",
+            "description": "Expansions",
+            "schema": {
+              "type": "string",
+              "enum": ["access_list", "owner", "certificate"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createProxyHost",
+        "summary": "Create a Proxy Host",
+        "tags": ["proxy-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["proxy_hosts.manage"]
+          }
+        ],
+        "requestBody": {
+          "description": "Proxy Host Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["domain_names", "forward_scheme", "forward_host", "forward_port"],
+                "properties": {
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  },
+                  "forward_scheme": {
+                    "type": "string",
+                    "enum": ["http", "https"],
+                    "example": "http"
+                  },
+                  "forward_host": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255,
+                    "example": "127.0.0.1"
+                  },
+                  "forward_port": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535,
+                    "example": 8080
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "ssl_forced": {
+                    "description": "Is SSL Forced",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_enabled": {
+                    "description": "Is HSTS Enabled",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_subdomains": {
+                    "description": "Is HSTS applicable to all subdomains",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "trust_forwarded_proto": {
+                    "type": "boolean",
+                    "description": "Trust the forwarded headers",
+                    "example": false
+                  },
+                  "http2_support": {
+                    "description": "HTTP2 Protocol Support",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "block_exploits": {
+                    "description": "Should we block common exploits",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "caching_enabled": {
+                    "description": "Should we cache assets",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "allow_websocket_upgrade": {
+                    "description": "Allow Websocket Upgrade for all paths",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "access_list_id": {
+                    "description": "Access List ID",
+                    "type": "integer",
+                    "minimum": 0,
+                    "example": 3
+                  },
+                  "advanced_config": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "enabled": {
+                    "description": "Is Enabled",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {
+                      "nginx_online": true,
+                      "nginx_err": null
+                    }
+                  },
+                  "locations": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                      "type": "object",
+                      "required": ["forward_scheme", "forward_host", "forward_port", "path"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": ["integer", "null"]
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "forward_scheme": {
+                          "type": "string",
+                          "enum": ["http", "https"],
+                          "example": "http"
+                        },
+                        "forward_host": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 255,
+                          "example": "127.0.0.1"
+                        },
+                        "forward_port": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 65535,
+                          "example": 8080
+                        },
+                        "forward_path": {
+                          "type": "string"
+                        },
+                        "advanced_config": {
+                          "type": "string"
+                        },
+                        "access_list_id": {
+                          "description": "Access List ID",
+                          "type": "integer",
+                          "minimum": 0,
+                          "example": 3
+                        }
+                      }
+                    },
+                    "example": [
+                      {
+                        "path": "/app",
+                        "forward_scheme": "http",
+                        "forward_host": "example.com",
+                        "forward_port": 80,
+                        "access_list_id": 0
+                      }
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domain_names": ["test.example.com"],
+                "forward_scheme": "http",
+                "forward_host": "127.0.0.1",
+                "forward_port": 8080
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 response"
+          }
+        }
+      }
+    },
+    "/nginx/proxy-hosts/{hostID}": {
+      "get": {
+        "operationId": "getProxyHost",
+        "summary": "Get a Proxy Host",
+        "tags": ["proxy-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["proxy_hosts.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Proxy Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateProxyHost",
+        "summary": "Update a Proxy Host",
+        "tags": ["proxy-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["proxy_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Proxy Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Proxy Host Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  },
+                  "forward_scheme": {
+                    "type": "string",
+                    "enum": ["http", "https"],
+                    "example": "http"
+                  },
+                  "forward_host": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255,
+                    "example": "127.0.0.1"
+                  },
+                  "forward_port": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535,
+                    "example": 8080
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "ssl_forced": {
+                    "description": "Is SSL Forced",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_enabled": {
+                    "description": "Is HSTS Enabled",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_subdomains": {
+                    "description": "Is HSTS applicable to all subdomains",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "trust_forwarded_proto": {
+                    "type": "boolean",
+                    "description": "Trust the forwarded headers",
+                    "example": false
+                  },
+                  "http2_support": {
+                    "description": "HTTP2 Protocol Support",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "block_exploits": {
+                    "description": "Should we block common exploits",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "caching_enabled": {
+                    "description": "Should we cache assets",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "allow_websocket_upgrade": {
+                    "description": "Allow Websocket Upgrade for all paths",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "access_list_id": {
+                    "description": "Access List ID",
+                    "type": "integer",
+                    "minimum": 0,
+                    "example": 3
+                  },
+                  "advanced_config": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "enabled": {
+                    "description": "Is Enabled",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {
+                      "nginx_online": true,
+                      "nginx_err": null
+                    }
+                  },
+                  "locations": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                      "type": "object",
+                      "required": ["forward_scheme", "forward_host", "forward_port", "path"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": ["integer", "null"]
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "forward_scheme": {
+                          "type": "string",
+                          "enum": ["http", "https"],
+                          "example": "http"
+                        },
+                        "forward_host": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 255,
+                          "example": "127.0.0.1"
+                        },
+                        "forward_port": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 65535,
+                          "example": 8080
+                        },
+                        "forward_path": {
+                          "type": "string"
+                        },
+                        "advanced_config": {
+                          "type": "string"
+                        },
+                        "access_list_id": {
+                          "description": "Access List ID",
+                          "type": "integer",
+                          "minimum": 0,
+                          "example": 3
+                        }
+                      }
+                    },
+                    "example": [
+                      {
+                        "path": "/app",
+                        "forward_scheme": "http",
+                        "forward_host": "example.com",
+                        "forward_port": 80,
+                        "access_list_id": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteProxyHost",
+        "summary": "Delete a Proxy Host",
+        "tags": ["proxy-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["proxy_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Proxy Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/proxy-hosts/{hostID}/enable": {
+      "post": {
+        "operationId": "enableProxyHost",
+        "summary": "Enable a Proxy Host",
+        "tags": ["proxy-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["proxy_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Proxy Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/proxy-hosts/{hostID}/disable": {
+      "post": {
+        "operationId": "disableProxyHost",
+        "summary": "Disable a Proxy Host",
+        "tags": ["proxy-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["proxy_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Proxy Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/redirection-hosts": {
+      "get": {
+        "operationId": "getRedirectionHosts",
+        "summary": "Get all Redirection hosts",
+        "tags": ["redirection-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["redirection_hosts.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expand",
+            "description": "Expansions",
+            "schema": {
+              "type": "string",
+              "enum": ["owner", "certificate"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createRedirectionHost",
+        "summary": "Create a Redirection Host",
+        "tags": ["redirection-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["redirection_hosts.manage"]
+          }
+        ],
+        "requestBody": {
+          "description": "Redirection Host Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["domain_names", "forward_scheme", "forward_http_code", "forward_domain_name"],
+                "properties": {
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  },
+                  "forward_http_code": {
+                    "description": "Redirect HTTP Status Code",
+                    "type": "integer",
+                    "minimum": 300,
+                    "maximum": 308,
+                    "example": 302
+                  },
+                  "forward_scheme": {
+                    "type": "string",
+                    "enum": ["auto", "http", "https"],
+                    "example": "http"
+                  },
+                  "forward_domain_name": {
+                    "description": "Domain Name",
+                    "type": "string",
+                    "pattern": "^(?:[^.*]+\\.?)+[^.]$",
+                    "example": "jc21.com"
+                  },
+                  "preserve_path": {
+                    "description": "Should the path be preserved",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "ssl_forced": {
+                    "description": "Is SSL Forced",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_enabled": {
+                    "description": "Is HSTS Enabled",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_subdomains": {
+                    "description": "Is HSTS applicable to all subdomains",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "http2_support": {
+                    "description": "HTTP2 Protocol Support",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "block_exploits": {
+                    "description": "Should we block common exploits",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "advanced_config": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {
+                      "nginx_online": true,
+                      "nginx_err": null
+                    }
+                  }
+                }
+              },
+              "example": {
+                "domain_names": ["test.example.com"],
+                "forward_domain_name": "example.com",
+                "forward_scheme": "auto",
+                "forward_http_code": 301,
+                "preserve_path": false,
+                "block_exploits": false,
+                "certificate_id": 0,
+                "ssl_forced": false,
+                "http2_support": false,
+                "hsts_enabled": false,
+                "hsts_subdomains": false,
+                "advanced_config": "",
+                "meta": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 response"
+          }
+        }
+      }
+    },
+    "/nginx/redirection-hosts/{hostID}": {
+      "get": {
+        "operationId": "getRedirectionHost",
+        "summary": "Get a Redirection Host",
+        "tags": ["redirection-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["redirection_hosts.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Redirection Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateRedirectionHost",
+        "summary": "Update a Redirection Host",
+        "tags": ["redirection-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["redirection_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Redirection Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Redirection Host       Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  },
+                  "forward_http_code": {
+                    "description": "Redirect HTTP Status Code",
+                    "type": "integer",
+                    "minimum": 300,
+                    "maximum": 308,
+                    "example": 302
+                  },
+                  "forward_scheme": {
+                    "type": "string",
+                    "enum": ["auto", "http", "https"],
+                    "example": "http"
+                  },
+                  "forward_domain_name": {
+                    "description": "Domain Name",
+                    "type": "string",
+                    "pattern": "^(?:[^.*]+\\.?)+[^.]$",
+                    "example": "jc21.com"
+                  },
+                  "preserve_path": {
+                    "description": "Should the path be preserved",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "ssl_forced": {
+                    "description": "Is SSL Forced",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_enabled": {
+                    "description": "Is HSTS Enabled",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_subdomains": {
+                    "description": "Is HSTS applicable to all subdomains",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "http2_support": {
+                    "description": "HTTP2 Protocol Support",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "block_exploits": {
+                    "description": "Should we block common exploits",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "advanced_config": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {
+                      "nginx_online": true,
+                      "nginx_err": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteRedirectionHost",
+        "summary": "Delete a Redirection Host",
+        "tags": ["redirection-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["redirection_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Redirection Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/redirection-hosts/{hostID}/enable": {
+      "post": {
+        "operationId": "enableRedirectionHost",
+        "summary": "Enable a Redirection Host",
+        "tags": ["redirection-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["redirection_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Redirection Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/redirection-hosts/{hostID}/disable": {
+      "post": {
+        "operationId": "disableRedirectionHost",
+        "summary": "Disable a Redirection Host",
+        "tags": ["redirection-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["redirection_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the Redirection Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/dead-hosts": {
+      "get": {
+        "operationId": "getDeadHosts",
+        "summary": "Get all 404 hosts",
+        "tags": ["404-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["dead_hosts.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expand",
+            "description": "Expansions",
+            "schema": {
+              "type": "string",
+              "enum": ["owner", "certificate"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "create404Host",
+        "summary": "Create a 404 Host",
+        "tags": ["404-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["dead_hosts.manage"]
+          }
+        ],
+        "requestBody": {
+          "description": "404 Host Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["domain_names"],
+                "properties": {
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "ssl_forced": {
+                    "description": "Is SSL Forced",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_enabled": {
+                    "description": "Is HSTS Enabled",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_subdomains": {
+                    "description": "Is HSTS applicable to all subdomains",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "http2_support": {
+                    "description": "HTTP2 Protocol Support",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "advanced_config": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {}
+                  }
+                }
+              },
+              "example": {
+                "domain_names": ["test.example.com"],
+                "certificate_id": 0,
+                "ssl_forced": false,
+                "advanced_config": "",
+                "http2_support": false,
+                "hsts_enabled": false,
+                "hsts_subdomains": false,
+                "meta": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 response"
+          }
+        }
+      }
+    },
+    "/nginx/dead-hosts/{hostID}": {
+      "get": {
+        "operationId": "getDeadHost",
+        "summary": "Get a 404 Host",
+        "tags": ["404-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["dead_hosts.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the 404 Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateDeadHost",
+        "summary": "Update a 404 Host",
+        "tags": ["404-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["dead_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the 404 Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "404 Host Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "ssl_forced": {
+                    "description": "Is SSL Forced",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_enabled": {
+                    "description": "Is HSTS Enabled",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "hsts_subdomains": {
+                    "description": "Is HSTS applicable to all subdomains",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "http2_support": {
+                    "description": "HTTP2 Protocol Support",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "advanced_config": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteDeadHost",
+        "summary": "Delete a 404 Host",
+        "tags": ["404-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["dead_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the 404 Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/dead-hosts/{hostID}/enable": {
+      "post": {
+        "operationId": "enableDeadHost",
+        "summary": "Enable a 404 Host",
+        "tags": ["404-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["dead_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the 404 Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/dead-hosts/{hostID}/disable": {
+      "post": {
+        "operationId": "disableDeadHost",
+        "summary": "Disable a 404 Host",
+        "tags": ["404-hosts"],
+        "security": [
+          {
+            "bearerAuth": ["dead_hosts.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hostID",
+            "description": "The ID of the 404 Host",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/streams": {
+      "get": {
+        "operationId": "getStreams",
+        "summary": "Get all streams",
+        "tags": ["streams"],
+        "security": [
+          {
+            "bearerAuth": ["streams.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expand",
+            "description": "Expansions",
+            "schema": {
+              "type": "string",
+              "enum": ["owner", "certificate"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createStream",
+        "summary": "Create a Stream",
+        "tags": ["streams"],
+        "security": [
+          {
+            "bearerAuth": ["streams.manage"]
+          }
+        ],
+        "requestBody": {
+          "description": "Stream Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["incoming_port", "forwarding_host", "forwarding_port"],
+                "properties": {
+                  "incoming_port": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535,
+                    "example": 9090
+                  },
+                  "forwarding_host": {
+                    "anyOf": [
+                      {
+                        "description": "Domain Name",
+                        "type": "string",
+                        "pattern": "^(?:[^.*]+\\.?)+[^.]$",
+                        "example": "example.com"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$"
+                      },
+                      {
+                        "type": "string",
+                        "format": "ipv6"
+                      }
+                    ],
+                    "example": "example.com"
+                  },
+                  "forwarding_port": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535,
+                    "example": 80
+                  },
+                  "tcp_forwarding": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "udp_forwarding": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {}
+                  },
+                  "domain_names": {
+                    "description": "Domain Names separated by a comma",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[^&| @!#%^();:/\\\\}{=+?<>,~`'\"]+$"
+                    },
+                    "example": ["example.com", "www.example.com"]
+                  }
+                }
+              },
+              "example": {
+                "incoming_port": 8888,
+                "forwarding_host": "127.0.0.1",
+                "forwarding_port": 8080,
+                "tcp_forwarding": true,
+                "udp_forwarding": false,
+                "certificate_id": 0,
+                "meta": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 response"
+          }
+        }
+      }
+    },
+    "/nginx/streams/{streamID}": {
+      "get": {
+        "operationId": "getStream",
+        "summary": "Get a Stream",
+        "tags": ["streams"],
+        "security": [
+          {
+            "bearerAuth": ["streams.view"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "streamID",
+            "description": "The ID of the Stream",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateStream",
+        "summary": "Update a Stream",
+        "tags": ["streams"],
+        "security": [
+          {
+            "bearerAuth": ["streams.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "streamID",
+            "description": "The ID of the Stream",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Stream Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "incoming_port": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535,
+                    "example": 9090
+                  },
+                  "forwarding_host": {
+                    "anyOf": [
+                      {
+                        "description": "Domain Name",
+                        "type": "string",
+                        "pattern": "^(?:[^.*]+\\.?)+[^.]$",
+                        "example": "example.com"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$"
+                      },
+                      {
+                        "type": "string",
+                        "format": "ipv6"
+                      }
+                    ],
+                    "example": "example.com"
+                  },
+                  "forwarding_port": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535,
+                    "example": 80
+                  },
+                  "tcp_forwarding": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "udp_forwarding": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "certificate_id": {
+                    "description": "Certificate ID",
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 5
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^new$",
+                        "example": "new"
+                      }
+                    ],
+                    "example": 5
+                  },
+                  "meta": {
+                    "type": "object",
+                    "example": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteStream",
+        "summary": "Delete a Stream",
+        "tags": ["streams"],
+        "security": [
+          {
+            "bearerAuth": ["streams.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "streamID",
+            "description": "The ID of the Stream",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/nginx/streams/{streamID}/enable": {
+      "post": {
+        "operationId": "enableStream",
+        "summary": "Enable a Stream",
+        "tags": ["streams"],
+        "security": [
+          {
+            "bearerAuth": ["streams.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "streamID",
+            "description": "The ID of the Stream",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/nginx/streams/{streamID}/disable": {
+      "post": {
+        "operationId": "disableStream",
+        "summary": "Disable a Stream",
+        "tags": ["streams"],
+        "security": [
+          {
+            "bearerAuth": ["streams.manage"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "streamID",
+            "description": "The ID of the Stream",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          }
+        }
+      }
+    },
+    "/reports/hosts": {
+      "get": {
+        "operationId": "reportsHosts",
+        "summary": "Report on Host Statistics",
+        "tags": ["reports"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/schema": {
+      "get": {
+        "operationId": "schema",
+        "summary": "Returns this swagger API schema",
+        "tags": ["public"],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/settings": {
+      "get": {
+        "operationId": "getSettings",
+        "summary": "Get all settings",
+        "tags": ["settings"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/settings/{settingID}": {
+      "get": {
+        "operationId": "getSetting",
+        "summary": "Get a setting",
+        "tags": ["settings"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "settingID",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "description": "Setting ID",
+            "example": "default-site"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateSetting",
+        "summary": "Update a setting",
+        "tags": ["settings"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "settingID",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "enum": ["default-site"]
+            },
+            "required": true,
+            "description": "Setting ID",
+            "example": "default-site"
+          }
+        ],
+        "requestBody": {
+          "description": "Setting Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "minLength": 1,
+                    "enum": ["congratulations", "404", "444", "redirect", "html"],
+                    "example": "html"
+                  },
+                  "meta": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "redirect": {
+                        "type": "string"
+                      },
+                      "html": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "html": "<p>hello world</p>"
+                    }
+                  }
+                }
+              },
+              "example": {
+                "value": "congratulations",
+                "meta": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/tokens": {
+      "get": {
+        "operationId": "refreshToken",
+        "summary": "Refresh your access token",
+        "tags": ["tokens"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "requestToken",
+        "summary": "Request a new access token from credentials",
+        "tags": ["tokens"],
+        "requestBody": {
+          "description": "Credentials Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "identity": {
+                    "minLength": 1,
+                    "type": "string",
+                    "example": "me@example.com"
+                  },
+                  "scope": {
+                    "minLength": 1,
+                    "type": "string",
+                    "enum": ["user"],
+                    "example": "user"
+                  },
+                  "secret": {
+                    "minLength": 1,
+                    "type": "string",
+                    "example": "bigredhorsebanana"
+                  }
+                },
+                "required": ["identity", "secret"],
+                "type": "object"
+              },
+              "example": {
+                "identity": "me@example.com",
+                "secret": "bigredhorsebanana"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/tokens/2fa": {
+      "post": {
+        "operationId": "loginWith2FA",
+        "summary": "Verify 2FA code and get full token",
+        "tags": ["tokens"],
+        "requestBody": {
+          "description": "2fa Challenge Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "challenge_token": {
+                    "minLength": 1,
+                    "type": "string",
+                    "example": "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.ey...xaHKYr3Kk6MvkUjcC4"
+                  },
+                  "code": {
+                    "minLength": 6,
+                    "maxLength": 8,
+                    "type": "string",
+                    "example": "012345"
+                  }
+                },
+                "required": ["challenge_token", "code"],
+                "type": "object"
+              },
+              "example": {
+                "challenge_token": "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.ey...xaHKYr3Kk6MvkUjcC4",
+                "code": "012345"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/version/check": {
+      "get": {
+        "operationId": "checkVersion",
+        "summary": "Returns any new version data from github",
+        "tags": ["public"],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "operationId": "getUsers",
+        "summary": "Get all users",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "expand",
+            "description": "Expansions",
+            "schema": {
+              "type": "string",
+              "enum": ["permissions"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createUser",
+        "summary": "Create a User",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "requestBody": {
+          "description": "User Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "nickname", "email"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name",
+                    "minLength": 1,
+                    "example": "Jamie Curnow"
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "description": "Nickname",
+                    "example": "James"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email",
+                    "minLength": 3,
+                    "example": "jc@jc21.com"
+                  },
+                  "roles": {
+                    "description": "Roles applied",
+                    "example": ["admin"],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "is_disabled": {
+                    "type": "boolean",
+                    "description": "Is user Disabled",
+                    "example": true
+                  },
+                  "auth": {
+                    "type": "object",
+                    "description": "Auth Credentials",
+                    "example": {
+                      "type": "password",
+                      "secret": "bigredhorsebanana"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 response"
+          }
+        }
+      }
+    },
+    "/users/{userID}": {
+      "get": {
+        "operationId": "getUser",
+        "summary": "Get a user",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^me$"
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ]
+            },
+            "required": true,
+            "description": "User ID or 'me' for yourself",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateUser",
+        "summary": "Update a User",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^me$"
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ]
+            },
+            "required": true,
+            "description": "User ID or 'me' for yourself",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "User Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name",
+                    "minLength": 1,
+                    "example": "Jamie Curnow"
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "description": "Nickname",
+                    "example": "James"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email",
+                    "minLength": 3,
+                    "example": "jc@jc21.com"
+                  },
+                  "roles": {
+                    "description": "Roles applied",
+                    "example": ["admin"],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "is_disabled": {
+                    "type": "boolean",
+                    "description": "Is user Disabled",
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteUser",
+        "summary": "Delete a User",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/users/{userID}/2fa": {
+      "post": {
+        "operationId": "setupUser2fa",
+        "summary": "Start 2FA setup, returns QR code URL",
+        "tags": ["users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "get": {
+        "operationId": "getUser2faStatus",
+        "summary": "Get user 2fa Status",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "disableUser2fa",
+        "summary": "Disable 2fa for user",
+        "tags": ["users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "schema": {
+              "type": "string",
+              "minLength": 6,
+              "maxLength": 6,
+              "example": "012345"
+            },
+            "required": true,
+            "description": "2fa Code",
+            "example": "012345"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/users/{userID}/2fa/enable": {
+      "post": {
+        "operationId": "enableUser2fa",
+        "summary": "Verify code and enable 2FA",
+        "tags": ["users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Verification Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "minLength": 6,
+                    "maxLength": 8,
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": ["code"],
+                "type": "object"
+              },
+              "example": {
+                "code": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/users/{userID}/2fa/backup-codes": {
+      "post": {
+        "operationId": "regenUser2faCodes",
+        "summary": "Regenerate 2FA backup codes",
+        "tags": ["users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Verification Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "minLength": 6,
+                    "maxLength": 8,
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": ["code"],
+                "type": "object"
+              },
+              "example": {
+                "code": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/users/{userID}/auth": {
+      "put": {
+        "operationId": "updateUserAuth",
+        "summary": "Update a User's Authentication",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^me$"
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ]
+            },
+            "required": true,
+            "description": "User ID or 'me' for yourself",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Auth Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["type", "secret"],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "pattern": "^password$",
+                    "example": "password"
+                  },
+                  "current": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "example": "changeme"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 64,
+                    "example": "mySuperN3wP@ssword!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/users/{userID}/permissions": {
+      "put": {
+        "operationId": "updateUserPermissions",
+        "summary": "Update a User's Permissions",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "description": "Permissions Payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "minProperties": 1,
+                "properties": {
+                  "visibility": {
+                    "type": "string",
+                    "description": "Visibility Type",
+                    "enum": ["all", "user"],
+                    "example": "all"
+                  },
+                  "access_lists": {
+                    "type": "string",
+                    "description": "Access Lists Permissions",
+                    "enum": ["hidden", "view", "manage"],
+                    "example": "view"
+                  },
+                  "dead_hosts": {
+                    "type": "string",
+                    "description": "404 Hosts Permissions",
+                    "enum": ["hidden", "view", "manage"],
+                    "example": "manage"
+                  },
+                  "proxy_hosts": {
+                    "type": "string",
+                    "description": "Proxy Hosts Permissions",
+                    "enum": ["hidden", "view", "manage"],
+                    "example": "hidden"
+                  },
+                  "redirection_hosts": {
+                    "type": "string",
+                    "description": "Redirection Permissions",
+                    "enum": ["hidden", "view", "manage"],
+                    "example": "view"
+                  },
+                  "streams": {
+                    "type": "string",
+                    "description": "Streams Permissions",
+                    "enum": ["hidden", "view", "manage"],
+                    "example": "manage"
+                  },
+                  "certificates": {
+                    "type": "string",
+                    "description": "Certificates Permissions",
+                    "enum": ["hidden", "view", "manage"],
+                    "example": "hidden"
+                  }
+                }
+              },
+              "example": {
+                "visibility": "all",
+                "access_lists": "view",
+                "certificates": "hidden",
+                "dead_hosts": "hidden",
+                "proxy_hosts": "manage",
+                "redirection_hosts": "hidden",
+                "streams": "hidden"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    },
+    "/users/{userID}/login": {
+      "post": {
+        "operationId": "loginAsUser",
+        "summary": "Login as this user",
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["admin"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true,
+            "description": "User ID",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
+      }
+    }
+  }
+}

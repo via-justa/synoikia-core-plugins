@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { OperationDescriptorSchema } from '@synoikia/plugin-sdk';
 import { describe, expect, it } from 'vitest';
 import {
@@ -172,5 +173,20 @@ describe('matchPath', () => {
   it('fills a template with encoded values and refuses a missing one', () => {
     expect(fillTemplate('/user/{userId}/settings', { userId: 'a b' })).toBe('/user/a%20b/settings');
     expect(() => fillTemplate('/user/{userId}', {})).toThrow(/userId/);
+  });
+});
+
+describe('instructions.md', () => {
+  const text = readFileSync(new URL('../instructions.md', import.meta.url), 'utf8');
+  const keys = new Set(catalog.operations.map((o) => o.key));
+
+  it('stays within 1.5 KB', () => {
+    expect(Buffer.byteLength(text, 'utf8')).toBeLessThanOrEqual(1536);
+  });
+
+  it('names only operations the catalog has', () => {
+    const named = [...text.matchAll(/`((?:GET|POST|PUT|PATCH|DELETE) \/[^`\s]*)`/g)].map((m) => m[1]!);
+    expect(named.length).toBeGreaterThanOrEqual(10);
+    for (const key of named) expect(keys, key).toContain(key);
   });
 });

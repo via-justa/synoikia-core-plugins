@@ -1,0 +1,782 @@
+{
+  "DELETE /access-control/roles/{roleUID}": {
+    "confirmLiteral": "Ops Reader",
+    "resolved": "DELETE /access-control/roles/{roleUID}",
+    "targets": [],
+    "text": "Grafana DELETE /access-control/roles/custom-ops"
+  },
+  "DELETE /access-control/teams/{teamId}/roles/{roleUID}": {
+    "confirmLiteral": "SRE",
+    "resolved": "DELETE /access-control/teams/{teamId}/roles/{roleUID}",
+    "targets": [],
+    "text": "Grafana DELETE /access-control/teams/3/roles/custom-ops"
+  },
+  "DELETE /access-control/users/{userId}/roles/{roleUID}": {
+    "confirmLiteral": "alex",
+    "resolved": "DELETE /access-control/users/{userId}/roles/{roleUID}",
+    "targets": [],
+    "text": "Grafana DELETE /access-control/users/2/roles/custom-ops"
+  },
+  "DELETE /admin/users/{user_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "DELETE /admin/users/{user_id}",
+    "targets": [],
+    "text": "Grafana DELETE /admin/users/2"
+  },
+  "DELETE /annotations/{annotation_id}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /annotations/{annotation_id}",
+    "targets": [],
+    "text": "Grafana DELETE /annotations/9"
+  },
+  "DELETE /cloudmigration/migration/{uid}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /cloudmigration/migration/{uid}",
+    "targets": [],
+    "text": "Grafana DELETE /cloudmigration/migration/m-1"
+  },
+  "DELETE /cloudmigration/token/{uid}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /cloudmigration/token/{uid}",
+    "targets": [],
+    "text": "Grafana DELETE /cloudmigration/token/t-1"
+  },
+  "DELETE /convert/api/prom/rules/{NamespaceTitle}": {
+    "confirmLiteral": "Ops",
+    "resolved": "DELETE /convert/api/prom/rules/{NamespaceTitle}",
+    "targets": [],
+    "text": "Grafana DELETE /convert/api/prom/rules/Ops"
+  },
+  "DELETE /convert/api/prom/rules/{NamespaceTitle}/{Group}": {
+    "confirmLiteral": "cpu",
+    "resolved": "DELETE /convert/api/prom/rules/{NamespaceTitle}/{Group}",
+    "targets": [],
+    "text": "Grafana DELETE /convert/api/prom/rules/Ops/cpu"
+  },
+  "DELETE /convert/prometheus/config/v1/rules/{NamespaceTitle}": {
+    "confirmLiteral": "Ops",
+    "resolved": "DELETE /convert/prometheus/config/v1/rules/{NamespaceTitle}",
+    "targets": [],
+    "text": "Grafana DELETE /convert/prometheus/config/v1/rules/Ops"
+  },
+  "DELETE /convert/prometheus/config/v1/rules/{NamespaceTitle}/{Group}": {
+    "confirmLiteral": "cpu",
+    "resolved": "DELETE /convert/prometheus/config/v1/rules/{NamespaceTitle}/{Group}",
+    "targets": [],
+    "text": "Grafana DELETE /convert/prometheus/config/v1/rules/Ops/cpu"
+  },
+  "DELETE /dashboards/uid/{dashboardUid}/public-dashboards/{uid}": {
+    "confirmLiteral": "Home Lab",
+    "resolved": "DELETE /dashboards/uid/{dashboardUid}/public-dashboards/{uid}",
+    "targets": [],
+    "text": "Grafana DELETE /dashboards/uid/d-home/public-dashboards/pd-1"
+  },
+  "DELETE /dashboards/uid/{uid}": {
+    "confirmLiteral": "Home Lab",
+    "resolved": "DELETE /dashboards/uid/{uid}",
+    "targets": [],
+    "text": "Grafana DELETE /dashboards/uid/d-home"
+  },
+  "DELETE /datasources/name/{name}": {
+    "confirmLiteral": "Prometheus",
+    "resolved": "DELETE /datasources/name/{name}",
+    "targets": [],
+    "text": "Grafana DELETE /datasources/name/Prometheus"
+  },
+  "DELETE /datasources/uid/{uid}": {
+    "confirmLiteral": "Prometheus",
+    "resolved": "DELETE /datasources/uid/{uid}",
+    "targets": [
+      {
+        "id": "prom",
+        "kind": "datasource",
+        "name": "Prometheus (prometheus, http://prometheus:9090)"
+      }
+    ],
+    "text": "Grafana DELETE /datasources/uid/prom on Prometheus (prometheus, http://prometheus:9090)"
+  },
+  "DELETE /datasources/uid/{uid}/correlations/{correlationUID}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /datasources/uid/{uid}/correlations/{correlationUID}",
+    "targets": [
+      {
+        "id": "prom",
+        "kind": "datasource",
+        "name": "Prometheus (prometheus, http://prometheus:9090)"
+      }
+    ],
+    "text": "Grafana DELETE /datasources/uid/prom/correlations/c-1 on Prometheus (prometheus, http://prometheus:9090)"
+  },
+  "DELETE /datasources/{id}": {
+    "confirmLiteral": "Prometheus",
+    "resolved": "DELETE /datasources/{id}",
+    "targets": [
+      {
+        "id": "5",
+        "kind": "datasource",
+        "name": "Prometheus (prometheus, http://prometheus:9090)"
+      }
+    ],
+    "text": "Grafana DELETE /datasources/5 on Prometheus (prometheus, http://prometheus:9090)"
+  },
+  "DELETE /folders/{folder_uid}": {
+    "confirmLiteral": "Ops",
+    "resolved": "DELETE /folders/{folder_uid}",
+    "targets": [],
+    "text": "Grafana DELETE /folders/f-ops"
+  },
+  "DELETE /groupsync/groups/{group_id}": {
+    "confirmLiteral": "ldap-admins",
+    "resolved": "DELETE /groupsync/groups/{group_id}",
+    "targets": [],
+    "text": "Grafana DELETE /groupsync/groups/ldap-admins"
+  },
+  "DELETE /library-elements/{library_element_uid}": {
+    "confirmLiteral": "CPU panel",
+    "resolved": "DELETE /library-elements/{library_element_uid}",
+    "targets": [],
+    "text": "Grafana DELETE /library-elements/le-1"
+  },
+  "DELETE /licensing/token": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /licensing/token",
+    "targets": [],
+    "text": "Grafana DELETE /licensing/token"
+  },
+  "DELETE /org/invites/{invitation_code}/revoke": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /org/invites/{invitation_code}/revoke",
+    "targets": [],
+    "text": "Grafana DELETE /org/invites/abc/revoke"
+  },
+  "DELETE /org/users/{user_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "DELETE /org/users/{user_id}",
+    "targets": [],
+    "text": "Grafana DELETE /org/users/2"
+  },
+  "DELETE /orgs/{org_id}": {
+    "confirmLiteral": "Lab",
+    "resolved": "DELETE /orgs/{org_id}",
+    "targets": [],
+    "text": "Grafana DELETE /orgs/2"
+  },
+  "DELETE /orgs/{org_id}/users/{user_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "DELETE /orgs/{org_id}/users/{user_id}",
+    "targets": [],
+    "text": "Grafana DELETE /orgs/2/users/2"
+  },
+  "DELETE /playlists/{uid}": {
+    "confirmLiteral": "Wall",
+    "resolved": "DELETE /playlists/{uid}",
+    "targets": [],
+    "text": "Grafana DELETE /playlists/pl-1"
+  },
+  "DELETE /query-history/star/{query_history_uid}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /query-history/star/{query_history_uid}",
+    "targets": [],
+    "text": "Grafana DELETE /query-history/star/q-1"
+  },
+  "DELETE /query-history/{query_history_uid}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /query-history/{query_history_uid}",
+    "targets": [],
+    "text": "Grafana DELETE /query-history/q-1"
+  },
+  "DELETE /recording-rules/writer": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /recording-rules/writer",
+    "targets": [],
+    "text": "Grafana DELETE /recording-rules/writer"
+  },
+  "DELETE /recording-rules/{recordingRuleID}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /recording-rules/{recordingRuleID}",
+    "targets": [],
+    "text": "Grafana DELETE /recording-rules/rr-1"
+  },
+  "DELETE /reports/{id}": {
+    "confirmLiteral": "Weekly",
+    "resolved": "DELETE /reports/{id}",
+    "targets": [],
+    "text": "Grafana DELETE /reports/7"
+  },
+  "DELETE /serviceaccounts/{serviceAccountId}": {
+    "confirmLiteral": "synoikia-bot",
+    "resolved": "DELETE /serviceaccounts/{serviceAccountId}",
+    "targets": [],
+    "text": "Grafana DELETE /serviceaccounts/4"
+  },
+  "DELETE /serviceaccounts/{serviceAccountId}/tokens/{tokenId}": {
+    "confirmLiteral": "synoikia-bot",
+    "resolved": "DELETE /serviceaccounts/{serviceAccountId}/tokens/{tokenId}",
+    "targets": [],
+    "text": "Grafana DELETE /serviceaccounts/4/tokens/11"
+  },
+  "DELETE /snapshots/{key}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /snapshots/{key}",
+    "targets": [],
+    "text": "Grafana DELETE /snapshots/snapshot-view-key"
+  },
+  "DELETE /teams/{teamId}/groups": {
+    "confirmLiteral": "SRE",
+    "resolved": "DELETE /teams/{teamId}/groups",
+    "targets": [],
+    "text": "Grafana DELETE /teams/3/groups"
+  },
+  "DELETE /teams/{team_id}": {
+    "confirmLiteral": "SRE",
+    "resolved": "DELETE /teams/{team_id}",
+    "targets": [],
+    "text": "Grafana DELETE /teams/3"
+  },
+  "DELETE /teams/{team_id}/members/{user_id}": {
+    "confirmLiteral": "SRE",
+    "resolved": "DELETE /teams/{team_id}/members/{user_id}",
+    "targets": [],
+    "text": "Grafana DELETE /teams/3/members/2"
+  },
+  "DELETE /user/stars/dashboard/uid/{dashboard_uid}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /user/stars/dashboard/uid/{dashboard_uid}",
+    "targets": [],
+    "text": "Grafana DELETE /user/stars/dashboard/uid/d-home"
+  },
+  "DELETE /v1/provisioning/alert-rules/{UID}": {
+    "confirmLiteral": "High CPU",
+    "resolved": "DELETE /v1/provisioning/alert-rules/{UID}",
+    "targets": [],
+    "text": "Grafana DELETE /v1/provisioning/alert-rules/r-1"
+  },
+  "DELETE /v1/provisioning/contact-points/{UID}": {
+    "confirmLiteral": "Ops Slack",
+    "resolved": "DELETE /v1/provisioning/contact-points/{UID}",
+    "targets": [],
+    "text": "Grafana DELETE /v1/provisioning/contact-points/cp-1"
+  },
+  "DELETE /v1/provisioning/folder/{FolderUID}/rule-groups/{Group}": {
+    "confirmLiteral": "cpu",
+    "resolved": "DELETE /v1/provisioning/folder/{FolderUID}/rule-groups/{Group}",
+    "targets": [],
+    "text": "Grafana DELETE /v1/provisioning/folder/f-ops/rule-groups/cpu"
+  },
+  "DELETE /v1/provisioning/mute-timings/{name}": {
+    "confirmLiteral": "weekends",
+    "resolved": "DELETE /v1/provisioning/mute-timings/{name}",
+    "targets": [],
+    "text": "Grafana DELETE /v1/provisioning/mute-timings/weekends"
+  },
+  "DELETE /v1/provisioning/policies": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /v1/provisioning/policies",
+    "targets": [],
+    "text": "Grafana DELETE /v1/provisioning/policies"
+  },
+  "DELETE /v1/provisioning/templates/{name}": {
+    "confirmLiteral": "slack-msg",
+    "resolved": "DELETE /v1/provisioning/templates/{name}",
+    "targets": [],
+    "text": "Grafana DELETE /v1/provisioning/templates/slack-msg"
+  },
+  "DELETE /v1/sso-settings/{key}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "DELETE /v1/sso-settings/{key}",
+    "targets": [],
+    "text": "Grafana DELETE /v1/sso-settings/github"
+  },
+  "GET /admin/settings": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "GET /admin/settings",
+    "targets": [],
+    "text": "Grafana GET /admin/settings"
+  },
+  "GET /snapshots-delete/{deleteKey}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "GET /snapshots-delete/{deleteKey}",
+    "targets": [],
+    "text": "Grafana GET /snapshots-delete/snapshot-delete-key"
+  },
+  "PATCH /dashboards/uid/{dashboardUid}/public-dashboards/{uid}": {
+    "confirmLiteral": "Home Lab",
+    "resolved": "PATCH /dashboards/uid/{dashboardUid}/public-dashboards/{uid}",
+    "targets": [],
+    "text": "Grafana PATCH /dashboards/uid/d-home/public-dashboards/pd-1 {\"isEnabled\":true,\"share\":\"public\"}"
+  },
+  "PATCH /org/users/{user_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "PATCH /org/users/{user_id}",
+    "targets": [],
+    "text": "Grafana PATCH /org/users/2 {\"role\":\"Admin\"}"
+  },
+  "PATCH /orgs/{org_id}/users/{user_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "PATCH /orgs/{org_id}/users/{user_id}",
+    "targets": [],
+    "text": "Grafana PATCH /orgs/2/users/2 {\"role\":\"Admin\"}"
+  },
+  "PATCH /serviceaccounts/{serviceAccountId}": {
+    "confirmLiteral": "synoikia-bot",
+    "resolved": "PATCH /serviceaccounts/{serviceAccountId}",
+    "targets": [],
+    "text": "Grafana PATCH /serviceaccounts/4 {\"role\":\"Admin\"}"
+  },
+  "PATCH /v1/sso-settings/{key}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "PATCH /v1/sso-settings/{key}",
+    "targets": [],
+    "text": "Grafana PATCH /v1/sso-settings/github {\"settings\":{\"clientId\":\"gh\",\"clientSecret\":\"[REDACTED]\"}}"
+  },
+  "POST /access-control/roles": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /access-control/roles",
+    "targets": [],
+    "text": "Grafana POST /access-control/roles {\"name\":\"custom:writers\",\"permissions\":[{\"action\":\"dashboards:write\"}]}"
+  },
+  "POST /access-control/teams/{teamId}/roles": {
+    "confirmLiteral": "SRE",
+    "resolved": "POST /access-control/teams/{teamId}/roles",
+    "targets": [],
+    "text": "Grafana POST /access-control/teams/3/roles {\"roleUid\":\"custom-ops\"}"
+  },
+  "POST /access-control/users/{userId}/roles": {
+    "confirmLiteral": "alex",
+    "resolved": "POST /access-control/users/{userId}/roles",
+    "targets": [],
+    "text": "Grafana POST /access-control/users/2/roles {\"roleUid\":\"custom-ops\"}"
+  },
+  "POST /access-control/{resource}/{resourceID}": {
+    "confirmLiteral": "d-home",
+    "resolved": "POST /access-control/{resource}/{resourceID}",
+    "targets": [],
+    "text": "Grafana POST /access-control/dashboards/d-home {\"permissions\":[{\"userId\":2,\"permission\":\"Admin\"}]}"
+  },
+  "POST /access-control/{resource}/{resourceID}/builtInRoles/{builtInRole}": {
+    "confirmLiteral": "d-home",
+    "resolved": "POST /access-control/{resource}/{resourceID}/builtInRoles/{builtInRole}",
+    "targets": [],
+    "text": "Grafana POST /access-control/dashboards/d-home/builtInRoles/Viewer {\"permission\":\"Edit\"}"
+  },
+  "POST /access-control/{resource}/{resourceID}/teams/{teamID}": {
+    "confirmLiteral": "d-home",
+    "resolved": "POST /access-control/{resource}/{resourceID}/teams/{teamID}",
+    "targets": [],
+    "text": "Grafana POST /access-control/dashboards/d-home/teams/3 {\"permission\":\"Edit\"}"
+  },
+  "POST /access-control/{resource}/{resourceID}/users/{userID}": {
+    "confirmLiteral": "d-home",
+    "resolved": "POST /access-control/{resource}/{resourceID}/users/{userID}",
+    "targets": [],
+    "text": "Grafana POST /access-control/dashboards/d-home/users/2 {\"permission\":\"Admin\"}"
+  },
+  "POST /admin/provisioning/access-control/reload": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /admin/provisioning/access-control/reload",
+    "targets": [],
+    "text": "Grafana POST /admin/provisioning/access-control/reload"
+  },
+  "POST /admin/provisioning/dashboards/reload": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /admin/provisioning/dashboards/reload",
+    "targets": [],
+    "text": "Grafana POST /admin/provisioning/dashboards/reload"
+  },
+  "POST /admin/provisioning/datasources/reload": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /admin/provisioning/datasources/reload",
+    "targets": [],
+    "text": "Grafana POST /admin/provisioning/datasources/reload"
+  },
+  "POST /admin/provisioning/plugins/reload": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /admin/provisioning/plugins/reload",
+    "targets": [],
+    "text": "Grafana POST /admin/provisioning/plugins/reload"
+  },
+  "POST /admin/users": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /admin/users",
+    "targets": [],
+    "text": "Grafana POST /admin/users {\"login\":\"sam\",\"email\":\"sam@example.com\",\"password\":\"[REDACTED]\"}"
+  },
+  "POST /admin/users/{user_id}/disable": {
+    "confirmLiteral": "alex",
+    "resolved": "POST /admin/users/{user_id}/disable",
+    "targets": [],
+    "text": "Grafana POST /admin/users/2/disable"
+  },
+  "POST /admin/users/{user_id}/enable": {
+    "confirmLiteral": "alex",
+    "resolved": "POST /admin/users/{user_id}/enable",
+    "targets": [],
+    "text": "Grafana POST /admin/users/2/enable"
+  },
+  "POST /admin/users/{user_id}/logout": {
+    "confirmLiteral": "alex",
+    "resolved": "POST /admin/users/{user_id}/logout",
+    "targets": [],
+    "text": "Grafana POST /admin/users/2/logout"
+  },
+  "POST /admin/users/{user_id}/revoke-auth-token": {
+    "confirmLiteral": "alex",
+    "resolved": "POST /admin/users/{user_id}/revoke-auth-token",
+    "targets": [],
+    "text": "Grafana POST /admin/users/2/revoke-auth-token {\"authTokenId\":1}"
+  },
+  "POST /annotations/mass-delete": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /annotations/mass-delete",
+    "targets": [],
+    "text": "Grafana POST /annotations/mass-delete {\"dashboardUID\":\"d-home\"}"
+  },
+  "POST /cloudmigration/migration": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /cloudmigration/migration",
+    "targets": [],
+    "text": "Grafana POST /cloudmigration/migration {\"authToken\":\"[REDACTED]\"}"
+  },
+  "POST /cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload",
+    "targets": [],
+    "text": "Grafana POST /cloudmigration/migration/m-1/snapshot/s-1/upload (uploads this instance's dashboards, folders, data sources and alerting to the session's Cloud stack)"
+  },
+  "POST /cloudmigration/token": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /cloudmigration/token",
+    "targets": [],
+    "text": "Grafana POST /cloudmigration/token"
+  },
+  "POST /convert/api/prom/rules": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /convert/api/prom/rules",
+    "targets": [],
+    "text": "Grafana POST /convert/api/prom/rules {\"Ops\":[{\"name\":\"cpu\",\"rules\":[]}]}"
+  },
+  "POST /convert/api/prom/rules/{NamespaceTitle}": {
+    "confirmLiteral": "Ops",
+    "resolved": "POST /convert/api/prom/rules/{NamespaceTitle}",
+    "targets": [],
+    "text": "Grafana POST /convert/api/prom/rules/Ops {\"name\":\"cpu\",\"rules\":[]}"
+  },
+  "POST /convert/prometheus/config/v1/rules": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /convert/prometheus/config/v1/rules",
+    "targets": [],
+    "text": "Grafana POST /convert/prometheus/config/v1/rules {\"Ops\":[{\"name\":\"cpu\",\"rules\":[]}]}"
+  },
+  "POST /convert/prometheus/config/v1/rules/{NamespaceTitle}": {
+    "confirmLiteral": "Ops",
+    "resolved": "POST /convert/prometheus/config/v1/rules/{NamespaceTitle}",
+    "targets": [],
+    "text": "Grafana POST /convert/prometheus/config/v1/rules/Ops {\"name\":\"cpu\",\"rules\":[]}"
+  },
+  "POST /dashboards/uid/{dashboardUid}/public-dashboards": {
+    "confirmLiteral": "Home Lab",
+    "resolved": "POST /dashboards/uid/{dashboardUid}/public-dashboards",
+    "targets": [],
+    "text": "Grafana POST /dashboards/uid/d-home/public-dashboards {\"isEnabled\":true}"
+  },
+  "POST /dashboards/uid/{uid}/permissions": {
+    "confirmLiteral": "Home Lab",
+    "resolved": "POST /dashboards/uid/{uid}/permissions",
+    "targets": [],
+    "text": "Grafana POST /dashboards/uid/d-home/permissions {\"items\":[{\"role\":\"Viewer\",\"permission\":2}]}"
+  },
+  "POST /datasources": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /datasources",
+    "targets": [],
+    "text": "Grafana POST /datasources [to url=loki.example.net:3100 \"http://loki.example.net:3100\"] {\"name\":\"Loki\",\"type\":\"loki\",\"url\":\"http://loki.example.net:3100\",\"basicAuth\":true,\"basicAuthPassword\":\"[REDACTED]\"} (queries from this data source go to its url with the stored credentials)"
+  },
+  "POST /folders/{folder_uid}/move": {
+    "confirmLiteral": "Ops",
+    "resolved": "POST /folders/{folder_uid}/move",
+    "targets": [],
+    "text": "Grafana POST /folders/f-ops/move {\"parentUid\":\"f-public\"}"
+  },
+  "POST /folders/{folder_uid}/permissions": {
+    "confirmLiteral": "Ops",
+    "resolved": "POST /folders/{folder_uid}/permissions",
+    "targets": [],
+    "text": "Grafana POST /folders/f-ops/permissions {\"items\":[{\"role\":\"Viewer\",\"permission\":2}]}"
+  },
+  "POST /groupsync/groups/{group_id}": {
+    "confirmLiteral": "ldap-admins",
+    "resolved": "POST /groupsync/groups/{group_id}",
+    "targets": [],
+    "text": "Grafana POST /groupsync/groups/ldap-admins {\"roles\":[\"custom-ops\"]}"
+  },
+  "POST /licensing/token": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /licensing/token",
+    "targets": [],
+    "text": "Grafana POST /licensing/token {\"token\":\"[REDACTED]\"}"
+  },
+  "POST /org/invites": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /org/invites",
+    "targets": [],
+    "text": "Grafana POST /org/invites {\"loginOrEmail\":\"pat@example.com\",\"role\":\"Editor\"}"
+  },
+  "POST /org/users": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /org/users",
+    "targets": [],
+    "text": "Grafana POST /org/users {\"loginOrEmail\":\"alex\",\"role\":\"Admin\"}"
+  },
+  "POST /orgs": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /orgs",
+    "targets": [],
+    "text": "Grafana POST /orgs {\"name\":\"Guests\"}"
+  },
+  "POST /orgs/{org_id}/users": {
+    "confirmLiteral": "Lab",
+    "resolved": "POST /orgs/{org_id}/users",
+    "targets": [],
+    "text": "Grafana POST /orgs/2/users {\"loginOrEmail\":\"alex\",\"role\":\"Admin\"}"
+  },
+  "POST /recording-rules": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /recording-rules",
+    "targets": [],
+    "text": "Grafana POST /recording-rules {\"name\":\"cpu:rate5m\",\"prom_name\":\"cpu_rate5m\"}"
+  },
+  "POST /recording-rules/writer": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /recording-rules/writer",
+    "targets": [],
+    "text": "Grafana POST /recording-rules/writer {\"data_source_uid\":\"prom\"}"
+  },
+  "POST /reports": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /reports",
+    "targets": [],
+    "text": "Grafana POST /reports [to recipients=\"boss@example.com\"] {\"name\":\"Daily\",\"recipients\":\"boss@example.com\"}"
+  },
+  "POST /reports/email": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /reports/email",
+    "targets": [],
+    "text": "Grafana POST /reports/email [to emails=\"someone@example.com\"] {\"id\":\"7\",\"emails\":\"someone@example.com\"}"
+  },
+  "POST /reports/test-email": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /reports/test-email",
+    "targets": [],
+    "text": "Grafana POST /reports/test-email [to recipients=\"test@example.org\"] {\"name\":\"Weekly\",\"recipients\":\"test@example.org\"}"
+  },
+  "POST /serviceaccounts": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /serviceaccounts",
+    "targets": [],
+    "text": "Grafana POST /serviceaccounts {\"name\":\"ci\",\"role\":\"Admin\"}"
+  },
+  "POST /serviceaccounts/{serviceAccountId}/tokens": {
+    "confirmLiteral": "synoikia-bot",
+    "resolved": "POST /serviceaccounts/{serviceAccountId}/tokens",
+    "targets": [],
+    "text": "Grafana POST /serviceaccounts/4/tokens {\"name\":\"ci\"}"
+  },
+  "POST /snapshots": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /snapshots",
+    "targets": [],
+    "text": "Grafana POST /snapshots [to external=true] {\"dashboard\":{\"title\":\"Home Lab\"},\"external\":true} (with external: true the dashboard data is uploaded to the external snapshot server)"
+  },
+  "POST /teams/{teamId}/groups": {
+    "confirmLiteral": "SRE",
+    "resolved": "POST /teams/{teamId}/groups",
+    "targets": [],
+    "text": "Grafana POST /teams/3/groups {\"groupId\":\"cn=sre\"}"
+  },
+  "POST /teams/{team_id}/members": {
+    "confirmLiteral": "SRE",
+    "resolved": "POST /teams/{team_id}/members",
+    "targets": [],
+    "text": "Grafana POST /teams/3/members {\"userId\":2}"
+  },
+  "POST /v1/provisioning/alert-rules": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /v1/provisioning/alert-rules",
+    "targets": [],
+    "text": "Grafana POST /v1/provisioning/alert-rules {\"title\":\"Disk full\",\"folderUID\":\"f-ops\"}"
+  },
+  "POST /v1/provisioning/contact-points": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /v1/provisioning/contact-points",
+    "targets": [
+      {
+        "id": "hooks.example.net",
+        "kind": "destination",
+        "name": "hooks.example.net (contact point URL)"
+      }
+    ],
+    "text": "Grafana POST /v1/provisioning/contact-points {\"name\":\"Pager\",\"type\":\"webhook\",\"settings\":{\"url\":\"[REDACTED]\",\"username\":\"grafana\",\"password\":\"[REDACTED]\"}} on hooks.example.net (contact point URL)"
+  },
+  "POST /v1/provisioning/mute-timings": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "POST /v1/provisioning/mute-timings",
+    "targets": [],
+    "text": "Grafana POST /v1/provisioning/mute-timings {\"name\":\"always\",\"time_intervals\":[]}"
+  },
+  "PUT /access-control/roles/{roleUID}": {
+    "confirmLiteral": "Ops Reader",
+    "resolved": "PUT /access-control/roles/{roleUID}",
+    "targets": [],
+    "text": "Grafana PUT /access-control/roles/custom-ops {\"version\":2,\"permissions\":[]}"
+  },
+  "PUT /access-control/roles/{roleUID}/assignments": {
+    "confirmLiteral": "Ops Reader",
+    "resolved": "PUT /access-control/roles/{roleUID}/assignments",
+    "targets": [],
+    "text": "Grafana PUT /access-control/roles/custom-ops/assignments {\"users\":[{\"id\":2}]}"
+  },
+  "PUT /access-control/teams/{teamId}/roles": {
+    "confirmLiteral": "SRE",
+    "resolved": "PUT /access-control/teams/{teamId}/roles",
+    "targets": [],
+    "text": "Grafana PUT /access-control/teams/3/roles {\"roleUids\":[\"custom-ops\"]}"
+  },
+  "PUT /access-control/users/{userId}/roles": {
+    "confirmLiteral": "alex",
+    "resolved": "PUT /access-control/users/{userId}/roles",
+    "targets": [],
+    "text": "Grafana PUT /access-control/users/2/roles {\"roleUids\":[\"custom-ops\"]}"
+  },
+  "PUT /admin/users/{user_id}/password": {
+    "confirmLiteral": "alex",
+    "resolved": "PUT /admin/users/{user_id}/password",
+    "targets": [],
+    "text": "Grafana PUT /admin/users/2/password {\"password\":\"[REDACTED]\"}"
+  },
+  "PUT /admin/users/{user_id}/permissions": {
+    "confirmLiteral": "alex",
+    "resolved": "PUT /admin/users/{user_id}/permissions",
+    "targets": [],
+    "text": "Grafana PUT /admin/users/2/permissions {\"isGrafanaAdmin\":true}"
+  },
+  "PUT /datasources/uid/{uid}": {
+    "confirmLiteral": "Prometheus",
+    "resolved": "PUT /datasources/uid/{uid}",
+    "targets": [
+      {
+        "id": "prom",
+        "kind": "datasource",
+        "name": "Prometheus (prometheus, http://prometheus:9090)"
+      }
+    ],
+    "text": "Grafana PUT /datasources/uid/prom [to url=elsewhere.example.net:9090 \"http://elsewhere.example.net:9090\"] {\"name\":\"Prometheus\",\"type\":\"prometheus\",\"url\":\"http://elsewhere.example.net:9090\"} (queries from this data source go to its url with the stored credentials) on Prometheus (prometheus, http://prometheus:9090)"
+  },
+  "PUT /datasources/uid/{uid}/lbac/teams": {
+    "confirmLiteral": "Prometheus",
+    "resolved": "PUT /datasources/uid/{uid}/lbac/teams",
+    "targets": [
+      {
+        "id": "prom",
+        "kind": "datasource",
+        "name": "Prometheus (prometheus, http://prometheus:9090)"
+      }
+    ],
+    "text": "Grafana PUT /datasources/uid/prom/lbac/teams {\"rules\":[]} on Prometheus (prometheus, http://prometheus:9090)"
+  },
+  "PUT /datasources/{id}": {
+    "confirmLiteral": "Prometheus",
+    "resolved": "PUT /datasources/{id}",
+    "targets": [
+      {
+        "id": "5",
+        "kind": "datasource",
+        "name": "Prometheus (prometheus, http://prometheus:9090)"
+      }
+    ],
+    "text": "Grafana PUT /datasources/5 [to url=elsewhere.example.net:9090 \"http://elsewhere.example.net:9090\"] {\"name\":\"Prometheus\",\"type\":\"prometheus\",\"url\":\"http://elsewhere.example.net:9090\"} (queries from this data source go to its url with the stored credentials) on Prometheus (prometheus, http://prometheus:9090)"
+  },
+  "PUT /groupsync/groups/{group_id}": {
+    "confirmLiteral": "ldap-admins",
+    "resolved": "PUT /groupsync/groups/{group_id}",
+    "targets": [],
+    "text": "Grafana PUT /groupsync/groups/ldap-admins {\"roles\":[\"custom-ops\"]}"
+  },
+  "PUT /recording-rules": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "PUT /recording-rules",
+    "targets": [],
+    "text": "Grafana PUT /recording-rules {\"id\":\"rr-1\",\"active\":true}"
+  },
+  "PUT /reports/{id}": {
+    "confirmLiteral": "Weekly",
+    "resolved": "PUT /reports/{id}",
+    "targets": [],
+    "text": "Grafana PUT /reports/7 [to recipients=\"outside@example.net\"] {\"name\":\"Weekly\",\"recipients\":\"outside@example.net\"}"
+  },
+  "PUT /teams/{team_id}/members": {
+    "confirmLiteral": "SRE",
+    "resolved": "PUT /teams/{team_id}/members",
+    "targets": [],
+    "text": "Grafana PUT /teams/3/members {\"members\":[\"alex\"]}"
+  },
+  "PUT /teams/{team_id}/members/{user_id}": {
+    "confirmLiteral": "SRE",
+    "resolved": "PUT /teams/{team_id}/members/{user_id}",
+    "targets": [],
+    "text": "Grafana PUT /teams/3/members/2 {\"permission\":4}"
+  },
+  "PUT /user/password": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "PUT /user/password",
+    "targets": [],
+    "text": "Grafana PUT /user/password {\"oldPassword\":\"[REDACTED]\",\"newPassword\":\"[REDACTED]\"}"
+  },
+  "PUT /users/{user_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "PUT /users/{user_id}",
+    "targets": [],
+    "text": "Grafana PUT /users/2 {\"email\":\"attacker@example.net\"}"
+  },
+  "PUT /v1/provisioning/alert-rules/{UID}": {
+    "confirmLiteral": "High CPU",
+    "resolved": "PUT /v1/provisioning/alert-rules/{UID}",
+    "targets": [],
+    "text": "Grafana PUT /v1/provisioning/alert-rules/r-1 {\"title\":\"High CPU\",\"folderUID\":\"f-ops\"}"
+  },
+  "PUT /v1/provisioning/contact-points/{UID}": {
+    "confirmLiteral": "Ops Slack",
+    "resolved": "PUT /v1/provisioning/contact-points/{UID}",
+    "targets": [
+      {
+        "id": "elsewhere.example.net",
+        "kind": "destination",
+        "name": "elsewhere.example.net (contact point URL)"
+      }
+    ],
+    "text": "Grafana PUT /v1/provisioning/contact-points/cp-1 [to settings/addresses=\"oncall@example.net\"] {\"name\":\"Ops Slack\",\"type\":\"webhook\",\"settings\":{\"url\":\"[REDACTED]\",\"addresses\":\"oncall@example.net\"}} on elsewhere.example.net (contact point URL)"
+  },
+  "PUT /v1/provisioning/folder/{FolderUID}/rule-groups/{Group}": {
+    "confirmLiteral": "cpu",
+    "resolved": "PUT /v1/provisioning/folder/{FolderUID}/rule-groups/{Group}",
+    "targets": [],
+    "text": "Grafana PUT /v1/provisioning/folder/f-ops/rule-groups/cpu {\"interval\":60,\"rules\":[]}"
+  },
+  "PUT /v1/provisioning/mute-timings/{name}": {
+    "confirmLiteral": "weekends",
+    "resolved": "PUT /v1/provisioning/mute-timings/{name}",
+    "targets": [],
+    "text": "Grafana PUT /v1/provisioning/mute-timings/weekends {\"name\":\"weekends\",\"time_intervals\":[]}"
+  },
+  "PUT /v1/provisioning/policies": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "PUT /v1/provisioning/policies",
+    "targets": [],
+    "text": "Grafana PUT /v1/provisioning/policies [to receiver=\"Pager\"] {\"receiver\":\"Pager\"}"
+  },
+  "PUT /v1/sso-settings/{key}": {
+    "confirmLiteral": "Main Org.",
+    "resolved": "PUT /v1/sso-settings/{key}",
+    "targets": [],
+    "text": "Grafana PUT /v1/sso-settings/github {\"settings\":{\"clientId\":\"gh\",\"clientSecret\":\"[REDACTED]\"}}"
+  }
+}

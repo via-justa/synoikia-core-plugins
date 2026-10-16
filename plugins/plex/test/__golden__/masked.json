@@ -1,0 +1,81 @@
+{
+  "GET /:/prefs": {
+    "result": {
+      "MediaContainer": {
+        "Setting": [
+          {
+            "id": "FriendlyName",
+            "label": "FriendlyName",
+            "type": "text",
+            "value": "Home Plex"
+          },
+          {
+            "id": "PlexOnlineToken",
+            "label": "PlexOnlineToken",
+            "type": "text",
+            "value": "[REDACTED]"
+          },
+          {
+            "id": "customCertificateKey",
+            "label": "customCertificateKey",
+            "type": "text",
+            "value": "[REDACTED]"
+          },
+          {
+            "id": "allowedNetworks",
+            "label": "allowedNetworks",
+            "type": "text",
+            "value": ""
+          }
+        ],
+        "size": 0
+      }
+    },
+    "sensitiveResult": null
+  },
+  "GET /media/providers": {
+    "result": {
+      "MediaContainer": {
+        "MediaProvider": [
+          {
+            "identifier": "tv.plex.provider.example",
+            "url": "https://provider.example/library?X-Plex-Token=[REDACTED]&x=1"
+          }
+        ],
+        "size": 0
+      }
+    },
+    "sensitiveResult": null
+  },
+  "GET /status/sessions": {
+    "result": {
+      "MediaContainer": {
+        "Metadata": [
+          {
+            "Player": {
+              "state": "playing",
+              "title": "Living Room TV"
+            },
+            "Session": {
+              "bandwidth": 8000,
+              "id": "sess-1",
+              "location": "lan"
+            },
+            "User": {
+              "id": "1",
+              "title": "alice"
+            },
+            "librarySectionID": 1,
+            "ratingKey": "102",
+            "thumb": "/library/metadata/102/thumb/1?X-Plex-Token=[REDACTED]",
+            "title": "Arrival",
+            "type": "movie",
+            "year": 2016
+          }
+        ],
+        "size": 1
+      }
+    },
+    "sensitiveResult": null
+  }
+}

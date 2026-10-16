@@ -1,0 +1,272 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of the community Plex Media Server spec (docs/designs/plex.md): keys are the spec's PMS paths
+# (`GET /library/sections/{sectionId}/all`); GET reads, other verbs write, anything unlisted is a write.
+
+defaults:
+  # A locked operation without its own literal (a DELETE a newer spec adds) confirms on its path id.
+  confirm: [{ custom: path-id }, instance]
+  timeouts: { request: 15000, lookup: 10000 }
+
+instanceName: { op: 'GET /', field: /MediaContainer/friendlyName, fallback: Plex }
+
+# Push channels, the transcoder and media downloads (binary streams), images and bundle files, uploads, server log
+# writes and the Papertrail upload, transient-token minting, filesystem browsing, server claiming, and URL fetches
+# with no review value (ultrablur, transient items). plex.tv operations are left out in src/spec.ts.
+exclude:
+  - 'GET /:/eventsource/*'
+  - 'GET /:/websocket/*'
+  - 'GET /:/websockets/*'
+  - '* /music/:/transcode'
+  - '* /photo/:/transcode'
+  - '* /{transcodeType}/:/transcode/*'
+  - '* /downloadQueue*'
+  - 'GET /diagnostics/*'
+  - '* /log'
+  - '* /log/*'
+  - 'POST /security/token'
+  - 'GET /security/resources'
+  - 'GET /services/*'
+  - 'POST /myplex/claim'
+  - 'POST /library/file'
+  - 'POST /library/metadata/{id}/arts'
+  - 'POST /library/metadata/{id}/posters'
+  - 'POST /playlists/upload'
+  - 'GET /library/collections/{collectionId}/composite/{updatedAt}'
+  - 'GET /library/sections/{sectionId}/composite/{updatedAt}'
+  - 'GET /library/media/{mediaId}/chapterImages/{chapter}'
+  - 'GET /library/metadata/{ids}/{element}/{timestamp}'
+  - 'GET /library/metadata/{ids}/file'
+  - 'GET /library/parts/{partId}/*'
+  - 'GET /livetv/sessions/{sessionId}/{consumerId}/*'
+  - 'GET /media/grabbers/devices/{deviceId}/thumb/{version}'
+  # `{streamId}.{ext}` is two parameters in one segment, which the SDK's path matcher can't fill.
+  - '* /library/streams/{streamId}.{ext}'
+
+rules:
+  # Irreversible, bulk, server-wide, runs unattended, changes server settings or sign-in, or makes Plex fetch from or
+  # connect to a destination: a human types a confirmation.
+  - match:
+      - 'DELETE /library/sections/{sectionId}'
+      - 'GET /library/sections/{sectionId}/emptyTrash'
+      - 'POST /library/sections/{sectionId}/emptyTrash'
+      - 'PUT /library/sections/{sectionId}/emptyTrash'
+      - 'PUT /library/sections/{sectionId}/analyze'
+      - 'GET /library/sections/{sectionId}/unmatch'
+      - 'GET /library/sections/{sectionId}/optimize'
+      - 'POST /library/sections/{sectionId}/optimize'
+      - 'GET /library/optimize'
+      - 'POST /library/optimize'
+      - 'PUT /library/optimize'
+      - 'PUT /library/clean/bundles'
+      - 'POST /library/sections/all'
+      - 'PUT /library/sections/{sectionId}'
+      - 'PUT /library/sections/{sectionId}/all'
+      - 'DELETE /library/metadata/{ids}'
+      - 'DELETE /library/metadata/{ids}/media/{mediaItem}'
+      - 'POST /library/metadata/{ids}/extras'
+      - 'POST /library/metadata/{ids}/{element}'
+      - 'PUT /library/metadata/{ids}/{element}'
+      - 'PUT /:/prefs'
+      - 'PUT /updater/apply'
+      - 'POST /butler'
+      - 'POST /butler/{butlerTask}'
+      - 'POST /status/sessions/terminate'
+      - 'DELETE /playlists'
+      - 'DELETE /playlists/{playlistId}'
+      - 'DELETE /playlists/{playlistId}/items'
+      - 'POST /media/providers'
+      - 'POST /media/grabbers/devices'
+      - 'GET /library/metadata/{ids}/subtitles'
+      # Admin-only settings of a library, a DVR or a tuner; the design note lists the admin writes left unlocked.
+      - 'PUT /library/sections/{sectionId}/move'
+      - 'PUT /library/sections/{sectionId}/edit'
+      - 'PUT /library/sections/{sectionId}/prefs'
+      - 'PUT /livetv/dvrs/{dvrId}'
+      - 'PATCH /livetv/dvrs/{dvrId}'
+      - 'PUT /livetv/dvrs/{dvrId}/lineups'
+      - 'PUT /livetv/dvrs/{dvrId}/prefs'
+      - 'PUT /livetv/dvrs/{dvrId}/devices/{deviceId}'
+      - 'PUT /media/grabbers/devices/{deviceId}'
+      - 'PUT /media/grabbers/devices/{deviceId}/prefs'
+      - 'PUT /media/grabbers/devices/{deviceId}/channelmap'
+    locked: true
+  # A delete a newer spec adds is locked until reviewed.
+  - match: 'DELETE *'
+    locked: true
+
+  - match: ['DELETE /library/metadata/{ids}', 'DELETE /library/metadata/{ids}/media/{mediaItem}']
+    summaryNote: '(also deletes the media files from disk when the server allows media deletion)'
+  - match: 'DELETE /library/sections/{sectionId}'
+    summaryNote: '(removes the library and its watch history; the files stay on disk)'
+  - match: '* /library/sections/{sectionId}/emptyTrash'
+    summaryNote: '(removes every item whose files are missing, with its watch history)'
+  - match: 'PUT /:/prefs'
+    summaryNote: '(server settings: remote access, sign-in, allowed networks, sharing, transcoder)'
+  - match: 'PUT /library/sections/{sectionId}'
+    summaryNote: '(changes the folders, agent and settings of the library)'
+  - match: 'POST /library/sections/all'
+    summaryNote: '(Plex reads the folders given and shows them to every user the server shares all libraries with)'
+  - match:
+      - 'POST /library/metadata/{ids}/extras'
+      - '* /library/metadata/{ids}/{element}'
+      - 'GET /library/metadata/{ids}/subtitles'
+      - 'POST /media/providers'
+    summaryNote: '(Plex fetches from the URL given)'
+  - match: 'POST /media/grabbers/devices'
+    summaryNote: '(Plex connects to the device at the URI given)'
+  - match: 'PUT /library/sections/{sectionId}/move'
+    summaryNote: '(moves the library folders)'
+
+  # GETs that change state: writes (or locked above).
+  - match:
+      - 'GET /:/progress'
+      - 'GET /library/sections/{sectionId}/refresh'
+      - 'GET /library/sections/{sectionId}/match'
+      - 'GET /library/sections/{sectionId}/unmatch'
+      - 'GET /library/sections/{sectionId}/emptyTrash'
+      - 'GET /library/sections/{sectionId}/optimize'
+      - 'GET /library/optimize'
+      - 'GET /library/metadata/{ids}/subtitles'
+      - 'GET /media/grabbers/devices/discover'
+      - 'GET /system/updates'
+    classification: write
+    reason: reviewed:get-changes-state
+    needsReview: false
+  # GETs the action-word heuristic flags for words in their docs ("refresh", "start", "sync"); they only read.
+  - match:
+      - 'GET /library/metadata/{ids}'
+      - 'GET /library/sections/{sectionId}/all'
+      - 'GET /library/metadata/{id}/computePath'
+      - 'GET /library/metadata/{ids}/users/top'
+      - 'GET /library/sections/{sectionId}/autocomplete'
+      - 'GET /library/sections/{sectionId}/computePath'
+      - 'GET /library/sections/all'
+      - 'GET /media/subscriptions'
+      - 'GET /playlists/{playlistId}/items'
+      - 'GET /playQueues/{playQueueId}'
+      - 'GET /status/sessions/history/all'
+      - 'GET /sync'
+      - 'GET /sync/*'
+    classification: read
+    reason: reviewed:read
+    needsReview: false
+
+  # Locked twin picked per call (src/catalog.ts): a `plugin.refreshFlags` flag that is not plainly off makes Plex
+  # check files or start a refresh, analysis or online lookup of every item read.
+  - match: ['GET /library/metadata/{ids}', 'GET /library/sections/{sectionId}/all']
+    split: refresh
+  - match: '*#refresh'
+    description: >-
+      {base} with a file check, refresh, analysis or augment flag: Plex starts background work on every item read. Locked;
+      leave the flags out to read.
+    summaryNote: '(checks the files, or starts a refresh, analysis or online lookup of the items)'
+    needsReview: false
+  # `own` makes this client the owner of the play queue, taking it from the device playing it (src/catalog.ts).
+  - match: 'GET /playQueues/{playQueueId}'
+    split: own
+  - match: '*#own'
+    description: '{base} with own: takes the play queue over from the device playing it. Locked; leave own out to read.'
+    summaryNote: '(takes the play queue over from the device playing it)'
+    needsReview: false
+
+  # The literal an approver types: the stored item's title, never a value the model writes except on create.
+  - match: 'DELETE /library/sections/{sectionId}/collection/{collectionId}'
+    confirm:
+      lookup:
+        op: 'GET /library/metadata/{ids}'
+        args: [{ ids: { $param: /path/collectionId } }]
+        field: /MediaContainer/Metadata/0/title
+  - match: '* /library/sections/{sectionId}*'
+    confirm:
+      lookup:
+        op: 'GET /library/sections/{sectionId}'
+        args: [{ sectionId: { $param: /path/sectionId } }]
+        field: /MediaContainer/title1
+  - match: 'POST /library/sections/all'
+    confirm: { param: /query/name }
+  - match: '* /library/metadata/{ids}*'
+    confirm:
+      - custom: item-count
+      - lookup:
+          op: 'GET /library/metadata/{ids}'
+          args: [{ ids: { $param: /path/ids } }]
+          field: /MediaContainer/Metadata/0/title
+  - match: '* /playlists/{playlistId}*'
+    confirm:
+      lookup:
+        op: 'GET /playlists/{playlistId}'
+        args: [{ playlistId: { $param: /path/playlistId } }]
+        field: /MediaContainer/Metadata/0/title
+  - match: 'DELETE /playlists'
+    confirm:
+      lookup:
+        op: 'GET /playlists/{playlistId}'
+        args: [{ playlistId: { $param: /query/ratingKey } }]
+        field: /MediaContainer/Metadata/0/title
+  - match: 'POST /status/sessions/terminate'
+    confirm: [{ custom: session }, instance]
+  - match: '* /butler/{butlerTask}'
+    confirm: { param: /path/butlerTask }
+  - match:
+      - 'PUT /:/prefs'
+      - 'PUT /updater/apply'
+      - 'POST /butler'
+      - 'DELETE /butler'
+      - '* /library/optimize'
+      - 'PUT /library/clean/bundles'
+      - 'DELETE /library/caches'
+      - 'POST /media/providers'
+      - 'POST /media/grabbers/devices'
+    confirm: instance
+
+  # A URL Plex fetches or connects to can carry a token: hidden, and the approver sees its origin as a target
+  # (src/targets.ts).
+  - match: '*'
+    sensitiveParams: [/query/url]
+  - match: 'POST /media/grabbers/devices'
+    sensitiveParams: [/query/uri]
+
+plugin:
+  # The community spec at a pinned commit, so a change in that third-party repository can't alter the catalog; the
+  # base URL is a connection field (`specBaseUrl`), so a mirror with the layout <url>/<ref>/<file> works offline.
+  spec:
+    baseUrl: https://raw.githubusercontent.com/LukeHagar/plex-api-spec
+    ref: a632c48261aedefe0bc3a9ae3ddc4bc227abcda0
+    # The spec file at that commit, checked for every source, the mirror included.
+    sha256: ff8801eb6c7904e6298215dd789521750e4af0f18b5fde0999bb544d15335070
+    file: plex-api-spec.yaml
+    maxBytes: 8388608
+    timeoutMs: 30000
+  # `GET /` needs the token, so it also proves it.
+  versionPath: /
+  versionField: /MediaContainer/version
+  # Refuse a spec with fewer PMS operations: a truncated one must not replace the catalog.
+  minOperations: 250
+  # Query keys the rules, targets and literals read, in Plex's spelling: another case is renamed to it, and two keys
+  # that differ only in case are refused (src/request.ts).
+  canonicalKeys:
+    - ratingKey
+    - sessionId
+    - name
+    - url
+    - uri
+    - prefs
+    - asyncCheckFiles
+    - asyncRefreshLocalMediaAgent
+    - asyncRefreshAnalysis
+    - asyncAugmentMetadata
+    - checkFiles
+    - checkFileAvailability
+    - refreshLocalMediaAgent
+    - refreshAnalysis
+    - own
+  # Query flags that take the `#refresh` twin: file checks, refreshes, analysis and online lookups.
+  refreshFlags:
+    - asyncCheckFiles
+    - asyncRefreshLocalMediaAgent
+    - asyncRefreshAnalysis
+    - asyncAugmentMetadata
+    - checkFiles
+    - checkFileAvailability
+    - refreshLocalMediaAgent
+    - refreshAnalysis

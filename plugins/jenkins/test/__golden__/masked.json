@@ -1,0 +1,86 @@
+{
+  "builds.get": {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+    "actions": [
+      {
+        "_class": "hudson.model.CauseAction",
+        "causes": [
+          {
+            "shortDescription": "Started by user synoikia"
+          }
+        ]
+      },
+      {
+        "_class": "hudson.model.ParametersAction",
+        "parameters": [
+          {
+            "_class": "hudson.model.StringParameterValue",
+            "name": "BRANCH",
+            "value": "main"
+          },
+          {
+            "_class": "hudson.model.PasswordParameterValue",
+            "name": "DEPLOY_KEY",
+            "value": "[REDACTED]"
+          }
+        ]
+      },
+      {
+        "_class": "hudson.plugins.git.util.BuildData",
+        "remoteUrls": [
+          "https://[REDACTED]@git.example.com/infra/deploy.git"
+        ]
+      },
+      {
+        "_class": "org.jenkinsci.plugins.envinject.EnvInjectPluginAction",
+        "envMap": "[REDACTED]"
+      }
+    ],
+    "building": false,
+    "duration": 1234,
+    "number": 41,
+    "result": "FAILURE",
+    "url": "http://jenkins/jenkins/job/infra/job/deploy%20app/41/"
+  },
+  "jobs.get": {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "builds": [
+      {
+        "number": 41,
+        "result": "FAILURE"
+      },
+      {
+        "number": 42,
+        "result": null
+      }
+    ],
+    "color": "blue",
+    "disabled": false,
+    "fullName": "infra/deploy app",
+    "name": "deploy app",
+    "property": [
+      {
+        "_class": "hudson.model.ParametersDefinitionProperty",
+        "parameterDefinitions": [
+          {
+            "_class": "hudson.model.StringParameterDefinition",
+            "defaultParameterValue": {
+              "_class": "hudson.model.StringParameterValue",
+              "name": "BRANCH",
+              "value": "main"
+            },
+            "name": "BRANCH",
+            "type": "StringParameterDefinition"
+          },
+          {
+            "_class": "hudson.model.PasswordParameterDefinition",
+            "defaultParameterValue": "[REDACTED]",
+            "name": "DEPLOY_KEY",
+            "type": "PasswordParameterDefinition"
+          }
+        ]
+      }
+    ],
+    "url": "http://jenkins/jenkins/job/infra/job/deploy%20app/"
+  }
+}

@@ -1,0 +1,3981 @@
+[
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "activities",
+    "key": "DELETE /activities/{activityId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "butler",
+    "key": "DELETE /butler",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "butler",
+    "key": "DELETE /butler/{butlerTask}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "hubs",
+    "key": "DELETE /hubs/sections/{sectionId}/manage",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "hubs",
+    "key": "DELETE /hubs/sections/{sectionId}/manage/{identifier}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/caches",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/metadata/{ids}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/metadata/{ids}/marker/{marker}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/metadata/{ids}/media/{mediaItem}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/sections/{sectionId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/sections/{sectionId}/collection/{collectionId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/sections/{sectionId}/indexes",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/sections/{sectionId}/intros",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/sections/{sectionId}/refresh",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "DELETE /library/sections/all/refresh",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "DELETE /livetv/dvrs/{dvrId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "DELETE /livetv/dvrs/{dvrId}/devices/{deviceId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "DELETE /livetv/dvrs/{dvrId}/lineups",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "DELETE /livetv/dvrs/{dvrId}/reloadGuide",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "live_tv",
+    "key": "DELETE /livetv/sessions/{sessionId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "devices",
+    "key": "DELETE /media/grabbers/devices/{deviceId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "devices",
+    "key": "DELETE /media/grabbers/devices/{deviceId}/scan",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "subscriptions",
+    "key": "DELETE /media/grabbers/operations/{operationId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "provider",
+    "key": "DELETE /media/providers/{provider}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "subscriptions",
+    "key": "DELETE /media/subscriptions/{subscriptionId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "playlists",
+    "key": "DELETE /playlists",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library_playlists",
+    "key": "DELETE /playlists/{playlistId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library_playlists",
+    "key": "DELETE /playlists/{playlistId}/items",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library_playlists",
+    "key": "DELETE /playlists/{playlistId}/items/{generatorId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "play_queue",
+    "key": "DELETE /playQueues/{playQueueId}/items",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "play_queue",
+    "key": "DELETE /playQueues/{playQueueId}/items/{playQueueItemId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "status",
+    "key": "DELETE /status/sessions/history/{historyId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "preferences",
+    "key": "GET /:/prefs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "preferences",
+    "key": "GET /:/prefs/get",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "playback",
+    "key": "GET /:/progress",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /accounts",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "activities",
+    "key": "GET /activities",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "butler",
+    "key": "GET /butler",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /clients",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /devices",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /diagnostics",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/continueWatching",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/continueWatching/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/home/recentlyAdded",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/metadata/{metadataId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/metadata/{metadataId}/postplay",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/metadata/{metadataId}/related",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/promoted",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "search",
+    "key": "GET /hubs/search",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "search",
+    "key": "GET /hubs/search/voice",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/sections/{sectionId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hubs",
+    "key": "GET /hubs/sections/{sectionId}/manage",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /identity",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/all",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/collections/{collectionId}/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/matches",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/children",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/computePath",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/grandchildren",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/grandparent",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/nearest",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/onDeck",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/parent",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{id}/reviews",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "content",
+    "key": "GET /library/metadata/{ids}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{ids}/allLeaves",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{ids}/extras",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{ids}/related",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{ids}/similar",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "library",
+    "key": "GET /library/metadata/{ids}/subtitles",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/{ids}/tree",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "library",
+    "key": "GET /library/metadata/{ids}/users/top",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "content",
+    "key": "GET /library/metadata/{ids}#refresh",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/metadata/augmentations/{augmentationId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "library",
+    "key": "GET /library/optimize",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/people/{personId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/people/{personId}/media",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/randomArtwork",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/recentlyAdded",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/agents",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/albums",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/all",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/all#refresh",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/allLeaves",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/artists",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/arts",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/autocomplete",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/byContentRating",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/byDecade",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/byFolder",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/byResolution",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/byYear",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/categories",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/clips",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/cluster",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/collections",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/common",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/computePath",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/edit",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/emptyTrash",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/episodes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/filters",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/firstCharacters",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/hubs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/label",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/location",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/match",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/moment",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/movies",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "content",
+    "key": "GET /library/sections/{sectionId}/nearest",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/newest",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/onDeck",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/optimize",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/photos",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/playlists",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/prefs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/recentlyAdded",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/refresh",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/search",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/settings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/shows",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/sorts",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/tags",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/timeline",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/unmatch",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/{sectionId}/unwatched",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "library",
+    "key": "GET /library/sections/all",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/sections/prefs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/streams/{streamId}/levels",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/streams/{streamId}/loudness",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library",
+    "key": "GET /library/tags",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "dvrs",
+    "key": "GET /livetv/dvrs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "dvrs",
+    "key": "GET /livetv/dvrs/{dvrId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "dvrs",
+    "key": "GET /livetv/dvrs/{dvrId}/channels",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "dvrs",
+    "key": "GET /livetv/dvrs/{dvrId}/guide",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "live_tv",
+    "key": "GET /livetv/dvrs/{dvrId}/recordings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/channelmap",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/channels",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/countries",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/countries/{country}/{epgId}/lineups",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/countries/{country}/{epgId}/regions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/countries/{country}/{epgId}/regions/{region}/lineups",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/guide",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/languages",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/lineup",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/lineupchannels",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "epg",
+    "key": "GET /livetv/epg/search",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "live_tv",
+    "key": "GET /livetv/recordings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "live_tv",
+    "key": "GET /livetv/sessions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "live_tv",
+    "key": "GET /livetv/sessions/{sessionId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "devices",
+    "key": "GET /media/grabbers",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "devices",
+    "key": "GET /media/grabbers/devices",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "devices",
+    "key": "GET /media/grabbers/devices/{deviceId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "devices",
+    "key": "GET /media/grabbers/devices/{deviceId}/channels",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "devices",
+    "key": "GET /media/grabbers/devices/discover",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "provider",
+    "key": "GET /media/providers",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "subscriptions",
+    "key": "GET /media/subscriptions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "subscriptions",
+    "key": "GET /media/subscriptions/{subscriptionId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "subscriptions",
+    "key": "GET /media/subscriptions/scheduled",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "subscriptions",
+    "key": "GET /media/subscriptions/template",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "users",
+    "key": "GET /myplex/account",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "playback",
+    "key": "GET /player/resources",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "playback",
+    "key": "GET /player/timeline/poll",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "playlist",
+    "key": "GET /playlists",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "playlist",
+    "key": "GET /playlists/{playlistId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library_playlists",
+    "key": "GET /playlists/{playlistId}/generators",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "playlist",
+    "key": "GET /playlists/{playlistId}/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library_playlists",
+    "key": "GET /playlists/{playlistId}/items/{generatorId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "library_playlists",
+    "key": "GET /playlists/{playlistId}/items/{generatorId}/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "play_queue",
+    "key": "GET /playQueues/{playQueueId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "play_queue",
+    "key": "GET /playQueues/{playQueueId}#own",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "timeline",
+    "key": "GET /playQueues/1",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /servers",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /statistics/bandwidth",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /statistics/resources",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "status",
+    "key": "GET /status/sessions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "status",
+    "key": "GET /status/sessions/background",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "status",
+    "key": "GET /status/sessions/history/{historyId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "status",
+    "key": "GET /status/sessions/history/all",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "general",
+    "key": "GET /sync",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "general",
+    "key": "GET /sync/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "general",
+    "key": "GET /sync/items/{syncId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "general",
+    "key": "GET /sync/queue",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "general",
+    "key": "GET /sync/transcodeQueue",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /system/agents",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /system/agents/{agentId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "general",
+    "key": "GET /system/settings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "reviewed:get-changes-state",
+    "group": "general",
+    "key": "GET /system/updates",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "transcoder",
+    "key": "GET /transcode/sessions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "updater",
+    "key": "GET /updater/status",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "PATCH /livetv/dvrs/{dvrId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "timeline",
+    "key": "POST /:/timeline",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "butler",
+    "key": "POST /butler",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "butler",
+    "key": "POST /butler/{butlerTask}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "hubs",
+    "key": "POST /hubs/sections/{sectionId}/manage",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "collections",
+    "key": "POST /library/collections",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "POST /library/metadata/{ids}/{element}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "POST /library/metadata/{ids}/extras",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "library",
+    "key": "POST /library/metadata/{ids}/marker",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "POST /library/optimize",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "POST /library/sections/{sectionId}/emptyTrash",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "POST /library/sections/{sectionId}/optimize",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "library",
+    "key": "POST /library/sections/{sectionId}/refresh",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "POST /library/sections/all",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "library",
+    "key": "POST /library/sections/refresh",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "dvrs",
+    "key": "POST /livetv/dvrs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "dvrs",
+    "key": "POST /livetv/dvrs/{dvrId}/channels/{channel}/tune",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "dvrs",
+    "key": "POST /livetv/dvrs/{dvrId}/reloadGuide",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "devices",
+    "key": "POST /media/grabbers/devices",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url",
+      "/query/uri"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "devices",
+    "key": "POST /media/grabbers/devices/{deviceId}/scan",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "provider",
+    "key": "POST /media/providers",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "provider",
+    "key": "POST /media/providers/refresh",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "subscriptions",
+    "key": "POST /media/subscriptions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "subscriptions",
+    "key": "POST /media/subscriptions/process",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/audioStream",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/mute",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/pause",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/play",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/playMedia",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/refreshPlayQueue",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/seek",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/setParameters",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/setRating",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/setState",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/setStreams",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/setTextStream",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/setViewOffset",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/skipBy",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/skipTo",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/stepBack",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/stepForward",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/stop",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/subtitleStream",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/unmute",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/videoStream",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "playback",
+    "key": "POST /player/playback/volume",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "library_playlists",
+    "key": "POST /playlists",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "play_queue",
+    "key": "POST /playQueues",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "status",
+    "key": "POST /status/sessions/terminate",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "preferences",
+    "key": "PUT /:/prefs",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "rate",
+    "key": "PUT /:/rate",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "timeline",
+    "key": "PUT /:/scrobble",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "timeline",
+    "key": "PUT /:/unscrobble",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "playback",
+    "key": "PUT /actions/removeFromContinueWatching",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "hubs",
+    "key": "PUT /hubs/sections/{sectionId}/manage/{identifier}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "hubs",
+    "key": "PUT /hubs/sections/{sectionId}/manage/move",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/clean/bundles",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_collections",
+    "key": "PUT /library/collections/{collectionId}/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_collections",
+    "key": "PUT /library/collections/{collectionId}/items/{itemId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_collections",
+    "key": "PUT /library/collections/{collectionId}/items/{itemId}/move",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/{element}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/addetect",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/analyze",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/chapterThumbs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/credits",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/index",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/intro",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/marker/{marker}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/match",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/matches",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/merge",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/prefs",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/refresh",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/split",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/unmatch",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/metadata/{ids}/voiceActivity",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/optimize",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library",
+    "key": "PUT /library/parts/{partId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/sections/{sectionId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/sections/{sectionId}/all",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/sections/{sectionId}/analyze",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/sections/{sectionId}/edit",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/sections/{sectionId}/emptyTrash",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/sections/{sectionId}/move",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "library",
+    "key": "PUT /library/sections/{sectionId}/prefs",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "PUT /livetv/dvrs/{dvrId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "PUT /livetv/dvrs/{dvrId}/devices/{deviceId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "PUT /livetv/dvrs/{dvrId}/lineups",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "dvrs",
+    "key": "PUT /livetv/dvrs/{dvrId}/prefs",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "devices",
+    "key": "PUT /media/grabbers/devices/{deviceId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "devices",
+    "key": "PUT /media/grabbers/devices/{deviceId}/channelmap",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "devices",
+    "key": "PUT /media/grabbers/devices/{deviceId}/prefs",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "subscriptions",
+    "key": "PUT /media/subscriptions/{subscriptionId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "subscriptions",
+    "key": "PUT /media/subscriptions/{subscriptionId}/move",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "general",
+    "key": "PUT /myplex/refreshReachability",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_playlists",
+    "key": "PUT /playlists/{playlistId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_playlists",
+    "key": "PUT /playlists/{playlistId}/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_playlists",
+    "key": "PUT /playlists/{playlistId}/items/{generatorId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_playlists",
+    "key": "PUT /playlists/{playlistId}/items/{generatorId}/{metadataId}/{action}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "library_playlists",
+    "key": "PUT /playlists/{playlistId}/items/{playlistItemId}/move",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "play_queue",
+    "key": "PUT /playQueues/{playQueueId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "play_queue",
+    "key": "PUT /playQueues/{playQueueId}/items/{playQueueItemId}/move",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "play_queue",
+    "key": "PUT /playQueues/{playQueueId}/reset",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "play_queue",
+    "key": "PUT /playQueues/{playQueueId}/shuffle",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "play_queue",
+    "key": "PUT /playQueues/{playQueueId}/unshuffle",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "general",
+    "key": "PUT /sync/refreshContent",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "general",
+    "key": "PUT /sync/refreshSynclists",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "updater",
+    "key": "PUT /updater/apply",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "updater",
+    "key": "PUT /updater/check",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/query/url"
+    ],
+    "typedConfirmation": false
+  }
+]

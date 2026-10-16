@@ -1,0 +1,59 @@
+{
+  "id": "mealie",
+  "name": "Mealie",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the Mealie REST API, catalog from the OpenAPI spec the instance serves.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "mealie",
+    "functions": ["request"]
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "token"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "token": {
+          "type": "string",
+          "title": "API token",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "https://mealie.internal.lan",
+        "help": "The address you open Mealie at, without /api."
+      },
+      "token": {
+        "widget": "secret",
+        "help": "User Profile → API Tokens → Generate. The token acts with that user's permissions."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      }
+    },
+    "help": "1. In Mealie, create a dedicated user in the group and household Synoikia should work in. Make it an admin only if Synoikia should manage users, groups and backups.\n2. Sign in as that user, open **User Profile → API Tokens**, and generate a token.\n3. Enter the base URL and the token, then **Test connection**.\n4. Keep *Verify TLS* on unless Mealie uses a self-signed certificate on a trusted network.\n\nThe catalog comes from the instance's own `/openapi.json`, so it always matches the installed version."
+  },
+  "sensitiveKeys": ["access_token", "apiKey", "api_key", "appriseUrl", "dbUrl", "password", "secret", "token"],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}"]
+  }
+}

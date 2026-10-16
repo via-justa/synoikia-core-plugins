@@ -1,0 +1,207 @@
+{
+  "GET /api/v3/config/host": {
+    "masked": {
+      "apiKey": "[REDACTED]",
+      "authenticationMethod": "forms",
+      "bindAddress": "*",
+      "id": 1,
+      "instanceName": "Home Radarr",
+      "password": "[REDACTED]",
+      "port": 7878,
+      "proxyPassword": "[REDACTED]",
+      "urlBase": "",
+      "username": "admin"
+    },
+    "sensitiveParams": []
+  },
+  "GET /api/v3/downloadclient": {
+    "masked": [
+      {
+        "enable": true,
+        "fields": [
+          {
+            "name": "host",
+            "privacy": "normal",
+            "value": "qbittorrent.lan"
+          },
+          {
+            "name": "port",
+            "privacy": "normal",
+            "value": 8080
+          },
+          {
+            "name": "useSsl",
+            "privacy": "normal",
+            "value": false
+          },
+          {
+            "name": "username",
+            "privacy": "userName",
+            "value": "radarr"
+          },
+          {
+            "name": "password",
+            "privacy": "password",
+            "value": "********"
+          }
+        ],
+        "id": 6,
+        "implementation": "QBittorrent",
+        "name": "qBit"
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v3/history": {
+    "masked": {
+      "page": 1,
+      "records": [
+        {
+          "data": {
+            "downloadUrl": "[REDACTED]",
+            "guid": "https://tracker.example/[REDACTED]",
+            "indexer": "Tracker",
+            "nzbInfoUrl": "https://tracker.example/[REDACTED]"
+          },
+          "eventType": "grabbed",
+          "id": 51
+        },
+        {
+          "data": {
+            "DownloadUrl": "[REDACTED]",
+            "Indexer": "Tracker",
+            "InfoUrl": "https://tracker.example/[REDACTED]"
+          },
+          "eventType": "grabbed",
+          "id": 52
+        },
+        {
+          "data": {
+            "guid": "magnet:?xt=urn:btih:0123456789ABCDEF0123456789ABCDEF01234567",
+            "indexer": "Tracker"
+          },
+          "eventType": "grabbed",
+          "id": 53
+        }
+      ]
+    },
+    "sensitiveParams": []
+  },
+  "GET /api/v3/indexer": {
+    "masked": [
+      {
+        "fields": [
+          {
+            "name": "baseUrl",
+            "privacy": "normal",
+            "value": "https://api.nzbgeek.info"
+          },
+          {
+            "name": "apiKey",
+            "privacy": "apiKey",
+            "value": "********"
+          }
+        ],
+        "id": 7,
+        "implementation": "Newznab",
+        "name": "NZBgeek"
+      },
+      {
+        "fields": [
+          {
+            "name": "baseUrl",
+            "privacy": "normal",
+            "value": "https://tracker.example/[REDACTED]"
+          },
+          {
+            "name": "cookie",
+            "privacy": "normal",
+            "value": "[REDACTED]"
+          }
+        ],
+        "id": 15,
+        "implementation": "TorrentRssIndexer",
+        "name": "Tracker"
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v3/notification": {
+    "masked": [
+      {
+        "fields": [
+          {
+            "name": "webHookUrl",
+            "privacy": "normal",
+            "value": "https://discord.com/[REDACTED]"
+          }
+        ],
+        "id": 9,
+        "implementation": "Discord",
+        "name": "Discord"
+      },
+      {
+        "fields": [
+          {
+            "name": "url",
+            "privacy": "normal",
+            "value": "https://hooks.example.com/[REDACTED]"
+          },
+          {
+            "name": "headers",
+            "privacy": "normal",
+            "value": [
+              {
+                "key": "Authorization",
+                "value": "[REDACTED]"
+              }
+            ]
+          }
+        ],
+        "id": 14,
+        "implementation": "Webhook",
+        "name": "Hook"
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v3/release": {
+    "masked": [
+      {
+        "downloadUrl": "[REDACTED]",
+        "guid": "nzbgeek-1",
+        "indexerId": 7,
+        "title": "Inception.2010.1080p"
+      },
+      {
+        "commentUrl": "https://tracker.example/[REDACTED]",
+        "downloadUrl": "[REDACTED]",
+        "guid": "https://tracker.example/[REDACTED]",
+        "indexerId": 15,
+        "infoUrl": "https://tracker.example/[REDACTED]",
+        "magnetUrl": "[REDACTED]",
+        "protocol": "torrent",
+        "title": "Inception.2010.2160p"
+      },
+      {
+        "guid": "magnet:?xt=urn:btih:0123456789ABCDEF0123456789ABCDEF01234567",
+        "indexerId": 15,
+        "protocol": "torrent",
+        "title": "Inception.2010.720p"
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "POST /api/v3/downloadclient/test": {
+    "masked": {},
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  }
+}

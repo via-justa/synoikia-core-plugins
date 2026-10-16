@@ -1,0 +1,77 @@
+{
+  "id": "npm",
+  "name": "Nginx Proxy Manager",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the Nginx Proxy Manager REST API, catalog from the OpenAPI spec the instance serves.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "npm",
+    "functions": ["request"]
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "email", "password"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "title": "Email"
+        },
+        "password": {
+          "type": "string",
+          "title": "Password",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "http://npm.internal.lan:81",
+        "help": "The address of the admin UI (port 81 by default), without /api."
+      },
+      "email": {
+        "widget": "text",
+        "help": "The sign-in email of a dedicated Nginx Proxy Manager user without two-factor authentication."
+      },
+      "password": {
+        "widget": "secret",
+        "help": "That user's password. Synoikia signs in with it and renews the session token itself."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      }
+    },
+    "help": "1. In Nginx Proxy Manager, create a dedicated user under **Users**. Give it only the permissions Synoikia needs, and make it an administrator only if Synoikia should manage users and settings. Leave two-factor authentication off for it: Synoikia signs in unattended.\n2. Enter the admin UI's base URL, that user's email and password, then **Test connection**.\n3. Keep *Verify TLS* on unless the admin UI uses a self-signed certificate on a trusted network.\n\nThe catalog comes from the instance's own `/api/schema`, so it always matches the installed version."
+  },
+  "sensitiveKeys": [
+    "backup_codes",
+    "certificate_key",
+    "challenge_token",
+    "dns_provider_credentials",
+    "otpauth_url",
+    "password",
+    "secret",
+    "token"
+  ],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}"]
+  }
+}

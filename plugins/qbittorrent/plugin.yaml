@@ -1,0 +1,833 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# qBittorrent 5.x WebUI API v2 serves no spec: a fixed set of operations (docs/designs/qbittorrent.md).
+# Params are flat, as qBittorrent names them; a GET sends them as the query, a POST as the form body.
+
+defaults:
+  # Locked operations without their own literal confirm against the base URL's host name.
+  confirm: { custom: host }
+  timeouts: { request: 15000, lookup: 10000 }
+
+operations:
+  - key: app.version
+    group: app
+    classification: read
+    summary: The qBittorrent version, as text (v5.1.2).
+    http: { method: GET, path: /app/version }
+  - key: app.webapiVersion
+    group: app
+    classification: read
+    summary: The WebUI API version, as text (2.11.4).
+    http: { method: GET, path: /app/webapiVersion }
+  - key: app.buildInfo
+    group: app
+    classification: read
+    summary: Qt, libtorrent, Boost, OpenSSL and zlib versions, and the platform.
+    http: { method: GET, path: /app/buildInfo }
+  - key: app.preferences
+    group: app
+    classification: read
+    summary: All application preferences; passwords, the API key, programs and tracker lists are masked.
+    http: { method: GET, path: /app/preferences }
+  - key: app.defaultSavePath
+    group: app
+    classification: read
+    summary: The default save path for new torrents, as text.
+    http: { method: GET, path: /app/defaultSavePath }
+
+  - key: transfer.info
+    group: transfer
+    classification: read
+    summary: Global speeds, session totals, rate limits, DHT nodes and connection status.
+    http: { method: GET, path: /transfer/info }
+  - key: transfer.speedLimitsMode
+    group: transfer
+    classification: read
+    summary: 1 when the alternative speed limits are on, else 0.
+    http: { method: GET, path: /transfer/speedLimitsMode }
+
+  - key: torrents.info
+    group: torrents
+    classification: read
+    summary: Torrents, filtered, sorted and paged.
+    description: >-
+      `filter` is all, downloading, seeding, completed, stopped, running, active, inactive, stalled,
+      stalled_uploading, stalled_downloading, checking, moving or errored. `hashes` is one hash or several joined
+      with `|`. `sort` is any field of a torrent (name, added_on, size, progress, ratio, ...).
+    http: { method: GET, path: /torrents/info }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      properties:
+        filter: { type: string }
+        category: { type: string, description: 'Empty string for torrents without a category' }
+        tag: { type: string, description: 'Empty string for torrents without a tag' }
+        sort: { type: string }
+        reverse: { type: boolean }
+        limit: { type: integer, minimum: 1 }
+        offset: { type: integer }
+        hashes: { type: string }
+        private: { type: boolean }
+  - key: torrents.properties
+    group: torrents
+    classification: read
+    summary: One torrent's generic properties (save path, sizes, times, share limits, comment).
+    http: { method: GET, path: /torrents/properties }
+    paramsSchema: &one-hash
+      type: object
+      additionalProperties: false
+      required: [hash]
+      properties: { hash: { type: string, description: 'The torrent hash' } }
+  - key: torrents.trackers
+    group: torrents
+    classification: read
+    summary: One torrent's trackers and their status; tracker URLs are masked to their origin.
+    http: { method: GET, path: /torrents/trackers }
+    paramsSchema: *one-hash
+  - key: torrents.webseeds
+    group: torrents
+    classification: read
+    summary: One torrent's web seeds; URLs are masked to their origin.
+    http: { method: GET, path: /torrents/webseeds }
+    paramsSchema: *one-hash
+  - key: torrents.files
+    group: torrents
+    classification: read
+    summary: One torrent's files with index, size, progress and priority.
+    http: { method: GET, path: /torrents/files }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hash]
+      properties:
+        hash: { type: string }
+        indexes: { type: string, description: 'File indexes joined with |' }
+  - key: torrents.pieceStates
+    group: torrents
+    classification: read
+    summary: "One torrent's piece states: 0 not downloaded, 1 downloading, 2 downloaded."
+    http: { method: GET, path: /torrents/pieceStates }
+    paramsSchema: *one-hash
+  - key: torrents.categories
+    group: categories
+    classification: read
+    summary: Categories by name, with their save paths.
+    http: { method: GET, path: /torrents/categories }
+  - key: torrents.tags
+    group: tags
+    classification: read
+    summary: All tags.
+    http: { method: GET, path: /torrents/tags }
+
+  - key: sync.maindata
+    group: sync
+    classification: read
+    summary: Torrents, categories, tags and server state; with `rid`, only what changed since that response.
+    http: { method: GET, path: /sync/maindata }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      properties: { rid: { type: integer, minimum: 0, description: 'The rid of the previous response' } }
+
+  - key: log.main
+    group: log
+    classification: read
+    summary: The main log, by message type and after an id.
+    http: { method: GET, path: /log/main }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      properties:
+        normal: { type: boolean }
+        info: { type: boolean }
+        warning: { type: boolean }
+        critical: { type: boolean }
+        last_known_id: { type: integer }
+  - key: log.peers
+    group: log
+    classification: read
+    summary: The peer log (banned and blocked peers), after an id.
+    http: { method: GET, path: /log/peers }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      properties: { last_known_id: { type: integer } }
+
+  - key: rss.items
+    group: rss
+    classification: read
+    summary: RSS folders and feeds as a tree; with `withData`, their articles. Feed URLs are masked to their origin.
+    http: { method: GET, path: /rss/items }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      properties: { withData: { type: boolean } }
+  - key: rss.rules
+    group: rss
+    classification: read
+    summary: RSS auto-downloading rules by name.
+    http: { method: GET, path: /rss/rules }
+
+  - key: search.plugins
+    group: search
+    classification: read
+    summary: Installed search plugins, enabled or not, with their categories.
+    http: { method: GET, path: /search/plugins }
+  - key: search.status
+    group: search
+    classification: read
+    summary: Status and result count of one search, or of all.
+    http: { method: GET, path: /search/status }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      properties: { id: { type: integer, minimum: 0, description: 'Search id; 0 or none for all' } }
+  - key: search.results
+    group: search
+    classification: read
+    summary: Results of a search; file URLs are masked, and torrents.add takes them as shown.
+    http: { method: GET, path: /search/results }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [id]
+      properties:
+        id: { type: integer, minimum: 1 }
+        limit: { type: integer, minimum: 0 }
+        offset: { type: integer }
+
+  - key: torrents.stop
+    group: torrents
+    classification: write
+    summary: Stop torrents.
+    http: { method: POST, path: /torrents/stop, body: form }
+    paramsSchema: &hashes
+      type: object
+      additionalProperties: false
+      required: [hashes]
+      properties:
+        hashes: { type: string, description: 'One hash, several joined with |, or all (every torrent)' }
+  - key: torrents.start
+    group: torrents
+    classification: write
+    summary: Start torrents.
+    http: { method: POST, path: /torrents/start, body: form }
+    paramsSchema: *hashes
+  - key: torrents.recheck
+    group: torrents
+    classification: write
+    summary: Recheck torrents' data on disk.
+    http: { method: POST, path: /torrents/recheck, body: form }
+    paramsSchema: *hashes
+  - key: torrents.reannounce
+    group: torrents
+    classification: write
+    summary: Reannounce torrents to their trackers and DHT.
+    http: { method: POST, path: /torrents/reannounce, body: form }
+    paramsSchema: *hashes
+  - key: torrents.setCategory
+    group: torrents
+    classification: write
+    summary: Set the category of torrents; an empty category clears it.
+    description: Torrents in automatic management move to the category's save path.
+    http: { method: POST, path: /torrents/setCategory, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hashes, category]
+      properties:
+        hashes: { type: string }
+        category: { type: string }
+  - key: torrents.addTags
+    group: torrents
+    classification: write
+    summary: Add tags to torrents.
+    http: { method: POST, path: /torrents/addTags, body: form }
+    paramsSchema: &hashes-tags
+      type: object
+      additionalProperties: false
+      required: [hashes, tags]
+      properties:
+        hashes: { type: string }
+        tags: { type: string, minLength: 1, description: 'Tags joined with ,' }
+  - key: torrents.removeTags
+    group: torrents
+    classification: write
+    summary: Remove tags from torrents.
+    http: { method: POST, path: /torrents/removeTags, body: form }
+    paramsSchema: *hashes-tags
+  - key: torrents.setDownloadLimit
+    group: torrents
+    classification: write
+    summary: Set the download limit of torrents, in bytes/s; 0 or -1 for none.
+    http: { method: POST, path: /torrents/setDownloadLimit, body: form }
+    paramsSchema: &hashes-limit
+      type: object
+      additionalProperties: false
+      required: [hashes, limit]
+      properties:
+        hashes: { type: string }
+        limit: { type: integer, minimum: -1 }
+  - key: torrents.setUploadLimit
+    group: torrents
+    classification: write
+    summary: Set the upload limit of torrents, in bytes/s; 0 or -1 for none.
+    http: { method: POST, path: /torrents/setUploadLimit, body: form }
+    paramsSchema: *hashes-limit
+  - key: torrents.setShareLimits
+    group: torrents
+    classification: write
+    summary: Set the share limits of torrents.
+    description: >-
+      Limits are -2 for the global limit, -1 for none; the time limits are in minutes. `shareLimitAction` (5.1 and
+      later) is Default, Stop, Remove, RemoveWithContent or EnableSuperSeeding; Remove and RemoveWithContent are
+      locked.
+    http: { method: POST, path: /torrents/setShareLimits, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hashes, ratioLimit, seedingTimeLimit, inactiveSeedingTimeLimit]
+      properties:
+        hashes: { type: string }
+        ratioLimit: { type: number, minimum: -2 }
+        seedingTimeLimit: { type: integer, minimum: -2 }
+        inactiveSeedingTimeLimit: { type: integer, minimum: -2 }
+        shareLimitAction: { enum: [Default, Stop, Remove, RemoveWithContent, EnableSuperSeeding] }
+  - key: torrents.topPrio
+    group: torrents
+    classification: write
+    summary: Move torrents to the top of the queue.
+    http: { method: POST, path: /torrents/topPrio, body: form }
+    paramsSchema: &hashes-list
+      type: object
+      additionalProperties: false
+      required: [hashes]
+      properties: { hashes: { type: string, description: 'One hash or several joined with |' } }
+  - key: torrents.bottomPrio
+    group: torrents
+    classification: write
+    summary: Move torrents to the bottom of the queue.
+    http: { method: POST, path: /torrents/bottomPrio, body: form }
+    paramsSchema: *hashes-list
+  - key: torrents.filePrio
+    group: torrents
+    classification: write
+    summary: 'Set the priority of files in one torrent: 0 skip, 1 normal, 6 high, 7 maximal.'
+    http: { method: POST, path: /torrents/filePrio, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hash, id, priority]
+      properties:
+        hash: { type: string }
+        id: { type: string, description: 'File indexes joined with |' }
+        priority: { enum: [0, 1, 6, 7] }
+  - key: torrents.rename
+    group: torrents
+    classification: write
+    summary: Rename a torrent (its display name, not its files).
+    http: { method: POST, path: /torrents/rename, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hash, name]
+      properties:
+        hash: { type: string }
+        name: { type: string, minLength: 1, maxLength: 255 }
+  - key: torrents.renameFile
+    group: torrents
+    classification: write
+    summary: Rename or move a file inside a torrent.
+    http: { method: POST, path: /torrents/renameFile, body: form }
+    paramsSchema: &rename-path
+      type: object
+      additionalProperties: false
+      required: [hash, oldPath, newPath]
+      properties:
+        hash: { type: string }
+        oldPath: { type: string, description: 'Path inside the torrent, as torrents.files names it' }
+        newPath: { type: string }
+  - key: torrents.renameFolder
+    group: torrents
+    classification: write
+    summary: Rename a folder inside a torrent.
+    http: { method: POST, path: /torrents/renameFolder, body: form }
+    paramsSchema: *rename-path
+  - key: torrents.createCategory
+    group: categories
+    classification: write
+    summary: Create a category, optionally with its own save path.
+    http: { method: POST, path: /torrents/createCategory, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [category]
+      properties:
+        category: { type: string, minLength: 1 }
+        savePath: { type: string }
+        downloadPathEnabled: { type: boolean }
+        downloadPath: { type: string }
+  - key: torrents.createTags
+    group: tags
+    classification: write
+    summary: Create tags.
+    http: { method: POST, path: /torrents/createTags, body: form }
+    paramsSchema: &tags
+      type: object
+      additionalProperties: false
+      required: [tags]
+      properties: { tags: { type: string, minLength: 1, description: 'Tags joined with ,' } }
+
+  - key: transfer.setDownloadLimit
+    group: transfer
+    classification: write
+    summary: Set the global download limit, in bytes/s; 0 for none.
+    http: { method: POST, path: /transfer/setDownloadLimit, body: form }
+    paramsSchema: &limit
+      type: object
+      additionalProperties: false
+      required: [limit]
+      properties: { limit: { type: integer, minimum: 0 } }
+  - key: transfer.setUploadLimit
+    group: transfer
+    classification: write
+    summary: Set the global upload limit, in bytes/s; 0 for none.
+    http: { method: POST, path: /transfer/setUploadLimit, body: form }
+    paramsSchema: *limit
+  - key: transfer.toggleSpeedLimitsMode
+    group: transfer
+    classification: write
+    summary: Switch the alternative speed limits on or off.
+    http: { method: POST, path: /transfer/toggleSpeedLimitsMode, body: form }
+
+  - key: search.stop
+    group: search
+    classification: write
+    summary: Stop a running search.
+    http: { method: POST, path: /search/stop, body: form }
+    paramsSchema: &search-id
+      type: object
+      additionalProperties: false
+      required: [id]
+      properties: { id: { type: integer, minimum: 1 } }
+  - key: search.delete
+    group: search
+    classification: write
+    summary: Delete a search and its results.
+    http: { method: POST, path: /search/delete, body: form }
+    paramsSchema: *search-id
+
+  - key: torrents.delete
+    group: torrents
+    classification: write
+    summary: Remove torrents; with deleteFiles, their downloaded data too.
+    http: { method: POST, path: /torrents/delete, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hashes, deleteFiles]
+      properties:
+        hashes: { type: string, description: 'One hash, several joined with |, or all (every torrent)' }
+        deleteFiles: { type: boolean }
+  - key: torrents.add
+    group: torrents
+    classification: write
+    summary: Add torrents from URLs or magnet links.
+    description: >-
+      `urls` holds http(s) URLs and magnet links, one per line; a masked URL from search.results is taken as shown.
+      No torrent files from disk. Without `savepath`, the category's or the default save path applies.
+    http: { method: POST, path: /torrents/add, body: multipart }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [urls]
+      properties:
+        urls: { type: string, minLength: 1 }
+        savepath: { type: string }
+        downloadPath: { type: string }
+        useDownloadPath: { type: boolean }
+        category: { type: string }
+        tags: { type: string, description: 'Tags joined with ,' }
+        stopped: { type: boolean }
+        forced: { type: boolean }
+        addToTopOfQueue: { type: boolean }
+        skip_checking: { type: boolean }
+        rename: { type: string }
+        upLimit: { type: integer }
+        dlLimit: { type: integer }
+        ratioLimit: { type: number }
+        seedingTimeLimit: { type: integer }
+        inactiveSeedingTimeLimit: { type: integer }
+        shareLimitAction: { enum: [Default, Stop, Remove, RemoveWithContent, EnableSuperSeeding] }
+        autoTMM: { type: boolean }
+        sequentialDownload: { type: boolean }
+        firstLastPiecePrio: { type: boolean }
+        contentLayout: { enum: [Original, Subfolder, NoSubfolder] }
+        stopCondition: { enum: [None, MetadataReceived, FilesChecked] }
+  - key: torrents.setLocation
+    group: torrents
+    classification: write
+    summary: Move torrents' data to another directory; turns off automatic management.
+    http: { method: POST, path: /torrents/setLocation, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hashes, location]
+      properties:
+        hashes: { type: string }
+        location: { type: string, minLength: 1 }
+  - key: torrents.setSavePath
+    group: torrents
+    classification: write
+    summary: Set the save path of torrents in manual management, moving their data.
+    http: { method: POST, path: /torrents/setSavePath, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [id, path]
+      properties:
+        id: { type: string, description: 'One hash, several joined with |, or all' }
+        path: { type: string, minLength: 1 }
+  - key: torrents.editCategory
+    group: categories
+    classification: write
+    summary: Change a category's save paths; its torrents in automatic management move with it.
+    http: { method: POST, path: /torrents/editCategory, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [category, savePath]
+      properties:
+        category: { type: string, minLength: 1 }
+        savePath: { type: string }
+        downloadPathEnabled: { type: boolean }
+        downloadPath: { type: string }
+  - key: torrents.removeCategories
+    group: categories
+    classification: write
+    summary: Delete categories.
+    http: { method: POST, path: /torrents/removeCategories, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [categories]
+      properties: { categories: { type: string, minLength: 1, description: 'Category names, one per line' } }
+  - key: torrents.deleteTags
+    group: tags
+    classification: write
+    summary: Delete tags, removing them from every torrent.
+    http: { method: POST, path: /torrents/deleteTags, body: form }
+    paramsSchema: *tags
+  - key: torrents.addTrackers
+    group: trackers
+    classification: write
+    summary: Add trackers to one torrent.
+    http: { method: POST, path: /torrents/addTrackers, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hash, urls]
+      properties:
+        hash: { type: string }
+        urls: { type: string, minLength: 1, description: 'Tracker URLs, one per line' }
+  - key: torrents.editTracker
+    group: trackers
+    classification: write
+    summary: Change one tracker's URL or tier on one torrent.
+    description: '`url` is the tracker as torrents.trackers shows it; masked is fine.'
+    http: { method: POST, path: /torrents/editTracker, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hash, url]
+      properties:
+        hash: { type: string }
+        url: { type: string, minLength: 1 }
+        newUrl: { type: string, minLength: 1 }
+        tier: { type: integer, minimum: 0, maximum: 255 }
+  - key: torrents.removeTrackers
+    group: trackers
+    classification: write
+    summary: Remove trackers from one torrent.
+    description: '`urls` are trackers as torrents.trackers shows them (masked is fine), joined with |.'
+    http: { method: POST, path: /torrents/removeTrackers, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [hash, urls]
+      properties:
+        hash: { type: string }
+        urls: { type: string, minLength: 1 }
+  - key: app.setPreferences
+    group: app
+    classification: write
+    summary: Change application preferences.
+    description: '`json` holds only the preferences to change, by the names app.preferences uses.'
+    http: { method: POST, path: /app/setPreferences, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [json]
+      properties: { json: { type: object, minProperties: 1 } }
+  - key: app.shutdown
+    group: app
+    classification: write
+    summary: Shut qBittorrent down.
+    http: { method: POST, path: /app/shutdown, body: form }
+  - key: rss.addFeed
+    group: rss
+    classification: write
+    summary: Subscribe to an RSS feed.
+    http: { method: POST, path: /rss/addFeed, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [url, path]
+      properties:
+        url: { type: string, minLength: 1 }
+        path: { type: string, minLength: 1, description: 'Name of the feed; in a folder, Folder\Name' }
+        refreshInterval: { type: integer, minimum: 0 }
+  - key: rss.setFeedURL
+    group: rss
+    classification: write
+    summary: Change the URL of an RSS feed.
+    http: { method: POST, path: /rss/setFeedURL, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [path, url]
+      properties:
+        path: { type: string, minLength: 1 }
+        url: { type: string, minLength: 1 }
+  - key: rss.removeItem
+    group: rss
+    classification: write
+    summary: Remove an RSS feed, or a folder with every feed in it.
+    http: { method: POST, path: /rss/removeItem, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [path]
+      properties: { path: { type: string, minLength: 1 } }
+  - key: rss.setRule
+    group: rss
+    classification: write
+    summary: Create or replace an RSS auto-downloading rule.
+    description: >-
+      `ruleDef` is the rule as rss.rules shows it; `affectedFeeds` takes feed URLs as rss.items shows them (masked is
+      fine). Matching articles are then downloaded without another approval.
+    http: { method: POST, path: /rss/setRule, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [ruleName, ruleDef]
+      properties:
+        ruleName: { type: string, minLength: 1 }
+        ruleDef: { type: object }
+  - key: rss.removeRule
+    group: rss
+    classification: write
+    summary: Delete an RSS auto-downloading rule.
+    http: { method: POST, path: /rss/removeRule, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [ruleName]
+      properties: { ruleName: { type: string, minLength: 1 } }
+  - key: search.start
+    group: search
+    classification: write
+    summary: Start a search; returns its id for search.status and search.results.
+    description: '`plugins` is enabled, all, or plugin names joined with |; `category` is all or a plugin category.'
+    http: { method: POST, path: /search/start, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [pattern, plugins, category]
+      properties:
+        pattern: { type: string, minLength: 1, maxLength: 200 }
+        plugins: { type: string, minLength: 1 }
+        category: { type: string, minLength: 1 }
+  - key: search.installPlugin
+    group: search
+    classification: write
+    summary: Install search plugins from https URLs.
+    http: { method: POST, path: /search/installPlugin, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [sources]
+      properties: { sources: { type: string, minLength: 1, description: 'Plugin URLs joined with |' } }
+  - key: search.uninstallPlugin
+    group: search
+    classification: write
+    summary: Uninstall search plugins.
+    http: { method: POST, path: /search/uninstallPlugin, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [names]
+      properties: { names: { type: string, minLength: 1, description: 'Plugin names joined with |' } }
+  - key: search.enablePlugin
+    group: search
+    classification: write
+    summary: Enable or disable search plugins.
+    http: { method: POST, path: /search/enablePlugin, body: form }
+    paramsSchema:
+      type: object
+      additionalProperties: false
+      required: [names, enable]
+      properties:
+        names: { type: string, minLength: 1 }
+        enable: { type: boolean }
+  - key: search.updatePlugins
+    group: search
+    classification: write
+    summary: Update every search plugin from its source.
+    http: { method: POST, path: /search/updatePlugins, body: form }
+
+rules:
+  # Destroys data, fetches or moves files, runs code (autorun programs, search plugins) or changes the
+  # instance itself: always a human with a typed confirmation.
+  - match:
+      - torrents.delete
+      - torrents.add
+      - torrents.setLocation
+      - torrents.setSavePath
+      - torrents.editCategory
+      - torrents.removeCategories
+      - torrents.deleteTags
+      - torrents.addTrackers
+      - torrents.editTracker
+      - torrents.removeTrackers
+      - app.setPreferences
+      - app.shutdown
+      - rss.addFeed
+      - rss.setFeedURL
+      - rss.removeItem
+      - rss.setRule
+      - rss.removeRule
+      - search.start
+      - search.installPlugin
+      - search.uninstallPlugin
+      - search.enablePlugin
+      - search.updatePlugins
+    locked: true
+  # Deleting the downloaded data as well is its own locked twin.
+  - match: torrents.delete
+    split: with-files
+  # A new category with its own save path decides where setCategory later moves data.
+  - match: torrents.createCategory
+    split: paths
+  # A share limit that removes torrents when it is reached is a delayed delete.
+  - match: torrents.setShareLimits
+    split: remove
+  # `hashes=all` acts on every torrent, including ones added during the approval wait.
+  - match:
+      - torrents.stop
+      - torrents.start
+      - torrents.recheck
+      - torrents.reannounce
+      - torrents.setCategory
+      - torrents.addTags
+      - torrents.removeTags
+      - torrents.setDownloadLimit
+      - torrents.setUploadLimit
+      - torrents.setShareLimits
+    split: all
+  # Literals are read back from qBittorrent: torrent names, category and tag names, RSS items and rules, plugins.
+  - match:
+      - torrents.delete
+      - torrents.delete#with-files
+      - torrents.setLocation
+      - torrents.setSavePath
+      - torrents.setShareLimits#remove
+      - torrents.addTrackers
+      - torrents.editTracker
+      - torrents.removeTrackers
+      - '*#all'
+    confirm: { custom: torrents }
+  - match: ['torrents.editCategory', 'torrents.removeCategories']
+    confirm: { custom: categories }
+  - match: torrents.deleteTags
+    confirm: { custom: tags }
+  - match: ['rss.setFeedURL', 'rss.removeItem']
+    confirm: { custom: rssItem }
+  - match: ['rss.setRule', 'rss.removeRule']
+    confirm: [{ custom: rssRule }, { custom: host }]
+  - match: ['search.uninstallPlugin', 'search.enablePlugin']
+    confirm: { custom: searchPlugins }
+
+  # URLs can carry passkeys or API keys: core keeps them out of approvals and audit, and summaries show
+  # their origin from the targets instead.
+  - match: ['torrents.add', 'torrents.addTrackers', 'torrents.removeTrackers']
+    sensitiveParams: [/urls]
+  - match: search.installPlugin
+    sensitiveParams: [/sources]
+  - match: torrents.editTracker
+    sensitiveParams: [/url, /newUrl]
+  - match: ['rss.addFeed', 'rss.setFeedURL']
+    sensitiveParams: [/url]
+  - match: rss.setRule
+    sensitiveParams:
+      - /ruleDef/affectedFeeds
+      - /ruleDef/torrentParams/ssl_private_key
+      - /ruleDef/torrentParams/ssl_certificate
+      - /ruleDef/torrentParams/ssl_dh_params
+  # A rule's torrentParams can hold a torrent's TLS key pair.
+  - match: rss.rules
+    sensitiveResult: { keys: [ssl_private_key, ssl_certificate, ssl_dh_params], deep: true }
+  - match: app.setPreferences
+    sensitiveParams:
+      - /json/web_ui_password
+      - /json/web_ui_api_key
+      - /json/proxy_password
+      - /json/mail_notification_password
+      - /json/dyndns_password
+      - /json/add_trackers
+      - /json/add_trackers_url
+  - match: app.preferences
+    sensitiveResult:
+      keys:
+        - web_ui_api_key
+        - mail_notification_password
+        - proxy_password
+        - dyndns_password
+        - autorun_program
+        - autorun_on_torrent_added_program
+        - add_trackers
+        - add_trackers_url
+        - add_trackers_url_list
+
+plugin:
+  # Path of the WebUI API under the base URL.
+  apiPath: /api/v2
+  # Oldest WebUI API the plugin supports: qBittorrent 5.0, which renamed pause/resume to stop/start.
+  minWebApi: '2.11'
+  # Most names a summary lists before "and <n> more".
+  maxNames: 10
+  # Preferences an approver should look at twice, by what they change.
+  preferenceNotes:
+    - note: runs a program
+      keys:
+        - autorun_enabled
+        - autorun_program
+        - autorun_on_torrent_added_enabled
+        - autorun_on_torrent_added_program
+        - python_executable_path
+    - note: changes WebUI access
+      keys: ['web_ui_*', 'bypass_*', 'alternative_webui_*', use_https]
+    - note: changes network binding
+      keys:
+        - listen_port
+        - ssl_listen_port
+        - random_port
+        - upnp
+        - 'current_*'
+        - 'proxy_*'
+        - 'i2p_*'
+        - enable_embedded_tracker
+        - embedded_tracker_port
+    - note: reads or writes files
+      keys: [save_path, temp_path, export_dir, export_dir_fin, scan_dirs, ip_filter_path, file_log_path]
+    - note: fetches URLs or sends data out
+      keys: [add_trackers_url, add_trackers_from_url_enabled, 'rss_*', 'dyndns_*', 'mail_notification_*']

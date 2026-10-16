@@ -1,0 +1,84 @@
+{
+  "id": "plex",
+  "name": "Plex",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the Plex Media Server HTTP API, catalog from the pinned community OpenAPI spec.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "plex",
+    "functions": ["request"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Library, item, playlist or session"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "token"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "token": {
+          "type": "string",
+          "title": "Plex token",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        },
+        "specBaseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "API spec source (advanced)"
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "http://plex.internal.lan:32400",
+        "help": "The address of the Plex Media Server itself, usually on port 32400, not app.plex.tv."
+      },
+      "token": {
+        "widget": "secret",
+        "help": "An X-Plex-Token with access to this server. Sent as the X-Plex-Token header."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      },
+      "specBaseUrl": {
+        "widget": "url",
+        "placeholder": "https://raw.githubusercontent.com/LukeHagar/plex-api-spec",
+        "help": "Leave empty to fetch the API spec from GitHub. Set a mirror whose layout is <url>/<git commit>/plex-api-spec.yaml if this server can't reach GitHub."
+      }
+    },
+    "help": "1. Get a token for an account with access to this server: in Plex Web, open any item → **⋯ → Get Info → View XML**; the URL ends with `X-Plex-Token=…`. The server owner's token has full control of the server.\n2. Enter the server address (e.g. `http://192.168.1.10:32400`) and the token, then **Test connection**.\n3. Keep *Verify TLS* on unless the server uses a self-signed certificate on a trusted network.\n\nPlex Media Server doesn't serve an API spec, so the catalog comes from the community spec (`LukeHagar/plex-api-spec`) at a commit pinned in this plugin. Only operations the server itself answers are included; plex.tv account and sharing APIs are not. No credentials are sent to GitHub."
+  },
+  "sensitiveKeys": [
+    "token",
+    "X-Plex-Token",
+    "authToken",
+    "accessToken",
+    "authenticationToken",
+    "PlexOnlineToken",
+    "password",
+    "secret"
+  ],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}", "https://raw.githubusercontent.com", "{{connection.specBaseUrl}}"]
+  }
+}

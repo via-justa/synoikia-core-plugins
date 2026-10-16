@@ -1,0 +1,195 @@
+{
+  "app.preferences": {
+    "result": {
+      "add_trackers": "[REDACTED]",
+      "add_trackers_enabled": true,
+      "add_trackers_url": "[REDACTED]",
+      "add_trackers_url_list": "[REDACTED]",
+      "auto_tmm_enabled": false,
+      "autorun_enabled": true,
+      "autorun_on_torrent_added_program": "",
+      "autorun_program": "[REDACTED]",
+      "bypass_auth_subnet_whitelist": "10.0.0.0/8",
+      "dyndns_password": "[REDACTED]",
+      "mail_notification_password": "[REDACTED]",
+      "proxy_password": "[REDACTED]",
+      "proxy_username": "proxyuser",
+      "save_path": "/downloads",
+      "scan_dirs": {
+        "/watch": 1
+      },
+      "use_category_paths_in_manual_mode": false,
+      "use_subcategories": true,
+      "web_ui_api_key": "[REDACTED]",
+      "web_ui_port": 8080,
+      "web_ui_username": "admin"
+    },
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "web_ui_api_key",
+        "mail_notification_password",
+        "proxy_password",
+        "dyndns_password",
+        "autorun_program",
+        "autorun_on_torrent_added_program",
+        "add_trackers",
+        "add_trackers_url",
+        "add_trackers_url_list"
+      ]
+    }
+  },
+  "log.main": {
+    "result": [
+      {
+        "id": 1,
+        "message": "qBittorrent v5.2.4 started",
+        "timestamp": 1760000000,
+        "type": 1
+      },
+      {
+        "id": 2,
+        "message": "Tracker error: \"https://private.example/<masked:53bb5b02e166>\" timed out",
+        "timestamp": 1760000100,
+        "type": 4
+      }
+    ],
+    "sensitiveResult": null
+  },
+  "rss.items": {
+    "result": {
+      "Linux ISOs": {
+        "Distro feed": {
+          "articles": [
+            {
+              "id": "a1",
+              "title": "Ubuntu 24.04",
+              "torrentURL": "https://feeds.example/<masked:ccc3e5dd6c4f>"
+            }
+          ],
+          "uid": "{00000000-0000-0000-0000-000000000001}",
+          "url": "https://feeds.example/<masked:79a451141087>"
+        }
+      },
+      "Public": {
+        "articles": [
+          {
+            "id": "a1",
+            "title": "Ubuntu 24.04",
+            "torrentURL": "https://public.example/<masked:b01e6a57788f>"
+          }
+        ],
+        "uid": "{00000000-0000-0000-0000-000000000002}",
+        "url": "https://public.example/<masked:3ae2508dc7b4>"
+      }
+    },
+    "sensitiveResult": null
+  },
+  "rss.rules": {
+    "result": {
+      "Ubuntu": {
+        "affectedFeeds": [
+          "https://feeds.example/<masked:79a451141087>"
+        ],
+        "enabled": true,
+        "mustContain": "ubuntu",
+        "mustNotContain": "",
+        "torrentParams": {
+          "category": "linux",
+          "save_path": "/downloads/linux",
+          "ssl_private_key": "[REDACTED]"
+        }
+      }
+    },
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "ssl_private_key",
+        "ssl_certificate",
+        "ssl_dh_params"
+      ]
+    }
+  },
+  "search.results": {
+    "result": {
+      "results": [
+        {
+          "descrLink": "https://search.example/<masked:1bd0301f6f13>",
+          "fileName": "Ubuntu 24.04 Desktop",
+          "fileSize": 6114656256,
+          "fileUrl": "https://search.example/<masked:acb405ce5756>",
+          "nbLeechers": 4,
+          "nbSeeders": 120,
+          "siteUrl": "https://search.example"
+        }
+      ],
+      "status": "Stopped",
+      "total": 1
+    },
+    "sensitiveResult": null
+  },
+  "torrents.info": {
+    "result": [
+      {
+        "added_on": 1760000000,
+        "auto_tmm": true,
+        "category": "linux",
+        "comment": "Seeded from https://tracker.example/<masked:25b83f6c70aa>",
+        "content_path": "/downloads/linux/Ubuntu 24.04 Desktop",
+        "dl_limit": -1,
+        "dlspeed": 0,
+        "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "magnet_uri": "magnet:?xt=urn:btih:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&dn=Ubuntu%2024.04%20Desktop&<masked:d110d44173fd>",
+        "name": "Ubuntu 24.04 Desktop",
+        "progress": 1,
+        "ratio": 1.5,
+        "save_path": "/downloads/linux",
+        "size": 6114656256,
+        "state": "stalledUP",
+        "tags": "iso",
+        "tracker": "https://tracker.example/<masked:25b83f6c70aa>",
+        "trackers_count": 2,
+        "upspeed": 0
+      }
+    ],
+    "sensitiveResult": null
+  },
+  "torrents.trackers": {
+    "result": [
+      {
+        "msg": "",
+        "num_peers": 30,
+        "status": 2,
+        "tier": -1,
+        "url": "** [DHT] **"
+      },
+      {
+        "msg": "announce ok from https://tracker.example/<masked:25b83f6c70aa>",
+        "num_leeches": 4,
+        "num_peers": 12,
+        "num_seeds": 8,
+        "status": 2,
+        "tier": 0,
+        "url": "https://tracker.example/<masked:25b83f6c70aa>"
+      },
+      {
+        "msg": "",
+        "num_leeches": 4,
+        "num_peers": 12,
+        "num_seeds": 8,
+        "status": 2,
+        "tier": 1,
+        "url": "udp://open.example:1337/<masked:59a18647247c>"
+      }
+    ],
+    "sensitiveResult": null
+  },
+  "torrents.webseeds": {
+    "result": [
+      {
+        "url": "https://seed.example/<masked:d53332fc2520>"
+      }
+    ],
+    "sensitiveResult": null
+  }
+}

@@ -1,0 +1,307 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of the HTTP API spec Grafana 12+ serves at /public/openapi3.json (docs/designs/grafana.md): keys
+# are the spec's paths under /api (`GET /dashboards/uid/{uid}`); GET reads, other verbs write.
+
+defaults:
+  # Locked operations without their own literal confirm against the current organization's name.
+  confirm: instance
+  timeouts: { request: 15000, lookup: 10000 }
+
+instanceName: { op: 'GET /org', field: name, fallback: Grafana }
+
+# Proxies that forward any request to a data source or plugin with its stored credentials, sign-in and
+# single-logout flows, public-dashboard viewer endpoints (anonymous, by access token), the email-change
+# confirmation link, rendered PDF/CSV/image downloads the JSON binding cannot carry, and the contact point
+# export, which can return decrypted credentials as YAML or HCL text that key masking cannot reach.
+exclude:
+  - '* /datasources/proxy/*'
+  - '* /datasources/uid/{uid}/resources/*'
+  - '* /datasources/{id}/resources/*'
+  - '* /plugins/*/resources/*'
+  - '* /saml/*'
+  - 'GET /logout/*'
+  - '* /public/dashboards/*'
+  - 'GET /user/email/update'
+  - 'GET /reports/render/*'
+  - 'GET /reports/images/*'
+  - 'GET /v1/provisioning/contact-points/export'
+
+rules:
+  # Accounts, roles and credentials, data sources (stored credentials and the URL queries go to), sharing and
+  # alert destinations, and irreversible or instance-wide actions: always a human with a typed confirmation.
+  - match:
+      - 'POST /admin/users'
+      - 'DELETE /admin/users/{user_id}'
+      - 'POST /admin/users/{user_id}/disable'
+      - 'POST /admin/users/{user_id}/enable'
+      - 'POST /admin/users/{user_id}/logout'
+      - 'PUT /admin/users/{user_id}/password'
+      - 'PUT /admin/users/{user_id}/permissions'
+      - 'POST /admin/users/{user_id}/revoke-auth-token'
+      - 'PUT /users/{user_id}'
+      - 'PUT /user/password'
+      - 'GET /admin/settings'
+      - 'POST /admin/provisioning/access-control/reload'
+      - 'POST /admin/provisioning/dashboards/reload'
+      - 'POST /admin/provisioning/datasources/reload'
+      - 'POST /admin/provisioning/plugins/reload'
+      - 'POST /orgs'
+      - 'DELETE /orgs/{org_id}'
+      - 'POST /orgs/{org_id}/users'
+      - 'PATCH /orgs/{org_id}/users/{user_id}'
+      - 'POST /org/users'
+      - 'PATCH /org/users/{user_id}'
+      - 'POST /org/invites'
+      - 'DELETE /teams/{team_id}'
+      - 'POST /teams/{team_id}/members'
+      - 'PUT /teams/{team_id}/members'
+      - 'PUT /teams/{team_id}/members/{user_id}'
+      - 'DELETE /teams/{team_id}/members/{user_id}'
+      - 'POST /teams/{teamId}/groups'
+      - 'POST /access-control/roles'
+      - 'PUT /access-control/roles/{roleUID}'
+      - 'PUT /access-control/roles/{roleUID}/assignments'
+      - 'POST /access-control/teams/{teamId}/roles'
+      - 'PUT /access-control/teams/{teamId}/roles'
+      - 'POST /access-control/users/{userId}/roles'
+      - 'PUT /access-control/users/{userId}/roles'
+      - 'POST /access-control/{resource}/{resourceID}'
+      - 'POST /access-control/{resource}/{resourceID}/builtInRoles/{builtInRole}'
+      - 'POST /access-control/{resource}/{resourceID}/teams/{teamID}'
+      - 'POST /access-control/{resource}/{resourceID}/users/{userID}'
+      - 'POST /groupsync/groups/{group_id}'
+      - 'PUT /groupsync/groups/{group_id}'
+      - 'POST /serviceaccounts'
+      - 'PATCH /serviceaccounts/{serviceAccountId}'
+      - 'DELETE /serviceaccounts/{serviceAccountId}'
+      - 'POST /serviceaccounts/{serviceAccountId}/tokens'
+      - 'DELETE /serviceaccounts/{serviceAccountId}/tokens/{tokenId}'
+      - 'PUT /v1/sso-settings/{key}'
+      - 'PATCH /v1/sso-settings/{key}'
+      - 'POST /licensing/token'
+      - 'POST /datasources'
+      - 'PUT /datasources/{id}'
+      - 'PUT /datasources/uid/{uid}'
+      - 'DELETE /datasources/{id}'
+      - 'DELETE /datasources/uid/{uid}'
+      - 'DELETE /datasources/name/{name}'
+      - 'PUT /datasources/uid/{uid}/lbac/teams'
+      - 'DELETE /folders/{folder_uid}'
+      - 'POST /folders/{folder_uid}/permissions'
+      # Moving a folder changes the permissions it inherits.
+      - 'POST /folders/{folder_uid}/move'
+      - 'DELETE /dashboards/uid/{uid}'
+      - 'POST /dashboards/uid/{uid}/permissions'
+      # Public dashboards are reachable by anyone with the link, without signing in.
+      - 'POST /dashboards/uid/{dashboardUid}/public-dashboards'
+      - 'PATCH /dashboards/uid/{dashboardUid}/public-dashboards/{uid}'
+      # A snapshot is shared by link, or uploaded to the external snapshot server with `external: true`.
+      - 'POST /snapshots'
+      - 'DELETE /snapshots/{key}'
+      - 'GET /snapshots-delete/{deleteKey}'
+      - 'POST /annotations/mass-delete'
+      - 'POST /v1/provisioning/contact-points'
+      - 'PUT /v1/provisioning/contact-points/{UID}'
+      - 'DELETE /v1/provisioning/contact-points/{UID}'
+      - 'PUT /v1/provisioning/policies'
+      - 'DELETE /v1/provisioning/policies'
+      - 'DELETE /v1/provisioning/alert-rules/{UID}'
+      - 'DELETE /v1/provisioning/folder/{FolderUID}/rule-groups/{Group}'
+      # Rules run unattended on a schedule and notify their receivers; mute timings silence notifications.
+      - 'POST /v1/provisioning/alert-rules'
+      - 'PUT /v1/provisioning/alert-rules/{UID}'
+      - 'PUT /v1/provisioning/folder/{FolderUID}/rule-groups/{Group}'
+      - 'POST /convert/api/prom/rules'
+      - 'POST /convert/api/prom/rules/{NamespaceTitle}'
+      - 'POST /convert/prometheus/config/v1/rules'
+      - 'POST /convert/prometheus/config/v1/rules/{NamespaceTitle}'
+      - 'POST /v1/provisioning/mute-timings'
+      - 'PUT /v1/provisioning/mute-timings/{name}'
+      - 'POST /recording-rules'
+      - 'PUT /recording-rules'
+      # Where recording-rule results are written, and reports that email dashboards to their recipients.
+      - 'POST /recording-rules/writer'
+      - 'POST /reports'
+      - 'PUT /reports/{id}'
+      - 'POST /reports/email'
+      - 'POST /reports/test-email'
+      # Cloud migration uploads this instance's resources to the Grafana Cloud stack its token names.
+      - 'POST /cloudmigration/migration'
+      - 'POST /cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload'
+      - 'POST /cloudmigration/token'
+    locked: true
+  # A delete a newer spec adds is locked until reviewed.
+  - match: 'DELETE *'
+    locked: true
+
+  # The literal an approver types: the stored name of what the call affects, never a body field (the model
+  # writes the body). A failed lookup falls back to the id in the path.
+  - match:
+      - 'DELETE /admin/users/{user_id}'
+      - '* /admin/users/{user_id}/*'
+      - 'PUT /users/{user_id}'
+      - 'PATCH /org/users/{user_id}'
+      - 'DELETE /org/users/{user_id}'
+      - '* /orgs/{org_id}/users/{user_id}'
+    confirm:
+      lookup: { op: 'GET /users/{user_id}', args: [{ user_id: { $param: /path/user_id } }], field: [login, email] }
+  - match: ['* /access-control/users/{userId}/roles', 'DELETE /access-control/users/{userId}/roles/{roleUID}']
+    confirm:
+      lookup: { op: 'GET /users/{user_id}', args: [{ user_id: { $param: /path/userId } }], field: [login, email] }
+  - match: ['DELETE /orgs/{org_id}', 'POST /orgs/{org_id}/users']
+    confirm:
+      lookup: { op: 'GET /orgs/{org_id}', args: [{ org_id: { $param: /path/org_id } }], field: name }
+  - match: ['DELETE /teams/{team_id}', '* /teams/{team_id}/members', '* /teams/{team_id}/members/{user_id}']
+    confirm:
+      lookup: { op: 'GET /teams/{team_id}', args: [{ team_id: { $param: /path/team_id } }], field: name }
+  - match: ['* /teams/{teamId}/groups', '* /access-control/teams/{teamId}/roles*']
+    confirm:
+      lookup: { op: 'GET /teams/{team_id}', args: [{ team_id: { $param: /path/teamId } }], field: name }
+  - match: ['* /access-control/roles/{roleUID}', 'PUT /access-control/roles/{roleUID}/assignments']
+    confirm:
+      lookup:
+        op: 'GET /access-control/roles/{roleUID}'
+        args: [{ roleUID: { $param: /path/roleUID } }]
+        field: [displayName, name]
+  - match: 'POST /access-control/{resource}/{resourceID}*'
+    confirm: { param: /path/resourceID }
+  - match: '* /groupsync/groups/{group_id}'
+    confirm: { param: /path/group_id }
+  - match: ['* /serviceaccounts/{serviceAccountId}', '* /serviceaccounts/{serviceAccountId}/tokens*']
+    confirm:
+      lookup:
+        op: 'GET /serviceaccounts/{serviceAccountId}'
+        args: [{ serviceAccountId: { $param: /path/serviceAccountId } }]
+        field: name
+  - match: ['PUT /datasources/{id}', 'DELETE /datasources/{id}']
+    confirm:
+      lookup: { op: 'GET /datasources/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: ['PUT /datasources/uid/{uid}', 'DELETE /datasources/uid/{uid}', 'PUT /datasources/uid/{uid}/lbac/teams']
+    confirm:
+      lookup: { op: 'GET /datasources/uid/{uid}', args: [{ uid: { $param: /path/uid } }], field: name }
+  - match: 'DELETE /datasources/name/{name}'
+    confirm: { param: /path/name }
+  - match: ['DELETE /folders/{folder_uid}', 'POST /folders/{folder_uid}/permissions', 'POST /folders/{folder_uid}/move']
+    confirm:
+      lookup: { op: 'GET /folders/{folder_uid}', args: [{ folder_uid: { $param: /path/folder_uid } }], field: title }
+  - match: ['DELETE /dashboards/uid/{uid}', 'POST /dashboards/uid/{uid}/permissions']
+    confirm:
+      lookup: { op: 'GET /dashboards/uid/{uid}', args: [{ uid: { $param: /path/uid } }], field: /dashboard/title }
+  - match: '* /dashboards/uid/{dashboardUid}/public-dashboards*'
+    confirm:
+      lookup:
+        op: 'GET /dashboards/uid/{uid}'
+        args: [{ uid: { $param: /path/dashboardUid } }]
+        field: /dashboard/title
+  - match: ['PUT /v1/provisioning/contact-points/{UID}', 'DELETE /v1/provisioning/contact-points/{UID}']
+    confirm:
+      lookup:
+        op: 'GET /v1/provisioning/contact-points'
+        field: name
+        find: { field: uid, equals: { $param: /path/UID } }
+  - match: ['PUT /v1/provisioning/alert-rules/{UID}', 'DELETE /v1/provisioning/alert-rules/{UID}']
+    confirm:
+      lookup: { op: 'GET /v1/provisioning/alert-rules/{UID}', args: [{ UID: { $param: /path/UID } }], field: title }
+  - match: ['* /v1/provisioning/folder/{FolderUID}/rule-groups/{Group}', 'DELETE /convert/*/{Group}']
+    confirm: { param: /path/Group }
+  - match: ['* /convert/*/{NamespaceTitle}']
+    confirm: { param: /path/NamespaceTitle }
+  - match: ['* /v1/provisioning/mute-timings/{name}', 'DELETE /v1/provisioning/templates/{name}']
+    confirm: { param: /path/name }
+  - match: 'DELETE /library-elements/{library_element_uid}'
+    confirm:
+      lookup:
+        op: 'GET /library-elements/{library_element_uid}'
+        args: [{ library_element_uid: { $param: /path/library_element_uid } }]
+        field: /result/name
+  - match: 'DELETE /playlists/{uid}'
+    confirm:
+      lookup: { op: 'GET /playlists/{uid}', args: [{ uid: { $param: /path/uid } }], field: name }
+  - match: ['PUT /reports/{id}', 'DELETE /reports/{id}']
+    confirm:
+      lookup: { op: 'GET /reports/{id}', args: [{ id: { $param: /path/id } }], field: name }
+
+  - match: 'POST /snapshots'
+    summaryNote: '(with external: true the dashboard data is uploaded to the external snapshot server)'
+  - match: ['POST /datasources', 'PUT /datasources/{id}', 'PUT /datasources/uid/{uid}']
+    summaryNote: '(queries from this data source go to its url with the stored credentials)'
+  - match: 'POST /cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload'
+    summaryNote: "(uploads this instance's dashboards, folders, data sources and alerting to the session's Cloud stack)"
+
+  # POSTs that only read. Not `POST /ds/query`: a SQL data source runs its rawSql, writes too, as the stored user.
+  - match:
+      - 'POST /access-control/assignments/search'
+      - 'POST /access-control/teams/roles/search'
+      - 'POST /access-control/users/roles/search'
+    classification: read
+    reason: reviewed:read
+    needsReview: false
+  # GETs the action heuristic flags that were reviewed and only read.
+  - match:
+      - 'GET /access-control/roles/{roleUID}/assignments'
+      - 'GET /admin/ldap-sync-status'
+      - 'GET /admin/ldap/{user_name}'
+      - 'GET /annotations'
+      - 'GET /dashboards/home'
+      - 'GET /dashboards/uid/{uid}/versions'
+      - 'GET /datasources/correlations'
+      - 'GET /datasources/id/{name}'
+      - 'GET /datasources/name/{name}'
+      - 'GET /folders'
+      - 'GET /library-elements'
+      - 'GET /query-history'
+      - 'GET /recording-rules'
+      - 'GET /reports/{id}'
+      - 'GET /search'
+      - 'GET /users'
+    classification: read
+    reason: verb:GET
+    needsReview: false
+  # GETs that change something.
+  - match: ['GET /licensing/refresh-stats', 'GET /user/helpflags/clear', 'GET /snapshots-delete/{deleteKey}']
+    classification: write
+    reason: reviewed:write
+    needsReview: false
+
+  # Data source and contact point credentials, SSO client secrets, passwords, and new tokens. Core also masks
+  # the manifest's sensitiveKeys everywhere; these make each one visible on the descriptor.
+  - match: ['POST /datasources', 'PUT /datasources/{id}', 'PUT /datasources/uid/{uid}']
+    sensitiveParams: [/body/secureJsonData, /body/basicAuthPassword, /body/password]
+  - match: ['* /datasources', '* /datasources/{id}', '* /datasources/uid/{uid}', '* /datasources/name/{name}']
+    sensitiveResult: { keys: [secureJsonData, basicAuthPassword, password], deep: true }
+  # Slack, Discord, Teams and webhook URLs embed their token; the approval shows the host as a target.
+  - match: ['POST /v1/provisioning/contact-points', 'PUT /v1/provisioning/contact-points/{UID}']
+    sensitiveParams: [/body/settings/url, /body/settings/password]
+  - match: ['* /v1/provisioning/contact-points', '* /v1/provisioning/contact-points/{UID}']
+    sensitiveResult: { keys: [url], deep: true }
+  # An invite's code and URL let anyone join the organization with the invited role.
+  - match: '* /org/invites'
+    sensitiveResult: { keys: [code, url], deep: true }
+  - match: ['POST /admin/users', 'PUT /admin/users/{user_id}/password']
+    sensitiveParams: [/body/password]
+  - match: 'PUT /user/password'
+    sensitiveParams: [/body/oldPassword, /body/newPassword]
+  - match: ['PUT /v1/sso-settings/{key}', 'PATCH /v1/sso-settings/{key}']
+    sensitiveParams: [/body/settings/clientSecret, /body/settings/privateKey]
+  - match: ['POST /serviceaccounts/{serviceAccountId}/tokens', 'POST /cloudmigration/token', 'POST /snapshots']
+    sensitiveResult: { keys: [key, token, deleteKey, deleteUrl], deep: true }
+  - match: 'POST /cloudmigration/migration'
+    sensitiveParams: [/body/authToken]
+  - match: 'POST /licensing/token'
+    sensitiveParams: [/body/token]
+
+plugin:
+  # Path of the HTTP API under the base URL; operation keys are relative to it.
+  apiPath: /api
+  # Where Grafana serves the spec, under the base URL (the /swagger page loads it).
+  specPath: /public/openapi3.json
+  # Version sources, first one with a value wins: /api/health hides it when anonymous.hide_version is set.
+  versionSources:
+    - { path: /health, field: version }
+    - { path: /frontend/settings, field: /buildInfo/version }
+  # Body fields that say where data goes, shown ahead of the truncated body in approvals.
+  destinationFields: [/url, /settings/addresses, /recipients, /emails, /external, /receiver]
+  # Oldest Grafana major the plugin supports.
+  minMajor: 12
+  # Refuse a spec with fewer operations: a truncated one must not replace the catalog.
+  minOperations: 250

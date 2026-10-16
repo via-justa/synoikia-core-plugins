@@ -1,0 +1,596 @@
+[
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "DELETE /instances/{instanceId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "machineLearningLogsToken",
+        "config"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "DELETE /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "DELETE /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens/{tokenId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "DELETE /instances/{instanceId}/plugins/{pluginSlugOrId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "orgs",
+    "key": "DELETE /orgs/{slugOrId}/members/{usernameOrId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "accesspolicies",
+    "key": "DELETE /v1/accesspolicies/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "stacks",
+    "key": "DELETE /v1/stacks/{idOrSlug}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "tokens",
+    "key": "DELETE /v1/tokens/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "machineLearningLogsToken",
+        "config"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "machineLearningLogsToken",
+        "config"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}/api/serviceaccounts/search",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "stacks",
+    "key": "GET /instances/{instanceId}/connections",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}/plugins",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}/plugins/{pluginSlugOrId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}/readiness",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "instances",
+    "key": "GET /instances/{instanceId}/users",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "org-stack-regions",
+    "key": "GET /org-stack-regions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "orgs",
+    "key": "GET /orgs/{orgSlug}/instances",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "machineLearningLogsToken",
+        "config"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "orgs",
+    "key": "GET /orgs/{orgSlugOrId}/billed-usage",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "orgs",
+    "key": "GET /orgs/{orgSlugOrId}/billed-usage-history",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "orgs",
+    "key": "GET /orgs/{slugOrId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "orgs",
+    "key": "GET /orgs/{slugOrId}/members",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "orgs",
+    "key": "GET /orgs/{slugOrId}/members/{usernameOrId}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "orgs",
+    "key": "GET /orgs/{slugOrId}/settings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "plugins",
+    "key": "GET /plugins/{slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "stack-regions",
+    "key": "GET /stack-regions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "stack-regions",
+    "key": "GET /stack-regions/closest",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "accesspolicies",
+    "key": "GET /v1/accesspolicies",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "accesspolicies",
+    "key": "GET /v1/accesspolicies/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "accesspolicies",
+    "key": "GET /v1/accesspolicies/config",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "stacks",
+    "key": "GET /v1/stacks",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "stacks",
+    "key": "GET /v1/stacks/{idOrSlug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "stacks",
+    "key": "GET /v1/stacks/{idOrSlug}/connections",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "stacks",
+    "key": "GET /v1/stacks/{idOrSlug}/readiness",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "tokens",
+    "key": "GET /v1/tokens",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "tokens",
+    "key": "GET /v1/tokens/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "POST /instances",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "machineLearningLogsToken",
+        "config"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "POST /instances/{instanceId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "machineLearningLogsToken",
+        "config"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "POST /instances/{instanceId}/api/serviceaccounts",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "POST /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "key"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "POST /instances/{instanceId}/plugins",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "instances",
+    "key": "POST /instances/{instanceId}/plugins/{pluginSlugOrId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "orgs",
+    "key": "POST /orgs/{slugOrId}/members",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "orgs",
+    "key": "POST /orgs/{slugOrId}/members/{usernameOrId}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "orgs",
+    "key": "POST /orgs/{slugOrId}/settings",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "accesspolicies",
+    "key": "POST /v1/accesspolicies",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "accesspolicies",
+    "key": "POST /v1/accesspolicies/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "stacks",
+    "key": "POST /v1/stacks",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "stacks",
+    "key": "POST /v1/stacks/{idOrSlug}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "reviewed:read",
+    "group": "stacks",
+    "key": "POST /v1/stacks/checkUrl",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "tokens",
+    "key": "POST /v1/tokens",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "token"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "tokens",
+    "key": "POST /v1/tokens/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  }
+]

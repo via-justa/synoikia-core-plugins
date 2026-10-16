@@ -1,0 +1,65 @@
+{
+  "id": "profilarr",
+  "name": "Profilarr",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the Profilarr v2 REST API, catalog from the OpenAPI spec the instance serves.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "profilarr",
+    "functions": ["request"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Database"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "apiKey"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "apiKey": {
+          "type": "string",
+          "title": "API key",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "https://profilarr.internal.lan",
+        "help": "The address you open Profilarr at, without /api."
+      },
+      "apiKey": {
+        "widget": "secret",
+        "help": "Settings → Security → API key. Sent as X-Api-Key."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      }
+    },
+    "help": "1. In Profilarr (v2), open **Settings → Security** and generate an API key. Profilarr has one key with full API access.\n2. Enter the base URL and the key, then **Test connection**.\n3. Keep *Verify TLS* on unless Profilarr uses a self-signed certificate on a trusted network.\n\nThe catalog comes from the instance's own `/api/v1/openapi.json`, so it always matches the installed version."
+  },
+  "sensitiveKeys": ["apiKey", "api_key", "password", "personal_access_token", "secret", "token"],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}"]
+  }
+}

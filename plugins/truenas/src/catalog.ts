@@ -131,9 +131,9 @@ export function buildCatalog(methods: Record<string, MethodInfo>): Catalog {
 }
 
 /** Whether an ACL/owner change on `path` needs the locked `#pool-root` key: only a plain path strictly
- * inside a pool gets the ordinary key (a missing path too; TrueNAS rejects it). */
+ * inside a pool gets the ordinary key; a missing or non-string path fails closed. */
 export function needsPoolRootKey(path: unknown): boolean {
-  if (typeof path !== 'string') return false;
+  if (typeof path !== 'string') return true;
   if (!path.startsWith('/')) return true;
   const parts = path.split('/').filter(Boolean);
   if (parts.some((p) => p === '.' || p === '..')) return true;

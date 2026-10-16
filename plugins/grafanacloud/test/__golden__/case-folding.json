@@ -1,0 +1,34 @@
+{
+  "AccessPolicyId": {
+    "refused": {
+      "code": "INVALID_PARAMS",
+      "message": "body: \"accessPolicyId\" and \"AccessPolicyId\" name the same field; send each key once, in one ASCII spelling"
+    }
+  },
+  "Scopes": {
+    "refused": {
+      "code": "INVALID_PARAMS",
+      "message": "body: \"scopes\" and \"Scopes\" name the same field; send each key once, in one ASCII spelling"
+    }
+  },
+  "lone AccessPolicyID": {
+    "approval": {
+      "confirmLiteral": "stack-readers",
+      "key": "POST /v1/tokens",
+      "targets": [
+        {
+          "id": "ap-1",
+          "kind": "accesspolicy",
+          "name": "stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+        }
+      ],
+      "text": "Grafana Cloud POST /v1/tokens?region=prod-us-east-0 [accessPolicyId=\"ap-1\", name=\"ci\"] {\"name\":\"ci\",\"accessPolicyId\":\"ap-1\"} on stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+    }
+  },
+  "ſcopes": {
+    "refused": {
+      "code": "INVALID_PARAMS",
+      "message": "body: the key \"ſcopes\" is not ASCII; send each key once, in one ASCII spelling"
+    }
+  }
+}

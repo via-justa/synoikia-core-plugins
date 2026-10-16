@@ -1,0 +1,44 @@
+{
+  "GET /arr": {
+    "masked": [
+      {
+        "api_key": "[REDACTED]",
+        "id": 1,
+        "name": "Radarr",
+        "type": "radarr",
+        "url": "http://radarr:7878"
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "GET /databases": {
+    "masked": [
+      {
+        "auto_pull": 1,
+        "id": 1,
+        "name": "Dictionarry",
+        "personal_access_token": "[REDACTED]",
+        "repository_url": "https://github.com/Dictionarry-Hub/database"
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "GET /databases/{id}": {
+    "masked": {
+      "auto_pull": 1,
+      "id": 1,
+      "name": "Dictionarry",
+      "personal_access_token": "[REDACTED]",
+      "repository_url": "https://github.com/Dictionarry-Hub/database"
+    },
+    "sensitiveParams": []
+  },
+  "POST /databases": {
+    "masked": {
+      "jobId": 41
+    },
+    "sensitiveParams": [
+      "/body/personal_access_token"
+    ]
+  }
+}

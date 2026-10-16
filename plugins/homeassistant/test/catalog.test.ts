@@ -1,7 +1,9 @@
+import { readFileSync } from 'node:fs';
 import { OperationDescriptorSchema } from '@synoikia/plugin-sdk';
 import { describe, expect, it } from 'vitest';
 import { buildCatalog, entityFilter, FIXED_COMMANDS, isServiceKey, LOCKED_SERVICES } from '../src/catalog.js';
 import type { Services } from '../src/catalog.js';
+import { guideFor } from '../src/guides.js';
 import { SERVICES } from './fake-ha.js';
 
 const catalog = buildCatalog(SERVICES as Services);
@@ -115,5 +117,25 @@ describe('classification (HA §2.3, §7 phase 1)', () => {
     expect(entityFilter({ target: { entity: [{ domain: 'light' }, {}] } })).toEqual([]);
     expect(entityFilter({ target: {} })).toEqual([]);
     expect(entityFilter(undefined)).toEqual([]);
+  });
+});
+
+describe('instructions.md', () => {
+  const text = readFileSync(new URL('../instructions.md', import.meta.url), 'utf8');
+  const keys = new Set(catalog.operations.map((o) => o.key));
+
+  it('stays within 1.5 KB', () => {
+    expect(Buffer.byteLength(text, 'utf8')).toBeLessThanOrEqual(1536);
+  });
+
+  it('names only operations the catalog has, and guides it serves', () => {
+    const named = [...text.matchAll(/`([a-z_]+\.[a-z_]+|[a-z_]+(?:\/[a-z_]+)+|get_[a-z_]+)`/g)]
+      .map((m) => m[1]!)
+      .filter((k) => !/^(registry|guides)\./.test(k));
+    expect(named.length).toBeGreaterThanOrEqual(10);
+    for (const key of named) expect(keys, key).toContain(key);
+    const guides = [...text.matchAll(/guides\.get\('([^']+)'\)/g)].map((m) => m[1]!);
+    expect(guides.length).toBeGreaterThan(0);
+    for (const key of guides) expect(guideFor(key), key).toBeDefined();
   });
 });

@@ -1,0 +1,2631 @@
+[
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__backups",
+    "key": "DELETE /api/admin/backups/{file_name}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__ai_providers",
+    "key": "DELETE /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_groups",
+    "key": "DELETE /api/admin/groups/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_households",
+    "key": "DELETE /api/admin/households/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_users",
+    "key": "DELETE /api/admin/users/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipe__comments",
+    "key": "DELETE /api/comments/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipes__foods",
+    "key": "DELETE /api/foods/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "groups__ai_providers",
+    "key": "DELETE /api/groups/ai-providers/providers/{provider_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "groups__multi_purpose_labels",
+    "key": "DELETE /api/groups/labels/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "groups__reports",
+    "key": "DELETE /api/groups/reports/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__cookbooks",
+    "key": "DELETE /api/households/cookbooks/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__event_notifications",
+    "key": "DELETE /api/households/events/notifications/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__meal_plans",
+    "key": "DELETE /api/households/mealplans/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__meal_plan_rules",
+    "key": "DELETE /api/households/mealplans/rules/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__recipe_actions",
+    "key": "DELETE /api/households/recipe-actions/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__shopping_list_items",
+    "key": "DELETE /api/households/shopping/items",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__shopping_list_items",
+    "key": "DELETE /api/households/shopping/items/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__shopping_lists",
+    "key": "DELETE /api/households/shopping/lists/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__webhooks",
+    "key": "DELETE /api/households/webhooks/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "organizer__categories",
+    "key": "DELETE /api/organizers/categories/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "organizer__tags",
+    "key": "DELETE /api/organizers/tags/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "organizer__tools",
+    "key": "DELETE /api/organizers/tools/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipe__crud",
+    "key": "DELETE /api/recipes/{slug}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipe__crud",
+    "key": "DELETE /api/recipes/{slug}/image",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipe__bulk_actions",
+    "key": "DELETE /api/recipes/bulk-actions/export/purge",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipe__timeline",
+    "key": "DELETE /api/recipes/timeline/events/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "shared__recipes",
+    "key": "DELETE /api/shared/recipes/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipes__units",
+    "key": "DELETE /api/units/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "users__ratings",
+    "key": "DELETE /api/users/{id}/favorites/{slug}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "users__tokens",
+    "key": "DELETE /api/users/api-tokens/{token_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__about",
+    "key": "GET /api/admin/about",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "dbUrl"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__about",
+    "key": "GET /api/admin/about/check",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__about",
+    "key": "GET /api/admin/about/statistics",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__backups",
+    "key": "GET /api/admin/backups",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__email",
+    "key": "GET /api/admin/email",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__manage_groups",
+    "key": "GET /api/admin/groups",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__ai_providers",
+    "key": "GET /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__manage_groups",
+    "key": "GET /api/admin/groups/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__manage_households",
+    "key": "GET /api/admin/households",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__manage_households",
+    "key": "GET /api/admin/households/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__maintenance",
+    "key": "GET /api/admin/maintenance",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__maintenance",
+    "key": "GET /api/admin/maintenance/storage",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__manage_users",
+    "key": "GET /api/admin/users",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "admin__manage_users",
+    "key": "GET /api/admin/users/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "app__about",
+    "key": "GET /api/app/about",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "app__about",
+    "key": "GET /api/app/about/startup-info",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "app__about",
+    "key": "GET /api/app/about/theme",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__comments",
+    "key": "GET /api/comments",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__comments",
+    "key": "GET /api/comments/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__cookbooks",
+    "key": "GET /api/explore/groups/{group_slug}/cookbooks",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__cookbooks",
+    "key": "GET /api/explore/groups/{group_slug}/cookbooks/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__foods",
+    "key": "GET /api/explore/groups/{group_slug}/foods",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__foods",
+    "key": "GET /api/explore/groups/{group_slug}/foods/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__households",
+    "key": "GET /api/explore/groups/{group_slug}/households",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__households",
+    "key": "GET /api/explore/groups/{group_slug}/households/{household_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__categories",
+    "key": "GET /api/explore/groups/{group_slug}/organizers/categories",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__categories",
+    "key": "GET /api/explore/groups/{group_slug}/organizers/categories/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__tags",
+    "key": "GET /api/explore/groups/{group_slug}/organizers/tags",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__tags",
+    "key": "GET /api/explore/groups/{group_slug}/organizers/tags/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__tools",
+    "key": "GET /api/explore/groups/{group_slug}/organizers/tools",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__tools",
+    "key": "GET /api/explore/groups/{group_slug}/organizers/tools/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__recipes",
+    "key": "GET /api/explore/groups/{group_slug}/recipes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__recipes",
+    "key": "GET /api/explore/groups/{group_slug}/recipes/{recipe_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "explore__recipes",
+    "key": "GET /api/explore/groups/{group_slug}/recipes/suggestions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipes__foods",
+    "key": "GET /api/foods",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipes__foods",
+    "key": "GET /api/foods/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__ai_providers",
+    "key": "GET /api/groups/ai-providers/providers/{provider_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__ai_provider_settings",
+    "key": "GET /api/groups/ai-providers/settings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__households",
+    "key": "GET /api/groups/households",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__households",
+    "key": "GET /api/groups/households/{household_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__multi_purpose_labels",
+    "key": "GET /api/groups/labels",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__multi_purpose_labels",
+    "key": "GET /api/groups/labels/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__self_service",
+    "key": "GET /api/groups/members",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__self_service",
+    "key": "GET /api/groups/members/{username_or_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__self_service",
+    "key": "GET /api/groups/preferences",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__reports",
+    "key": "GET /api/groups/reports",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__reports",
+    "key": "GET /api/groups/reports/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__self_service",
+    "key": "GET /api/groups/self",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "groups__self_service",
+    "key": "GET /api/groups/storage",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__cookbooks",
+    "key": "GET /api/households/cookbooks",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__cookbooks",
+    "key": "GET /api/households/cookbooks/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__event_notifications",
+    "key": "GET /api/households/events/notifications",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__event_notifications",
+    "key": "GET /api/households/events/notifications/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__invitations",
+    "key": "GET /api/households/invitations",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "token"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__meal_plans",
+    "key": "GET /api/households/mealplans",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__meal_plans",
+    "key": "GET /api/households/mealplans/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__meal_plan_rules",
+    "key": "GET /api/households/mealplans/rules",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__meal_plan_rules",
+    "key": "GET /api/households/mealplans/rules/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__meal_plans",
+    "key": "GET /api/households/mealplans/today",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__self_service",
+    "key": "GET /api/households/members",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__self_service",
+    "key": "GET /api/households/preferences",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__recipe_actions",
+    "key": "GET /api/households/recipe-actions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__recipe_actions",
+    "key": "GET /api/households/recipe-actions/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__self_service",
+    "key": "GET /api/households/self",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__self_service",
+    "key": "GET /api/households/self/recipes/{recipe_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__shopping_list_items",
+    "key": "GET /api/households/shopping/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__shopping_list_items",
+    "key": "GET /api/households/shopping/items/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__shopping_lists",
+    "key": "GET /api/households/shopping/lists",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__shopping_lists",
+    "key": "GET /api/households/shopping/lists/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__self_service",
+    "key": "GET /api/households/statistics",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__webhooks",
+    "key": "GET /api/households/webhooks",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "households__webhooks",
+    "key": "GET /api/households/webhooks/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__categories",
+    "key": "GET /api/organizers/categories",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__categories",
+    "key": "GET /api/organizers/categories/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__categories",
+    "key": "GET /api/organizers/categories/empty",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__categories",
+    "key": "GET /api/organizers/categories/slug/{category_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__tags",
+    "key": "GET /api/organizers/tags",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__tags",
+    "key": "GET /api/organizers/tags/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__tags",
+    "key": "GET /api/organizers/tags/empty",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__tags",
+    "key": "GET /api/organizers/tags/slug/{tag_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__tools",
+    "key": "GET /api/organizers/tools",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__tools",
+    "key": "GET /api/organizers/tools/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "organizer__tools",
+    "key": "GET /api/organizers/tools/slug/{tool_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__crud",
+    "key": "GET /api/recipes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__crud",
+    "key": "GET /api/recipes/{slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__comments",
+    "key": "GET /api/recipes/{slug}/comments",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__exports",
+    "key": "GET /api/recipes/{slug}/exports",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__bulk_actions",
+    "key": "GET /api/recipes/bulk-actions/export",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__exports",
+    "key": "GET /api/recipes/exports",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__crud",
+    "key": "GET /api/recipes/suggestions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__timeline",
+    "key": "GET /api/recipes/timeline/events",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipe__timeline",
+    "key": "GET /api/recipes/timeline/events/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "shared__recipes",
+    "key": "GET /api/shared/recipes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "shared__recipes",
+    "key": "GET /api/shared/recipes/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipes__units",
+    "key": "GET /api/units",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "recipes__units",
+    "key": "GET /api/units/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "users__ratings",
+    "key": "GET /api/users/{id}/favorites",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "users__ratings",
+    "key": "GET /api/users/{id}/ratings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "users__crud",
+    "key": "GET /api/users/self",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "users__crud",
+    "key": "GET /api/users/self/favorites",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "users__crud",
+    "key": "GET /api/users/self/ratings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "users__crud",
+    "key": "GET /api/users/self/ratings/{recipe_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PATCH",
+    "group": "recipe__crud",
+    "key": "PATCH /api/recipes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PATCH",
+    "group": "recipe__crud",
+    "key": "PATCH /api/recipes/{slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PATCH",
+    "group": "recipe__crud",
+    "key": "PATCH /api/recipes/{slug}/last-made",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "admin__backups",
+    "key": "POST /api/admin/backups",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__backups",
+    "key": "POST /api/admin/backups/{file_name}/restore",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__email",
+    "key": "POST /api/admin/email",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_groups",
+    "key": "POST /api/admin/groups",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__ai_providers",
+    "key": "POST /api/admin/groups/{group_id}/ai-providers/providers",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_households",
+    "key": "POST /api/admin/households",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__maintenance",
+    "key": "POST /api/admin/maintenance/clean/images",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__maintenance",
+    "key": "POST /api/admin/maintenance/clean/recipe-folders",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__maintenance",
+    "key": "POST /api/admin/maintenance/clean/temp",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_users",
+    "key": "POST /api/admin/users",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/password"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_users",
+    "key": "POST /api/admin/users/password-reset-token",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "token"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_users",
+    "key": "POST /api/admin/users/unlock",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__comments",
+    "key": "POST /api/comments",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipes__foods",
+    "key": "POST /api/foods",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "groups__ai_providers",
+    "key": "POST /api/groups/ai-providers/providers",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "groups__ai_providers",
+    "key": "POST /api/groups/ai-providers/providers/{provider_id}/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "groups__ai_providers",
+    "key": "POST /api/groups/ai-providers/providers/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "groups__multi_purpose_labels",
+    "key": "POST /api/groups/labels",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "groups__seeders",
+    "key": "POST /api/groups/seeders/foods",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "groups__seeders",
+    "key": "POST /api/groups/seeders/units",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__cookbooks",
+    "key": "POST /api/households/cookbooks",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__event_notifications",
+    "key": "POST /api/households/events/notifications",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/appriseUrl"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__event_notifications",
+    "key": "POST /api/households/events/notifications/{item_id}/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__invitations",
+    "key": "POST /api/households/invitations",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "token"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__invitations",
+    "key": "POST /api/households/invitations/email",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/token"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__meal_plans",
+    "key": "POST /api/households/mealplans",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__meal_plans",
+    "key": "POST /api/households/mealplans/random",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__meal_plan_rules",
+    "key": "POST /api/households/mealplans/rules",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__recipe_actions",
+    "key": "POST /api/households/recipe-actions",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__recipe_actions",
+    "key": "POST /api/households/recipe-actions/{item_id}/trigger/{recipe_slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__shopping_list_items",
+    "key": "POST /api/households/shopping/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__shopping_list_items",
+    "key": "POST /api/households/shopping/items/create-bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__shopping_lists",
+    "key": "POST /api/households/shopping/lists",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__shopping_lists",
+    "key": "POST /api/households/shopping/lists/{item_id}/recipe",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__shopping_lists",
+    "key": "POST /api/households/shopping/lists/{item_id}/recipe/{recipe_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__shopping_lists",
+    "key": "POST /api/households/shopping/lists/{item_id}/recipe/{recipe_id}/delete",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__webhooks",
+    "key": "POST /api/households/webhooks",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__webhooks",
+    "key": "POST /api/households/webhooks/{item_id}/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "households__webhooks",
+    "key": "POST /api/households/webhooks/rerun",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "organizer__categories",
+    "key": "POST /api/organizers/categories",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "organizer__categories",
+    "key": "POST /api/organizers/categories/merge",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "organizer__tags",
+    "key": "POST /api/organizers/tags",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "organizer__tags",
+    "key": "POST /api/organizers/tags/merge",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "organizer__tools",
+    "key": "POST /api/organizers/tools",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__ingredient_parser",
+    "key": "POST /api/parser/ingredient",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__ingredient_parser",
+    "key": "POST /api/parser/ingredients",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes/{slug}/assets/url",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes/{slug}/duplicate",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes/{slug}/image",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__bulk_actions",
+    "key": "POST /api/recipes/bulk-actions/categorize",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "recipe__bulk_actions",
+    "key": "POST /api/recipes/bulk-actions/delete",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__bulk_actions",
+    "key": "POST /api/recipes/bulk-actions/export",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__bulk_actions",
+    "key": "POST /api/recipes/bulk-actions/settings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__bulk_actions",
+    "key": "POST /api/recipes/bulk-actions/tag",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes/create/html-or-json",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes/create/url",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes/create/url/bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__crud",
+    "key": "POST /api/recipes/test-scrape-url",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipe__timeline",
+    "key": "POST /api/recipes/timeline/events",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "shared__recipes",
+    "key": "POST /api/shared/recipes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "recipes__units",
+    "key": "POST /api/units",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "users__ratings",
+    "key": "POST /api/users/{id}/favorites/{slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "users__ratings",
+    "key": "POST /api/users/{id}/ratings/{slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "users__tokens",
+    "key": "POST /api/users/api-tokens",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "token"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "users__passwords",
+    "key": "POST /api/users/reset-password",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/token",
+      "/body/password",
+      "/body/passwordConfirm"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__ai_providers",
+    "key": "PUT /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_groups",
+    "key": "PUT /api/admin/groups/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_households",
+    "key": "PUT /api/admin/households/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "admin__manage_users",
+    "key": "PUT /api/admin/users/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipe__comments",
+    "key": "PUT /api/comments/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipes__foods",
+    "key": "PUT /api/foods/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipes__foods",
+    "key": "PUT /api/foods/merge",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "groups__ai_providers",
+    "key": "PUT /api/groups/ai-providers/providers/{provider_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/requestHeaders",
+      "/body/requestParams"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "requestHeaders",
+        "requestParams"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "groups__ai_provider_settings",
+    "key": "PUT /api/groups/ai-providers/settings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "groups__multi_purpose_labels",
+    "key": "PUT /api/groups/labels/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "groups__self_service",
+    "key": "PUT /api/groups/preferences",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__cookbooks",
+    "key": "PUT /api/households/cookbooks",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__cookbooks",
+    "key": "PUT /api/households/cookbooks/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__event_notifications",
+    "key": "PUT /api/households/events/notifications/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/appriseUrl"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__meal_plans",
+    "key": "PUT /api/households/mealplans/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__meal_plan_rules",
+    "key": "PUT /api/households/mealplans/rules/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__self_service",
+    "key": "PUT /api/households/permissions",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__self_service",
+    "key": "PUT /api/households/preferences",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__recipe_actions",
+    "key": "PUT /api/households/recipe-actions/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__shopping_list_items",
+    "key": "PUT /api/households/shopping/items",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__shopping_list_items",
+    "key": "PUT /api/households/shopping/items/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__shopping_lists",
+    "key": "PUT /api/households/shopping/lists/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "households__shopping_lists",
+    "key": "PUT /api/households/shopping/lists/{item_id}/label-settings",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "households__webhooks",
+    "key": "PUT /api/households/webhooks/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "organizer__categories",
+    "key": "PUT /api/organizers/categories/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "organizer__tags",
+    "key": "PUT /api/organizers/tags/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "organizer__tools",
+    "key": "PUT /api/organizers/tools/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipe__crud",
+    "key": "PUT /api/recipes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipe__crud",
+    "key": "PUT /api/recipes/{slug}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipe__timeline",
+    "key": "PUT /api/recipes/timeline/events/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipes__units",
+    "key": "PUT /api/units/{item_id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "recipes__units",
+    "key": "PUT /api/units/merge",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "users__crud",
+    "key": "PUT /api/users/{item_id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "users__crud",
+    "key": "PUT /api/users/password",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/currentPassword",
+      "/body/newPassword"
+    ],
+    "typedConfirmation": true
+  }
+]

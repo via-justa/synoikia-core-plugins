@@ -1,0 +1,104 @@
+{
+  "id": "grafana-adaptive",
+  "name": "Grafana Adaptive Telemetry",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over Grafana Cloud Adaptive Metrics, Logs and Traces: aggregation rules and recommendations, log drop rules and exemptions, trace sampling policies.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "grafanaAdaptive",
+    "functions": ["call"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Rule, exemption, policy or instance"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["token"],
+      "properties": {
+        "prometheusUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Prometheus URL (Adaptive Metrics)"
+        },
+        "metricsInstanceId": {
+          "type": "string",
+          "title": "Metrics instance ID",
+          "pattern": "^[0-9]+$"
+        },
+        "lokiUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Loki URL (Adaptive Logs)"
+        },
+        "logsInstanceId": {
+          "type": "string",
+          "title": "Logs instance ID",
+          "pattern": "^[0-9]+$"
+        },
+        "tempoUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Tempo URL (Adaptive Traces)"
+        },
+        "tracesInstanceId": {
+          "type": "string",
+          "title": "Traces instance ID",
+          "pattern": "^[0-9]+$"
+        },
+        "token": {
+          "type": "string",
+          "title": "Access policy token",
+          "writeOnly": true
+        }
+      }
+    },
+    "ui": {
+      "prometheusUrl": {
+        "widget": "url",
+        "placeholder": "https://prometheus-prod-01-eu-west-0.grafana.net",
+        "help": "From the stack's Prometheus details page. Only the host is used; a path such as /api/prom is ignored. Leave empty to skip Adaptive Metrics."
+      },
+      "metricsInstanceId": {
+        "widget": "text",
+        "help": "The numeric user / instance ID on the same page."
+      },
+      "lokiUrl": {
+        "widget": "url",
+        "placeholder": "https://logs-prod-eu-west-0.grafana.net",
+        "help": "From the stack's Loki details page. Leave empty to skip Adaptive Logs."
+      },
+      "logsInstanceId": {
+        "widget": "text",
+        "help": "The numeric user / instance ID on the same page."
+      },
+      "tempoUrl": {
+        "widget": "url",
+        "placeholder": "https://tempo-prod-eu-west-0.grafana.net",
+        "help": "From the stack's Tempo details page. Only the host is used; a path such as /tempo is ignored. Leave empty to skip Adaptive Traces."
+      },
+      "tracesInstanceId": {
+        "widget": "text",
+        "help": "The numeric user / instance ID on the same page."
+      },
+      "token": {
+        "widget": "secret",
+        "help": "A Grafana Cloud access policy token for this stack, sent with each instance ID as HTTP Basic."
+      }
+    },
+    "help": "1. In Grafana Cloud, open **Administration → Users and access → Cloud access policies** and create a policy for this stack with only the Adaptive scopes Synoikia should have: `adaptive-metrics-rules`, `adaptive-metrics-recommendations`, `adaptive-metrics-config` and `adaptive-metrics-exemptions` (read, and write for changes), `adaptive-logs:admin`, `adaptive-traces:admin`. Read-only scopes are enough at the Read access level.\n2. Add a token to the policy and copy it.\n3. On the stack's page, open **Details** for Prometheus, Loki and Tempo, and copy each URL and its numeric instance ID. Fill in only the services you use; Synoikia offers the operations of those services only.\n4. **Test connection**: each configured service answers one read.\n\nURLs must be https. Replacing the aggregation rules, recommendation settings, exemptions, log drop rules, trace policies and applying a trace recommendation need a typed confirmation: the instance ID, or the metric, stream selector or name they act on."
+  },
+  "sensitiveKeys": ["token", "password", "apiKey", "api_key", "secret"],
+  "network": {
+    "hosts": ["{{connection.prometheusUrl}}", "{{connection.lokiUrl}}", "{{connection.tempoUrl}}"]
+  }
+}

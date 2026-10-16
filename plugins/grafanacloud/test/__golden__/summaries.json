@@ -1,0 +1,236 @@
+{
+  "DELETE /instances/{instanceId}": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "DELETE /instances/{instanceId}",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud DELETE /instances/acme-prod (deletes the stack with all its dashboards, metrics, logs and traces; this cannot be undone) on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "DELETE /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}": {
+    "confirmLiteral": "synoikia-bot",
+    "resolved": "DELETE /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud DELETE /instances/acme-prod/api/serviceaccounts/5 on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "DELETE /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens/{tokenId}": {
+    "confirmLiteral": "synoikia-bot",
+    "resolved": "DELETE /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens/{tokenId}",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud DELETE /instances/acme-prod/api/serviceaccounts/5/tokens/9 on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "DELETE /instances/{instanceId}/plugins/{pluginSlugOrId}": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "DELETE /instances/{instanceId}/plugins/{pluginSlugOrId}",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud DELETE /instances/acme-prod/plugins/grafana-clock-panel on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "DELETE /orgs/{slugOrId}/members/{usernameOrId}": {
+    "confirmLiteral": "alex",
+    "resolved": "DELETE /orgs/{slugOrId}/members/{usernameOrId}",
+    "targets": [],
+    "text": "Grafana Cloud DELETE /orgs/acme/members/alex"
+  },
+  "DELETE /v1/accesspolicies/{id}": {
+    "confirmLiteral": "stack-readers",
+    "resolved": "DELETE /v1/accesspolicies/{id}",
+    "targets": [
+      {
+        "id": "ap-1",
+        "kind": "accesspolicy",
+        "name": "stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+      }
+    ],
+    "text": "Grafana Cloud DELETE /v1/accesspolicies/ap-1?region=prod-us-east-0 on stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+  },
+  "DELETE /v1/stacks/{idOrSlug}": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "DELETE /v1/stacks/{idOrSlug}",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud DELETE /v1/stacks/acme-prod (deletes the stack with all its dashboards, metrics, logs and traces; this cannot be undone) on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "DELETE /v1/tokens/{id}": {
+    "confirmLiteral": "ci-token",
+    "resolved": "DELETE /v1/tokens/{id}",
+    "targets": [
+      {
+        "id": "tok-1",
+        "kind": "token",
+        "name": "ci-token (access policy ap-1, expires 2027-01-01T00:00:00Z)"
+      }
+    ],
+    "text": "Grafana Cloud DELETE /v1/tokens/tok-1?region=prod-us-east-0 on ci-token (access policy ap-1, expires 2027-01-01T00:00:00Z)"
+  },
+  "POST /instances": {
+    "confirmLiteral": "acme-staging",
+    "resolved": "POST /instances",
+    "targets": [],
+    "text": "Grafana Cloud POST /instances [slug=\"acme-staging\", name=\"Acme Staging\", org=\"acme\", region=\"prod-us-east-0\"] {\"name\":\"Acme Staging\",\"slug\":\"acme-staging\",\"region\":\"prod-us-east-0\",\"org\":\"acme\"} (creates a billed stack)"
+  },
+  "POST /instances/{instanceId}": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "POST /instances/{instanceId}",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud POST /instances/101 [deleteProtection=false] {\"deleteProtection\":false} on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "POST /instances/{instanceId}/api/serviceaccounts": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "POST /instances/{instanceId}/api/serviceaccounts",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud POST /instances/acme-prod/api/serviceaccounts [name=\"ci\", role=\"Admin\"] {\"name\":\"ci\",\"role\":\"Admin\"} (a service account in the stack's Grafana with the role shown) on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "POST /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens": {
+    "confirmLiteral": "synoikia-bot",
+    "resolved": "POST /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud POST /instances/acme-prod/api/serviceaccounts/5/tokens [name=\"ci\"] {\"name\":\"ci\",\"secondsToLive\":3600} on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "POST /instances/{instanceId}/plugins": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "POST /instances/{instanceId}/plugins",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud POST /instances/acme-prod/plugins [plugin=\"grafana-clock-panel\", version=\"2.1.5\"] {\"plugin\":\"grafana-clock-panel\",\"version\":\"2.1.5\"} (installs third-party plugin code that runs in the stack's Grafana) on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "POST /instances/{instanceId}/plugins/{pluginSlugOrId}": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "POST /instances/{instanceId}/plugins/{pluginSlugOrId}",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud POST /instances/acme-prod/plugins/grafana-clock-panel [version=\"2.2.0\"] {\"version\":\"2.2.0\"} (installs third-party plugin code that runs in the stack's Grafana) on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "POST /orgs/{slugOrId}/members": {
+    "confirmLiteral": "acme",
+    "resolved": "POST /orgs/{slugOrId}/members",
+    "targets": [],
+    "text": "Grafana Cloud POST /orgs/7/members [username=\"sam\", role=\"Admin\"] {\"username\":\"sam\",\"role\":\"Admin\"}"
+  },
+  "POST /orgs/{slugOrId}/members/{usernameOrId}": {
+    "confirmLiteral": "alex",
+    "resolved": "POST /orgs/{slugOrId}/members/{usernameOrId}",
+    "targets": [],
+    "text": "Grafana Cloud POST /orgs/acme/members/alex [role=\"Admin\"] {\"role\":\"Admin\"}"
+  },
+  "POST /orgs/{slugOrId}/settings": {
+    "confirmLiteral": "acme",
+    "resolved": "POST /orgs/{slugOrId}/settings",
+    "targets": [],
+    "text": "Grafana Cloud POST /orgs/acme/settings [mfaRequired=false] {\"mfaRequired\":false} (security settings for the whole organization)"
+  },
+  "POST /v1/accesspolicies": {
+    "confirmLiteral": "org-writers",
+    "resolved": "POST /v1/accesspolicies",
+    "targets": [],
+    "text": "Grafana Cloud POST /v1/accesspolicies?region=prod-us-east-0 [realms=[{\"type\":\"org\",\"identifier\":\"7\"}], scopes=[\"metrics:write\",\"stacks:write\"], name=\"org-writers\"] {\"name\":\"org-writers\",\"scopes\":[\"metrics:write\",\"stacks:write\"],\"realms\":[{\"type\":\"org\",\"identifier\":\"7\"}]}"
+  },
+  "POST /v1/accesspolicies/{id}": {
+    "confirmLiteral": "stack-readers",
+    "resolved": "POST /v1/accesspolicies/{id}",
+    "targets": [
+      {
+        "id": "ap-1",
+        "kind": "accesspolicy",
+        "name": "stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+      }
+    ],
+    "text": "Grafana Cloud POST /v1/accesspolicies/ap-1?region=prod-us-east-0 [scopes=[\"metrics:read\",\"accesspolicies:write\"]] {\"scopes\":[\"metrics:read\",\"accesspolicies:write\"]} on stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+  },
+  "POST /v1/stacks": {
+    "confirmLiteral": "acme-dev",
+    "resolved": "POST /v1/stacks",
+    "targets": [],
+    "text": "Grafana Cloud POST /v1/stacks [slug=\"acme-dev\", name=\"Acme Dev\", org=\"acme\", region=\"prod-us-east-0\"] {\"slug\":\"acme-dev\",\"name\":\"Acme Dev\",\"region\":\"prod-us-east-0\",\"org\":\"acme\"} (creates a billed stack)"
+  },
+  "POST /v1/stacks/{idOrSlug}": {
+    "confirmLiteral": "acme-prod",
+    "resolved": "POST /v1/stacks/{idOrSlug}",
+    "targets": [
+      {
+        "id": "acme-prod",
+        "kind": "stack",
+        "name": "acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+      }
+    ],
+    "text": "Grafana Cloud POST /v1/stacks/acme-prod [deleteProtection=false] {\"deleteProtection\":false} on acme-prod (Acme Production, https://acme-prod.grafana.net, region prod-us-east-0)"
+  },
+  "POST /v1/tokens": {
+    "confirmLiteral": "stack-readers",
+    "resolved": "POST /v1/tokens",
+    "targets": [
+      {
+        "id": "ap-1",
+        "kind": "accesspolicy",
+        "name": "stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+      }
+    ],
+    "text": "Grafana Cloud POST /v1/tokens?region=prod-us-east-0 [accessPolicyId=\"ap-1\", name=\"ci\"] {\"name\":\"ci\",\"accessPolicyId\":\"ap-1\"} on stack-readers (scopes: metrics:read, logs:read; realms: stack 101 {env=\"prod\"})"
+  },
+  "POST /v1/tokens/{id}": {
+    "confirmLiteral": "ci-token",
+    "resolved": "POST /v1/tokens/{id}",
+    "targets": [
+      {
+        "id": "tok-1",
+        "kind": "token",
+        "name": "ci-token (access policy ap-1, expires 2027-01-01T00:00:00Z)"
+      }
+    ],
+    "text": "Grafana Cloud POST /v1/tokens/tok-1?region=prod-us-east-0 [expiresAt=\"2030-01-01T00:00:00Z\"] {\"expiresAt\":\"2030-01-01T00:00:00Z\"} on ci-token (access policy ap-1, expires 2027-01-01T00:00:00Z)"
+  }
+}

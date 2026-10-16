@@ -1,0 +1,473 @@
+{
+  "DELETE /api/v1/album/{id}": {
+    "confirmLiteral": "OK Computer",
+    "resolved": "DELETE /api/v1/album/{id}",
+    "targets": [
+      {
+        "id": "16",
+        "kind": "album",
+        "name": "OK Computer by Radiohead"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/album/16?addImportListExclusion=true on OK Computer by Radiohead"
+  },
+  "DELETE /api/v1/album/{id}#delete-files": {
+    "confirmLiteral": "OK Computer",
+    "resolved": "DELETE /api/v1/album/{id}#delete-files",
+    "targets": [
+      {
+        "id": "16",
+        "kind": "album",
+        "name": "OK Computer by Radiohead"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/album/16?deleteFiles=true on OK Computer by Radiohead (also deletes the files from disk)"
+  },
+  "DELETE /api/v1/artist/editor": {
+    "confirmLiteral": "1 artist",
+    "resolved": "DELETE /api/v1/artist/editor",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "artist",
+        "name": "Björk at /music/Björk"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/artist/editor on Björk at /music/Björk {\"artistIds\":[2],\"deleteFiles\":false}"
+  },
+  "DELETE /api/v1/artist/editor#delete-files": {
+    "confirmLiteral": "2 artists",
+    "resolved": "DELETE /api/v1/artist/editor#delete-files",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "artist",
+        "name": "Radiohead at /music/Radiohead"
+      },
+      {
+        "id": "2",
+        "kind": "artist",
+        "name": "Björk at /music/Björk"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/artist/editor on Radiohead at /music/Radiohead; Björk at /music/Björk {\"artistIds\":[1,2],\"deleteFiles\":true} (also deletes the files from disk)"
+  },
+  "DELETE /api/v1/artist/{id}": {
+    "confirmLiteral": "Radiohead",
+    "resolved": "DELETE /api/v1/artist/{id}",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "artist",
+        "name": "Radiohead at /music/Radiohead"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/artist/1 on Radiohead at /music/Radiohead"
+  },
+  "DELETE /api/v1/artist/{id}#delete-files": {
+    "confirmLiteral": "Radiohead",
+    "resolved": "DELETE /api/v1/artist/{id}#delete-files",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "artist",
+        "name": "Radiohead at /music/Radiohead"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/artist/1?deleteFiles=true on Radiohead at /music/Radiohead (also deletes the files from disk)"
+  },
+  "DELETE /api/v1/blocklist/{id}": {
+    "confirmLiteral": "61",
+    "resolved": "DELETE /api/v1/blocklist/{id}",
+    "targets": [],
+    "text": "Lidarr DELETE /api/v1/blocklist/61"
+  },
+  "DELETE /api/v1/downloadclient/{id}": {
+    "confirmLiteral": "qBit",
+    "resolved": "DELETE /api/v1/downloadclient/{id}",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient qBit (QBittorrent) → http://qbittorrent.lan:8080"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/downloadclient/6 on downloadclient qBit (QBittorrent) → http://qbittorrent.lan:8080"
+  },
+  "DELETE /api/v1/importlistexclusion/{id}": {
+    "confirmLiteral": "Nickelback",
+    "resolved": "DELETE /api/v1/importlistexclusion/{id}",
+    "targets": [],
+    "text": "Lidarr DELETE /api/v1/importlistexclusion/12"
+  },
+  "DELETE /api/v1/metadataprofile/{id}": {
+    "confirmLiteral": "Standard",
+    "resolved": "DELETE /api/v1/metadataprofile/{id}",
+    "targets": [],
+    "text": "Lidarr DELETE /api/v1/metadataprofile/18"
+  },
+  "DELETE /api/v1/queue/bulk": {
+    "confirmLiteral": "1 item",
+    "resolved": "DELETE /api/v1/queue/bulk",
+    "targets": [],
+    "text": "Lidarr DELETE /api/v1/queue/bulk {\"ids\":[41]}"
+  },
+  "DELETE /api/v1/queue/{id}": {
+    "confirmLiteral": "Radiohead-OK.Computer-OKNOTOK-24BIT-WEB-FLAC-2017",
+    "resolved": "DELETE /api/v1/queue/{id}",
+    "targets": [],
+    "text": "Lidarr DELETE /api/v1/queue/41?removeFromClient=true"
+  },
+  "DELETE /api/v1/system/backup/{id}": {
+    "confirmLiteral": "lidarr_backup_v3.1.6.5078_2026.10.14_10.00.00.zip",
+    "resolved": "DELETE /api/v1/system/backup/{id}",
+    "targets": [],
+    "text": "Lidarr DELETE /api/v1/system/backup/21"
+  },
+  "DELETE /api/v1/tag/{id}": {
+    "confirmLiteral": "kids",
+    "resolved": "DELETE /api/v1/tag/{id}",
+    "targets": [],
+    "text": "Lidarr DELETE /api/v1/tag/3"
+  },
+  "DELETE /api/v1/trackfile/bulk": {
+    "confirmLiteral": "2 track files",
+    "resolved": "DELETE /api/v1/trackfile/bulk",
+    "targets": [
+      {
+        "id": "13",
+        "kind": "trackfile",
+        "name": "/music/Radiohead/OK Computer (1997)/01 - Airbag.flac"
+      },
+      {
+        "id": "17",
+        "kind": "trackfile",
+        "name": "/music/Radiohead/OK Computer (1997)/02 - Paranoid Android.flac"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/trackfile/bulk on /music/Radiohead/OK Computer (1997)/01 - Airbag.flac; /music/Radiohead/OK Computer (1997)/02 - Paranoid Android.flac {\"trackFileIds\":[13,17]} (deletes the files from disk)"
+  },
+  "DELETE /api/v1/trackfile/{id}": {
+    "confirmLiteral": "/music/Radiohead/OK Computer (1997)/01 - Airbag.flac",
+    "resolved": "DELETE /api/v1/trackfile/{id}",
+    "targets": [
+      {
+        "id": "13",
+        "kind": "trackfile",
+        "name": "/music/Radiohead/OK Computer (1997)/01 - Airbag.flac"
+      }
+    ],
+    "text": "Lidarr DELETE /api/v1/trackfile/13 on /music/Radiohead/OK Computer (1997)/01 - Airbag.flac (deletes the files from disk)"
+  },
+  "POST /api/v1/command#heavy": {
+    "confirmLiteral": "RetagFiles",
+    "resolved": "POST /api/v1/command#heavy",
+    "targets": [],
+    "text": "Lidarr POST /api/v1/command {\"name\":\"RetagFiles\",\"artistId\":1,\"files\":[13]} (renames, retags, moves or deletes files, clears data, or changes the application)"
+  },
+  "POST /api/v1/downloadclient": {
+    "confirmLiteral": "SAB",
+    "resolved": "POST /api/v1/downloadclient",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "downloadclient",
+        "name": "downloadclient SAB (Sabnzbd) → http://sab.lan:8085"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/downloadclient on downloadclient SAB (Sabnzbd) → http://sab.lan:8085 {\"name\":\"SAB\",\"implementation\":\"Sabnzbd\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v1/downloadclient/action/{name}#stored": {
+    "confirmLiteral": "qBit",
+    "resolved": "POST /api/v1/downloadclient/action/{name}#stored",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient qBit (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/downloadclient/action/getCategories on downloadclient qBit (Any) → https://collector.example:443 {\"id\":6,\"name\":\"qBit\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v1/downloadclient/test#stored": {
+    "confirmLiteral": "qBit",
+    "resolved": "POST /api/v1/downloadclient/test#stored",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient qBit (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/downloadclient/test on downloadclient qBit (Any) → https://collector.example:443 {\"id\":6,\"name\":\"qBit\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v1/importlist": {
+    "confirmLiteral": "My list",
+    "resolved": "POST /api/v1/importlist",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "importlist",
+        "name": "importlist My list (LidarrImport) → http://other-lidarr:8686"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/importlist on importlist My list (LidarrImport) → http://other-lidarr:8686 {\"name\":\"My list\",\"implementation\":\"LidarrImport\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v1/importlist/action/{name}#stored": {
+    "confirmLiteral": "Lidarr Lossless",
+    "resolved": "POST /api/v1/importlist/action/{name}#stored",
+    "targets": [
+      {
+        "id": "8",
+        "kind": "importlist",
+        "name": "importlist Lidarr Lossless (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/importlist/action/getCategories on importlist Lidarr Lossless (Any) → https://collector.example:443 {\"id\":8,\"name\":\"Lidarr Lossless\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v1/importlist/test#stored": {
+    "confirmLiteral": "Lidarr Lossless",
+    "resolved": "POST /api/v1/importlist/test#stored",
+    "targets": [
+      {
+        "id": "8",
+        "kind": "importlist",
+        "name": "importlist Lidarr Lossless (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/importlist/test on importlist Lidarr Lossless (Any) → https://collector.example:443 {\"id\":8,\"name\":\"Lidarr Lossless\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v1/indexer": {
+    "confirmLiteral": "Geek2",
+    "resolved": "POST /api/v1/indexer",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "indexer",
+        "name": "indexer Geek2 (Newznab) → https://api.example.org"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/indexer on indexer Geek2 (Newznab) → https://api.example.org {\"name\":\"Geek2\",\"implementation\":\"Newznab\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v1/indexer/action/{name}#stored": {
+    "confirmLiteral": "NZBgeek",
+    "resolved": "POST /api/v1/indexer/action/{name}#stored",
+    "targets": [
+      {
+        "id": "7",
+        "kind": "indexer",
+        "name": "indexer NZBgeek (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/indexer/action/getCategories on indexer NZBgeek (Any) → https://collector.example:443 {\"id\":7,\"name\":\"NZBgeek\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v1/indexer/test#stored": {
+    "confirmLiteral": "NZBgeek",
+    "resolved": "POST /api/v1/indexer/test#stored",
+    "targets": [
+      {
+        "id": "7",
+        "kind": "indexer",
+        "name": "indexer NZBgeek (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/indexer/test on indexer NZBgeek (Any) → https://collector.example:443 {\"id\":7,\"name\":\"NZBgeek\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v1/notification": {
+    "confirmLiteral": "Hook",
+    "resolved": "POST /api/v1/notification",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "notification",
+        "name": "notification Hook (Webhook) → https://hooks.example.com"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/notification on notification Hook (Webhook) → https://hooks.example.com {\"name\":\"Hook\",\"implementation\":\"Webhook\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v1/notification/action/{name}": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "POST /api/v1/notification/action/{name}",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "notification",
+        "name": "notification New (Gotify) → https://gotify.example"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/notification/action/getDevices on notification New (Gotify) → https://gotify.example {\"name\":\"New\",\"implementation\":\"Gotify\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v1/notification/test": {
+    "confirmLiteral": "Discord",
+    "resolved": "POST /api/v1/notification/test",
+    "targets": [
+      {
+        "id": "9",
+        "kind": "notification",
+        "name": "notification Discord (Discord) → https://collector.example"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/notification/test on notification Discord (Discord) → https://collector.example {\"id\":9,\"name\":\"Discord\",\"implementation\":\"Discord\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v1/notification/testall": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "POST /api/v1/notification/testall",
+    "targets": [],
+    "text": "Lidarr POST /api/v1/notification/testall"
+  },
+  "POST /api/v1/release/push": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "POST /api/v1/release/push",
+    "targets": [
+      {
+        "id": "push",
+        "kind": "release",
+        "name": "Some.Artist-Some.Album-2020-FLAC from https://tracker.example"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/release/push on Some.Artist-Some.Album-2020-FLAC from https://tracker.example {\"title\":\"Some.Artist-Some.Album-2020-FLAC\",\"downloadUrl\":\"[REDACTED]\",\"protocol\":\"torrent\"}"
+  },
+  "POST /api/v1/rootfolder": {
+    "confirmLiteral": "/",
+    "resolved": "POST /api/v1/rootfolder",
+    "targets": [
+      {
+        "id": "path",
+        "kind": "folder",
+        "name": "root folder /"
+      }
+    ],
+    "text": "Lidarr POST /api/v1/rootfolder on root folder / {\"name\":\"Everything\",\"path\":\"/\"} (Lidarr lists and imports every folder under it)"
+  },
+  "POST /api/v1/system/backup/restore/{id}": {
+    "confirmLiteral": "lidarr_backup_v3.1.6.5078_2026.10.14_10.00.00.zip",
+    "resolved": "POST /api/v1/system/backup/restore/{id}",
+    "targets": [],
+    "text": "Lidarr POST /api/v1/system/backup/restore/21 (replaces the database and settings, then restarts)"
+  },
+  "POST /api/v1/system/restart": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "POST /api/v1/system/restart",
+    "targets": [],
+    "text": "Lidarr POST /api/v1/system/restart"
+  },
+  "POST /api/v1/system/shutdown": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "POST /api/v1/system/shutdown",
+    "targets": [],
+    "text": "Lidarr POST /api/v1/system/shutdown"
+  },
+  "PUT /api/v1/artist/editor": {
+    "confirmLiteral": "2 artists",
+    "resolved": "PUT /api/v1/artist/editor",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "artist",
+        "name": "Radiohead at /music/Radiohead"
+      },
+      {
+        "id": "2",
+        "kind": "artist",
+        "name": "Björk at /music/Björk"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/artist/editor on Radiohead at /music/Radiohead; Björk at /music/Björk {\"artistIds\":[1,2],\"monitored\":false}"
+  },
+  "PUT /api/v1/artist/{id}#move-files": {
+    "confirmLiteral": "Björk",
+    "resolved": "PUT /api/v1/artist/{id}#move-files",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "artist",
+        "name": "Björk at /music/Björk → /elsewhere/Björk"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/artist/2?moveFiles=true on Björk at /music/Björk → /elsewhere/Björk {\"id\":2,\"artistName\":\"Not Björk\",\"path\":\"/elsewhere/Björk\"} (moves the files on disk)"
+  },
+  "PUT /api/v1/config/host/{id}": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "PUT /api/v1/config/host/{id}",
+    "targets": [],
+    "text": "Lidarr PUT /api/v1/config/host/1 {\"id\":1,\"bindAddress\":\"*\",\"urlBase\":\"/lidarr\"} (sign-in, bind address, port, URL base, proxy and update script)"
+  },
+  "PUT /api/v1/config/mediamanagement/{id}": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "PUT /api/v1/config/mediamanagement/{id}",
+    "targets": [
+      {
+        "id": "scriptImportPath",
+        "kind": "script",
+        "name": "import script on: /config/import.sh"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/config/mediamanagement/1 on import script on: /config/import.sh {\"id\":1,\"useScriptImport\":true,\"scriptImportPath\":\"/config/import.sh\",\"chmodFolder\":\"777\"} (import script, file permissions and recycle bin)"
+  },
+  "PUT /api/v1/config/metadataprovider/{id}": {
+    "confirmLiteral": "Home Lidarr",
+    "resolved": "PUT /api/v1/config/metadataprovider/{id}",
+    "targets": [],
+    "text": "Lidarr PUT /api/v1/config/metadataprovider/1 {\"id\":1,\"metadataSource\":\"https://metadata.example/api\",\"writeAudioTags\":\"allFiles\"} (metadata server, and whether Lidarr rewrites the tags in audio files)"
+  },
+  "PUT /api/v1/downloadclient/{id}": {
+    "confirmLiteral": "qBit",
+    "resolved": "PUT /api/v1/downloadclient/{id}",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient Renamed (QBittorrent) → https://collector.example:443"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/downloadclient/6 on downloadclient Renamed (QBittorrent) → https://collector.example:443 {\"id\":6,\"name\":\"Renamed\",\"implementation\":\"QBittorrent\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "PUT /api/v1/importlist/{id}": {
+    "confirmLiteral": "Lidarr Lossless",
+    "resolved": "PUT /api/v1/importlist/{id}",
+    "targets": [
+      {
+        "id": "8",
+        "kind": "importlist",
+        "name": "importlist Lidarr Lossless (LidarrImport) → http://lidarr-flac.lan:8686"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/importlist/8 on importlist Lidarr Lossless (LidarrImport) → http://lidarr-flac.lan:8686 {\"id\":8,\"name\":\"Lidarr Lossless\",\"implementation\":\"LidarrImport\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "PUT /api/v1/indexer/{id}": {
+    "confirmLiteral": "NZBgeek",
+    "resolved": "PUT /api/v1/indexer/{id}",
+    "targets": [
+      {
+        "id": "7",
+        "kind": "indexer",
+        "name": "indexer NZBgeek (Newznab) → https://collector.example"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/indexer/7 on indexer NZBgeek (Newznab) → https://collector.example {\"id\":7,\"name\":\"NZBgeek\",\"implementation\":\"Newznab\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "PUT /api/v1/notification/{id}": {
+    "confirmLiteral": "Discord",
+    "resolved": "PUT /api/v1/notification/{id}",
+    "targets": [
+      {
+        "id": "9",
+        "kind": "notification",
+        "name": "notification Discord (Discord) → https://discord.com"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/notification/9 on notification Discord (Discord) → https://discord.com {\"id\":9,\"name\":\"Discord\",\"implementation\":\"Discord\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "PUT /api/v1/rootfolder/{id}": {
+    "confirmLiteral": "/etc",
+    "resolved": "PUT /api/v1/rootfolder/{id}",
+    "targets": [
+      {
+        "id": "path",
+        "kind": "folder",
+        "name": "root folder /etc"
+      }
+    ],
+    "text": "Lidarr PUT /api/v1/rootfolder/5 on root folder /etc {\"id\":5,\"name\":\"Music\",\"path\":\"/etc\"} (Lidarr lists and imports every folder under it)"
+  }
+}

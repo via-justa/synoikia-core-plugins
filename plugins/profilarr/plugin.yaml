@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of the OpenAPI spec the instance serves at /api/v1/openapi.json (docs/designs/profilarr.md): keys
+# are the spec's own paths under /api/v1 (`GET /databases/{id}`); GET reads, other verbs write.
+
+defaults:
+  # Locked operations without their own literal confirm against the instance name.
+  confirm: instance
+  timeouts: { request: 15000, lookup: 10000 }
+
+# /status names no instance, so the literal is the fallback.
+instanceName: { op: 'GET /status', field: name, fallback: Profilarr }
+
+# The spec itself, and the backup download and upload, which carry the whole database as a file.
+exclude:
+  - 'GET /openapi.json'
+  - 'GET /backups/{filename}'
+  - 'POST /backups/upload'
+
+rules:
+  # Irreversible, or pushes profiles into Radarr/Sonarr: always a human with a typed confirmation.
+  # Linking can set a token, auto-pull and a one-minute interval: unattended pushes from any repository.
+  - match:
+      - 'POST /databases'
+      - 'DELETE /databases/{id}'
+      - 'PATCH /databases/{id}'
+      - 'POST /databases/{id}/sync'
+      - 'DELETE /backups/{filename}'
+      - 'PATCH /backups/settings'
+    locked: true
+  # A delete a newer spec adds is locked until reviewed.
+  - match: 'DELETE *'
+    locked: true
+
+  # The literal an approver types: the stored database's name, or the backup file in the path.
+  - match: ['DELETE /databases/{id}', 'PATCH /databases/{id}', 'POST /databases/{id}/sync']
+    confirm:
+      lookup: { op: 'GET /databases/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'POST /databases/{id}/sync'
+    summaryNote: '(with auto-pull on, pulled changes are pushed to the Radarr/Sonarr instances synced on pull)'
+  - match: 'DELETE /backups/{filename}'
+    confirm: { param: /path/filename }
+  - match: 'POST /databases'
+    summaryNote: '(with auto_pull and sync_strategy set, this repository is pushed to Radarr/Sonarr on a schedule)'
+  - match: 'PATCH /backups/settings'
+    summaryNote: '(a shorter retention deletes older backups at the next cleanup)'
+
+  # GETs the action heuristic flags that were reviewed and only read.
+  - match: 'GET /jobs/{id}' # "creating a backup", "has run" in the description; returns the job record
+    classification: read
+    reason: verb:GET
+    needsReview: false
+
+  # A database's GitHub token; Profilarr strips it and arr API keys from results, masked here too in case it stops.
+  - match: ['POST /databases', 'PATCH /databases/{id}']
+    sensitiveParams: [/body/personal_access_token]
+  - match: ['* /databases', '* /databases/{id}']
+    sensitiveResult: { keys: [personal_access_token], deep: true }
+  - match: 'GET /arr'
+    sensitiveResult: { keys: [api_key], deep: true }
+
+plugin:
+  # Path of the API under the base URL.
+  apiPath: /api/v1
+  # Where the instance serves its OpenAPI spec, under the API path.
+  specPath: /openapi.json
+  # Endpoint and field that report the version.
+  versionPath: /status
+  versionField: version
+  # Refuse a spec with fewer operations: a truncated one must not replace the catalog.
+  minOperations: 15

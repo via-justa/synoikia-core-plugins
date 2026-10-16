@@ -1,0 +1,674 @@
+[
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Jobs and folders at the top level, or in one folder."
+    },
+    "group": "jobs",
+    "key": "jobs.list",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "folder": {
+              "description": "Folder full name, e.g. team/apps",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "depth": {
+              "maximum": 2,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tree": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "One job or folder; parameter definitions, health, recent builds."
+    },
+    "group": "jobs",
+    "key": "jobs.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "job"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "depth": {
+              "maximum": 2,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tree": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "description": "`number` is a build number or lastBuild, lastSuccessfulBuild, lastFailedBuild, lastCompletedBuild.",
+      "summary": "One build; result, duration, causes, parameters, changes."
+    },
+    "group": "builds",
+    "key": "builds.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            },
+            "number": {
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          },
+          "required": [
+            "job",
+            "number"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "depth": {
+              "maximum": 2,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tree": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "description": "Without `start`, the last `bytes` (or `lines`) of the log. With `start`, the log from that byte offset; pass the returned `end` as the next `start`. `more` is true while the build still writes to it.",
+      "summary": "A build's console log as text; the tail by default."
+    },
+    "group": "builds",
+    "key": "builds.log",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            },
+            "number": {
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          },
+          "required": [
+            "job",
+            "number"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {
+              "maximum": 262144,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "lines": {
+              "maximum": 5000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "start": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "A build's test results."
+    },
+    "group": "builds",
+    "key": "builds.testReport",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            },
+            "number": {
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          },
+          "required": [
+            "job",
+            "number"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "depth": {
+              "maximum": 2,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tree": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Items waiting in the build queue."
+    },
+    "group": "queue",
+    "key": "queue.list",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "depth": {
+              "maximum": 2,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tree": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "One queue item; `executable.number` is its build once it starts."
+    },
+    "group": "queue",
+    "key": "queue.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "depth": {
+              "maximum": 2,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tree": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Build agents and their executors."
+    },
+    "group": "nodes",
+    "key": "nodes.list",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "depth": {
+              "maximum": 2,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tree": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "declared:write",
+    "docs": {
+      "description": "`query` holds the build parameters by name; leave it out to use the defaults. Password parameters cannot be set here.",
+      "summary": "Queue a build; returns the queue item id."
+    },
+    "group": "builds",
+    "key": "builds.trigger",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "job"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "description": "`query` holds the build parameters by name; leave it out to use the defaults. Password parameters cannot be set here.",
+      "summary": "Queue a build; returns the queue item id."
+    },
+    "group": "builds",
+    "key": "builds.trigger#params",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "job"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "declared:write",
+    "docs": {
+      "summary": "Abort a running build."
+    },
+    "group": "builds",
+    "key": "builds.stop",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            },
+            "number": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "job",
+            "number"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Delete a build with its log and artifacts."
+    },
+    "group": "builds",
+    "key": "builds.delete",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            },
+            "number": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "job",
+            "number"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Delete a job, or a folder with everything in it."
+    },
+    "group": "jobs",
+    "key": "jobs.delete",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "job"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Disable a job, so it no longer builds."
+    },
+    "group": "jobs",
+    "key": "jobs.disable",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "job"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Enable a disabled job."
+    },
+    "group": "jobs",
+    "key": "jobs.enable",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "job": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "job"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Restart Jenkins once running builds finish."
+    },
+    "group": "system",
+    "key": "system.safeRestart",
+    "kind": "command",
+    "locked": true,
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Stop starting new builds, ahead of a restart."
+    },
+    "group": "system",
+    "key": "system.quietDown",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Start new builds again after a quiet-down."
+    },
+    "group": "system",
+    "key": "system.cancelQuietDown",
+    "kind": "command",
+    "locked": true,
+    "typedConfirmation": true
+  }
+]

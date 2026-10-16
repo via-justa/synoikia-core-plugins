@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of the grafana.com API spec (docs/designs/grafanacloud.md): keys are the spec's paths under /api
+# (`GET /instances/{instanceId}`); GET reads, other verbs write.
+
+defaults:
+  # Locked operations without their own literal confirm against the connection's organization slug.
+  confirm: { custom: org }
+  timeouts: { request: 15000, lookup: 10000 }
+
+# A check of whether the org's public profile page is visible, for the grafana.com UI.
+exclude:
+  - 'GET /orgs/{slugOrId}/check-visibility'
+
+rules:
+  # Billing, credentials and privileges, org security settings, and code that runs in a stack: always a
+  # human with a typed confirmation.
+  - match:
+      # Stacks are billed; an update can turn delete protection off or rename the stack URL.
+      - 'POST /instances'
+      - 'POST /instances/{instanceId}'
+      - 'POST /v1/stacks'
+      - 'POST /v1/stacks/{idOrSlug}'
+      # Plugins are third-party code that runs in the stack's Grafana.
+      - 'POST /instances/{instanceId}/plugins'
+      - 'POST /instances/{instanceId}/plugins/{pluginSlugOrId}'
+      # A service account in the stack's Grafana, with any role, and its tokens.
+      - 'POST /instances/{instanceId}/api/serviceaccounts'
+      - 'POST /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens'
+      - 'POST /orgs/{slugOrId}/members'
+      - 'POST /orgs/{slugOrId}/members/{usernameOrId}'
+      # MFA, token expiry and invite domains for the whole org.
+      - 'POST /orgs/{slugOrId}/settings'
+      # Scopes and realms are privileges; a token carries its policy's privileges, an expiry extends them.
+      - 'POST /v1/accesspolicies'
+      - 'POST /v1/accesspolicies/{id}'
+      - 'POST /v1/tokens'
+      - 'POST /v1/tokens/{id}'
+    locked: true
+  # A delete, PUT or PATCH a newer spec adds is locked until reviewed.
+  - match: ['DELETE *', 'PUT *', 'PATCH *']
+    locked: true
+
+  # The literal an approver types: the stored slug or name of what the call affects, looked up by its id, else
+  # the id. A create confirms on the body field the summary shows first.
+  - match: ['POST /instances', 'POST /v1/stacks']
+    confirm: [{ param: /body/slug }, { param: /body/name }]
+  - match:
+      - '* /instances/{instanceId}'
+      - '* /instances/{instanceId}/plugins'
+      - '* /instances/{instanceId}/plugins/{pluginSlugOrId}'
+      - 'POST /instances/{instanceId}/api/serviceaccounts'
+    confirm:
+      lookup: { op: 'GET /instances/{instanceId}', args: [{ instanceId: { $param: /path/instanceId } }], field: slug }
+  - match: '* /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}*'
+    confirm:
+      lookup:
+        op: 'GET /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}'
+        args: [{ serviceAccountId: { $param: /path/serviceAccountId }, instanceId: { $param: /path/instanceId } }]
+        field: name
+  - match: '* /v1/stacks/{idOrSlug}'
+    confirm:
+      lookup: { op: 'GET /v1/stacks/{idOrSlug}', args: [{ idOrSlug: { $param: /path/idOrSlug } }], field: slug }
+  - match: ['POST /orgs/{slugOrId}/members', 'POST /orgs/{slugOrId}/settings']
+    confirm:
+      lookup: { op: 'GET /orgs/{slugOrId}', args: [{ slugOrId: { $param: /path/slugOrId } }], field: slug }
+  - match: '* /orgs/{slugOrId}/members/{usernameOrId}'
+    confirm:
+      lookup:
+        op: 'GET /orgs/{slugOrId}/members/{usernameOrId}'
+        args: [{ usernameOrId: { $param: /path/usernameOrId }, slugOrId: { $param: /path/slugOrId } }]
+        field: [userUsername, userName]
+  - match: 'POST /v1/accesspolicies'
+    confirm: { param: /body/name }
+  # Access policies and tokens live in a region: the lookup needs the call's `region` query.
+  - match: '* /v1/accesspolicies/{id}'
+    confirm:
+      - lookup:
+          op: 'GET /v1/accesspolicies/{id}'
+          args: [{ id: { $param: /path/id } }, { region: { $param: /query/region } }]
+          field: name
+      - { param: /path/id }
+  # A new token takes its policy's privileges: the approver types the policy's name.
+  - match: 'POST /v1/tokens'
+    confirm:
+      - lookup:
+          op: 'GET /v1/accesspolicies/{id}'
+          args: [{ id: { $param: /body/accessPolicyId } }, { region: { $param: /query/region } }]
+          field: name
+      - { param: /body/accessPolicyId }
+  - match: '* /v1/tokens/{id}'
+    confirm:
+      - lookup:
+          op: 'GET /v1/tokens/{id}'
+          args: [{ id: { $param: /path/id } }, { region: { $param: /query/region } }]
+          field: name
+      - { param: /path/id }
+
+  - match: ['DELETE /instances/{instanceId}', 'DELETE /v1/stacks/{idOrSlug}']
+    summaryNote: '(deletes the stack with all its dashboards, metrics, logs and traces; this cannot be undone)'
+  - match: ['POST /instances', 'POST /v1/stacks']
+    summaryNote: '(creates a billed stack)'
+  - match: ['POST /instances/{instanceId}/plugins', 'POST /instances/{instanceId}/plugins/{pluginSlugOrId}']
+    summaryNote: "(installs third-party plugin code that runs in the stack's Grafana)"
+  - match: 'POST /instances/{instanceId}/api/serviceaccounts'
+    summaryNote: "(a service account in the stack's Grafana with the role shown)"
+  - match: 'POST /orgs/{slugOrId}/settings'
+    summaryNote: '(security settings for the whole organization)'
+
+  # Checks whether a stack URL is free; changes nothing.
+  - match: 'POST /v1/stacks/checkUrl'
+    classification: read
+    reason: reviewed:read
+    needsReview: false
+
+  # New tokens, the stack's machine-learning logs token, and the stack's custom Grafana config, whose shape is
+  # free-form and can hold credentials. Core also masks the manifest's sensitiveKeys everywhere.
+  - match: 'POST /v1/tokens'
+    sensitiveResult: { keys: [token], deep: true }
+  - match: 'POST /instances/{instanceId}/api/serviceaccounts/{serviceAccountId}/tokens'
+    sensitiveResult: { keys: [key], deep: true }
+  - match: ['* /instances', '* /instances/{instanceId}', 'GET /orgs/{orgSlug}/instances']
+    sensitiveResult: { keys: [machineLearningLogsToken, config], deep: true }
+
+plugin:
+  # The API every operation key is relative to; the connection's `apiUrl` replaces it.
+  apiUrl: https://grafana.com/api
+  spec:
+    # Tried in order, without credentials: grafana.com, then the copy in grafana/grafana-com-public-clients.
+    # The connection's `specUrl` replaces the list.
+    urls:
+      - https://grafana.com/api/openapi.json
+      - https://raw.githubusercontent.com/grafana/grafana-com-public-clients/main/openapi.json
+    maxBytes: 5242880
+    timeoutMs: 20000
+  # Body fields shown right after the method and path in approvals, ahead of the truncated body: privileges
+  # first, then what is created or changed and where.
+  summaryFields:
+    - /realms
+    - /scopes
+    - /conditions
+    - /accessPolicyId
+    - /expiresAt
+    - /slug
+    - /name
+    - /org
+    - /region
+    - /url
+    - /plan
+    - /deleteProtection
+    - /plugin
+    - /plugins
+    - /version
+    - /username
+    - /role
+    - /mfaRequired
+    - /mfaAdminRecoveryOnly
+    - /allowedInviteDomains
+    - /maxTokenExpirationDays
+    - /status
+  # Keys grafana.com would also bind in another case, renamed to this spelling (with the summary fields' names)
+  # before summaries, literals and targets read them.
+  canonicalKeys: [type, identifier, labelPolicies, selector, displayName, secondsToLive, noRestart]
+  # Refuse a spec with fewer operations: a truncated one must not replace the catalog.
+  minOperations: 45

@@ -1,0 +1,83 @@
+{
+  "id": "prowlarr",
+  "name": "Prowlarr",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the Prowlarr v1 REST API, catalog from the OpenAPI spec of the instance's release.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "prowlarr",
+    "functions": ["request"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Indexer, application or connection"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "apiKey"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "apiKey": {
+          "type": "string",
+          "title": "API key",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        },
+        "specBaseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "API spec source (advanced)"
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "https://prowlarr.internal.lan",
+        "help": "The address you open Prowlarr at, including its URL base if it has one, without /api."
+      },
+      "apiKey": {
+        "widget": "secret",
+        "help": "Settings → General → Security → API Key. Sent as X-Api-Key."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      },
+      "specBaseUrl": {
+        "widget": "url",
+        "placeholder": "https://raw.githubusercontent.com/Prowlarr/Prowlarr",
+        "help": "Leave empty to fetch the API spec from GitHub. Set a mirror whose layout is <url>/<git ref>/src/Prowlarr.Api.V1/openapi.json if this server can't reach GitHub."
+      }
+    },
+    "help": "1. In Prowlarr, open **Settings → General → Security** and copy the API key. Prowlarr has one key with full API access.\n2. Enter the base URL and the key, then **Test connection**.\n3. Keep *Verify TLS* on unless Prowlarr uses a self-signed certificate on a trusted network.\n\nProwlarr release builds don't serve their API spec, so the catalog comes from the spec in Prowlarr's GitHub repository at the tag of the installed version (`develop` if there is none). No credentials are sent there."
+  },
+  "sensitiveKeys": [
+    "apiKey",
+    "password",
+    "passwordConfirmation",
+    "proxyPassword",
+    "sslCertPassword",
+    "token",
+    "secret"
+  ],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}", "https://raw.githubusercontent.com", "{{connection.specBaseUrl}}"]
+  }
+}

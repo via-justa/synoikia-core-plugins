@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { OperationDescriptorSchema } from '@synoikia/plugin-sdk';
 import { describe, expect, it } from 'vitest';
 import { buildCatalog, classify, groupOf, LOCKED, needsPoolRootKey } from '../src/catalog.js';
@@ -231,9 +232,24 @@ describe('needsPoolRootKey', () => {
     ['/mnt/tank/media/../../other/x', true],
     ['/mnt/tank/media', false],
     ['/mnt/tank/media/tv/', false],
-    [undefined, false],
-    [5, false],
+    [undefined, true],
+    [5, true],
   ])('%s → %s', (path, expected) => {
     expect(needsPoolRootKey(path)).toBe(expected);
+  });
+});
+
+describe('instructions.md', () => {
+  const text = readFileSync(new URL('../instructions.md', import.meta.url), 'utf8');
+  const keys = new Set(buildCatalog(METHODS).operations.map((o) => o.key));
+
+  it('stays within 1.5 KB', () => {
+    expect(Buffer.byteLength(text, 'utf8')).toBeLessThanOrEqual(1536);
+  });
+
+  it('names only methods the catalog has', () => {
+    const named = [...text.matchAll(/`([a-z_]+(?:\.[a-z_]+)+(?:#[a-z-]+)?)`/g)].map((m) => m[1]!);
+    expect(named.length).toBeGreaterThanOrEqual(10);
+    for (const key of named) expect(keys, key).toContain(key);
   });
 });

@@ -1,0 +1,201 @@
+{
+  "00 metrics.rules.replace": {
+    "confirmLiteral": "100001",
+    "targets": [
+      {
+        "id": "metrics:100001",
+        "kind": "instance",
+        "name": "Adaptive Metrics instance 100001"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.rules.replace on Adaptive Metrics instance 100001: drops entirely: \"go_gc_duration_seconds\"; aggregates: \"http_requests_total\" aggregated (drop labels \"pod\"; aggregations \"sum\"); removes the rules of \"debug_events_total\" (kept in full again); 2 rules: 1 added, 1 changed, 1 removed, 0 unchanged — POST /aggregations/rules"
+  },
+  "01 metrics.rules.create": {
+    "confirmLiteral": "kube_pod_info",
+    "targets": [],
+    "text": "Adaptive Metrics metrics.rules.create on Adaptive Metrics instance 100001: \"kube_pod_info\" aggregated (drop labels \"uid\\u202e\") — POST /aggregations/rule/kube_pod_info"
+  },
+  "02 metrics.rules.update": {
+    "confirmLiteral": "http_requests_total",
+    "targets": [
+      {
+        "id": "http_requests_total",
+        "kind": "metric-rule",
+        "name": "http_requests_total"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.rules.update on http_requests_total: \"http_requests_total\" dropped entirely (was \"http_requests_total\" aggregated (drop labels \"pod\", \"instance\"; aggregations \"sum\", \"count\")) — PUT /aggregations/rule/http_requests_total"
+  },
+  "03 metrics.rules.delete": {
+    "confirmLiteral": "debug_events_total",
+    "targets": [
+      {
+        "id": "debug_events_total",
+        "kind": "metric-rule",
+        "name": "debug_events_total"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.rules.delete on debug_events_total: removes the rule of \"debug_events_total\" (now \"debug_events_total\" dropped entirely); the metric is kept in full again — DELETE /aggregations/rule/debug_events_total"
+  },
+  "04 metrics.recommendations.updateConfig": {
+    "confirmLiteral": "100001",
+    "targets": [
+      {
+        "id": "metrics:100001",
+        "kind": "instance",
+        "name": "Adaptive Metrics instance 100001"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.recommendations.updateConfig on Adaptive Metrics instance 100001: auto-apply ON: recommendations change the rules without review (gate \"unbounded\"); stops keeping labels \"namespace\" (recommendations may aggregate them away); keep_labels none — POST /aggregations/recommendations/config"
+  },
+  "05 metrics.exemptions.create": {
+    "confirmLiteral": "payments_total",
+    "targets": [],
+    "text": "Adaptive Metrics metrics.exemptions.create on Adaptive Metrics instance 100001: exempts \"payments_total\", keeping labels \"customer\" — POST /v1/recommendations/exemptions"
+  },
+  "06 metrics.exemptions.update": {
+    "confirmLiteral": "slo_errors_total",
+    "targets": [
+      {
+        "id": "ex-1",
+        "kind": "metrics-exemption",
+        "name": "slo_errors_total"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.exemptions.update on slo_errors_total: exempts \"slo_errors_total\", keeping labels \"service\" (was \"slo_errors_total\") — PUT /v1/recommendations/exemptions/ex-1"
+  },
+  "07 metrics.exemptions.delete": {
+    "confirmLiteral": "slo_errors_total",
+    "targets": [
+      {
+        "id": "ex-1",
+        "kind": "metrics-exemption",
+        "name": "slo_errors_total"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.exemptions.delete on slo_errors_total: removes the exemption of \"slo_errors_total\": recommendations may aggregate or drop it again — DELETE /v1/recommendations/exemptions/ex-1"
+  },
+  "08 logs.dropRules.create": {
+    "confirmLiteral": "drop-healthz",
+    "targets": [],
+    "text": "Adaptive Logs logs.dropRules.create on Adaptive Logs instance 200002: drop_rate 1 on the lines of \"{app=\\\"web\\\"}\" at levels \"info\" containing \"/healthz\" (rule \"drop-healthz\") — POST /adaptive-logs/drop-rules"
+  },
+  "09 logs.dropRules.update": {
+    "confirmLiteral": "drop-debug",
+    "targets": [
+      {
+        "id": "dr-1",
+        "kind": "drop-rule",
+        "name": "drop-debug"
+      }
+    ],
+    "text": "Adaptive Logs logs.dropRules.update on drop-debug: drop_rate 1 on the lines of \"{app=\\\"api\\\"}\" at every level (rule \"drop-debug\") (was drop_rate 0.9 on the lines of \"{app=\\\"api\\\"}\" at levels \"debug\" (rule \"drop-debug\", segment \"__global__\")) — PUT /adaptive-logs/drop-rules/dr-1"
+  },
+  "10 logs.dropRules.delete": {
+    "confirmLiteral": "drop-debug",
+    "targets": [
+      {
+        "id": "dr-1",
+        "kind": "drop-rule",
+        "name": "drop-debug"
+      }
+    ],
+    "text": "Adaptive Logs logs.dropRules.delete on drop-debug: removes drop rule drop_rate 0.9 on the lines of \"{app=\\\"api\\\"}\" at levels \"debug\" (rule \"drop-debug\", segment \"__global__\") — DELETE /adaptive-logs/drop-rules/dr-1"
+  },
+  "11 logs.exemptions.create": {
+    "confirmLiteral": "{app=\"audit\"}",
+    "targets": [],
+    "text": "Adaptive Logs logs.exemptions.create on Adaptive Logs instance 200002: never drops the lines of \"{app=\\\"audit\\\"}\" — POST /adaptive-logs/exemptions"
+  },
+  "12 logs.exemptions.update": {
+    "confirmLiteral": "{app=\"payments\"}",
+    "targets": [
+      {
+        "id": "lex-1",
+        "kind": "logs-exemption",
+        "name": "{app=\"payments\"}"
+      }
+    ],
+    "text": "Adaptive Logs logs.exemptions.update on {app=\\\"payments\\\"}: never drops the lines of \"{app=\\\"payments\\\", env=\\\"prod\\\"}\" (was \"{app=\\\"payments\\\"}\") — PUT /adaptive-logs/exemptions/lex-1"
+  },
+  "13 logs.exemptions.delete": {
+    "confirmLiteral": "{app=\"payments\"}",
+    "targets": [
+      {
+        "id": "lex-1",
+        "kind": "logs-exemption",
+        "name": "{app=\"payments\"}"
+      }
+    ],
+    "text": "Adaptive Logs logs.exemptions.delete on {app=\\\"payments\\\"}: removes the exemption of \"{app=\\\"payments\\\"}\": its lines may be dropped again — DELETE /adaptive-logs/exemptions/lex-1"
+  },
+  "14 traces.policies.create": {
+    "confirmLiteral": "sample-1",
+    "targets": [],
+    "text": "Adaptive Traces traces.policies.create on Adaptive Traces instance 300003: policy \"sample-1\" of type \"probabilistic\": {\\\"sampling_percentage\\\":1} — POST /adaptive-traces/api/v1/policies"
+  },
+  "15 traces.policies.update": {
+    "confirmLiteral": "keep-5-percent",
+    "targets": [
+      {
+        "id": "pol-1",
+        "kind": "policy",
+        "name": "keep-5-percent"
+      }
+    ],
+    "text": "Adaptive Traces traces.policies.update on keep-5-percent: policy \"keep-1-percent\" of type \"probabilistic\": {\\\"sampling_percentage\\\":1} (was policy \"keep-5-percent\" of type \"probabilistic\": {\\\"sampling_percentage\\\":5}) — PUT /adaptive-traces/api/v1/policies/pol-1"
+  },
+  "16 traces.policies.delete": {
+    "confirmLiteral": "keep-5-percent",
+    "targets": [
+      {
+        "id": "pol-1",
+        "kind": "policy",
+        "name": "keep-5-percent"
+      }
+    ],
+    "text": "Adaptive Traces traces.policies.delete on keep-5-percent: removes policy \"keep-5-percent\" of type \"probabilistic\": {\\\"sampling_percentage\\\":5} — DELETE /adaptive-traces/api/v1/policies/pol-1"
+  },
+  "17 traces.recommendations.apply": {
+    "confirmLiteral": "300003",
+    "targets": [
+      {
+        "id": "traces:300003",
+        "kind": "instance",
+        "name": "Adaptive Traces instance 300003"
+      },
+      {
+        "id": "rec-1#9b882217f37a",
+        "kind": "trace-recommendation",
+        "name": "recommendation rec-1"
+      }
+    ],
+    "text": "Adaptive Traces traces.recommendations.apply on Adaptive Traces instance 300003, recommendation rec-1: recommendation \"rec-1\": \"Sample health checks at 1%\"; actions: add policy \"health-checks\" of type \"probabilistic\": {\\\"sampling_percentage\\\":1} — POST /adaptive-traces/api/v1/recommendations/rec-1/apply"
+  },
+  "18 traces.recommendations.dismiss": {
+    "targets": [],
+    "text": "Adaptive Traces traces.recommendations.dismiss on Adaptive Traces instance 300003: recommendation \"rec-1\": \"Sample health checks at 1%\" — POST /adaptive-traces/api/v1/recommendations/rec-1/dismiss"
+  },
+  "19 metrics.rules.replace": {
+    "confirmLiteral": "100001",
+    "targets": [
+      {
+        "id": "metrics:100001",
+        "kind": "instance",
+        "name": "Adaptive Metrics instance 100001"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.rules.replace on Adaptive Metrics instance 100001, segment \"seg-1\": removes the rules of \"http_requests_total\", \"debug_events_total\" (kept in full again); 0 rules: 0 added, 0 changed, 2 removed, 0 unchanged — POST /aggregations/rules?segment=seg-1"
+  },
+  "20 metrics.rules.replace": {
+    "confirmLiteral": "100001",
+    "targets": [
+      {
+        "id": "metrics:100001",
+        "kind": "instance",
+        "name": "Adaptive Metrics instance 100001"
+      }
+    ],
+    "text": "Adaptive Metrics metrics.rules.replace on Adaptive Metrics instance 100001: drops entirely: \"debug_\" (prefix match); aggregates: \"http_requests_total\" (prefix match) aggregated (drop labels \"pod\"); removes the rules of \"http_requests_total\", \"debug_events_total\" (kept in full again); 2 rules: 2 added, 0 changed, 2 removed, 0 unchanged — POST /aggregations/rules"
+  }
+}

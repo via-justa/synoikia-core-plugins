@@ -1,0 +1,290 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of Sonarr's OpenAPI spec for the instance's release (docs/designs/sonarr.md): keys are the spec's own
+# paths, `/api/v3` included (`GET /api/v3/series/{id}`); GET reads, other verbs write, anything unlisted is a write.
+
+defaults:
+  # A locked operation without its own literal (a DELETE a newer spec adds) confirms on its path id.
+  confirm: [{ custom: path-id }, instance]
+  timeouts: { request: 15000, lookup: 10000 }
+
+instanceName: { op: 'GET /api/v3/system/status', field: instanceName, fallback: Sonarr }
+
+# The web UI and its sign-in, the iCal feed, binary downloads, the multipart backup upload, and host filesystem
+# browsing and the manual-import scan and reprocess (they list or read any path the Sonarr process can read).
+exclude:
+  - 'GET /'
+  - 'GET /{path}'
+  - 'GET /content/{path}'
+  - '* /login'
+  - 'GET /logout'
+  - 'GET /ping'
+  - 'GET /api'
+  - 'GET /feed/*'
+  - 'GET /api/v3/log/file*'
+  - 'GET /api/v3/mediacover/*'
+  - 'GET /api/v3/filesystem*'
+  - '* /api/v3/manualimport'
+  - 'POST /api/v3/system/backup/restore/upload'
+
+rules:
+  # Irreversible, bulk, instance-wide, or sends credentials or data to a destination: a human types a confirmation.
+  - match:
+      - 'DELETE /api/v3/series/{id}'
+      - 'PUT /api/v3/series/editor'
+      - 'DELETE /api/v3/series/editor'
+      - 'POST /api/v3/seasonpass'
+      - 'DELETE /api/v3/episodefile/{id}'
+      - 'DELETE /api/v3/episodefile/bulk'
+      - 'PUT /api/v3/config/host/{id}'
+      # `useScriptImport` + `scriptImportPath` run any program on every import; also chmod, chown, recycle bin.
+      - 'PUT /api/v3/config/mediamanagement/{id}'
+      # A root folder lists its unmapped subfolders: one at `/` lists the host's top-level directories.
+      - 'POST /api/v3/rootfolder'
+      - 'POST /api/v3/system/shutdown'
+      - 'POST /api/v3/system/restart'
+      - 'POST /api/v3/system/backup/restore/{id}'
+      - 'DELETE /api/v3/system/backup/{id}'
+      - 'POST /api/v3/downloadclient'
+      - 'PUT /api/v3/downloadclient/{id}'
+      - 'POST /api/v3/indexer'
+      - 'PUT /api/v3/indexer/{id}'
+      - 'POST /api/v3/importlist'
+      - 'PUT /api/v3/importlist/{id}'
+      - 'POST /api/v3/notification'
+      - 'PUT /api/v3/notification/{id}'
+      # Sends a notification to whatever recipient the body names, or to every configured one.
+      - 'POST /api/v3/notification/test'
+      - 'POST /api/v3/notification/testall'
+      - 'POST /api/v3/notification/action/{name}'
+      # Sonarr fetches the release from any URL and hands it to a download client.
+      - 'POST /api/v3/release/push'
+    locked: true
+  # A delete a newer spec adds is locked until reviewed.
+  - match: 'DELETE *'
+    locked: true
+  # Not in v4's spec; Servarr's root folder PUT can change the path, so one a newer spec adds is locked.
+  - match: 'PUT /api/v3/rootfolder/*'
+    locked: true
+
+  # Locked twins picked per call (src/plugin.ts): deleting or moving files on disk, a command not in
+  # `plugin.quickCommands`, a provider test or action that reuses the stored credentials (`id` in the body).
+  - match: ['DELETE /api/v3/series/{id}', 'DELETE /api/v3/series/editor']
+    split: delete-files
+  - match: 'PUT /api/v3/series/{id}'
+    split: move-files
+  - match: 'POST /api/v3/command'
+    split: heavy
+  - match:
+      - 'POST /api/v3/downloadclient/test'
+      - 'POST /api/v3/downloadclient/action/{name}'
+      - 'POST /api/v3/indexer/test'
+      - 'POST /api/v3/indexer/action/{name}'
+      - 'POST /api/v3/importlist/test'
+      - 'POST /api/v3/importlist/action/{name}'
+    split: stored
+  - match: '*#delete-files'
+    description: '{base} with deleteFiles: also deletes the files from disk. Locked.'
+    summaryNote: '(also deletes the files from disk)'
+  - match: '*#move-files'
+    description: '{base} with moveFiles: moves the series folder on disk. Locked.'
+    summaryNote: '(moves the files on disk)'
+  - match: '*#heavy'
+    description: >-
+      Starting a command that renames, moves or deletes files, clears data, updates, restarts or reconfigures
+      Sonarr, or one not reviewed: locked.
+    summaryNote: '(renames, moves or deletes files, clears data, or changes the application)'
+  - match: '*#stored'
+    description: >-
+      {base} for a stored connection: Sonarr fills in its saved password or API key and contacts the host in the
+      body. Locked.
+    summaryNote: '(sends the stored credentials to the host in the body)'
+  - match: ['DELETE /api/v3/episodefile/{id}', 'DELETE /api/v3/episodefile/bulk']
+    summaryNote: '(deletes the files from disk)'
+  - match: 'POST /api/v3/seasonpass'
+    summaryNote: '(changes series and season monitoring in bulk)'
+  - match: 'PUT /api/v3/config/host/{id}'
+    summaryNote: '(sign-in, bind address, port, URL base, proxy and update script)'
+  - match: 'PUT /api/v3/config/mediamanagement/{id}'
+    summaryNote: '(import script, file permissions and owner, recycle bin)'
+  - match: 'POST /api/v3/system/backup/restore/{id}'
+    summaryNote: '(replaces the database and settings, then restarts)'
+
+  # The literal an approver types: the stored item's name, never a body field the model writes except on create.
+  - match: '* /api/v3/series/{id}*'
+    confirm:
+      lookup: { op: 'GET /api/v3/series/{id}', args: [{ id: { $param: /path/id } }], field: title }
+  - match: ['* /api/v3/series/editor*', 'POST /api/v3/seasonpass', 'DELETE */bulk']
+    confirm: [{ custom: count }, instance]
+  - match: ['POST /api/v3/rootfolder', 'PUT /api/v3/rootfolder/*']
+    confirm: { param: /body/path }
+  - match: '* /api/v3/system/backup/*'
+    confirm:
+      lookup: { op: 'GET /api/v3/system/backup', find: { field: id, equals: { $param: /path/id } }, field: name }
+  - match:
+      - 'PUT /api/v3/config/host/{id}'
+      - 'PUT /api/v3/config/mediamanagement/{id}'
+      - 'POST /api/v3/system/shutdown'
+      - 'POST /api/v3/system/restart'
+      - 'POST /api/v3/notification/testall'
+      - 'POST /api/v3/release/push'
+    confirm: instance
+  - match: '*#heavy'
+    confirm: [{ custom: command }, instance]
+  - match:
+      - 'POST /api/v3/downloadclient'
+      - 'POST /api/v3/indexer'
+      - 'POST /api/v3/importlist'
+      - 'POST /api/v3/notification'
+    confirm: { param: /body/name }
+  - match: '* /api/v3/downloadclient/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/downloadclient/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: '* /api/v3/indexer/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/indexer/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: '* /api/v3/importlist/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/importlist/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: '* /api/v3/notification/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/notification/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: '* /api/v3/metadata/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/metadata/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'POST /api/v3/downloadclient/*#stored'
+    confirm:
+      lookup: { op: 'GET /api/v3/downloadclient/{id}', args: [{ id: { $param: /body/id } }], field: name }
+  - match: 'POST /api/v3/indexer/*#stored'
+    confirm:
+      lookup: { op: 'GET /api/v3/indexer/{id}', args: [{ id: { $param: /body/id } }], field: name }
+  - match: 'POST /api/v3/importlist/*#stored'
+    confirm:
+      lookup: { op: 'GET /api/v3/importlist/{id}', args: [{ id: { $param: /body/id } }], field: name }
+  - match: ['POST /api/v3/notification/test', 'POST /api/v3/notification/action/{name}']
+    confirm:
+      - lookup: { op: 'GET /api/v3/notification/{id}', args: [{ id: { $param: /body/id } }], field: name }
+      - instance
+  - match: 'DELETE /api/v3/tag/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/tag/{id}', args: [{ id: { $param: /path/id } }], field: label }
+  - match: 'DELETE /api/v3/qualityprofile/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/qualityprofile/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'DELETE /api/v3/languageprofile/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/languageprofile/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'DELETE /api/v3/customformat/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/customformat/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'DELETE /api/v3/releaseprofile/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/releaseprofile/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'DELETE /api/v3/autotagging/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/autotagging/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'DELETE /api/v3/customfilter/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/customfilter/{id}', args: [{ id: { $param: /path/id } }], field: label }
+  - match: 'DELETE /api/v3/rootfolder/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/rootfolder/{id}', args: [{ id: { $param: /path/id } }], field: path }
+  - match: 'DELETE /api/v3/remotepathmapping/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/remotepathmapping/{id}', args: [{ id: { $param: /path/id } }], field: remotePath }
+  - match: 'DELETE /api/v3/importlistexclusion/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/importlistexclusion/{id}', args: [{ id: { $param: /path/id } }], field: title }
+  - match: 'DELETE /api/v3/episodefile/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/episodefile/{id}', args: [{ id: { $param: /path/id } }], field: relativePath }
+  - match: 'DELETE /api/v3/command/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/command/{id}', args: [{ id: { $param: /path/id } }], field: name }
+  - match: 'DELETE /api/v3/queue/{id}'
+    confirm:
+      lookup: { op: 'GET /api/v3/queue/details', find: { field: id, equals: { $param: /path/id } }, field: title }
+
+  # Provider settings carry passwords, API keys and webhook URLs with tokens in `fields[].value`; the approver
+  # sees the destination host as a target instead (src/targets.ts).
+  - match:
+      - '* /api/v3/downloadclient*'
+      - '* /api/v3/indexer*'
+      - '* /api/v3/importlist*'
+      - '* /api/v3/notification*'
+      - '* /api/v3/metadata*'
+    sensitiveParams: [/body/fields]
+  - match: 'PUT /api/v3/config/host/{id}'
+    sensitiveParams:
+      [/body/apiKey, /body/password, /body/passwordConfirmation, /body/proxyPassword, /body/sslCertPassword]
+  # A pushed release's links and guid can carry the indexer's API key or the tracker passkey.
+  - match: 'POST /api/v3/release/push'
+    sensitiveParams: [/body/downloadUrl, /body/magnetUrl, /body/guid, /body/infoUrl, /body/commentUrl]
+  - match: '* /api/v3/config/host*'
+    sensitiveResult: { keys: [apiKey, password, passwordConfirmation, proxyPassword, sslCertPassword] }
+  # Release and history links carry the indexer's API key or the tracker passkey. src/plugin.ts also hides them in
+  # any case and cuts link-shaped guids, info and comment links to their origin.
+  - match: ['* /api/v3/release*', '* /api/v3/history*']
+    sensitiveResult: { keys: [downloadUrl, magnetUrl, url], deep: true }
+
+plugin:
+  # The spec for the instance's release tag (v<4-part version>), else `main`, Sonarr's v4 release branch (`develop`
+  # is v5); the base URL is a connection field (`specBaseUrl`), so a mirror with the layout <url>/<ref>/<file> works.
+  spec:
+    baseUrl: https://raw.githubusercontent.com/Sonarr/Sonarr
+    file: src/Sonarr.Api.V3/openapi.json
+    fallbackRef: main
+    maxBytes: 5242880
+    timeoutMs: 20000
+  # Endpoint and field that report the version (it needs the API key, so it also proves it).
+  versionPath: /api/v3/system/status
+  versionField: version
+  # Refuse a spec with fewer operations: a truncated one must not replace the catalog.
+  minOperations: 150
+  # Searches, refreshes, rescans, checks and backups take the ordinary `POST /api/v3/command`: they write metadata
+  # or a backup and may delete empty folders, but none takes a caller's folder, installs, updates or restarts. Any
+  # other name, a future one included, takes the locked `#heavy` twin; Sonarr matches names case-insensitively.
+  # A manual `ApplicationUpdateCheck` ignores the auto-update setting and installs an update, so it is not listed.
+  quickCommands:
+    - Backup
+    - CheckHealth
+    - CutoffUnmetEpisodeSearch
+    - EpisodeSearch
+    - Housekeeping
+    - ImportListSync
+    - MissingEpisodeSearch
+    - RefreshMonitoredDownloads
+    - RefreshSeries
+    - RescanSeries
+    - RssSync
+    - SeasonSearch
+    - SeriesSearch
+  # Request keys the rules, targets and pointers read, in Sonarr's spelling. Sonarr binds query and body keys
+  # case-insensitively, so `MoveFiles` or `Id` is renamed to this spelling, and two keys that differ only in case
+  # are refused (src/request.ts).
+  canonicalKeys:
+    - id
+    - name
+    - fields
+    - implementation
+    - title
+    - path
+    - rootFolderPath
+    - seriesIds
+    - series
+    - ids
+    - episodeFileIds
+    - deleteFiles
+    - moveFiles
+    - addImportListExclusion
+    - useScriptImport
+    - scriptImportPath
+    - downloadUrl
+    - magnetUrl
+    - guid
+    - infoUrl
+    - commentUrl
+    - apiKey
+    - password
+    - passwordConfirmation
+    - proxyPassword
+    - sslCertPassword

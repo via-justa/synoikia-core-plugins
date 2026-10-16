@@ -1,0 +1,411 @@
+{
+  "GET /api/v1/applications": {
+    "masked": [
+      {
+        "fields": [
+          {
+            "name": "prowlarrUrl",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "http://prowlarr:9696"
+          },
+          {
+            "name": "baseUrl",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "http://sonarr:8989"
+          },
+          {
+            "name": "apiKey",
+            "privacy": "apiKey",
+            "type": "textbox",
+            "value": "********"
+          },
+          {
+            "name": "syncCategories",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": [
+              5000,
+              5040
+            ]
+          }
+        ],
+        "id": 4,
+        "implementation": "Sonarr",
+        "name": "Sonarr",
+        "syncLevel": "fullSync"
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v1/config/host": {
+    "masked": {
+      "apiKey": "[REDACTED]",
+      "authenticationMethod": "forms",
+      "bindAddress": "*",
+      "id": 1,
+      "instanceName": "Home Prowlarr",
+      "password": "[REDACTED]",
+      "port": 9696,
+      "proxyPassword": "[REDACTED]",
+      "urlBase": "",
+      "username": "admin"
+    },
+    "sensitiveParams": []
+  },
+  "GET /api/v1/downloadclient": {
+    "masked": [
+      {
+        "enable": true,
+        "fields": [
+          {
+            "name": "host",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "qbittorrent.lan"
+          },
+          {
+            "name": "port",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": 8080
+          },
+          {
+            "name": "useSsl",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": false
+          },
+          {
+            "name": "username",
+            "privacy": "userName",
+            "type": "textbox",
+            "value": "prowlarr"
+          },
+          {
+            "name": "password",
+            "privacy": "password",
+            "type": "textbox",
+            "value": "********"
+          }
+        ],
+        "id": 6,
+        "implementation": "QBittorrent",
+        "name": "qBit"
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v1/history": {
+    "masked": {
+      "page": 1,
+      "pageSize": 10,
+      "records": [
+        {
+          "data": {
+            "query": "dune",
+            "url": "[REDACTED]"
+          },
+          "eventType": "indexerQuery",
+          "id": 51,
+          "indexerId": 1,
+          "successful": true
+        },
+        {
+          "data": {
+            "grabTitle": "Dune.2021.2160p",
+            "url": "[REDACTED]"
+          },
+          "eventType": "releaseGrabbed",
+          "id": 52,
+          "indexerId": 2,
+          "successful": true
+        },
+        {
+          "data": {
+            "GrabTitle": "Dune.2021.720p",
+            "InfoUrl": "https://privatehd.example/[REDACTED]",
+            "Url": "[REDACTED]"
+          },
+          "eventType": "releaseGrabbed",
+          "id": 53,
+          "indexerId": 2,
+          "successful": true
+        }
+      ],
+      "totalRecords": 3
+    },
+    "sensitiveParams": []
+  },
+  "GET /api/v1/indexer": {
+    "masked": [
+      {
+        "enable": true,
+        "fields": [
+          {
+            "name": "baseUrl",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "https://api.nzbgeek.info"
+          },
+          {
+            "name": "apiPath",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "/api"
+          },
+          {
+            "name": "apiKey",
+            "privacy": "apiKey",
+            "type": "textbox",
+            "value": "********"
+          }
+        ],
+        "id": 1,
+        "implementation": "Newznab",
+        "name": "NZBgeek",
+        "privacy": "private",
+        "protocol": "usenet"
+      },
+      {
+        "definitionName": "privatehd",
+        "downloadClientId": 6,
+        "enable": true,
+        "fields": [
+          {
+            "name": "definitionFile",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "baseUrl",
+            "privacy": "normal",
+            "type": "select",
+            "value": "https://privatehd.example/[REDACTED]"
+          },
+          {
+            "name": "username",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "password",
+            "privacy": "normal",
+            "type": "password",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "cookie",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "passkey",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "2facode",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "pid",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "freeleech",
+            "privacy": "normal",
+            "type": "checkbox",
+            "value": false
+          },
+          {
+            "name": "sort",
+            "privacy": "normal",
+            "type": "select",
+            "value": 2
+          }
+        ],
+        "id": 2,
+        "implementation": "Cardigann",
+        "name": "PrivateHD",
+        "privacy": "private",
+        "protocol": "torrent"
+      },
+      {
+        "enable": false,
+        "fields": [
+          {
+            "name": "baseUrl",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "https://tracker.example/[REDACTED]"
+          }
+        ],
+        "id": 3,
+        "implementation": "TorrentRssIndexer",
+        "name": "Tracker RSS",
+        "privacy": "private",
+        "protocol": "torrent"
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v1/indexerproxy": {
+    "masked": [
+      {
+        "fields": [
+          {
+            "name": "host",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "http://flaresolverr:8191/"
+          },
+          {
+            "name": "requestTimeout",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": 60
+          }
+        ],
+        "id": 5,
+        "implementation": "FlareSolverr",
+        "name": "FlareSolverr",
+        "tags": [
+          12
+        ]
+      },
+      {
+        "fields": [
+          {
+            "name": "host",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "socks.lan"
+          },
+          {
+            "name": "port",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": 1080
+          },
+          {
+            "name": "username",
+            "privacy": "userName",
+            "type": "textbox",
+            "value": "prowlarr"
+          },
+          {
+            "name": "password",
+            "privacy": "password",
+            "type": "textbox",
+            "value": "********"
+          }
+        ],
+        "id": 10,
+        "implementation": "Socks5",
+        "name": "Socks",
+        "tags": []
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v1/notification": {
+    "masked": [
+      {
+        "fields": [
+          {
+            "name": "webHookUrl",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "https://discord.com/[REDACTED]"
+          }
+        ],
+        "id": 9,
+        "implementation": "Discord",
+        "name": "Discord"
+      },
+      {
+        "fields": [
+          {
+            "name": "url",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": "https://hooks.example.com/[REDACTED]"
+          },
+          {
+            "name": "headers",
+            "privacy": "normal",
+            "type": "textbox",
+            "value": [
+              {
+                "key": "Authorization",
+                "value": "[REDACTED]"
+              }
+            ]
+          }
+        ],
+        "id": 14,
+        "implementation": "Webhook",
+        "name": "Hook"
+      }
+    ],
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  },
+  "GET /api/v1/search": {
+    "masked": [
+      {
+        "commentUrl": "https://privatehd.example/[REDACTED]",
+        "downloadUrl": "[REDACTED]",
+        "guid": "https://privatehd.example/[REDACTED]",
+        "indexer": "PrivateHD",
+        "indexerId": 2,
+        "infoUrl": "https://privatehd.example/[REDACTED]",
+        "magnetUrl": "[REDACTED]",
+        "protocol": "torrent",
+        "seeders": 40,
+        "title": "Dune.2021.2160p"
+      },
+      {
+        "downloadUrl": "[REDACTED]",
+        "guid": "nzbgeek-guid-1",
+        "indexer": "NZBgeek",
+        "indexerId": 1,
+        "protocol": "usenet",
+        "title": "Dune.2021.1080p"
+      },
+      {
+        "guid": "magnet:?xt=urn:btih:0123456789ABCDEF0123456789ABCDEF01234567",
+        "indexer": "PrivateHD",
+        "indexerId": 2,
+        "protocol": "torrent",
+        "title": "Dune.2021.720p"
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "POST /api/v1/downloadclient/test": {
+    "masked": {},
+    "sensitiveParams": [
+      "/body/fields"
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": "grafanacloud",
+  "name": "Grafana Cloud",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the grafana.com Cloud API (stacks, orgs, access policies, tokens, regions, stack plugins), catalog from the OpenAPI spec grafana.com publishes.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "grafanacloud",
+    "functions": ["request"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Stack, access policy or token"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["org", "token"],
+      "properties": {
+        "org": {
+          "type": "string",
+          "title": "Organization slug",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "token": {
+          "type": "string",
+          "title": "Cloud access policy token",
+          "writeOnly": true
+        },
+        "apiUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "API URL (advanced)"
+        },
+        "specUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "API spec source (advanced)"
+        }
+      }
+    },
+    "ui": {
+      "org": {
+        "widget": "text",
+        "placeholder": "my-company",
+        "help": "The slug in your grafana.com address: https://grafana.com/orgs/<slug>."
+      },
+      "token": {
+        "widget": "secret",
+        "help": "A Cloud access policy token (glc_…). Sent as Authorization: Bearer."
+      },
+      "apiUrl": {
+        "widget": "url",
+        "placeholder": "https://grafana.com/api",
+        "help": "Leave empty for https://grafana.com/api. Must use https."
+      },
+      "specUrl": {
+        "widget": "url",
+        "placeholder": "https://grafana.com/api/openapi.json",
+        "help": "Leave empty to fetch the spec from grafana.com, falling back to the copy in grafana/grafana-com-public-clients on GitHub. Set a mirror of openapi.json if this server can reach neither. Must use https."
+      }
+    },
+    "help": "1. On grafana.com, open **Administration → Users and access → Cloud access policies** and create a policy in your org realm with the least scopes Synoikia needs: `orgs:read`, `stacks:read`, `stack-plugins:read` and `accesspolicies:read` to read; add `:write` and `:delete` scopes only for what it should change.\n2. Add a token to that policy.\n3. Enter your organization slug and the token, then **Test connection**: it reads the org and fetches the API spec.\n\nThe catalog comes from the spec grafana.com publishes at `/api/openapi.json`. When grafana.com does not serve it, the copy in `grafana/grafana-com-public-clients` on GitHub is used."
+  },
+  "sensitiveKeys": ["token", "key", "password", "machineLearningLogsToken", "client_secret", "private_key"],
+  "network": {
+    "hosts": [
+      "https://grafana.com",
+      "https://raw.githubusercontent.com",
+      "{{connection.apiUrl}}",
+      "{{connection.specUrl}}"
+    ]
+  }
+}

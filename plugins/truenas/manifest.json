@@ -1,10 +1,11 @@
 {
   "id": "truenas",
   "name": "TrueNAS",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "sdk": "^0.2.2",
   "description": "Search/execute over the TrueNAS JSON-RPC API, catalog from core.get_methods.",
   "entry": "dist/index.js",
+  "instructions": "instructions.md",
   "binding": {
     "namespace": "truenas",
     "functions": ["call"]

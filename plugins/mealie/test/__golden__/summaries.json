@@ -1,0 +1,297 @@
+{
+  "DELETE /api/admin/backups/{file_name}": {
+    "confirmLiteral": "mealie_2026.10.14.zip",
+    "resolved": "DELETE /api/admin/backups/{file_name}",
+    "text": "Mealie DELETE /api/admin/backups/mealie_2026.10.14.zip"
+  },
+  "DELETE /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}": {
+    "confirmLiteral": "Home",
+    "resolved": "DELETE /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}",
+    "text": "Mealie DELETE /api/admin/groups/g-1/ai-providers/providers/p-1"
+  },
+  "DELETE /api/admin/groups/{item_id}": {
+    "confirmLiteral": "Home",
+    "resolved": "DELETE /api/admin/groups/{item_id}",
+    "text": "Mealie DELETE /api/admin/groups/g-1"
+  },
+  "DELETE /api/admin/households/{item_id}": {
+    "confirmLiteral": "Family",
+    "resolved": "DELETE /api/admin/households/{item_id}",
+    "text": "Mealie DELETE /api/admin/households/h-1"
+  },
+  "DELETE /api/admin/users/{item_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "DELETE /api/admin/users/{item_id}",
+    "text": "Mealie DELETE /api/admin/users/u-2"
+  },
+  "DELETE /api/comments/{item_id}": {
+    "confirmLiteral": "c-1",
+    "resolved": "DELETE /api/comments/{item_id}",
+    "text": "Mealie DELETE /api/comments/c-1"
+  },
+  "DELETE /api/foods/{item_id}": {
+    "confirmLiteral": "Flour",
+    "resolved": "DELETE /api/foods/{item_id}",
+    "text": "Mealie DELETE /api/foods/f-1"
+  },
+  "DELETE /api/groups/ai-providers/providers/{provider_id}": {
+    "confirmLiteral": "Home",
+    "resolved": "DELETE /api/groups/ai-providers/providers/{provider_id}",
+    "text": "Mealie DELETE /api/groups/ai-providers/providers/p-1"
+  },
+  "DELETE /api/groups/labels/{item_id}": {
+    "confirmLiteral": "Pantry",
+    "resolved": "DELETE /api/groups/labels/{item_id}",
+    "text": "Mealie DELETE /api/groups/labels/l-1"
+  },
+  "DELETE /api/groups/reports/{item_id}": {
+    "confirmLiteral": "Migration report",
+    "resolved": "DELETE /api/groups/reports/{item_id}",
+    "text": "Mealie DELETE /api/groups/reports/rp-1"
+  },
+  "DELETE /api/households/cookbooks/{item_id}": {
+    "confirmLiteral": "Weeknight",
+    "resolved": "DELETE /api/households/cookbooks/{item_id}",
+    "text": "Mealie DELETE /api/households/cookbooks/cb-1"
+  },
+  "DELETE /api/households/events/notifications/{item_id}": {
+    "confirmLiteral": "Phone",
+    "resolved": "DELETE /api/households/events/notifications/{item_id}",
+    "text": "Mealie DELETE /api/households/events/notifications/n-1"
+  },
+  "DELETE /api/households/mealplans/rules/{item_id}": {
+    "confirmLiteral": "mr-1",
+    "resolved": "DELETE /api/households/mealplans/rules/{item_id}",
+    "text": "Mealie DELETE /api/households/mealplans/rules/mr-1"
+  },
+  "DELETE /api/households/mealplans/{item_id}": {
+    "confirmLiteral": "Taco night",
+    "resolved": "DELETE /api/households/mealplans/{item_id}",
+    "text": "Mealie DELETE /api/households/mealplans/1"
+  },
+  "DELETE /api/households/recipe-actions/{item_id}": {
+    "confirmLiteral": "Open in Kitchen",
+    "resolved": "DELETE /api/households/recipe-actions/{item_id}",
+    "text": "Mealie DELETE /api/households/recipe-actions/ra-1"
+  },
+  "DELETE /api/households/shopping/items": {
+    "confirmLiteral": "Home",
+    "resolved": "DELETE /api/households/shopping/items",
+    "text": "Mealie DELETE /api/households/shopping/items?ids=si-1&ids=si-2"
+  },
+  "DELETE /api/households/shopping/items/{item_id}": {
+    "confirmLiteral": "2 cups flour",
+    "resolved": "DELETE /api/households/shopping/items/{item_id}",
+    "text": "Mealie DELETE /api/households/shopping/items/si-1"
+  },
+  "DELETE /api/households/shopping/lists/{item_id}": {
+    "confirmLiteral": "Groceries",
+    "resolved": "DELETE /api/households/shopping/lists/{item_id}",
+    "text": "Mealie DELETE /api/households/shopping/lists/sl-1"
+  },
+  "DELETE /api/households/webhooks/{item_id}": {
+    "confirmLiteral": "HA",
+    "resolved": "DELETE /api/households/webhooks/{item_id}",
+    "text": "Mealie DELETE /api/households/webhooks/w-1"
+  },
+  "DELETE /api/organizers/categories/{item_id}": {
+    "confirmLiteral": "Dinner",
+    "resolved": "DELETE /api/organizers/categories/{item_id}",
+    "text": "Mealie DELETE /api/organizers/categories/cat-1"
+  },
+  "DELETE /api/organizers/tags/{item_id}": {
+    "confirmLiteral": "Quick",
+    "resolved": "DELETE /api/organizers/tags/{item_id}",
+    "text": "Mealie DELETE /api/organizers/tags/t-1"
+  },
+  "DELETE /api/organizers/tools/{item_id}": {
+    "confirmLiteral": "Wok",
+    "resolved": "DELETE /api/organizers/tools/{item_id}",
+    "text": "Mealie DELETE /api/organizers/tools/to-1"
+  },
+  "DELETE /api/recipes/bulk-actions/export/purge": {
+    "confirmLiteral": "Home",
+    "resolved": "DELETE /api/recipes/bulk-actions/export/purge",
+    "text": "Mealie DELETE /api/recipes/bulk-actions/export/purge"
+  },
+  "DELETE /api/recipes/timeline/events/{item_id}": {
+    "confirmLiteral": "Made it",
+    "resolved": "DELETE /api/recipes/timeline/events/{item_id}",
+    "text": "Mealie DELETE /api/recipes/timeline/events/te-1"
+  },
+  "DELETE /api/recipes/{slug}": {
+    "confirmLiteral": "Pasta Fagioli",
+    "resolved": "DELETE /api/recipes/{slug}",
+    "text": "Mealie DELETE /api/recipes/pasta"
+  },
+  "DELETE /api/recipes/{slug}/image": {
+    "confirmLiteral": "pasta",
+    "resolved": "DELETE /api/recipes/{slug}/image",
+    "text": "Mealie DELETE /api/recipes/pasta/image"
+  },
+  "DELETE /api/shared/recipes/{item_id}": {
+    "confirmLiteral": "Pasta Fagioli",
+    "resolved": "DELETE /api/shared/recipes/{item_id}",
+    "text": "Mealie DELETE /api/shared/recipes/sh-1"
+  },
+  "DELETE /api/units/{item_id}": {
+    "confirmLiteral": "cup",
+    "resolved": "DELETE /api/units/{item_id}",
+    "text": "Mealie DELETE /api/units/un-1"
+  },
+  "DELETE /api/users/api-tokens/{token_id}": {
+    "confirmLiteral": "admin",
+    "resolved": "DELETE /api/users/api-tokens/{token_id}",
+    "text": "Mealie DELETE /api/users/api-tokens/7"
+  },
+  "DELETE /api/users/{id}/favorites/{slug}": {
+    "confirmLiteral": "pasta",
+    "resolved": "DELETE /api/users/{id}/favorites/{slug}",
+    "text": "Mealie DELETE /api/users/u-1/favorites/pasta"
+  },
+  "POST /api/admin/backups/{file_name}/restore": {
+    "confirmLiteral": "mealie_2026.10.14.zip",
+    "resolved": "POST /api/admin/backups/{file_name}/restore",
+    "text": "Mealie POST /api/admin/backups/mealie_2026.10.14.zip/restore (replaces every group, user and recipe with the backup)"
+  },
+  "POST /api/admin/email": {
+    "confirmLiteral": "someone@example.com",
+    "resolved": "POST /api/admin/email",
+    "text": "Mealie POST /api/admin/email {\"email\":\"someone@example.com\"}"
+  },
+  "POST /api/admin/groups": {
+    "confirmLiteral": "Cabin",
+    "resolved": "POST /api/admin/groups",
+    "text": "Mealie POST /api/admin/groups {\"name\":\"Cabin\"}"
+  },
+  "POST /api/admin/groups/{group_id}/ai-providers/providers": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/admin/groups/{group_id}/ai-providers/providers",
+    "text": "Mealie POST /api/admin/groups/g-1/ai-providers/providers {\"name\":\"OpenAI\",\"apiKey\":\"[REDACTED]\"}"
+  },
+  "POST /api/admin/households": {
+    "confirmLiteral": "Guests",
+    "resolved": "POST /api/admin/households",
+    "text": "Mealie POST /api/admin/households {\"groupId\":\"g-1\",\"name\":\"Guests\"}"
+  },
+  "POST /api/admin/maintenance/clean/images": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/admin/maintenance/clean/images",
+    "text": "Mealie POST /api/admin/maintenance/clean/images"
+  },
+  "POST /api/admin/maintenance/clean/recipe-folders": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/admin/maintenance/clean/recipe-folders",
+    "text": "Mealie POST /api/admin/maintenance/clean/recipe-folders"
+  },
+  "POST /api/admin/maintenance/clean/temp": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/admin/maintenance/clean/temp",
+    "text": "Mealie POST /api/admin/maintenance/clean/temp"
+  },
+  "POST /api/admin/users": {
+    "confirmLiteral": "sam",
+    "resolved": "POST /api/admin/users",
+    "text": "Mealie POST /api/admin/users {\"username\":\"sam\",\"email\":\"sam@example.com\",\"password\":\"[REDACTED]\"}"
+  },
+  "POST /api/admin/users/password-reset-token": {
+    "confirmLiteral": "alex@example.com",
+    "resolved": "POST /api/admin/users/password-reset-token",
+    "text": "Mealie POST /api/admin/users/password-reset-token {\"email\":\"alex@example.com\"}"
+  },
+  "POST /api/admin/users/unlock": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/admin/users/unlock",
+    "text": "Mealie POST /api/admin/users/unlock"
+  },
+  "POST /api/groups/ai-providers/providers": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/groups/ai-providers/providers",
+    "text": "Mealie POST /api/groups/ai-providers/providers {\"name\":\"OpenAI\",\"baseUrl\":\"https://llm.example/v1\",\"apiKey\":\"[REDACTED]\"}"
+  },
+  "POST /api/households/invitations": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/households/invitations",
+    "text": "Mealie POST /api/households/invitations {\"uses\":1}"
+  },
+  "POST /api/households/invitations/email": {
+    "confirmLiteral": "guest@example.com",
+    "resolved": "POST /api/households/invitations/email",
+    "text": "Mealie POST /api/households/invitations/email {\"email\":\"guest@example.com\",\"token\":\"[REDACTED]\"}"
+  },
+  "POST /api/households/webhooks": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/households/webhooks",
+    "text": "Mealie POST /api/households/webhooks {\"name\":\"HA\",\"url\":\"https://ha.example/api/webhook/new-hook\",\"enabled\":true}"
+  },
+  "POST /api/recipes/bulk-actions/delete": {
+    "confirmLiteral": "Home",
+    "resolved": "POST /api/recipes/bulk-actions/delete",
+    "text": "Mealie POST /api/recipes/bulk-actions/delete {\"recipes\":[\"pasta\"]}"
+  },
+  "POST /api/users/api-tokens": {
+    "confirmLiteral": "scripts",
+    "resolved": "POST /api/users/api-tokens",
+    "text": "Mealie POST /api/users/api-tokens {\"name\":\"scripts\"}"
+  },
+  "POST /api/users/reset-password": {
+    "confirmLiteral": "alex@example.com",
+    "resolved": "POST /api/users/reset-password",
+    "text": "Mealie POST /api/users/reset-password {\"token\":\"[REDACTED]\",\"email\":\"alex@example.com\",\"password\":\"[REDACTED]\",\"passwordConfirm\":\"[REDACTED]\"}"
+  },
+  "PUT /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}": {
+    "confirmLiteral": "Home",
+    "resolved": "PUT /api/admin/groups/{group_id}/ai-providers/providers/{provider_id}",
+    "text": "Mealie PUT /api/admin/groups/g-1/ai-providers/providers/p-1 {\"name\":\"OpenAI\"}"
+  },
+  "PUT /api/admin/groups/{item_id}": {
+    "confirmLiteral": "Home",
+    "resolved": "PUT /api/admin/groups/{item_id}",
+    "text": "Mealie PUT /api/admin/groups/g-1 {\"name\":\"Home 2\"}"
+  },
+  "PUT /api/admin/households/{item_id}": {
+    "confirmLiteral": "Family",
+    "resolved": "PUT /api/admin/households/{item_id}",
+    "text": "Mealie PUT /api/admin/households/h-1 {\"name\":\"Fam\"}"
+  },
+  "PUT /api/admin/users/{item_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "PUT /api/admin/users/{item_id}",
+    "text": "Mealie PUT /api/admin/users/u-2 {\"admin\":true}"
+  },
+  "PUT /api/groups/ai-providers/providers/{provider_id}": {
+    "confirmLiteral": "Home",
+    "resolved": "PUT /api/groups/ai-providers/providers/{provider_id}",
+    "text": "Mealie PUT /api/groups/ai-providers/providers/p-1 {\"name\":\"OpenAI\",\"baseUrl\":\"https://llm.example/v1\",\"requestHeaders\":\"[REDACTED]\"}"
+  },
+  "PUT /api/groups/preferences": {
+    "confirmLiteral": "Home",
+    "resolved": "PUT /api/groups/preferences",
+    "text": "Mealie PUT /api/groups/preferences {\"privateGroup\":false}"
+  },
+  "PUT /api/households/permissions": {
+    "confirmLiteral": "alex",
+    "resolved": "PUT /api/households/permissions",
+    "text": "Mealie PUT /api/households/permissions {\"userId\":\"u-2\",\"canManage\":true}"
+  },
+  "PUT /api/households/preferences": {
+    "confirmLiteral": "Home",
+    "resolved": "PUT /api/households/preferences",
+    "text": "Mealie PUT /api/households/preferences {\"privateHousehold\":false}"
+  },
+  "PUT /api/households/webhooks/{item_id}": {
+    "confirmLiteral": "Home",
+    "resolved": "PUT /api/households/webhooks/{item_id}",
+    "text": "Mealie PUT /api/households/webhooks/w-1 {\"name\":\"HA\",\"url\":\"https://elsewhere.example/collect\",\"enabled\":true}"
+  },
+  "PUT /api/users/password": {
+    "confirmLiteral": "admin",
+    "resolved": "PUT /api/users/password",
+    "text": "Mealie PUT /api/users/password {\"currentPassword\":\"[REDACTED]\",\"newPassword\":\"[REDACTED]\"}"
+  },
+  "PUT /api/users/{item_id}": {
+    "confirmLiteral": "alex",
+    "resolved": "PUT /api/users/{item_id}",
+    "text": "Mealie PUT /api/users/u-2 {\"username\":\"mallory\",\"admin\":true}"
+  }
+}

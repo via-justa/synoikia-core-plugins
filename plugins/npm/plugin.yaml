@@ -1,0 +1,142 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of the OpenAPI spec the instance serves at /api/schema (docs/designs/npm.md): keys are the spec's
+# paths under /api (`GET /nginx/proxy-hosts/{hostID}`); GET reads, other verbs write, anything unlisted is a write.
+
+defaults:
+  # A locked operation without its own literal (a DELETE added in a newer version) confirms on its path id.
+  confirm: { custom: path-id }
+  timeouts: { request: 15000, lookup: 10000 }
+
+# Sign-in and token refresh (the plugin signs in itself), the spec, impersonation (it returns another user's
+# token), and the certificate zip download, upload and validate, which carry private keys and certificate files.
+exclude:
+  - '* /tokens'
+  - '* /tokens/*'
+  - 'GET /schema'
+  - 'POST /users/{userID}/login'
+  - 'GET /nginx/certificates/{certID}/download'
+  - 'POST /nginx/certificates/{certID}/upload'
+  - 'POST /nginx/certificates/validate'
+
+rules:
+  # Irreversible, credential or access changes, and anything that decides where live traffic goes (enabling a
+  # host re-exposes it): always a human with a typed confirmation.
+  - match:
+      - 'POST /nginx/proxy-hosts'
+      - 'PUT /nginx/proxy-hosts/{hostID}'
+      - 'DELETE /nginx/proxy-hosts/{hostID}'
+      - 'POST /nginx/proxy-hosts/{hostID}/disable'
+      - 'POST /nginx/proxy-hosts/{hostID}/enable'
+      - 'POST /nginx/redirection-hosts'
+      - 'PUT /nginx/redirection-hosts/{hostID}'
+      - 'DELETE /nginx/redirection-hosts/{hostID}'
+      - 'POST /nginx/redirection-hosts/{hostID}/disable'
+      - 'POST /nginx/redirection-hosts/{hostID}/enable'
+      - 'DELETE /nginx/dead-hosts/{hostID}'
+      - 'POST /nginx/dead-hosts/{hostID}/disable'
+      - 'POST /nginx/streams'
+      - 'PUT /nginx/streams/{streamID}'
+      - 'DELETE /nginx/streams/{streamID}'
+      - 'POST /nginx/streams/{streamID}/disable'
+      - 'POST /nginx/streams/{streamID}/enable'
+      - 'DELETE /nginx/certificates/{certID}'
+      # Clearing its users or clients opens every host behind the list.
+      - 'PUT /nginx/access-lists/{listID}'
+      - 'DELETE /nginx/access-lists/{listID}'
+      - 'POST /users'
+      - 'PUT /users/{userID}'
+      - 'DELETE /users/{userID}'
+      - 'PUT /users/{userID}/auth'
+      - 'PUT /users/{userID}/permissions'
+      - 'POST /users/{userID}/2fa'
+      - 'DELETE /users/{userID}/2fa'
+      - 'POST /users/{userID}/2fa/enable'
+      - 'POST /users/{userID}/2fa/backup-codes'
+      # The default site can redirect every unknown host to any URL, or serve custom HTML.
+      - 'PUT /settings/{settingID}'
+    locked: true
+  # A delete, or a user or settings write, that a newer version adds stays locked until reviewed.
+  - match: ['DELETE *', 'POST /users/*', 'PUT /users/*', 'PUT /settings/*']
+    locked: true
+
+  # 404 hosts take a write, except with raw nginx config (`advanced_config`), which takes the locked twin.
+  - match: ['POST /nginx/dead-hosts', 'PUT /nginx/dead-hosts/{hostID}']
+    split: advanced
+  - match: '*#advanced'
+    description: '{base} with raw nginx config (advanced_config): locked.'
+
+  # The literal an approver types: the stored host's first domain, never a body field the model writes about it.
+  - match: ['POST /nginx/proxy-hosts', 'POST /nginx/redirection-hosts', 'POST /nginx/dead-hosts#advanced']
+    confirm: { param: /body/domain_names/0 }
+  - match: '* /nginx/proxy-hosts/{hostID}*'
+    confirm:
+      lookup:
+        op: 'GET /nginx/proxy-hosts/{hostID}'
+        args: [{ hostID: { $param: /path/hostID } }]
+        field: /domain_names/0
+  - match: '* /nginx/redirection-hosts/{hostID}*'
+    confirm:
+      lookup:
+        op: 'GET /nginx/redirection-hosts/{hostID}'
+        args: [{ hostID: { $param: /path/hostID } }]
+        field: /domain_names/0
+  - match: '* /nginx/dead-hosts/{hostID}*'
+    confirm:
+      lookup:
+        op: 'GET /nginx/dead-hosts/{hostID}'
+        args: [{ hostID: { $param: /path/hostID } }]
+        field: /domain_names/0
+  - match: 'POST /nginx/streams'
+    confirm: { param: /body/incoming_port }
+  - match: '* /nginx/streams/{streamID}*'
+    confirm:
+      lookup:
+        op: 'GET /nginx/streams/{streamID}'
+        args: [{ streamID: { $param: /path/streamID } }]
+        field: incoming_port
+  - match: 'DELETE /nginx/certificates/{certID}'
+    confirm:
+      lookup:
+        op: 'GET /nginx/certificates/{certID}'
+        args: [{ certID: { $param: /path/certID } }]
+        field: [nice_name, /domain_names/0]
+  - match: '* /nginx/access-lists/{listID}'
+    confirm:
+      lookup:
+        op: 'GET /nginx/access-lists/{listID}'
+        args: [{ listID: { $param: /path/listID } }]
+        field: name
+  - match: 'POST /users'
+    confirm: { param: /body/email }
+  - match: '* /users/{userID}*'
+    confirm:
+      lookup: { op: 'GET /users/{userID}', args: [{ userID: { $param: /path/userID } }], field: email }
+  - match: 'PUT /settings/{settingID}'
+    confirm: { param: /path/settingID }
+
+  # Secrets in params: DNS-provider credentials and private keys, passwords, 2FA codes.
+  - match: 'POST /nginx/certificates'
+    sensitiveParams: [/body/meta/dns_provider_credentials, /body/meta/certificate_key]
+  - match: 'POST /users'
+    sensitiveParams: [/body/auth/secret]
+  - match: 'PUT /users/{userID}/auth'
+    sensitiveParams: [/body/secret, /body/current]
+  - match: ['POST /users/{userID}/2fa/enable', 'POST /users/{userID}/2fa/backup-codes']
+    sensitiveParams: [/body/code]
+  - match: 'DELETE /users/{userID}/2fa'
+    sensitiveParams: [/query/code]
+
+  # Secrets in results. NPM omits DNS credentials and masks access-list passwords itself; these hold if it stops.
+  - match: 'POST /users/{userID}/2fa'
+    sensitiveResult: { keys: [secret, otpauth_url] }
+  - match: ['POST /users/{userID}/2fa/enable', 'POST /users/{userID}/2fa/backup-codes']
+    sensitiveResult: { keys: [backup_codes] }
+  - match: ['* /nginx/*', '* /audit-log*', 'GET /reports/*']
+    sensitiveResult: { keys: [dns_provider_credentials, certificate_key, password], deep: true }
+
+plugin:
+  # Where the instance serves its compiled spec and its version (both public), relative to /api.
+  specPath: /schema
+  versionPath: /
+  # Refuse a spec with fewer operations: a truncated one must not replace the catalog.
+  minOperations: 50

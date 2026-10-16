@@ -1,0 +1,90 @@
+{
+  "id": "backstage",
+  "name": "Backstage",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the Backstage backend REST APIs (catalog, scaffolder, search, events, notifications), catalog from the OpenAPI specs the backend plugins serve.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "backstage",
+    "functions": ["request"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Entity"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "token"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Backend URL"
+        },
+        "token": {
+          "type": "string",
+          "title": "External access token",
+          "writeOnly": true
+        },
+        "pluginIds": {
+          "type": "array",
+          "title": "Backend plugins",
+          "items": {
+            "type": "string",
+            "enum": ["catalog", "scaffolder", "search", "events", "notifications"],
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "uniqueItems": true,
+          "minItems": 1,
+          "default": ["catalog", "scaffolder", "search", "events", "notifications"]
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "https://backstage.internal.lan",
+        "help": "The backend's address (backend.baseUrl), without /api."
+      },
+      "token": {
+        "widget": "secret",
+        "help": "A static token from backend.auth.externalAccess in app-config. Sent as a Bearer token."
+      },
+      "pluginIds": {
+        "widget": "multiselect",
+        "help": "Backend plugins whose API to load. One that is not installed is skipped."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      }
+    },
+    "help": "1. In Backstage's app-config, add a static external-access token under `backend.auth.externalAccess` (`type: static`, with a `subject` such as `synoikia`), and restrict it with `accessRestrictions` if you use the permission framework.\n2. Enter the backend URL and the token, then **Test connection**.\n3. Keep *Verify TLS* on unless Backstage uses a self-signed certificate on a trusted network.\n\nThe catalog comes from each backend plugin's own `/api/<plugin>/openapi.json`, so it always matches the installed version."
+  },
+  "sensitiveKeys": [
+    "token",
+    "secrets",
+    "authorizationToken",
+    "backstageToken",
+    "apiKey",
+    "api_key",
+    "password",
+    "secret"
+  ],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}"]
+  }
+}

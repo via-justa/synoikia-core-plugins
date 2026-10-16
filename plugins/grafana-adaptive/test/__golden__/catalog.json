@@ -1,0 +1,1580 @@
+[
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "The aggregation rules in force, with the `etag` a rules write needs."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.rules.list",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "The aggregation rule of one metric."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.rules.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read (validates a rule set without applying it)",
+    "docs": {
+      "summary": "Validate a rule set without applying it; returns the errors, if any."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.rules.check",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "$defs": {
+        "rule": {
+          "properties": {
+            "aggregation_delay": {
+              "type": "string"
+            },
+            "aggregation_interval": {
+              "type": "string"
+            },
+            "aggregations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "drop": {
+              "description": "Drop the metric entirely: no ingestion, no aggregation",
+              "type": "boolean"
+            },
+            "drop_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "keep_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "match_type": {
+              "enum": [
+                "exact",
+                "prefix",
+                "suffix"
+              ],
+              "type": "string"
+            },
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        }
+      },
+      "properties": {
+        "body": {
+          "items": {
+            "$ref": "#/$defs/rule"
+          },
+          "type": "array"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "description": "Without `verbose`, `recommendations` is the complete recommended rule set and `rulesVersion` works as the `ifMatch` of `metrics.rules.replace` to apply it.",
+      "summary": "Recommended aggregation rules; `verbose` adds usage counts and series before and after."
+    },
+    "group": "metrics.recommendations",
+    "key": "metrics.recommendations.list",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "items": {
+                "enum": [
+                  "add",
+                  "keep",
+                  "remove",
+                  "update"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "segment": {
+              "type": "string"
+            },
+            "verbose": {
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Recommendation settings, `keep_labels` and `auto_apply`."
+    },
+    "group": "metrics.recommendations",
+    "key": "metrics.recommendations.config",
+    "kind": "command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Segments (scoped rule sets) and their ids."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.segments.list",
+    "kind": "command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Metrics that recommendations leave alone, fully or for some labels."
+    },
+    "group": "metrics.exemptions",
+    "key": "metrics.exemptions.list",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "One metrics exemption."
+    },
+    "group": "metrics.exemptions",
+    "key": "metrics.exemptions.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "description": "Rules left out of `body` are removed. Read the rules, change them, and send them all back with the `etag` as `ifMatch`; a stale one fails with 412.",
+      "summary": "Replace the whole aggregation rule set; needs `ifMatch` from `metrics.rules.list`."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.rules.replace",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "$defs": {
+        "rule": {
+          "properties": {
+            "aggregation_delay": {
+              "type": "string"
+            },
+            "aggregation_interval": {
+              "type": "string"
+            },
+            "aggregations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "drop": {
+              "description": "Drop the metric entirely: no ingestion, no aggregation",
+              "type": "boolean"
+            },
+            "drop_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "keep_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "match_type": {
+              "enum": [
+                "exact",
+                "prefix",
+                "suffix"
+              ],
+              "type": "string"
+            },
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        }
+      },
+      "properties": {
+        "body": {
+          "items": {
+            "$ref": "#/$defs/rule"
+          },
+          "type": "array"
+        },
+        "ifMatch": {
+          "type": "string"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "body",
+        "ifMatch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Add the aggregation rule of one metric; needs `ifMatch` from `metrics.rules.list`."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.rules.create",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "$defs": {
+        "rule": {
+          "properties": {
+            "aggregation_delay": {
+              "type": "string"
+            },
+            "aggregation_interval": {
+              "type": "string"
+            },
+            "aggregations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "drop": {
+              "description": "Drop the metric entirely: no ingestion, no aggregation",
+              "type": "boolean"
+            },
+            "drop_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "keep_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "match_type": {
+              "enum": [
+                "exact",
+                "prefix",
+                "suffix"
+              ],
+              "type": "string"
+            },
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        }
+      },
+      "properties": {
+        "body": {
+          "$ref": "#/$defs/rule"
+        },
+        "ifMatch": {
+          "type": "string"
+        },
+        "path": {
+          "properties": {
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "body",
+        "ifMatch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Change the aggregation rule of one metric; needs `ifMatch` from `metrics.rules.list`."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.rules.update",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "$defs": {
+        "rule": {
+          "properties": {
+            "aggregation_delay": {
+              "type": "string"
+            },
+            "aggregation_interval": {
+              "type": "string"
+            },
+            "aggregations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "drop": {
+              "description": "Drop the metric entirely: no ingestion, no aggregation",
+              "type": "boolean"
+            },
+            "drop_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "keep_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "match_type": {
+              "enum": [
+                "exact",
+                "prefix",
+                "suffix"
+              ],
+              "type": "string"
+            },
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        }
+      },
+      "properties": {
+        "body": {
+          "$ref": "#/$defs/rule"
+        },
+        "ifMatch": {
+          "type": "string"
+        },
+        "path": {
+          "properties": {
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "body",
+        "ifMatch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Remove the aggregation rule of one metric; needs `ifMatch` from `metrics.rules.list`."
+    },
+    "group": "metrics.rules",
+    "key": "metrics.rules.delete",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "ifMatch": {
+          "type": "string"
+        },
+        "path": {
+          "properties": {
+            "metric": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "ifMatch"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Change the recommendation settings; `auto_apply` applies recommendations without review."
+    },
+    "group": "metrics.recommendations",
+    "key": "metrics.recommendations.updateConfig",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "auto_apply": {
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "gate": {
+                  "properties": {
+                    "policy": {
+                      "enum": [
+                        "unbounded",
+                        "no-increase"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "keep_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Exempt a metric from recommendations, fully or for some labels."
+    },
+    "group": "metrics.exemptions",
+    "key": "metrics.exemptions.create",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "active_interval": {
+              "type": "string"
+            },
+            "disable_recommendations": {
+              "type": "boolean"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "keep_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "match_type": {
+              "type": "string"
+            },
+            "metric": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Change a metrics exemption."
+    },
+    "group": "metrics.exemptions",
+    "key": "metrics.exemptions.update",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "active_interval": {
+              "type": "string"
+            },
+            "disable_recommendations": {
+              "type": "boolean"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "keep_labels": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "match_type": {
+              "type": "string"
+            },
+            "metric": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "metric"
+          ],
+          "type": "object"
+        },
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Remove a metrics exemption, so recommendations may aggregate or drop the metric again."
+    },
+    "group": "metrics.exemptions",
+    "key": "metrics.exemptions.delete",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "segment": {
+              "description": "Segment id; leave out for the default segment",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Log patterns with volume and their configured and recommended drop rates."
+    },
+    "group": "logs.patterns",
+    "key": "logs.recommendations.list",
+    "kind": "command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Log segments and their ids."
+    },
+    "group": "logs.patterns",
+    "key": "logs.segments.list",
+    "kind": "command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Drop rules (stream selector, levels, line text, drop rate)."
+    },
+    "group": "logs.drop-rules",
+    "key": "logs.dropRules.list",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "query": {
+          "additionalProperties": false,
+          "properties": {
+            "expiration_filter": {
+              "enum": [
+                "all",
+                "active",
+                "expired"
+              ],
+              "type": "string"
+            },
+            "segment_id": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "One drop rule."
+    },
+    "group": "logs.drop-rules",
+    "key": "logs.dropRules.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Log streams that are never dropped."
+    },
+    "group": "logs.exemptions",
+    "key": "logs.exemptions.list",
+    "kind": "command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "One logs exemption."
+    },
+    "group": "logs.exemptions",
+    "key": "logs.exemptions.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Drop a share of matching log lines before they are stored."
+    },
+    "group": "logs.drop-rules",
+    "key": "logs.dropRules.create",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "body": {
+              "properties": {
+                "drop_rate": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "levels": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "log_line_contains": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "stream_selector": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "drop_rate",
+                "stream_selector"
+              ],
+              "type": "object"
+            },
+            "disabled": {
+              "type": "boolean"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "segment_id": {
+              "description": "Create only; __global__ (the default) for the whole tenant",
+              "type": "string"
+            },
+            "version": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            }
+          },
+          "required": [
+            "name",
+            "body"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Change a drop rule."
+    },
+    "group": "logs.drop-rules",
+    "key": "logs.dropRules.update",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "body": {
+              "properties": {
+                "drop_rate": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "levels": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "log_line_contains": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "stream_selector": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "drop_rate",
+                "stream_selector"
+              ],
+              "type": "object"
+            },
+            "disabled": {
+              "type": "boolean"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "segment_id": {
+              "description": "Create only; __global__ (the default) for the whole tenant",
+              "type": "string"
+            },
+            "version": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            }
+          },
+          "required": [
+            "name",
+            "body"
+          ],
+          "type": "object"
+        },
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Remove a drop rule."
+    },
+    "group": "logs.drop-rules",
+    "key": "logs.dropRules.delete",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Never drop the log lines of a stream selector."
+    },
+    "group": "logs.exemptions",
+    "key": "logs.exemptions.create",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "active_interval": {
+              "type": "string"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "stream_selector": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "stream_selector"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Change a logs exemption."
+    },
+    "group": "logs.exemptions",
+    "key": "logs.exemptions.update",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "active_interval": {
+              "type": "string"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "stream_selector": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "stream_selector"
+          ],
+          "type": "object"
+        },
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Remove a logs exemption, so its lines may be dropped again."
+    },
+    "group": "logs.exemptions",
+    "key": "logs.exemptions.delete",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Sampling policies (type, name, body, expiry)."
+    },
+    "group": "traces.policies",
+    "key": "traces.policies.list",
+    "kind": "command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "One sampling policy."
+    },
+    "group": "traces.policies",
+    "key": "traces.policies.get",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "read",
+    "classificationReason": "declared:read",
+    "docs": {
+      "summary": "Sampling recommendations and the policy actions each would take."
+    },
+    "group": "traces.recommendations",
+    "key": "traces.recommendations.list",
+    "kind": "command",
+    "locked": false,
+    "typedConfirmation": false
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Add a sampling policy; traces no policy keeps are discarded."
+    },
+    "group": "traces.policies",
+    "key": "traces.policies.create",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "body": {
+              "type": "object"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "description": "e.g. probabilistic, rate_limiting",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "name",
+            "body"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Change a sampling policy."
+    },
+    "group": "traces.policies",
+    "key": "traces.policies.update",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "body": {
+          "properties": {
+            "body": {
+              "type": "object"
+            },
+            "expires_at": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "description": "e.g. probabilistic, rate_limiting",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "name",
+            "body"
+          ],
+          "type": "object"
+        },
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "body"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Remove a sampling policy."
+    },
+    "group": "traces.policies",
+    "key": "traces.policies.delete",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "docs": {
+      "summary": "Apply a recommendation; adds, changes or removes the policies it lists."
+    },
+    "group": "traces.recommendations",
+    "key": "traces.recommendations.apply",
+    "kind": "command",
+    "locked": true,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": true
+  },
+  {
+    "attestationRequired": false,
+    "classification": "write",
+    "classificationReason": "declared:write",
+    "docs": {
+      "summary": "Dismiss a recommendation without applying it."
+    },
+    "group": "traces.recommendations",
+    "key": "traces.recommendations.dismiss",
+    "kind": "command",
+    "locked": false,
+    "paramsSchema": {
+      "properties": {
+        "path": {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "typedConfirmation": false
+  }
+]

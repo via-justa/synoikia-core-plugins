@@ -7,6 +7,10 @@ Exposes a Home Assistant instance through the two MCP tools, `search` and `execu
 
 Design: [`docs/reference/homeassistant-mcp-design.md`](https://github.com/via-justa/home-server-mcps/blob/main/docs/reference/homeassistant-mcp-design.md), mapped onto the plugin hooks in [Synoikia design `03-plugin-model.md`](https://github.com/via-justa/synoikia-core/blob/main/docs/design/03-plugin-model.md) §3.3–§3.4.
 
+## Agent instructions
+
+Since 0.2.0 the plugin ships `instructions.md` (the operation keys, targets and common workflows, pointing to `guides.get` for automation, script and scene edits), and core adds it to the MCP server instructions. It needs **Synoikia core 0.14.0 or newer**; older cores reject the manifest field.
+
 ## Connection
 
 | Field      | Meaning                                                                                                    |

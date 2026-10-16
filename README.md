@@ -11,16 +11,38 @@ The plugins for [Synoikia](https://github.com/via-justa/synoikia-core), the self
 
 If you removed it, add it back on Synoikia's Plugins → Repositories page as a **signed** repository with that URL, and confirm the public key above. Every install is checked against it: the tarball's sha256 and its minisign signature.
 
-Each plugin version is a GitHub release, `<id>-v<version>`, holding `<id>-<version>.tgz` (`manifest.json`, `package.json` and the `dist/` bundle) and its `.minisig`. `index.json` on the `index` release lists every released version. Released versions are never changed or removed.
+Each plugin version is a GitHub release, `<id>-v<version>`, holding `<id>-<version>.tgz` (`manifest.json`, `package.json`, `instructions.md` and the `dist/` bundle) and its `.minisig`. `index.json` on the `index` release lists every released version. Released versions are never changed or removed.
+
+## Plugins
+
+| Plugin             | Upstream                                                                                                               | Catalog from                                                      | Design                                                                 |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `truenas`          | [TrueNAS](https://www.truenas.com/)                                                                                    | the instance's JSON-RPC introspection                             | [`docs/designs/truenas.md`](docs/designs/truenas.md)                   |
+| `seerr`            | [Seerr](https://github.com/seerr-team/seerr)                                                                           | `seerr-api.yml` for the instance's release                        | [`docs/designs/seerr.md`](docs/designs/seerr.md)                       |
+| `homeassistant`    | [Home Assistant](https://www.home-assistant.io/)                                                                       | the WebSocket API's services and registries                       | [`docs/designs/homeassistant.md`](docs/designs/homeassistant.md)       |
+| `mealie`           | [Mealie](https://github.com/mealie-recipes/mealie)                                                                     | the OpenAPI spec the instance serves                              | [`docs/designs/mealie.md`](docs/designs/mealie.md)                     |
+| `profilarr`        | [Profilarr](https://github.com/Dictionarry-Hub/profilarr) v2                                                           | the OpenAPI spec the instance serves                              | [`docs/designs/profilarr.md`](docs/designs/profilarr.md)               |
+| `npm`              | [Nginx Proxy Manager](https://github.com/NginxProxyManager/nginx-proxy-manager)                                        | the OpenAPI spec the instance serves                              | [`docs/designs/npm.md`](docs/designs/npm.md)                           |
+| `grafana`          | [Grafana](https://github.com/grafana/grafana) 12+, self-hosted or a Cloud stack                                        | the OpenAPI spec the instance serves                              | [`docs/designs/grafana.md`](docs/designs/grafana.md)                   |
+| `backstage`        | [Backstage](https://backstage.io/)                                                                                     | the OpenAPI specs its backend plugins serve                       | [`docs/designs/backstage.md`](docs/designs/backstage.md)               |
+| `radarr`           | [Radarr](https://github.com/Radarr/Radarr)                                                                             | `openapi.json` for the instance's release                         | [`docs/designs/radarr.md`](docs/designs/radarr.md)                     |
+| `prowlarr`         | [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                                                       | `openapi.json` for the instance's release                         | [`docs/designs/prowlarr.md`](docs/designs/prowlarr.md)                 |
+| `grafanacloud`     | [Grafana Cloud](https://grafana.com/docs/grafana-cloud/developer-resources/api-reference/cloud-api/) (grafana.com API) | the spec grafana.com publishes, with a GitHub fallback            | [`docs/designs/grafanacloud.md`](docs/designs/grafanacloud.md)         |
+| `jenkins`          | [Jenkins](https://www.jenkins.io/) 2.x                                                                                 | operations declared in `plugin.yaml` (no spec)                    | [`docs/designs/jenkins.md`](docs/designs/jenkins.md)                   |
+| `lidarr`           | [Lidarr](https://github.com/Lidarr/Lidarr)                                                                             | `openapi.json` for the instance's release                         | [`docs/designs/lidarr.md`](docs/designs/lidarr.md)                     |
+| `sonarr`           | [Sonarr](https://github.com/Sonarr/Sonarr)                                                                             | `openapi.json` for the instance's release                         | [`docs/designs/sonarr.md`](docs/designs/sonarr.md)                     |
+| `grafana-adaptive` | [Grafana Cloud Adaptive Telemetry](https://grafana.com/docs/grafana-cloud/adaptive-telemetry/) (Metrics, Logs, Traces) | operations declared in `plugin.yaml` (no spec)                    | [`docs/designs/grafana-adaptive.md`](docs/designs/grafana-adaptive.md) |
+| `plex`             | [Plex Media Server](https://www.plex.tv/)                                                                              | the community spec (`LukeHagar/plex-api-spec`) at a pinned commit | [`docs/designs/plex.md`](docs/designs/plex.md)                         |
+| `qbittorrent`      | [qBittorrent](https://www.qbittorrent.org/) 5.x                                                                        | operations declared in `plugin.yaml` (no spec)                    | [`docs/designs/qbittorrent.md`](docs/designs/qbittorrent.md)           |
 
 ## Layout
 
-| Path                 | What                                                                                                |
-| -------------------- | --------------------------------------------------------------------------------------------------- |
-| `plugins/<id>`       | One package per plugin: `manifest.json`, `plugin.yaml`, `src/`, `test/`, bundled to `dist/index.js` |
-| `docs/`              | The original per-plugin designs                                                                     |
-| `tsconfig.base.json` | Shared compiler options; each plugin's `tsconfig.json` extends it                                   |
-| `vitest.shared.ts`   | Shared Vitest config; each plugin's `vitest.config.ts` re-exports it                                |
+| Path                 | What                                                                                                                   |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `plugins/<id>`       | One package per plugin: `manifest.json`, `plugin.yaml`, `instructions.md`, `src/`, `test/`, bundled to `dist/index.js` |
+| `docs/`              | The original per-plugin designs                                                                                        |
+| `tsconfig.base.json` | Shared compiler options; each plugin's `tsconfig.json` extends it                                                      |
+| `vitest.shared.ts`   | Shared Vitest config; each plugin's `vitest.config.ts` re-exports it                                                   |
 
 Plugins build against Synoikia's published npm packages, the same way a community plugin would:
 

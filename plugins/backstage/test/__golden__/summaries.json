@@ -1,0 +1,98 @@
+{
+  "DELETE /api/catalog/entities/by-uid/{uid}": {
+    "confirmLiteral": "petstore",
+    "resolved": "DELETE /api/catalog/entities/by-uid/{uid}",
+    "targets": [
+      {
+        "id": "7f3e9a00-0000-4000-8000-000000000001",
+        "kind": "entity",
+        "name": "component:default/petstore"
+      }
+    ],
+    "text": "Backstage DELETE /api/catalog/entities/by-uid/7f3e9a00-0000-4000-8000-000000000001 on component:default/petstore"
+  },
+  "DELETE /api/catalog/locations/{id}": {
+    "confirmLiteral": "https://github.com/acme/catalog/blob/main/catalog-info.yaml",
+    "resolved": "DELETE /api/catalog/locations/{id}",
+    "targets": [
+      {
+        "id": "a1b2c3d4-0000-4000-8000-000000000002",
+        "kind": "location",
+        "name": "url:https://github.com/acme/catalog/blob/main/catalog-info.yaml"
+      }
+    ],
+    "text": "Backstage DELETE /api/catalog/locations/a1b2c3d4-0000-4000-8000-000000000002 on url:https://github.com/acme/catalog/blob/main/catalog-info.yaml"
+  },
+  "POST /api/catalog/locations": {
+    "confirmLiteral": "https://github.com/someone/else/blob/main/all.yaml",
+    "resolved": "POST /api/catalog/locations",
+    "targets": [
+      {
+        "id": "https://github.com/someone/else/blob/main/all.yaml",
+        "kind": "location",
+        "name": "url:https://github.com/someone/else/blob/main/all.yaml"
+      }
+    ],
+    "text": "Backstage POST /api/catalog/locations from url:https://github.com/someone/else/blob/main/all.yaml: {\"type\":\"url\",\"target\":\"https://github.com/someone/else/blob/main/all.yaml\"} (the catalog ingests every entity at target and keeps refreshing it; preview with POST /api/catalog/analyze-location)"
+  },
+  "POST /api/events/bus/v1/events": {
+    "confirmLiteral": "Backstage",
+    "resolved": "POST /api/events/bus/v1/events",
+    "targets": [],
+    "text": "Backstage POST /api/events/bus/v1/events {\"event\":{\"topic\":\"github.push\",\"payload\":{\"ref\":\"refs/heads/main\"}}} (every subscriber of the topic acts on it, in this and other Backstage instances on the bus)"
+  },
+  "POST /api/notifications/notifications": {
+    "confirmLiteral": "Backstage",
+    "resolved": "POST /api/notifications/notifications",
+    "targets": [],
+    "text": "Backstage POST /api/notifications/notifications {\"recipients\":{\"type\":\"broadcast\"},\"payload\":{\"title\":\"Maintenance tonight\"}} (sent to every user the recipients resolve to; type broadcast reaches all users)"
+  },
+  "POST /api/scaffolder/v2/tasks": {
+    "confirmLiteral": "template:default/react-app",
+    "resolved": "POST /api/scaffolder/v2/tasks",
+    "targets": [
+      {
+        "id": "template:default/react-app",
+        "kind": "template",
+        "name": "template:default/react-app (React app)"
+      }
+    ],
+    "text": "Backstage POST /api/scaffolder/v2/tasks {\"templateRef\":\"template:default/react-app\",\"values\":{\"name\":\"checkout\",\"repoUrl\":\"github.com?owner=acme&repo=checkout\"},\"secrets\":\"[REDACTED]\"} (runs every step of templateRef for real, such as publishing repositories and registering entities) on template:default/react-app (React app)"
+  },
+  "POST /api/scaffolder/v2/tasks/{taskId}/cancel": {
+    "confirmLiteral": "react-app",
+    "resolved": "POST /api/scaffolder/v2/tasks/{taskId}/cancel",
+    "targets": [
+      {
+        "id": "task-0001",
+        "kind": "task",
+        "name": "template:default/react-app (task processing)"
+      }
+    ],
+    "text": "Backstage POST /api/scaffolder/v2/tasks/task-0001/cancel on template:default/react-app (task processing)"
+  },
+  "POST /api/scaffolder/v2/tasks/{taskId}/retry": {
+    "confirmLiteral": "react-app",
+    "resolved": "POST /api/scaffolder/v2/tasks/{taskId}/retry",
+    "targets": [
+      {
+        "id": "task-0001",
+        "kind": "task",
+        "name": "template:default/react-app (task processing)"
+      }
+    ],
+    "text": "Backstage POST /api/scaffolder/v2/tasks/task-0001/retry {\"secrets\":\"[REDACTED]\"} on template:default/react-app (task processing)"
+  },
+  "PUT /api/catalog/locations/{id}": {
+    "confirmLiteral": "https://github.com/acme/catalog/blob/main/catalog-info.yaml",
+    "resolved": "PUT /api/catalog/locations/{id}",
+    "targets": [
+      {
+        "id": "a1b2c3d4-0000-4000-8000-000000000002",
+        "kind": "location",
+        "name": "url:https://github.com/acme/catalog/blob/main/catalog-info.yaml"
+      }
+    ],
+    "text": "Backstage PUT /api/catalog/locations/a1b2c3d4-0000-4000-8000-000000000002 {\"type\":\"url\",\"target\":\"https://github.com/someone/else/blob/main/moved.yaml\"} on url:https://github.com/acme/catalog/blob/main/catalog-info.yaml"
+  }
+}

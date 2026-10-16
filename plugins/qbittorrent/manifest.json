@@ -1,0 +1,83 @@
+{
+  "id": "qbittorrent",
+  "name": "qBittorrent",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over qBittorrent 5.x: torrents, categories, tags, transfer limits, logs, RSS and search, from a fixed set of WebUI API v2 operations.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "qbittorrent",
+    "functions": ["call"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Torrent, category, tag, RSS item or instance"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "username", "password"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "password": {
+          "type": "string",
+          "title": "Password",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "http://qbittorrent.internal.lan:8080",
+        "help": "The address you open the qBittorrent WebUI at, with its path if a reverse proxy serves it under one."
+      },
+      "username": {
+        "widget": "text",
+        "help": "The WebUI username (Tools → Options → WebUI → Authentication)."
+      },
+      "password": {
+        "widget": "secret",
+        "help": "The WebUI password. Sent once to sign in; the session cookie is used after that."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      }
+    },
+    "help": "1. In qBittorrent 5.0 or later, open **Tools → Options → WebUI** and note the WebUI username and password (qBittorrent has a single WebUI user).\n2. If *Enable Host header validation* is on, add the host name of the base URL to *Server domains*.\n3. Enter the base URL, the username and the password, then **Test connection**.\n4. Keep *Verify TLS* on unless the WebUI uses a self-signed certificate on a trusted network.\n\nDeleting torrents, adding them, moving data, editing trackers, preferences, RSS and search plugins need a typed confirmation: the torrent's name (or `<n> torrents`), the category, tag, feed or rule name, or the base URL's host name. The WebUI's own sign-in, cookies and API key are not reachable through Synoikia."
+  },
+  "sensitiveKeys": [
+    "password",
+    "web_ui_api_key",
+    "proxy_password",
+    "mail_notification_password",
+    "dyndns_password",
+    "cookie",
+    "apiKey",
+    "token",
+    "secret"
+  ],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}"]
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "GET /audit-log": {
+    "masked": [
+      {
+        "action": "created",
+        "id": 1,
+        "meta": {
+          "certificate_key": "[REDACTED]",
+          "dns_challenge": true,
+          "dns_provider": "cloudflare",
+          "dns_provider_credentials": "[REDACTED]"
+        },
+        "object_type": "certificate"
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "GET /nginx/access-lists": {
+    "masked": [
+      {
+        "id": 1,
+        "items": [
+          {
+            "password": "[REDACTED]",
+            "username": "kid"
+          }
+        ],
+        "name": "Family"
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "GET /nginx/certificates": {
+    "masked": [
+      {
+        "domain_names": [
+          "*.home.example"
+        ],
+        "id": 1,
+        "meta": {
+          "certificate_key": "[REDACTED]",
+          "dns_challenge": true,
+          "dns_provider": "cloudflare",
+          "dns_provider_credentials": "[REDACTED]"
+        },
+        "nice_name": "Home wildcard",
+        "provider": "letsencrypt"
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "GET /nginx/proxy-hosts": {
+    "masked": [
+      {
+        "certificate": {
+          "domain_names": [
+            "*.home.example"
+          ],
+          "id": 1,
+          "meta": {
+            "certificate_key": "[REDACTED]",
+            "dns_challenge": true,
+            "dns_provider": "cloudflare",
+            "dns_provider_credentials": "[REDACTED]"
+          },
+          "nice_name": "Home wildcard",
+          "provider": "letsencrypt"
+        },
+        "certificate_id": 1,
+        "domain_names": [
+          "app.home.example"
+        ],
+        "enabled": true,
+        "forward_host": "10.0.0.5",
+        "forward_port": 8080,
+        "forward_scheme": "http",
+        "id": 1
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "POST /users/{userID}/2fa": {
+    "masked": {
+      "otpauth_url": "[REDACTED]",
+      "secret": "[REDACTED]"
+    },
+    "sensitiveParams": []
+  },
+  "POST /users/{userID}/2fa/enable": {
+    "masked": {
+      "backup_codes": "[REDACTED]"
+    },
+    "sensitiveParams": [
+      "/body/code"
+    ]
+  }
+}

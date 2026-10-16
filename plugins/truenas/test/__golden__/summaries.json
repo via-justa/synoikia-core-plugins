@@ -231,15 +231,19 @@
   ],
   "filesystem.chown#pool-root": [
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.chown() at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.chown(\"tank/media\") at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.chown(1) at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.chown(70) at the root of a pool"
     },
     {
@@ -247,20 +251,25 @@
       "text": "TrueNAS filesystem.chown({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"}) at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.chown(1,{\"key\":\"secret\"}) at the root of a pool"
     }
   ],
   "filesystem.setacl#pool-root": [
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.setacl() at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.setacl(\"tank/media\") at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.setacl(1) at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.setacl(70) at the root of a pool"
     },
     {
@@ -268,6 +277,7 @@
       "text": "TrueNAS filesystem.setacl({\"path\":\"/mnt/tank\",\"username\":\"bob\",\"name\":\"k\"}) at the root of a pool"
     },
     {
+      "confirmLiteral": "nas01",
       "text": "TrueNAS filesystem.setacl(1,{\"key\":\"secret\"}) at the root of a pool"
     }
   ],

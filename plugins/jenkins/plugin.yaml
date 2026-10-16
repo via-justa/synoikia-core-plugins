@@ -1,0 +1,207 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Jenkins 2.x serves no API spec: a fixed set of operations over its remote access API (docs/designs/jenkins.md).
+# `{job}` is a full name (`folder/job`), sent as `/job/folder/job/job`; `{folder}` is optional.
+
+defaults:
+  # Locked operations without their own literal confirm against the base URL's host name.
+  confirm: { custom: host }
+  timeouts: { request: 15000, lookup: 10000 }
+
+operations:
+  - key: jobs.list
+    group: jobs
+    classification: read
+    summary: Jobs and folders at the top level, or in one folder.
+    http: { method: GET, path: '/job/{folder}/api/json' }
+    paramsSchema:
+      type: object
+      properties:
+        path:
+          { type: object, properties: { folder: { type: string, description: 'Folder full name, e.g. team/apps' } } }
+        query: &tree-query
+          type: object
+          additionalProperties: false
+          properties: { tree: { type: string }, depth: { type: integer, minimum: 0, maximum: 2 } }
+  - key: jobs.get
+    group: jobs
+    classification: read
+    summary: One job or folder; parameter definitions, health, recent builds.
+    http: { method: GET, path: '/job/{job}/api/json' }
+    paramsSchema:
+      type: object
+      required: [path]
+      properties:
+        path: { type: object, required: [job], properties: { job: { type: string } } }
+        query: *tree-query
+  - key: builds.get
+    group: builds
+    classification: read
+    summary: One build; result, duration, causes, parameters, changes.
+    description: '`number` is a build number or lastBuild, lastSuccessfulBuild, lastFailedBuild, lastCompletedBuild.'
+    http: { method: GET, path: '/job/{job}/{number}/api/json' }
+    paramsSchema: &build-read
+      type: object
+      required: [path]
+      properties:
+        path: &build-read-path
+          type: object
+          required: [job, number]
+          properties: { job: { type: string }, number: { type: [integer, string] } }
+        query: *tree-query
+  - key: builds.log
+    group: builds
+    classification: read
+    summary: A build's console log as text; the tail by default.
+    description: >-
+      Without `start`, the last `bytes` (or `lines`) of the log. With `start`, the log from that byte offset;
+      pass the returned `end` as the next `start`. `more` is true while the build still writes to it.
+    http: { method: GET, path: '/job/{job}/{number}/logText/progressiveText' }
+    paramsSchema:
+      type: object
+      required: [path]
+      properties:
+        path: *build-read-path
+        query:
+          type: object
+          additionalProperties: false
+          properties:
+            start: { type: integer, minimum: 0 }
+            bytes: { type: integer, minimum: 1, maximum: 262144 }
+            lines: { type: integer, minimum: 1, maximum: 5000 }
+  - key: builds.testReport
+    group: builds
+    classification: read
+    summary: A build's test results.
+    http: { method: GET, path: '/job/{job}/{number}/testReport/api/json' }
+    paramsSchema: *build-read
+  - key: queue.list
+    group: queue
+    classification: read
+    summary: Items waiting in the build queue.
+    http: { method: GET, path: /queue/api/json }
+    paramsSchema: &tree-only
+      type: object
+      properties: { query: *tree-query }
+  - key: queue.get
+    group: queue
+    classification: read
+    summary: One queue item; `executable.number` is its build once it starts.
+    http: { method: GET, path: '/queue/item/{id}/api/json' }
+    paramsSchema:
+      type: object
+      required: [path]
+      properties:
+        path: { type: object, required: [id], properties: { id: { type: integer } } }
+        query: *tree-query
+  - key: nodes.list
+    group: nodes
+    classification: read
+    summary: Build agents and their executors.
+    http: { method: GET, path: /computer/api/json }
+    paramsSchema: *tree-only
+
+  - key: builds.trigger
+    group: builds
+    classification: write
+    summary: Queue a build; returns the queue item id.
+    description: >-
+      `query` holds the build parameters by name; leave it out to use the defaults. Password parameters cannot be
+      set here.
+    http: { method: POST, path: '/job/{job}/build' }
+    paramsSchema:
+      type: object
+      required: [path]
+      properties:
+        path: &job-path { type: object, required: [job], properties: { job: { type: string } } }
+        query: { type: object, additionalProperties: { type: [string, number, boolean] } }
+  - key: builds.stop
+    group: builds
+    classification: write
+    summary: Abort a running build.
+    http: { method: POST, path: '/job/{job}/{number}/stop' }
+    paramsSchema: &build-write
+      type: object
+      required: [path]
+      properties:
+        path:
+          type: object
+          required: [job, number]
+          properties: { job: { type: string }, number: { type: integer } }
+
+  - key: builds.delete
+    group: builds
+    classification: write
+    summary: Delete a build with its log and artifacts.
+    http: { method: POST, path: '/job/{job}/{number}/doDelete' }
+    paramsSchema: *build-write
+  - key: jobs.delete
+    group: jobs
+    classification: write
+    summary: Delete a job, or a folder with everything in it.
+    http: { method: POST, path: '/job/{job}/doDelete' }
+    paramsSchema: &job-write
+      type: object
+      required: [path]
+      properties: { path: *job-path }
+  - key: jobs.disable
+    group: jobs
+    classification: write
+    summary: Disable a job, so it no longer builds.
+    http: { method: POST, path: '/job/{job}/disable' }
+    paramsSchema: *job-write
+  - key: jobs.enable
+    group: jobs
+    classification: write
+    summary: Enable a disabled job.
+    http: { method: POST, path: '/job/{job}/enable' }
+    paramsSchema: *job-write
+  - key: system.safeRestart
+    group: system
+    classification: write
+    summary: Restart Jenkins once running builds finish.
+    http: { method: POST, path: /safeRestart }
+  - key: system.quietDown
+    group: system
+    classification: write
+    summary: Stop starting new builds, ahead of a restart.
+    http: { method: POST, path: /quietDown }
+    paramsSchema:
+      type: object
+      properties:
+        query: { type: object, additionalProperties: false, properties: { reason: { type: string, maxLength: 200 } } }
+  - key: system.cancelQuietDown
+    group: system
+    classification: write
+    summary: Start new builds again after a quiet-down.
+    http: { method: POST, path: /cancelQuietDown }
+
+rules:
+  # Irreversible, or reaching every job and build on the instance: always a human with a typed confirmation.
+  - match: ['*.delete', 'jobs.disable', 'jobs.enable', 'system.*']
+    locked: true
+  # Build parameters can be code (a branch with its own Jenkinsfile, strings a pipeline evaluates): a trigger
+  # with any is the locked twin `builds.trigger#params`. Stricter than the approved plain-write trigger.
+  - match: builds.trigger
+    split: params
+  # The stored job's full name, or `<full name>#<number>` for a build, read back from Jenkins.
+  - match: ['jobs.delete', 'jobs.disable', 'jobs.enable', 'builds.delete', 'builds.trigger#params']
+    confirm: { custom: stored }
+
+plugin:
+  # Default `tree` per read, so responses stay small; a call's own `tree` or `depth` replaces it.
+  trees:
+    jobs.list: 'jobs[name,fullName,url,color]'
+    jobs.get: >-
+      name,fullName,url,description,buildable,disabled,color,inQueue,nextBuildNumber,healthReport[score,description],lastBuild[number,result,timestamp],lastSuccessfulBuild[number],lastFailedBuild[number],lastCompletedBuild[number],builds[number,result,timestamp,duration]{0,10},property[parameterDefinitions[name,type,description,choices,defaultParameterValue[value]]],jobs[name,fullName,color]
+    builds.get: >-
+      number,url,result,building,duration,estimatedDuration,timestamp,displayName,description,queueId,builtOn,actions[causes[shortDescription,userId,upstreamProject,upstreamBuild],parameters[name,value]],changeSets[items[commitId,msg,author[fullName]]],artifacts[fileName,relativePath]
+    builds.testReport: 'failCount,passCount,skipCount,duration,suites[name,cases[className,name,status,duration,errorDetails]]'
+    queue.list: 'items[id,why,blocked,buildable,stuck,inQueueSince,task[name,fullName,url]]'
+    queue.get: 'id,why,blocked,buildable,cancelled,inQueueSince,task[name,fullName,url],executable[number,url]'
+    nodes.list: 'busyExecutors,totalExecutors,computer[displayName,offline,temporarilyOffline,offlineCauseReason,idle,numExecutors,assignedLabels[name]]'
+  # Build permalinks a read may name instead of a number; writes take a number only.
+  permalinks: [lastBuild, lastSuccessfulBuild, lastFailedBuild, lastCompletedBuild]
+  # Console log: bytes returned by default and at most, and the most lines a call may ask for.
+  log: { defaultBytes: 65536, maxBytes: 262144, maxLines: 5000 }
+  # Oldest Jenkins major the plugin supports, from the X-Jenkins header.
+  minMajor: 2

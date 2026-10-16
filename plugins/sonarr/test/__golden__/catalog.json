@@ -1,0 +1,2577 @@
+[
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "autotagging",
+    "key": "DELETE /api/v3/autotagging/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "blocklist",
+    "key": "DELETE /api/v3/blocklist/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "blocklist",
+    "key": "DELETE /api/v3/blocklist/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "command",
+    "key": "DELETE /api/v3/command/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "customfilter",
+    "key": "DELETE /api/v3/customfilter/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "customformat",
+    "key": "DELETE /api/v3/customformat/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "customformat",
+    "key": "DELETE /api/v3/customformat/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "delayprofile",
+    "key": "DELETE /api/v3/delayprofile/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "downloadclient",
+    "key": "DELETE /api/v3/downloadclient/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "downloadclient",
+    "key": "DELETE /api/v3/downloadclient/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "episodefile",
+    "key": "DELETE /api/v3/episodefile/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "episodefile",
+    "key": "DELETE /api/v3/episodefile/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlist",
+    "key": "DELETE /api/v3/importlist/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlist",
+    "key": "DELETE /api/v3/importlist/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlistexclusion",
+    "key": "DELETE /api/v3/importlistexclusion/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlistexclusion",
+    "key": "DELETE /api/v3/importlistexclusion/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "indexer",
+    "key": "DELETE /api/v3/indexer/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "indexer",
+    "key": "DELETE /api/v3/indexer/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "languageprofile",
+    "key": "DELETE /api/v3/languageprofile/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "metadata",
+    "key": "DELETE /api/v3/metadata/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "notification",
+    "key": "DELETE /api/v3/notification/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "qualityprofile",
+    "key": "DELETE /api/v3/qualityprofile/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "queue",
+    "key": "DELETE /api/v3/queue/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "queue",
+    "key": "DELETE /api/v3/queue/bulk",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "releaseprofile",
+    "key": "DELETE /api/v3/releaseprofile/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "remotepathmapping",
+    "key": "DELETE /api/v3/remotepathmapping/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "rootfolder",
+    "key": "DELETE /api/v3/rootfolder/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "series",
+    "key": "DELETE /api/v3/series/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "series",
+    "key": "DELETE /api/v3/series/{id}#delete-files",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "serieseditor",
+    "key": "DELETE /api/v3/series/editor",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "serieseditor",
+    "key": "DELETE /api/v3/series/editor#delete-files",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "backup",
+    "key": "DELETE /api/v3/system/backup/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "tag",
+    "key": "DELETE /api/v3/tag/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "autotagging",
+    "key": "GET /api/v3/autotagging",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "autotagging",
+    "key": "GET /api/v3/autotagging/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "autotagging",
+    "key": "GET /api/v3/autotagging/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "blocklist",
+    "key": "GET /api/v3/blocklist",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "calendar",
+    "key": "GET /api/v3/calendar",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "calendar",
+    "key": "GET /api/v3/calendar/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "command",
+    "key": "GET /api/v3/command",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "command",
+    "key": "GET /api/v3/command/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "downloadclientconfig",
+    "key": "GET /api/v3/config/downloadclient",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "downloadclientconfig",
+    "key": "GET /api/v3/config/downloadclient/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hostconfig",
+    "key": "GET /api/v3/config/host",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "apiKey",
+        "password",
+        "passwordConfirmation",
+        "proxyPassword",
+        "sslCertPassword"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "hostconfig",
+    "key": "GET /api/v3/config/host/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "apiKey",
+        "password",
+        "passwordConfirmation",
+        "proxyPassword",
+        "sslCertPassword"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlistconfig",
+    "key": "GET /api/v3/config/importlist",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlistconfig",
+    "key": "GET /api/v3/config/importlist/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "indexerconfig",
+    "key": "GET /api/v3/config/indexer",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "indexerconfig",
+    "key": "GET /api/v3/config/indexer/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "mediamanagementconfig",
+    "key": "GET /api/v3/config/mediamanagement",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "mediamanagementconfig",
+    "key": "GET /api/v3/config/mediamanagement/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "namingconfig",
+    "key": "GET /api/v3/config/naming",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "namingconfig",
+    "key": "GET /api/v3/config/naming/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "namingconfig",
+    "key": "GET /api/v3/config/naming/examples",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "uiconfig",
+    "key": "GET /api/v3/config/ui",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "uiconfig",
+    "key": "GET /api/v3/config/ui/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "customfilter",
+    "key": "GET /api/v3/customfilter",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "customfilter",
+    "key": "GET /api/v3/customfilter/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "customformat",
+    "key": "GET /api/v3/customformat",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "customformat",
+    "key": "GET /api/v3/customformat/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "customformat",
+    "key": "GET /api/v3/customformat/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "delayprofile",
+    "key": "GET /api/v3/delayprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "delayprofile",
+    "key": "GET /api/v3/delayprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "diskspace",
+    "key": "GET /api/v3/diskspace",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "downloadclient",
+    "key": "GET /api/v3/downloadclient",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "downloadclient",
+    "key": "GET /api/v3/downloadclient/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "downloadclient",
+    "key": "GET /api/v3/downloadclient/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "episode",
+    "key": "GET /api/v3/episode",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "episode",
+    "key": "GET /api/v3/episode/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "episodefile",
+    "key": "GET /api/v3/episodefile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "episodefile",
+    "key": "GET /api/v3/episodefile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "health",
+    "key": "GET /api/v3/health",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "history",
+    "key": "GET /api/v3/history",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "history",
+    "key": "GET /api/v3/history/series",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "history",
+    "key": "GET /api/v3/history/since",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlist",
+    "key": "GET /api/v3/importlist",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlist",
+    "key": "GET /api/v3/importlist/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlist",
+    "key": "GET /api/v3/importlist/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlistexclusion",
+    "key": "GET /api/v3/importlistexclusion",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlistexclusion",
+    "key": "GET /api/v3/importlistexclusion/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "importlistexclusion",
+    "key": "GET /api/v3/importlistexclusion/paged",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "indexer",
+    "key": "GET /api/v3/indexer",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "indexer",
+    "key": "GET /api/v3/indexer/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "indexer",
+    "key": "GET /api/v3/indexer/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "indexerflag",
+    "key": "GET /api/v3/indexerflag",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "language",
+    "key": "GET /api/v3/language",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "language",
+    "key": "GET /api/v3/language/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "languageprofile",
+    "key": "GET /api/v3/languageprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "languageprofile",
+    "key": "GET /api/v3/languageprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "languageprofileschema",
+    "key": "GET /api/v3/languageprofile/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "localization",
+    "key": "GET /api/v3/localization",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "localization",
+    "key": "GET /api/v3/localization/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "localization",
+    "key": "GET /api/v3/localization/language",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "log",
+    "key": "GET /api/v3/log",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "metadata",
+    "key": "GET /api/v3/metadata",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "metadata",
+    "key": "GET /api/v3/metadata/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "metadata",
+    "key": "GET /api/v3/metadata/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "notification",
+    "key": "GET /api/v3/notification",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "notification",
+    "key": "GET /api/v3/notification/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "notification",
+    "key": "GET /api/v3/notification/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "parse",
+    "key": "GET /api/v3/parse",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "qualitydefinition",
+    "key": "GET /api/v3/qualitydefinition",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "qualitydefinition",
+    "key": "GET /api/v3/qualitydefinition/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "qualitydefinition",
+    "key": "GET /api/v3/qualitydefinition/limits",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "qualityprofile",
+    "key": "GET /api/v3/qualityprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "qualityprofile",
+    "key": "GET /api/v3/qualityprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "qualityprofileschema",
+    "key": "GET /api/v3/qualityprofile/schema",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "queue",
+    "key": "GET /api/v3/queue",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "queuedetails",
+    "key": "GET /api/v3/queue/details",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "queuestatus",
+    "key": "GET /api/v3/queue/status",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "release",
+    "key": "GET /api/v3/release",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "releaseprofile",
+    "key": "GET /api/v3/releaseprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "releaseprofile",
+    "key": "GET /api/v3/releaseprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "remotepathmapping",
+    "key": "GET /api/v3/remotepathmapping",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "remotepathmapping",
+    "key": "GET /api/v3/remotepathmapping/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "renameepisode",
+    "key": "GET /api/v3/rename",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "rootfolder",
+    "key": "GET /api/v3/rootfolder",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "rootfolder",
+    "key": "GET /api/v3/rootfolder/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "series",
+    "key": "GET /api/v3/series",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "series",
+    "key": "GET /api/v3/series/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "seriesfolder",
+    "key": "GET /api/v3/series/{id}/folder",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "serieslookup",
+    "key": "GET /api/v3/series/lookup",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "backup",
+    "key": "GET /api/v3/system/backup",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "system",
+    "key": "GET /api/v3/system/routes",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "system",
+    "key": "GET /api/v3/system/routes/duplicate",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "system",
+    "key": "GET /api/v3/system/status",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "task",
+    "key": "GET /api/v3/system/task",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "task",
+    "key": "GET /api/v3/system/task/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "tag",
+    "key": "GET /api/v3/tag",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "tag",
+    "key": "GET /api/v3/tag/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "tagdetails",
+    "key": "GET /api/v3/tag/detail",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "tagdetails",
+    "key": "GET /api/v3/tag/detail/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "update",
+    "key": "GET /api/v3/update",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "cutoff",
+    "key": "GET /api/v3/wanted/cutoff",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "cutoff",
+    "key": "GET /api/v3/wanted/cutoff/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "missing",
+    "key": "GET /api/v3/wanted/missing",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "read",
+    "classificationReason": "verb:GET",
+    "group": "missing",
+    "key": "GET /api/v3/wanted/missing/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "autotagging",
+    "key": "POST /api/v3/autotagging",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "command",
+    "key": "POST /api/v3/command",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "command",
+    "key": "POST /api/v3/command#heavy",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "customfilter",
+    "key": "POST /api/v3/customfilter",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "customformat",
+    "key": "POST /api/v3/customformat",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "delayprofile",
+    "key": "POST /api/v3/delayprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "downloadclient",
+    "key": "POST /api/v3/downloadclient",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "downloadclient",
+    "key": "POST /api/v3/downloadclient/action/{name}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "downloadclient",
+    "key": "POST /api/v3/downloadclient/action/{name}#stored",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "downloadclient",
+    "key": "POST /api/v3/downloadclient/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "downloadclient",
+    "key": "POST /api/v3/downloadclient/test#stored",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "downloadclient",
+    "key": "POST /api/v3/downloadclient/testall",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "history",
+    "key": "POST /api/v3/history/failed/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlist",
+    "key": "POST /api/v3/importlist",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "importlist",
+    "key": "POST /api/v3/importlist/action/{name}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlist",
+    "key": "POST /api/v3/importlist/action/{name}#stored",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "importlist",
+    "key": "POST /api/v3/importlist/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlist",
+    "key": "POST /api/v3/importlist/test#stored",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "importlist",
+    "key": "POST /api/v3/importlist/testall",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "importlistexclusion",
+    "key": "POST /api/v3/importlistexclusion",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "indexer",
+    "key": "POST /api/v3/indexer",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "indexer",
+    "key": "POST /api/v3/indexer/action/{name}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "indexer",
+    "key": "POST /api/v3/indexer/action/{name}#stored",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "indexer",
+    "key": "POST /api/v3/indexer/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "indexer",
+    "key": "POST /api/v3/indexer/test#stored",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "indexer",
+    "key": "POST /api/v3/indexer/testall",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "languageprofile",
+    "key": "POST /api/v3/languageprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "metadata",
+    "key": "POST /api/v3/metadata",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "metadata",
+    "key": "POST /api/v3/metadata/action/{name}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "metadata",
+    "key": "POST /api/v3/metadata/test",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "metadata",
+    "key": "POST /api/v3/metadata/testall",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "notification",
+    "key": "POST /api/v3/notification",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "notification",
+    "key": "POST /api/v3/notification/action/{name}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "notification",
+    "key": "POST /api/v3/notification/test",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "notification",
+    "key": "POST /api/v3/notification/testall",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "qualityprofile",
+    "key": "POST /api/v3/qualityprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "queueaction",
+    "key": "POST /api/v3/queue/grab/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "queueaction",
+    "key": "POST /api/v3/queue/grab/bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "release",
+    "key": "POST /api/v3/release",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "releasepush",
+    "key": "POST /api/v3/release/push",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/downloadUrl",
+      "/body/magnetUrl",
+      "/body/guid",
+      "/body/infoUrl",
+      "/body/commentUrl"
+    ],
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "releaseprofile",
+    "key": "POST /api/v3/releaseprofile",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "remotepathmapping",
+    "key": "POST /api/v3/remotepathmapping",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "rootfolder",
+    "key": "POST /api/v3/rootfolder",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "seasonpass",
+    "key": "POST /api/v3/seasonpass",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "series",
+    "key": "POST /api/v3/series",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "seriesimport",
+    "key": "POST /api/v3/series/import",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "backup",
+    "key": "POST /api/v3/system/backup/restore/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "system",
+    "key": "POST /api/v3/system/restart",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "system",
+    "key": "POST /api/v3/system/shutdown",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:POST",
+    "group": "tag",
+    "key": "POST /api/v3/tag",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "autotagging",
+    "key": "PUT /api/v3/autotagging/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "downloadclientconfig",
+    "key": "PUT /api/v3/config/downloadclient/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "hostconfig",
+    "key": "PUT /api/v3/config/host/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/apiKey",
+      "/body/password",
+      "/body/passwordConfirmation",
+      "/body/proxyPassword",
+      "/body/sslCertPassword"
+    ],
+    "sensitiveResult": {
+      "deep": false,
+      "keys": [
+        "apiKey",
+        "password",
+        "passwordConfirmation",
+        "proxyPassword",
+        "sslCertPassword"
+      ]
+    },
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "importlistconfig",
+    "key": "PUT /api/v3/config/importlist/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "indexerconfig",
+    "key": "PUT /api/v3/config/indexer/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "mediamanagementconfig",
+    "key": "PUT /api/v3/config/mediamanagement/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "namingconfig",
+    "key": "PUT /api/v3/config/naming/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "uiconfig",
+    "key": "PUT /api/v3/config/ui/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "customfilter",
+    "key": "PUT /api/v3/customfilter/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "customformat",
+    "key": "PUT /api/v3/customformat/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "customformat",
+    "key": "PUT /api/v3/customformat/bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "delayprofile",
+    "key": "PUT /api/v3/delayprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "delayprofile",
+    "key": "PUT /api/v3/delayprofile/reorder/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "downloadclient",
+    "key": "PUT /api/v3/downloadclient/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "downloadclient",
+    "key": "PUT /api/v3/downloadclient/bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "episode",
+    "key": "PUT /api/v3/episode/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "episode",
+    "key": "PUT /api/v3/episode/monitor",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "episodefile",
+    "key": "PUT /api/v3/episodefile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "episodefile",
+    "key": "PUT /api/v3/episodefile/bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "episodefile",
+    "key": "PUT /api/v3/episodefile/editor",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "importlist",
+    "key": "PUT /api/v3/importlist/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "importlist",
+    "key": "PUT /api/v3/importlist/bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "importlistexclusion",
+    "key": "PUT /api/v3/importlistexclusion/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "indexer",
+    "key": "PUT /api/v3/indexer/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "indexer",
+    "key": "PUT /api/v3/indexer/bulk",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "languageprofile",
+    "key": "PUT /api/v3/languageprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "metadata",
+    "key": "PUT /api/v3/metadata/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "notification",
+    "key": "PUT /api/v3/notification/{id}",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "sensitiveParams": [
+      "/body/fields"
+    ],
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "qualitydefinition",
+    "key": "PUT /api/v3/qualitydefinition/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "qualitydefinition",
+    "key": "PUT /api/v3/qualitydefinition/update",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "qualityprofile",
+    "key": "PUT /api/v3/qualityprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "releaseprofile",
+    "key": "PUT /api/v3/releaseprofile/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "sensitiveResult": {
+      "deep": true,
+      "keys": [
+        "downloadUrl",
+        "magnetUrl",
+        "url"
+      ]
+    },
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "remotepathmapping",
+    "key": "PUT /api/v3/remotepathmapping/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "series",
+    "key": "PUT /api/v3/series/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "series",
+    "key": "PUT /api/v3/series/{id}#move-files",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "locked:destructive",
+    "group": "serieseditor",
+    "key": "PUT /api/v3/series/editor",
+    "kind": "rest",
+    "locked": true,
+    "needsReview": false,
+    "typedConfirmation": true
+  },
+  {
+    "classification": "write",
+    "classificationReason": "verb:PUT",
+    "group": "tag",
+    "key": "PUT /api/v3/tag/{id}",
+    "kind": "rest",
+    "locked": false,
+    "needsReview": false,
+    "typedConfirmation": false
+  }
+]

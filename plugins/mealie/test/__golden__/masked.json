@@ -1,0 +1,46 @@
+{
+  "GET /api/admin/about": {
+    "masked": {
+      "dbType": "postgres",
+      "dbUrl": "[REDACTED]",
+      "version": "v3.28.0"
+    },
+    "sensitiveParams": []
+  },
+  "GET /api/households/invitations": {
+    "masked": [
+      {
+        "token": "[REDACTED]",
+        "usesLeft": 1
+      }
+    ],
+    "sensitiveParams": []
+  },
+  "GET /api/households/webhooks": {
+    "masked": {
+      "items": [
+        {
+          "id": "w-1",
+          "name": "Home Assistant",
+          "url": "[REDACTED]"
+        }
+      ],
+      "page": 1
+    },
+    "sensitiveParams": []
+  },
+  "POST /api/admin/users/password-reset-token": {
+    "masked": {
+      "token": "[REDACTED]"
+    },
+    "sensitiveParams": []
+  },
+  "POST /api/users/api-tokens": {
+    "masked": {
+      "id": 7,
+      "name": "scripts",
+      "token": "[REDACTED]"
+    },
+    "sensitiveParams": []
+  }
+}

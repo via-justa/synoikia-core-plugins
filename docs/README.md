@@ -2,11 +2,27 @@
 
 The original per-server designs the TrueNAS, Seerr and Home Assistant plugins come from. Each was written for a standalone MCP server; [Synoikia](https://github.com/via-justa/synoikia-core) replaced that deployment with one server and plugins, and implements the shared parts (sandbox, permission gate, approvals, admin portal) once in core. What stays specific to each upstream (catalog discovery, classification, locked operations, targets, config edits) is what the plugins here implement.
 
-| Plugin         | Design                                                 |
-| -------------- | ------------------------------------------------------ |
-| TrueNAS        | [`designs/truenas.md`](designs/truenas.md)             |
-| Seerr          | [`designs/seerr.md`](designs/seerr.md)                 |
-| Home Assistant | [`designs/homeassistant.md`](designs/homeassistant.md) |
+| Plugin                     | Design                                                       |
+| -------------------------- | ------------------------------------------------------------ |
+| TrueNAS                    | [`designs/truenas.md`](designs/truenas.md)                   |
+| Seerr                      | [`designs/seerr.md`](designs/seerr.md)                       |
+| Home Assistant             | [`designs/homeassistant.md`](designs/homeassistant.md)       |
+| Mealie                     | [`designs/mealie.md`](designs/mealie.md)                     |
+| Profilarr                  | [`designs/profilarr.md`](designs/profilarr.md)               |
+| Nginx Proxy Manager        | [`designs/npm.md`](designs/npm.md)                           |
+| Grafana                    | [`designs/grafana.md`](designs/grafana.md)                   |
+| Backstage                  | [`designs/backstage.md`](designs/backstage.md)               |
+| Radarr                     | [`designs/radarr.md`](designs/radarr.md)                     |
+| Prowlarr                   | [`designs/prowlarr.md`](designs/prowlarr.md)                 |
+| Grafana Cloud              | [`designs/grafanacloud.md`](designs/grafanacloud.md)         |
+| Jenkins                    | [`designs/jenkins.md`](designs/jenkins.md)                   |
+| Lidarr                     | [`designs/lidarr.md`](designs/lidarr.md)                     |
+| Sonarr                     | [`designs/sonarr.md`](designs/sonarr.md)                     |
+| Grafana Adaptive Telemetry | [`designs/grafana-adaptive.md`](designs/grafana-adaptive.md) |
+| Plex                       | [`designs/plex.md`](designs/plex.md)                         |
+| qBittorrent                | [`designs/qbittorrent.md`](designs/qbittorrent.md)           |
+
+[`designs/api-definitions.md`](designs/api-definitions.md) maps where every plugin, existing and planned, gets its API definition.
 
 These designs apply only to the parts that are specific to each upstream. Synoikia's [software design description](https://github.com/via-justa/synoikia-core/blob/main/docs/design/README.md) applies to all other parts: access levels, approvals, redaction and the admin portal. If a design here and the Synoikia design do not agree, the Synoikia design applies.
 

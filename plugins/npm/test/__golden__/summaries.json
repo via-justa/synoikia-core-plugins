@@ -1,0 +1,180 @@
+{
+  "DELETE /nginx/access-lists/{listID}": {
+    "confirmLiteral": "Family",
+    "resolved": "DELETE /nginx/access-lists/{listID}",
+    "text": "Nginx Proxy Manager DELETE /nginx/access-lists/1"
+  },
+  "DELETE /nginx/certificates/{certID}": {
+    "confirmLiteral": "Home wildcard",
+    "resolved": "DELETE /nginx/certificates/{certID}",
+    "text": "Nginx Proxy Manager DELETE /nginx/certificates/1"
+  },
+  "DELETE /nginx/dead-hosts/{hostID}": {
+    "confirmLiteral": "gone.home.example",
+    "resolved": "DELETE /nginx/dead-hosts/{hostID}",
+    "text": "Nginx Proxy Manager DELETE /nginx/dead-hosts/1"
+  },
+  "DELETE /nginx/proxy-hosts/{hostID}": {
+    "confirmLiteral": "app.home.example",
+    "resolved": "DELETE /nginx/proxy-hosts/{hostID}",
+    "text": "Nginx Proxy Manager DELETE /nginx/proxy-hosts/1"
+  },
+  "DELETE /nginx/redirection-hosts/{hostID}": {
+    "confirmLiteral": "old.home.example",
+    "resolved": "DELETE /nginx/redirection-hosts/{hostID}",
+    "text": "Nginx Proxy Manager DELETE /nginx/redirection-hosts/1"
+  },
+  "DELETE /nginx/streams/{streamID}": {
+    "confirmLiteral": "2222",
+    "resolved": "DELETE /nginx/streams/{streamID}",
+    "text": "Nginx Proxy Manager DELETE /nginx/streams/1"
+  },
+  "DELETE /users/{userID}": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "DELETE /users/{userID}",
+    "text": "Nginx Proxy Manager DELETE /users/2"
+  },
+  "DELETE /users/{userID}/2fa": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "DELETE /users/{userID}/2fa",
+    "text": "Nginx Proxy Manager DELETE /users/2/2fa?code=%5BREDACTED%5D"
+  },
+  "POST /nginx/certificates": {
+    "resolved": "POST /nginx/certificates",
+    "text": "Nginx Proxy Manager POST /nginx/certificates {\"provider\":\"letsencrypt\",\"domain_names\":[\"*.home.example\"],\"meta\":{\"dns_challenge\":true,\"dns_provider\":\"cloudflare\",\"dns_provider_credentials\":\"[REDACTED]\"}} [domains *.home.example]"
+  },
+  "POST /nginx/dead-hosts": {
+    "resolved": "POST /nginx/dead-hosts",
+    "text": "Nginx Proxy Manager POST /nginx/dead-hosts {\"domain_names\":[\"parked.home.example\"]} [domains parked.home.example]"
+  },
+  "POST /nginx/dead-hosts#advanced": {
+    "confirmLiteral": "x.home.example",
+    "resolved": "POST /nginx/dead-hosts#advanced",
+    "text": "Nginx Proxy Manager POST /nginx/dead-hosts {\"domain_names\":[\"x.home.example\"],\"advanced_config\":\"location / { proxy_pass http://10.9.9.9; }\"} (injects raw nginx config) [domains x.home.example]"
+  },
+  "POST /nginx/dead-hosts/{hostID}/disable": {
+    "confirmLiteral": "gone.home.example",
+    "resolved": "POST /nginx/dead-hosts/{hostID}/disable",
+    "text": "Nginx Proxy Manager POST /nginx/dead-hosts/1/disable"
+  },
+  "POST /nginx/proxy-hosts": {
+    "confirmLiteral": "media.home.example",
+    "resolved": "POST /nginx/proxy-hosts",
+    "text": "Nginx Proxy Manager POST /nginx/proxy-hosts {\"domain_names\":[\"media.home.example\"],\"forward_scheme\":\"http\",\"forward_host\":\"10.0.0.7\",\"forward_port\":8096,\"certificate_id\":\"new\",\"ssl_forced\":true} [domains media.home.example; → http://10.0.0.7:8096]"
+  },
+  "POST /nginx/proxy-hosts (advanced_config)": {
+    "confirmLiteral": "raw.home.example",
+    "resolved": "POST /nginx/proxy-hosts",
+    "text": "Nginx Proxy Manager POST /nginx/proxy-hosts {\"domain_names\":[\"raw.home.example\"],\"forward_scheme\":\"http\",\"forward_host\":\"10.0.0.8\",\"forward_port\":80,\"advanced_config\":\"location /admin { proxy_pass http://10.9.9.9; }\"} (injects raw nginx config) [domains raw.home.example; → http://10.0.0.8:80]"
+  },
+  "POST /nginx/proxy-hosts/{hostID}/disable": {
+    "confirmLiteral": "app.home.example",
+    "resolved": "POST /nginx/proxy-hosts/{hostID}/disable",
+    "text": "Nginx Proxy Manager POST /nginx/proxy-hosts/1/disable"
+  },
+  "POST /nginx/proxy-hosts/{hostID}/enable": {
+    "confirmLiteral": "app.home.example",
+    "resolved": "POST /nginx/proxy-hosts/{hostID}/enable",
+    "text": "Nginx Proxy Manager POST /nginx/proxy-hosts/1/enable"
+  },
+  "POST /nginx/redirection-hosts": {
+    "confirmLiteral": "go.home.example",
+    "resolved": "POST /nginx/redirection-hosts",
+    "text": "Nginx Proxy Manager POST /nginx/redirection-hosts {\"domain_names\":[\"go.home.example\"],\"forward_scheme\":\"https\",\"forward_http_code\":302,\"forward_domain_name\":\"elsewhere.example\"} [domains go.home.example; redirects to https://elsewhere.example]"
+  },
+  "POST /nginx/redirection-hosts/{hostID}/disable": {
+    "confirmLiteral": "old.home.example",
+    "resolved": "POST /nginx/redirection-hosts/{hostID}/disable",
+    "text": "Nginx Proxy Manager POST /nginx/redirection-hosts/1/disable"
+  },
+  "POST /nginx/redirection-hosts/{hostID}/enable": {
+    "confirmLiteral": "old.home.example",
+    "resolved": "POST /nginx/redirection-hosts/{hostID}/enable",
+    "text": "Nginx Proxy Manager POST /nginx/redirection-hosts/1/enable"
+  },
+  "POST /nginx/streams": {
+    "confirmLiteral": "3333",
+    "resolved": "POST /nginx/streams",
+    "text": "Nginx Proxy Manager POST /nginx/streams {\"incoming_port\":3333,\"forwarding_host\":\"10.0.0.10\",\"forwarding_port\":3389,\"tcp_forwarding\":true} [port 3333; → 10.0.0.10:3389]"
+  },
+  "POST /nginx/streams/{streamID}/disable": {
+    "confirmLiteral": "2222",
+    "resolved": "POST /nginx/streams/{streamID}/disable",
+    "text": "Nginx Proxy Manager POST /nginx/streams/1/disable"
+  },
+  "POST /nginx/streams/{streamID}/enable": {
+    "confirmLiteral": "2222",
+    "resolved": "POST /nginx/streams/{streamID}/enable",
+    "text": "Nginx Proxy Manager POST /nginx/streams/1/enable"
+  },
+  "POST /users": {
+    "confirmLiteral": "sam@home.example",
+    "resolved": "POST /users",
+    "text": "Nginx Proxy Manager POST /users {\"name\":\"Sam\",\"nickname\":\"sam\",\"email\":\"sam@home.example\",\"roles\":[\"admin\"],\"auth\":{\"type\":\"password\",\"secret\":\"[REDACTED]\"}}"
+  },
+  "POST /users/{userID}/2fa": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "POST /users/{userID}/2fa",
+    "text": "Nginx Proxy Manager POST /users/2/2fa"
+  },
+  "POST /users/{userID}/2fa/backup-codes": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "POST /users/{userID}/2fa/backup-codes",
+    "text": "Nginx Proxy Manager POST /users/2/2fa/backup-codes {\"code\":\"[REDACTED]\"}"
+  },
+  "POST /users/{userID}/2fa/enable": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "POST /users/{userID}/2fa/enable",
+    "text": "Nginx Proxy Manager POST /users/2/2fa/enable {\"code\":\"[REDACTED]\"}"
+  },
+  "PUT /nginx/access-lists/{listID}": {
+    "confirmLiteral": "Family",
+    "resolved": "PUT /nginx/access-lists/{listID}",
+    "text": "Nginx Proxy Manager PUT /nginx/access-lists/1 {\"name\":\"Family\",\"satisfy_any\":true,\"items\":[]}"
+  },
+  "PUT /nginx/dead-hosts/{hostID}#advanced": {
+    "confirmLiteral": "gone.home.example",
+    "resolved": "PUT /nginx/dead-hosts/{hostID}#advanced",
+    "text": "Nginx Proxy Manager PUT /nginx/dead-hosts/1 {\"advanced_config\":\"return 302 https://x.example;\"} (injects raw nginx config)"
+  },
+  "PUT /nginx/proxy-hosts/{hostID}": {
+    "confirmLiteral": "app.home.example",
+    "resolved": "PUT /nginx/proxy-hosts/{hostID}",
+    "text": "Nginx Proxy Manager PUT /nginx/proxy-hosts/1 {\"forward_host\":\"10.6.6.6\",\"forward_port\":80} [→ 10.6.6.6:80]"
+  },
+  "PUT /nginx/proxy-hosts/{hostID} (location advanced_config)": {
+    "confirmLiteral": "app.home.example",
+    "resolved": "PUT /nginx/proxy-hosts/{hostID}",
+    "text": "Nginx Proxy Manager PUT /nginx/proxy-hosts/1 {\"locations\":[{\"path\":\"/x\",\"forward_host\":\"10.0.0.9\",\"forward_port\":81,\"advanced_config\":\"allow all;\"}]} (injects raw nginx config) [location /x → 10.0.0.9:81]"
+  },
+  "PUT /nginx/redirection-hosts/{hostID}": {
+    "confirmLiteral": "old.home.example",
+    "resolved": "PUT /nginx/redirection-hosts/{hostID}",
+    "text": "Nginx Proxy Manager PUT /nginx/redirection-hosts/1 {\"forward_domain_name\":\"evil.example\"} [redirects to evil.example]"
+  },
+  "PUT /nginx/streams/{streamID}": {
+    "confirmLiteral": "2222",
+    "resolved": "PUT /nginx/streams/{streamID}",
+    "text": "Nginx Proxy Manager PUT /nginx/streams/1 {\"forwarding_host\":\"10.6.6.6\",\"forwarding_port\":22} [→ 10.6.6.6:22]"
+  },
+  "PUT /settings/{settingID}": {
+    "confirmLiteral": "default-site",
+    "resolved": "PUT /settings/{settingID}",
+    "text": "Nginx Proxy Manager PUT /settings/default-site {\"value\":\"redirect\",\"meta\":{\"redirect\":\"https://elsewhere.example\"}}"
+  },
+  "PUT /users/{userID}": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "PUT /users/{userID}",
+    "text": "Nginx Proxy Manager PUT /users/2 {\"email\":\"mallory@evil.example\",\"roles\":[\"admin\"]}"
+  },
+  "PUT /users/{userID}/auth": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "PUT /users/{userID}/auth",
+    "text": "Nginx Proxy Manager PUT /users/2/auth {\"type\":\"password\",\"current\":\"[REDACTED]\",\"secret\":\"[REDACTED]\"}"
+  },
+  "PUT /users/{userID}/permissions": {
+    "confirmLiteral": "alex@home.example",
+    "resolved": "PUT /users/{userID}/permissions",
+    "text": "Nginx Proxy Manager PUT /users/2/permissions {\"visibility\":\"all\",\"proxy_hosts\":\"manage\"}"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "GET /api/scaffolder/v2/tasks/{taskId}": {
+    "masked": {
+      "createdAt": "2026-10-14T10:00:00.000Z",
+      "id": "task-0001",
+      "secrets": "[REDACTED]",
+      "spec": {
+        "apiVersion": "scaffolder.backstage.io/v1beta3",
+        "output": {},
+        "parameters": {
+          "name": "checkout"
+        },
+        "steps": [],
+        "templateInfo": {
+          "entity": {
+            "metadata": {
+              "name": "react-app",
+              "title": "React app"
+            }
+          },
+          "entityRef": "template:default/react-app"
+        }
+      },
+      "status": "processing"
+    },
+    "sensitiveParams": []
+  },
+  "POST /api/catalog/refresh": {
+    "masked": null,
+    "sensitiveParams": [
+      "/body/authorizationToken"
+    ]
+  },
+  "POST /api/scaffolder/v2/dry-run": {
+    "masked": {
+      "directoryContents": [
+        {
+          "base64Content": "ZXlKLmJhY2tzdGFnZS11c2VyLXRva2VuLjU1NTU1NQ==",
+          "path": "token.txt"
+        }
+      ],
+      "log": [
+        {
+          "body": {
+            "message": "Skipping because publish:github does not support dry-run"
+          }
+        }
+      ],
+      "output": {
+        "name": "checkout"
+      },
+      "steps": []
+    },
+    "sensitiveParams": [
+      "/body/secrets"
+    ]
+  }
+}

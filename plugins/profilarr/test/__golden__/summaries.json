@@ -1,0 +1,56 @@
+{
+  "DELETE /backups/{filename}": {
+    "confirmLiteral": "backup-2026-10-14-100005.tar.gz",
+    "resolved": "DELETE /backups/{filename}",
+    "targets": [],
+    "text": "Profilarr DELETE /backups/backup-2026-10-14-100005.tar.gz"
+  },
+  "DELETE /databases/{id}": {
+    "confirmLiteral": "Dictionarry",
+    "resolved": "DELETE /databases/{id}",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "database",
+        "name": "Dictionarry (https://github.com/Dictionarry-Hub/database)"
+      }
+    ],
+    "text": "Profilarr DELETE /databases/1 on Dictionarry (https://github.com/Dictionarry-Hub/database)"
+  },
+  "PATCH /backups/settings": {
+    "confirmLiteral": "Profilarr",
+    "resolved": "PATCH /backups/settings",
+    "targets": [],
+    "text": "Profilarr PATCH /backups/settings {\"retentionDays\":1} (a shorter retention deletes older backups at the next cleanup)"
+  },
+  "PATCH /databases/{id}": {
+    "confirmLiteral": "Dictionarry",
+    "resolved": "PATCH /databases/{id}",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "database",
+        "name": "Dictionarry (https://github.com/Dictionarry-Hub/database)"
+      }
+    ],
+    "text": "Profilarr PATCH /databases/1 {\"name\":\"Renamed\",\"auto_pull\":true,\"personal_access_token\":\"[REDACTED]\"} on Dictionarry (https://github.com/Dictionarry-Hub/database)"
+  },
+  "POST /databases": {
+    "confirmLiteral": "Profilarr",
+    "resolved": "POST /databases",
+    "targets": [],
+    "text": "Profilarr POST /databases {\"name\":\"Elsewhere\",\"repository_url\":\"https://github.com/someone/profiles\",\"personal_access_token\":\"[REDACTED]\",\"auto_pull\":true,\"sync_strategy\":1} (with auto_pull and sync_strategy set, this repository is pushed to Radarr/Sonarr on a schedule)"
+  },
+  "POST /databases/{id}/sync": {
+    "confirmLiteral": "Dictionarry",
+    "resolved": "POST /databases/{id}/sync",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "database",
+        "name": "Dictionarry (https://github.com/Dictionarry-Hub/database)"
+      }
+    ],
+    "text": "Profilarr POST /databases/1/sync (with auto-pull on, pulled changes are pushed to the Radarr/Sonarr instances synced on pull) on Dictionarry (https://github.com/Dictionarry-Hub/database)"
+  }
+}

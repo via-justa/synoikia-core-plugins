@@ -1,0 +1,123 @@
+# yaml-language-server: $schema=./node_modules/@synoikia/plugin-sdk/plugin-settings.schema.json
+# Rules on top of the OpenAPI specs each backend plugin serves at /api/<plugin>/openapi.json, merged
+# (docs/designs/backstage.md): keys are the full served paths (`GET /api/catalog/entities`); GET reads, other
+# verbs write, anything unlisted stays a write.
+
+defaults:
+  # Locked operations without their own literal confirm against the instance name.
+  confirm: instance
+  timeouts: { request: 15000, lookup: 10000 }
+
+# No Backstage endpoint names the instance, so the literal is the fallback.
+instanceName: { op: 'GET /.backstage/health/v1/readiness', field: name, fallback: Backstage }
+
+# The spec routes, notifications' legacy duplicates of /notifications, and the events bus subscription
+# plumbing (a long poll that consumes events meant for other subscribers).
+exclude:
+  - '* /api/*/openapi.json'
+  - '* /api/auth/*'
+  - 'GET /api/notifications/'
+  - 'POST /api/notifications/'
+  - 'POST /api/notifications/update'
+  - 'GET /api/notifications/{id}'
+  - 'PUT /api/events/bus/v1/subscriptions/{subscriptionId}'
+  - 'GET /api/events/bus/v1/subscriptions/{subscriptionId}/events'
+
+rules:
+  # Irreversible, ingests external sources, runs templates that write to SCMs, or reaches other users and
+  # subscribers: always a human with a typed confirmation.
+  - match:
+      - 'DELETE /api/catalog/entities/by-uid/{uid}'
+      - 'POST /api/catalog/locations'
+      - 'PUT /api/catalog/locations/{id}'
+      - 'DELETE /api/catalog/locations/{id}'
+      - 'POST /api/scaffolder/v2/tasks'
+      - 'POST /api/scaffolder/v2/tasks/{taskId}/cancel'
+      - 'POST /api/scaffolder/v2/tasks/{taskId}/retry'
+      - 'POST /api/notifications/notifications'
+      - 'POST /api/events/bus/v1/events'
+    locked: true
+  # A delete a newer spec adds is locked until reviewed.
+  - match: 'DELETE *'
+    locked: true
+
+  # The literal an approver types: the stored entity, location or task's template. A create has nothing stored, so
+  # it confirms on the body field the approver sees: the location's target, or the template ref.
+  - match: 'DELETE /api/catalog/entities/by-uid/{uid}'
+    confirm:
+      lookup:
+        { op: 'GET /api/catalog/entities/by-uid/{uid}', args: [{ uid: { $param: /path/uid } }], field: /metadata/name }
+  - match: ['PUT /api/catalog/locations/{id}', 'DELETE /api/catalog/locations/{id}']
+    confirm:
+      lookup: { op: 'GET /api/catalog/locations/{id}', args: [{ id: { $param: /path/id } }], field: target }
+  - match: ['POST /api/scaffolder/v2/tasks/{taskId}/cancel', 'POST /api/scaffolder/v2/tasks/{taskId}/retry']
+    confirm:
+      lookup:
+        op: 'GET /api/scaffolder/v2/tasks/{taskId}'
+        args: [{ taskId: { $param: /path/taskId } }]
+        field: [/spec/templateInfo/entity/metadata/name, /spec/templateInfo/entityRef]
+  - match: 'POST /api/catalog/locations'
+    confirm: { param: /body/target }
+  - match: 'POST /api/scaffolder/v2/tasks'
+    confirm: { param: /body/templateRef }
+  - match: 'POST /api/catalog/locations'
+    summaryNote: '(the catalog ingests every entity at target and keeps refreshing it; preview with POST /api/catalog/analyze-location)'
+  - match: 'POST /api/scaffolder/v2/tasks'
+    summaryNote: '(runs every step of templateRef for real, such as publishing repositories and registering entities)'
+  - match: 'POST /api/notifications/notifications'
+    summaryNote: '(sent to every user the recipients resolve to; type broadcast reaches all users)'
+  - match: 'POST /api/events/bus/v1/events'
+    summaryNote: '(every subscriber of the topic acts on it, in this and other Backstage instances on the bus)'
+
+  # Dry-run stays a write: Backstage hands steps the caller's backstageToken, which a step can render into the
+  # returned files (scaffolder-backend router.ts /v2/dry-run).
+  - match: 'POST /api/scaffolder/v2/dry-run'
+    guidance: Backstage skips every step whose action lacks supportsDryRun, but the steps it runs get secrets, including a Backstage token; check the log for skipped steps.
+
+  # Template authoring and catalog queries: POSTs that only read, so they work at the Read level.
+  - match: 'POST /api/catalog/validate-entity'
+    classification: read
+    reason: validate:read
+    needsReview: false
+    guidance: Body { location, entity }; location is a ref such as url:https://example.com/template.yaml. Registers nothing.
+  - match: 'POST /api/catalog/analyze-location'
+    classification: read
+    reason: preview:read
+    needsReview: false
+  - match:
+      - 'POST /api/catalog/entities/by-refs'
+      - 'POST /api/catalog/entities/by-query'
+      - 'POST /api/catalog/entity-facets'
+      - 'POST /api/catalog/locations/by-query'
+    classification: read
+    reason: query:read
+    needsReview: false
+  # Lists repositories, branches or groups from an SCM with the token in the body.
+  - match: 'POST /api/scaffolder/v2/autocomplete/{provider}/{resource}'
+    classification: read
+    reason: query:read
+    needsReview: false
+
+  # Secrets in requests: template secrets, a user token for the refresh check and an SCM token.
+  - match:
+      [
+        'POST /api/scaffolder/v2/dry-run',
+        'POST /api/scaffolder/v2/tasks',
+        'POST /api/scaffolder/v2/tasks/{taskId}/retry',
+      ]
+    sensitiveParams: [/body/secrets]
+  - match: 'POST /api/catalog/refresh'
+    sensitiveParams: [/body/authorizationToken]
+  - match: 'POST /api/scaffolder/v2/autocomplete/{provider}/{resource}'
+    sensitiveParams: [/body/token]
+  # Backstage strips a task's secrets from results; masked here too in case it stops.
+  - match: ['GET /api/scaffolder/v2/tasks', 'GET /api/scaffolder/v2/tasks/{taskId}']
+    sensitiveResult: { keys: [secrets], deep: true }
+
+plugin:
+  # Backend plugins loaded when the connection names none.
+  defaultPluginIds: [catalog, scaffolder, search, events, notifications]
+  # Where each backend plugin serves its spec, under /api/<plugin>.
+  specPath: /openapi.json
+  # Refuse a merged catalog with fewer operations; each loaded plugin must also keep its locked keys.
+  minOperations: 1

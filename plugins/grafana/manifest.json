@@ -1,0 +1,65 @@
+{
+  "id": "grafana",
+  "name": "Grafana",
+  "version": "0.1.0",
+  "sdk": "^0.2.2",
+  "description": "Search/execute over the Grafana 12+ HTTP API (self-hosted or a Grafana Cloud stack), catalog from the OpenAPI spec the instance serves.",
+  "entry": "dist/index.js",
+  "instructions": "instructions.md",
+  "binding": {
+    "namespace": "grafana",
+    "functions": ["request"]
+  },
+  "capabilities": {
+    "targets": true
+  },
+  "targets": {
+    "label": "Data source or destination"
+  },
+  "labels": {
+    "operation": "Operation",
+    "operations": "Operations"
+  },
+  "connection": {
+    "schema": {
+      "type": "object",
+      "required": ["baseUrl", "token"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "Base URL"
+        },
+        "token": {
+          "type": "string",
+          "title": "Service account token",
+          "writeOnly": true
+        },
+        "verifyTls": {
+          "type": "boolean",
+          "title": "Verify TLS certificate",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "baseUrl": {
+        "widget": "url",
+        "placeholder": "https://grafana.internal.lan",
+        "help": "The address you open Grafana at, without /api: a Grafana Cloud stack is https://<stack>.grafana.net."
+      },
+      "token": {
+        "widget": "secret",
+        "help": "A service account token (glsa_…). Sent as Authorization: Bearer."
+      },
+      "verifyTls": {
+        "widget": "bool"
+      }
+    },
+    "help": "1. In Grafana 12 or later, open **Administration → Users and access → Service accounts**, add a service account with the least role Synoikia needs (Viewer to read, Editor to change dashboards and alerting, Admin for users and data sources), and add a token.\n2. Enter the base URL and the token, then **Test connection**. Grafana 11 and older are refused.\n3. Keep *Verify TLS* on unless Grafana uses a self-signed certificate on a trusted network.\n\nThe catalog comes from the instance's own `/public/openapi3.json`, so it always matches the installed version. Grafana Cloud stacks work the same way."
+  },
+  "sensitiveKeys": ["token", "key", "apiKey", "api_key", "password", "basicAuthPassword", "secret", "secureJsonData"],
+  "network": {
+    "hosts": ["{{connection.baseUrl}}"]
+  }
+}

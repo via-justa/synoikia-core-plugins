@@ -70,14 +70,14 @@ rules:
   - match: [api_key.update, api_key.delete]
     confirm: [{ lookup: { op: api_key.get_instance, args: [{ $param: /0 }], field: name } }, instance]
 
-  # An ACL or owner change at a pool's root (`/mnt/<pool>`), outside /mnt, or on a path with . or ..
-  # segments takes the locked twin; deeper down it is an ordinary write (src/catalog.ts needsPoolRootKey).
+  # An ACL or owner change at a pool's root (`/mnt/<pool>`), outside /mnt, on a path with . or .. segments, or
+  # without a string `path` takes the locked twin; deeper down it is an ordinary write (needsPoolRootKey).
   - match: [filesystem.setacl, filesystem.chown]
     split: pool-root
   - match: '*#pool-root'
     description: "{base} on a pool's root (/mnt/<pool>), outside /mnt, or on a path with . or .. segments: locked."
     summaryNote: at the root of a pool
-    confirm: { param: /0/path }
+    confirm: [{ param: /0/path }, instance]
 
   # Params holding a secret with no telling key name; dataset unlocks list the first 32 datasets (the
   # limit), and the plugin also masks `key` in summaries and job records.

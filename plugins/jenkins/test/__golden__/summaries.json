@@ -1,0 +1,121 @@
+{
+  "00 builds.trigger": {
+    "confirmLiteral": "infra/deploy app",
+    "targets": [
+      {
+        "id": "infra/deploy app",
+        "kind": "job",
+        "name": "infra/deploy app"
+      }
+    ],
+    "text": "Jenkins builds.trigger#params on infra/deploy app: POST /job/infra/job/deploy%20app/buildWithParameters with BRANCH=\"feature/x\\\"\\u202e\""
+  },
+  "01 builds.delete": {
+    "confirmLiteral": "infra/deploy app#41",
+    "targets": [
+      {
+        "id": "infra/deploy app#41",
+        "kind": "build",
+        "name": "infra/deploy app #41"
+      }
+    ],
+    "text": "Jenkins builds.delete on infra/deploy app #41: POST /job/infra/job/deploy%20app/41/doDelete"
+  },
+  "02 jobs.delete": {
+    "confirmLiteral": "hello",
+    "targets": [
+      {
+        "id": "hello",
+        "kind": "job",
+        "name": "hello"
+      }
+    ],
+    "text": "Jenkins jobs.delete on hello: POST /job/hello/doDelete"
+  },
+  "03 jobs.disable": {
+    "confirmLiteral": "infra/deploy app",
+    "targets": [
+      {
+        "id": "infra/deploy app",
+        "kind": "job",
+        "name": "infra/deploy app"
+      }
+    ],
+    "text": "Jenkins jobs.disable on infra/deploy app: POST /job/infra/job/deploy%20app/disable"
+  },
+  "04 jobs.enable": {
+    "confirmLiteral": "infra/deploy app",
+    "targets": [
+      {
+        "id": "infra/deploy app",
+        "kind": "job",
+        "name": "infra/deploy app"
+      }
+    ],
+    "text": "Jenkins jobs.enable on infra/deploy app: POST /job/infra/job/deploy%20app/enable"
+  },
+  "05 system.safeRestart": {
+    "confirmLiteral": "127.0.0.1",
+    "targets": [
+      {
+        "id": "127.0.0.1",
+        "kind": "instance",
+        "name": "127.0.0.1"
+      }
+    ],
+    "text": "Jenkins system.safeRestart on 127.0.0.1: POST /safeRestart"
+  },
+  "06 system.quietDown": {
+    "confirmLiteral": "127.0.0.1",
+    "targets": [
+      {
+        "id": "127.0.0.1",
+        "kind": "instance",
+        "name": "127.0.0.1"
+      }
+    ],
+    "text": "Jenkins system.quietDown on 127.0.0.1: POST /quietDown (reason \"upgrade\\u202e tonight\")"
+  },
+  "07 system.cancelQuietDown": {
+    "confirmLiteral": "127.0.0.1",
+    "targets": [
+      {
+        "id": "127.0.0.1",
+        "kind": "instance",
+        "name": "127.0.0.1"
+      }
+    ],
+    "text": "Jenkins system.cancelQuietDown on 127.0.0.1: POST /cancelQuietDown"
+  },
+  "08 builds.trigger": {
+    "confirmLiteral": "infra/deploy app",
+    "targets": [
+      {
+        "id": "infra/deploy app",
+        "kind": "job",
+        "name": "infra/deploy app"
+      }
+    ],
+    "text": "Jenkins builds.trigger#params on infra/deploy app: POST /job/infra/job/deploy%20app/buildWithParameters with BRANCH=\"release/1.2\""
+  },
+  "09 builds.trigger": {
+    "targets": [
+      {
+        "id": "hello",
+        "kind": "job",
+        "name": "hello"
+      }
+    ],
+    "text": "Jenkins builds.trigger on hello: POST /job/hello/build"
+  },
+  "10 builds.stop": {
+    "targets": [
+      {
+        "id": "infra/deploy app#42",
+        "kind": "build",
+        "name": "infra/deploy app #42"
+      }
+    ],
+    "text": "Jenkins builds.stop on infra/deploy app #42: POST /job/infra/job/deploy%20app/42/stop"
+  }
+}

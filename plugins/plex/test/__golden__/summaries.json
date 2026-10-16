@@ -1,0 +1,531 @@
+{
+  "DELETE /activities/{activityId}": {
+    "confirmLiteral": "act-123",
+    "resolved": "DELETE /activities/{activityId}",
+    "targets": [],
+    "text": "Plex DELETE /activities/act-123"
+  },
+  "DELETE /butler": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "DELETE /butler",
+    "targets": [],
+    "text": "Plex DELETE /butler"
+  },
+  "DELETE /library/caches": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "DELETE /library/caches",
+    "targets": [],
+    "text": "Plex DELETE /library/caches"
+  },
+  "DELETE /library/metadata/{ids}": {
+    "confirmLiteral": "Inception",
+    "resolved": "DELETE /library/metadata/{ids}",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      }
+    ],
+    "text": "Plex DELETE /library/metadata/101 on Inception (2010) [movie] (also deletes the media files from disk when the server allows media deletion)"
+  },
+  "DELETE /library/metadata/{ids} (two items)": {
+    "confirmLiteral": "2 items",
+    "resolved": "DELETE /library/metadata/{ids}",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      },
+      {
+        "id": "102",
+        "kind": "item",
+        "name": "Arrival (2016) [movie]"
+      }
+    ],
+    "text": "Plex DELETE /library/metadata/101%2C102 on Inception (2010) [movie]; Arrival (2016) [movie] (also deletes the media files from disk when the server allows media deletion)"
+  },
+  "DELETE /library/metadata/{ids}/media/{mediaItem}": {
+    "confirmLiteral": "Inception",
+    "resolved": "DELETE /library/metadata/{ids}/media/{mediaItem}",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      }
+    ],
+    "text": "Plex DELETE /library/metadata/101/media/5 on Inception (2010) [movie] (also deletes the media files from disk when the server allows media deletion)"
+  },
+  "DELETE /library/sections/{sectionId}": {
+    "confirmLiteral": "Movies",
+    "resolved": "DELETE /library/sections/{sectionId}",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex DELETE /library/sections/1 on library Movies (removes the library and its watch history; the files stay on disk)"
+  },
+  "DELETE /library/sections/{sectionId}/collection/{collectionId}": {
+    "confirmLiteral": "Nolan Films",
+    "resolved": "DELETE /library/sections/{sectionId}/collection/{collectionId}",
+    "targets": [
+      {
+        "id": "201",
+        "kind": "item",
+        "name": "Nolan Films [collection]"
+      }
+    ],
+    "text": "Plex DELETE /library/sections/1/collection/201 on Nolan Films [collection]"
+  },
+  "DELETE /playlists": {
+    "confirmLiteral": "Road Trip",
+    "resolved": "DELETE /playlists",
+    "targets": [
+      {
+        "id": "401",
+        "kind": "playlist",
+        "name": "playlist Road Trip"
+      }
+    ],
+    "text": "Plex DELETE /playlists on playlist Road Trip ?ratingKey=401"
+  },
+  "DELETE /playlists/{playlistId}": {
+    "confirmLiteral": "Road Trip",
+    "resolved": "DELETE /playlists/{playlistId}",
+    "targets": [
+      {
+        "id": "401",
+        "kind": "playlist",
+        "name": "playlist Road Trip"
+      }
+    ],
+    "text": "Plex DELETE /playlists/401 on playlist Road Trip"
+  },
+  "DELETE /playlists/{playlistId}/items": {
+    "confirmLiteral": "Road Trip",
+    "resolved": "DELETE /playlists/{playlistId}/items",
+    "targets": [
+      {
+        "id": "401",
+        "kind": "playlist",
+        "name": "playlist Road Trip"
+      }
+    ],
+    "text": "Plex DELETE /playlists/401/items on playlist Road Trip"
+  },
+  "GET /library/metadata/{ids}#refresh": {
+    "confirmLiteral": "Inception",
+    "resolved": "GET /library/metadata/{ids}#refresh",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      }
+    ],
+    "text": "Plex GET /library/metadata/101 on Inception (2010) [movie] ?asyncRefreshAnalysis=1 (checks the files, or starts a refresh, analysis or online lookup of the items)"
+  },
+  "GET /library/metadata/{ids}#refresh (checkFiles)": {
+    "confirmLiteral": "Inception",
+    "resolved": "GET /library/metadata/{ids}#refresh",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      }
+    ],
+    "text": "Plex GET /library/metadata/101 on Inception (2010) [movie] ?checkFiles=1 (checks the files, or starts a refresh, analysis or online lookup of the items)"
+  },
+  "GET /library/metadata/{ids}/subtitles": {
+    "confirmLiteral": "Inception",
+    "resolved": "GET /library/metadata/{ids}/subtitles",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      },
+      {
+        "id": "url",
+        "kind": "url",
+        "name": "fetches https://subs.example"
+      }
+    ],
+    "text": "Plex GET /library/metadata/101/subtitles on Inception (2010) [movie]; fetches https://subs.example ?url=%5BREDACTED%5D&language=en (Plex fetches from the URL given)"
+  },
+  "GET /library/optimize": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "GET /library/optimize",
+    "targets": [],
+    "text": "Plex GET /library/optimize"
+  },
+  "GET /library/sections/{sectionId}/all#refresh": {
+    "confirmLiteral": "Movies",
+    "resolved": "GET /library/sections/{sectionId}/all#refresh",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex GET /library/sections/1/all on library Movies ?asyncAugmentMetadata=true (checks the files, or starts a refresh, analysis or online lookup of the items)"
+  },
+  "GET /library/sections/{sectionId}/all#refresh (refreshAnalysis)": {
+    "confirmLiteral": "Movies",
+    "resolved": "GET /library/sections/{sectionId}/all#refresh",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex GET /library/sections/1/all on library Movies ?refreshAnalysis=true (checks the files, or starts a refresh, analysis or online lookup of the items)"
+  },
+  "GET /library/sections/{sectionId}/emptyTrash": {
+    "confirmLiteral": "Movies",
+    "resolved": "GET /library/sections/{sectionId}/emptyTrash",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex GET /library/sections/1/emptyTrash on library Movies (removes every item whose files are missing, with its watch history)"
+  },
+  "GET /library/sections/{sectionId}/optimize": {
+    "confirmLiteral": "Movies",
+    "resolved": "GET /library/sections/{sectionId}/optimize",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex GET /library/sections/1/optimize on library Movies"
+  },
+  "GET /library/sections/{sectionId}/unmatch": {
+    "confirmLiteral": "Movies",
+    "resolved": "GET /library/sections/{sectionId}/unmatch",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex GET /library/sections/1/unmatch on library Movies"
+  },
+  "GET /playQueues/{playQueueId}#own": {
+    "confirmLiteral": "55",
+    "resolved": "GET /playQueues/{playQueueId}#own",
+    "targets": [],
+    "text": "Plex GET /playQueues/55?own=1 (takes the play queue over from the device playing it)"
+  },
+  "PATCH /livetv/dvrs/{dvrId}": {
+    "confirmLiteral": "7",
+    "resolved": "PATCH /livetv/dvrs/{dvrId}",
+    "targets": [],
+    "text": "Plex PATCH /livetv/dvrs/7"
+  },
+  "POST /butler": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "POST /butler",
+    "targets": [],
+    "text": "Plex POST /butler"
+  },
+  "POST /butler/{butlerTask}": {
+    "confirmLiteral": "BackupDatabase",
+    "resolved": "POST /butler/{butlerTask}",
+    "targets": [],
+    "text": "Plex POST /butler/BackupDatabase"
+  },
+  "POST /library/metadata/{ids}/extras": {
+    "confirmLiteral": "Inception",
+    "resolved": "POST /library/metadata/{ids}/extras",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      },
+      {
+        "id": "url",
+        "kind": "url",
+        "name": "fetches https://trailers.example"
+      }
+    ],
+    "text": "Plex POST /library/metadata/101/extras on Inception (2010) [movie]; fetches https://trailers.example ?url=%5BREDACTED%5D&extraType=1 (Plex fetches from the URL given)"
+  },
+  "POST /library/metadata/{ids}/{element}": {
+    "confirmLiteral": "Inception",
+    "resolved": "POST /library/metadata/{ids}/{element}",
+    "targets": [
+      {
+        "id": "101",
+        "kind": "item",
+        "name": "Inception (2010) [movie]"
+      },
+      {
+        "id": "url",
+        "kind": "url",
+        "name": "fetches https://images.example"
+      }
+    ],
+    "text": "Plex POST /library/metadata/101/poster on Inception (2010) [movie]; fetches https://images.example ?url=%5BREDACTED%5D (Plex fetches from the URL given)"
+  },
+  "POST /library/optimize": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "POST /library/optimize",
+    "targets": [],
+    "text": "Plex POST /library/optimize"
+  },
+  "POST /library/sections/all": {
+    "confirmLiteral": "Kids",
+    "resolved": "POST /library/sections/all",
+    "targets": [],
+    "text": "Plex POST /library/sections/all?name=Kids&type=movie&agent=tv.plex.agents.movie&language=en-US&location=%2Fmedia%2Fkids (Plex reads the folders given and shows them to every user the server shares all libraries with)"
+  },
+  "POST /library/sections/{sectionId}/emptyTrash": {
+    "confirmLiteral": "Movies",
+    "resolved": "POST /library/sections/{sectionId}/emptyTrash",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex POST /library/sections/1/emptyTrash on library Movies (removes every item whose files are missing, with its watch history)"
+  },
+  "POST /library/sections/{sectionId}/optimize": {
+    "confirmLiteral": "Movies",
+    "resolved": "POST /library/sections/{sectionId}/optimize",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex POST /library/sections/1/optimize on library Movies"
+  },
+  "POST /media/grabbers/devices": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "POST /media/grabbers/devices",
+    "targets": [
+      {
+        "id": "uri",
+        "kind": "url",
+        "name": "connects to http://10.0.0.5"
+      }
+    ],
+    "text": "Plex POST /media/grabbers/devices on connects to http://10.0.0.5 ?uri=%5BREDACTED%5D (Plex connects to the device at the URI given)"
+  },
+  "POST /media/providers": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "POST /media/providers",
+    "targets": [
+      {
+        "id": "url",
+        "kind": "url",
+        "name": "fetches https://provider.example"
+      }
+    ],
+    "text": "Plex POST /media/providers on fetches https://provider.example ?url=%5BREDACTED%5D (Plex fetches from the URL given)"
+  },
+  "POST /status/sessions/terminate": {
+    "confirmLiteral": "Arrival",
+    "resolved": "POST /status/sessions/terminate",
+    "targets": [
+      {
+        "id": "sess-1",
+        "kind": "session",
+        "name": "alice playing Arrival (2016) [movie] on Living Room TV"
+      }
+    ],
+    "text": "Plex POST /status/sessions/terminate on alice playing Arrival (2016) [movie] on Living Room TV ?sessionId=sess-1&reason=Maintenance"
+  },
+  "PUT /:/prefs": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "PUT /:/prefs",
+    "targets": [
+      {
+        "id": "prefs",
+        "kind": "settings",
+        "name": "settings FriendlyName, allowedNetworks"
+      }
+    ],
+    "text": "Plex PUT /:/prefs on settings FriendlyName, allowedNetworks ?FriendlyName=Renamed&allowedNetworks=0.0.0.0%2F0 (server settings: remote access, sign-in, allowed networks, sharing, transcoder)"
+  },
+  "PUT /library/clean/bundles": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "PUT /library/clean/bundles",
+    "targets": [],
+    "text": "Plex PUT /library/clean/bundles"
+  },
+  "PUT /library/metadata/{ids}/{element}": {
+    "confirmLiteral": "Good News About Hell",
+    "resolved": "PUT /library/metadata/{ids}/{element}",
+    "targets": [
+      {
+        "id": "301",
+        "kind": "item",
+        "name": "Severance – Good News About Hell [episode]"
+      },
+      {
+        "id": "url",
+        "kind": "url",
+        "name": "fetches upload:"
+      }
+    ],
+    "text": "Plex PUT /library/metadata/301/thumb on Severance – Good News About Hell [episode]; fetches upload: ?url=%5BREDACTED%5D (Plex fetches from the URL given)"
+  },
+  "PUT /library/optimize": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "PUT /library/optimize",
+    "targets": [],
+    "text": "Plex PUT /library/optimize"
+  },
+  "PUT /library/sections/{sectionId}": {
+    "confirmLiteral": "Movies",
+    "resolved": "PUT /library/sections/{sectionId}",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex PUT /library/sections/1 on library Movies ?agent=tv.plex.agents.movie&location=%2Felsewhere (changes the folders, agent and settings of the library)"
+  },
+  "PUT /library/sections/{sectionId}/all": {
+    "confirmLiteral": "Movies",
+    "resolved": "PUT /library/sections/{sectionId}/all",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex PUT /library/sections/1/all on library Movies ?type=1&contentRating.value=G"
+  },
+  "PUT /library/sections/{sectionId}/analyze": {
+    "confirmLiteral": "TV Shows",
+    "resolved": "PUT /library/sections/{sectionId}/analyze",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "library",
+        "name": "library TV Shows"
+      }
+    ],
+    "text": "Plex PUT /library/sections/2/analyze on library TV Shows"
+  },
+  "PUT /library/sections/{sectionId}/edit": {
+    "confirmLiteral": "TV Shows",
+    "resolved": "PUT /library/sections/{sectionId}/edit",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "library",
+        "name": "library TV Shows"
+      }
+    ],
+    "text": "Plex PUT /library/sections/2/edit on library TV Shows"
+  },
+  "PUT /library/sections/{sectionId}/emptyTrash": {
+    "confirmLiteral": "Movies",
+    "resolved": "PUT /library/sections/{sectionId}/emptyTrash",
+    "targets": [
+      {
+        "id": "1",
+        "kind": "library",
+        "name": "library Movies"
+      }
+    ],
+    "text": "Plex PUT /library/sections/1/emptyTrash on library Movies (removes every item whose files are missing, with its watch history)"
+  },
+  "PUT /library/sections/{sectionId}/move": {
+    "confirmLiteral": "TV Shows",
+    "resolved": "PUT /library/sections/{sectionId}/move",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "library",
+        "name": "library TV Shows"
+      }
+    ],
+    "text": "Plex PUT /library/sections/2/move on library TV Shows ?location=%2Fnew (moves the library folders)"
+  },
+  "PUT /library/sections/{sectionId}/prefs": {
+    "confirmLiteral": "TV Shows",
+    "resolved": "PUT /library/sections/{sectionId}/prefs",
+    "targets": [
+      {
+        "id": "2",
+        "kind": "library",
+        "name": "library TV Shows"
+      }
+    ],
+    "text": "Plex PUT /library/sections/2/prefs on library TV Shows"
+  },
+  "PUT /livetv/dvrs/{dvrId}": {
+    "confirmLiteral": "7",
+    "resolved": "PUT /livetv/dvrs/{dvrId}",
+    "targets": [],
+    "text": "Plex PUT /livetv/dvrs/7"
+  },
+  "PUT /livetv/dvrs/{dvrId}/devices/{deviceId}": {
+    "confirmLiteral": "7",
+    "resolved": "PUT /livetv/dvrs/{dvrId}/devices/{deviceId}",
+    "targets": [],
+    "text": "Plex PUT /livetv/dvrs/7/devices/dev-1"
+  },
+  "PUT /livetv/dvrs/{dvrId}/lineups": {
+    "confirmLiteral": "7",
+    "resolved": "PUT /livetv/dvrs/{dvrId}/lineups",
+    "targets": [],
+    "text": "Plex PUT /livetv/dvrs/7/lineups?lineup=x"
+  },
+  "PUT /livetv/dvrs/{dvrId}/prefs": {
+    "confirmLiteral": "7",
+    "resolved": "PUT /livetv/dvrs/{dvrId}/prefs",
+    "targets": [],
+    "text": "Plex PUT /livetv/dvrs/7/prefs?name=a&value=b"
+  },
+  "PUT /media/grabbers/devices/{deviceId}": {
+    "confirmLiteral": "dev-1",
+    "resolved": "PUT /media/grabbers/devices/{deviceId}",
+    "targets": [],
+    "text": "Plex PUT /media/grabbers/devices/dev-1?enabled=0"
+  },
+  "PUT /media/grabbers/devices/{deviceId}/channelmap": {
+    "confirmLiteral": "dev-1",
+    "resolved": "PUT /media/grabbers/devices/{deviceId}/channelmap",
+    "targets": [],
+    "text": "Plex PUT /media/grabbers/devices/dev-1/channelmap"
+  },
+  "PUT /media/grabbers/devices/{deviceId}/prefs": {
+    "confirmLiteral": "dev-1",
+    "resolved": "PUT /media/grabbers/devices/{deviceId}/prefs",
+    "targets": [],
+    "text": "Plex PUT /media/grabbers/devices/dev-1/prefs"
+  },
+  "PUT /updater/apply": {
+    "confirmLiteral": "Home Plex",
+    "resolved": "PUT /updater/apply",
+    "targets": [],
+    "text": "Plex PUT /updater/apply"
+  }
+}
